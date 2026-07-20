@@ -6,10 +6,10 @@
 
 <template>
   <div class="flex min-h-screen flex-col">
-    <TheHeader />
+    <LayoutTheHeader />
     <main class="flex-grow">
       <slot />
     </main>
-    <TheFooter />
+    <LayoutTheFooter />
   </div>
 </template>

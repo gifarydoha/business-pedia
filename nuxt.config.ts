@@ -21,11 +21,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    // 🔒 SERVER-ONLY — never sent to the browser
-    apiAccessKey: process.env.NUXT_API_ACCESS_KEY ?? "",
-
     // 🌐 PUBLIC — safe to expose to browser
     public: {
+      apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY ?? "",
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com/website/website_api",
       imageBase: process.env.NUXT_PUBLIC_IMAGE_BASE ?? "https://autofymind.com",
       appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Business-Pedia",

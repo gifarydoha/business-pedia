@@ -19,8 +19,8 @@ The application relies heavily on dynamic configurations and content fetched fro
 1. **Server Initialization (`app/plugins/settings.server.ts`):** 
    When a user visits the app, the Nuxt server processes the request. A server-only plugin runs first and checks if the global settings are loaded in the Pinia store. If not, it triggers `settingsStore.loadSettings()`.
 
-2. **API Proxy (`app/server/api/settings.get.ts`):**
-   The Pinia store makes a request to the internal Nuxt API route `/api/settings`. This internal endpoint acts as a secure proxy. It attaches the private `NUXT_API_ACCESS_KEY` (read from `.env`) to the request and forwards it to the external API. This ensures the access key is **never exposed** to the client's browser.
+2. **API Proxy Removed (Direct Fetching):**
+   The Pinia store makes a direct request to the external API using the public runtime configuration `NUXT_PUBLIC_API_ACCESS_KEY` and `NUXT_PUBLIC_API_BASE`.
 
 3. **State Hydration (`app/stores/settings.ts`):**
    The external API returns the site's configuration (organization details, primary/secondary colors, social media links, homepage slider items, and block widgets). This data is saved into the Pinia `settingsStore`. Because this happened on the server, the Pinia state is "hydrated" (serialized and sent along with the initial HTML) to the browser, ensuring a fast first paint with all settings readily available.

@@ -41,20 +41,28 @@ export const useSettingsStore = defineStore("settings", () => {
   const homeSeoMeta = computed(() => settings.value?.homeSeoMeta ?? null);
 
   // ─── Actions ─────────────────────────────────────────────────────────────
+
+  /**
+   * Fetches settings directly from the external API.
+   * Runs on both client and server during SSR.
+   */
   async function loadSettings() {
     if (isLoaded.value || isLoading.value) return;
     isLoading.value = true;
     error.value = null;
 
     try {
-      console.log("Starting loadSettings");
-      // Always use $fetch('/api/settings') — on the server, Nuxt routes this to
-      // the Nitro handler internally (no real HTTP round-trip). Calling
-      // fetchSettingsFromApi() directly from a Pinia store fails because stores
-      // run in Vue/app context, not Nitro context, where the auto-import is undefined.
-      const raw = await $fetch<SettingsApiResponse>("/api/settings");
+      const config = useRuntimeConfig();
+      const raw = await $fetch<SettingsApiResponse>(
+        `${config.public.apiBase}/settings`,
+        {
+          query: {
+            access_key: config.public.apiAccessKey,
+          },
+        }
+      );
+      
       const orgInfo = raw.sid_site.app_setting.organization_information;
-
       settings.value = {
         sid: raw.sid,
         org: orgInfo,
@@ -67,9 +75,8 @@ export const useSettingsStore = defineStore("settings", () => {
         homeSeoMeta: raw.seo_meta,
         homePageContent: raw.page_content,
       };
-
+      
       isLoaded.value = true;
-      console.log("Finished loadSettings");
     }
     catch (e: unknown) {
       const err = e as { data?: { statusMessage?: string }; message?: string };
