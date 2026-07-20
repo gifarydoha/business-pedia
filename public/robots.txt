@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Exclude protected/private routes from crawlers
+Disallow: /login
+Disallow: /register
+Disallow: /submit-paper
+Disallow: /dashboard
+
+Sitemap: https://autofymind.com/sitemap.xml

@@ -1,0 +1,88 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* ─────────────────────────────────────────────────────────────
+   Dynamic Brand Colors
+   Default values here are overridden at runtime by theme.client.ts
+   using colors from the API (sid_site.layout_primary_color, etc.)
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --color-primary: #266B88;
+  --color-secondary: #F7700B;
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 15%, white);
+  --color-primary-dark: color-mix(in srgb, var(--color-primary) 80%, black);
+  --color-secondary-light: color-mix(in srgb, var(--color-secondary) 15%, white);
+}
+
+/* Brand color utility classes */
+.text-brand-primary { color: var(--color-primary); }
+.text-brand-secondary { color: var(--color-secondary); }
+.bg-brand-primary { background-color: var(--color-primary); }
+.bg-brand-secondary { background-color: var(--color-secondary); }
+.bg-brand-primary-light { background-color: var(--color-primary-light); }
+.border-brand-primary { border-color: var(--color-primary); }
+.border-brand-secondary { border-color: var(--color-secondary); }
+
+/* Brand buttons */
+.btn-brand-primary {
+  background-color: var(--color-primary);
+  color: white;
+  transition: background-color 0.2s ease;
+}
+.btn-brand-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+.btn-brand-secondary {
+  background-color: var(--color-secondary);
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Global Typography & Layout
+   ───────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prose (HTML content from API fulltext field) */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Navigation
+   ───────────────────────────────────────────────────────────── */
+.nav-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #374151;
+  transition: color 0.15s ease;
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link.router-link-active {
+  color: var(--color-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Page transitions
+   ───────────────────────────────────────────────────────────── */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
