@@ -31,6 +31,8 @@ export default withNuxt(
           ".*brand-primary.*",
           "prose.*",
           "nav-link",
+          "hero-.*",
+          "page-.*",
         ],
       }],
     },

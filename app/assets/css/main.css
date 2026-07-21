@@ -1,48 +1,371 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@plugin "tailwindcss-animate";
+
+/* Theme CSS */
+
+@theme inline {
+  --breakpoint-xxs: 20rem;
+  /* 320px */
+  --breakpoint-xs: 23.4375rem;
+  /* 375px */
+  --breakpoint-xm: 26.25rem;
+  /* 420px */
+  --breakpoint-pc: 90rem;
+  /* 1440px */
+  --breakpoint-3xl: 105rem;
+  /* 1680px */
+  --breakpoint-4xl: 120rem;
+  /* 1920px */
+
+  --font-poppins: "Poppins", sans-serif;
+  --font-lora: "Lora", serif;
+
+  /* Setting fonts */
+  --font-sans: var(--font-poppins);
+  --font-serif: var(--font-lora);
+
+  /* spacing */
+  --spacing-8xl: 90rem;
+  /* 1440px */
+  --spacing-9xl: 96rem;
+  /* 1536px */
+  --spacing-10xl: 105rem;
+  /* 1680px */
+  --spacing-11xl: 120rem;
+  /* 1920px */
+
+  --text-xxs: 0.5rem;
+  /* 8px */
+  --text-xxs--line-height: calc(1 / 0.5);
+  --text-x: 0.625rem;
+  /* 10px */
+  --text-x--line-height: calc(1 / 0.5);
+
+  /* primary colors */
+  --color-primary-orange: var(--color-primary-orange);
+  --color-primary-teal: var(--color-primary-teal);
+  --color-primary-sky: var(--color-primary-sky);
+  --color-primary-grey: var(--color-primary-grey);
+
+  /* Theme Tokens */
+  --color-section-bg-light: var(--color-section-bg-light);
+  --color-footer-bg: var(--color-footer-bg);
+
+  /* Black Color Scale */
+  --color-fy-black-50: #e7e7e7;
+  --color-fy-black-100: #b4b4b4;
+  --color-fy-black-200: #909090;
+  --color-fy-black-300: #5d5d5d;
+  --color-fy-black-400: #3d3d3d;
+  --color-fy-black-500: #0d0d0d;
+  --color-fy-black-600: #0c0c0c;
+  --color-fy-black-700: #090909;
+  --color-fy-black-800: #070707;
+  --color-fy-black-900: #050505;
+
+  /* White Color Scale */
+  --color-fy-white-50: #ffffff;
+  --color-fy-white-100: #fefefe;
+  --color-fy-white-200: #fefefe;
+  --color-fy-white-300: #fdfdfd;
+  --color-fy-white-400: #fdfdfd;
+  --color-fy-white-500: #fcfcfc;
+  --color-fy-white-600: #e5e5e5;
+  --color-fy-white-700: #b3b3b3;
+  --color-fy-white-800: #8b8b8b;
+  --color-fy-white-900: #6a6a6a;
+
+  /* Blue Color Scale */
+  --color-fy-blue-50: #edf2f9;
+  --color-fy-blue-100: #c6d5ed;
+  --color-fy-blue-200: #aac1e4;
+  --color-fy-blue-300: #84a5d7;
+  --color-fy-blue-400: #6c94d0;
+  --color-fy-blue-500: #4779c4;
+  --color-fy-blue-600: #416eb2;
+  --color-fy-blue-700: #32568b;
+  --color-fy-blue-800: #27436c;
+  --color-fy-blue-900: #1e3352;
+
+  /* Slate Color Scale */
+  --color-fy-slate-50: #eceef0;
+  --color-fy-slate-100: #c5cad1;
+  --color-fy-slate-200: #a9b1bb;
+  --color-fy-slate-300: #828d9d;
+  --color-fy-slate-400: #6a7786;
+  --color-fy-slate-500: #45556c;
+  --color-fy-slate-600: #3f4d62;
+  --color-fy-slate-700: #313c4d;
+  --color-fy-slate-800: #262f3b;
+  --color-fy-slate-900: #1d242d;
+
+  /* Green Color Scale */
+  --color-fy-green-50: #e9f9f1;
+  --color-fy-green-100: #def6eb;
+  --color-fy-green-200: #bbebd5;
+  --color-fy-green-300: #25c077;
+  --color-fy-green-400: #21ad6b;
+  --color-fy-green-500: #1e9a5f;
+  --color-fy-green-600: #1c9059;
+  --color-fy-green-700: #167347;
+  --color-fy-green-800: #115636;
+  --color-fy-green-900: #0d432a;
+
+  /* Red Color Scale */
+  --color-fy-red-50: #f6e7e6;
+  --color-fy-red-100: #e3b6b2;
+  --color-fy-red-200: #d5928d;
+  --color-fy-red-300: #c2615a;
+  --color-fy-red-400: #b64239;
+  --color-fy-red-500: #a41308;
+  --color-fy-red-600: #951107;
+  --color-fy-red-700: #740d06;
+  --color-fy-red-800: #5a0a04;
+  --color-fy-red-900: #450803;
+
+  /* Orange Color Scale */
+  --color-fy-orange-50: #feded7;
+  --color-fy-orange-100: #fda98f;
+  --color-fy-orange-200: #f88c55;
+  --color-fy-orange-300: #f4701b;
+  --color-fy-orange-400: #bb5412;
+  --color-fy-orange-500: #843a09;
+  --color-fy-orange-600: #6b2d06;
+  --color-fy-orange-700: #522103;
+  --color-fy-orange-800: #3a1502;
+  --color-fy-orange-900: #230a01;
+
+  /* Teal Color Scale */
+  --color-fy-teal-50: #baffe7;
+  --color-fy-teal-100: #19e2b7;
+  --color-fy-teal-200: #15cca5;
+  --color-fy-teal-300: #12b793;
+  --color-fy-teal-400: #0b8d71;
+  --color-fy-teal-500: #066651;
+  --color-fy-teal-600: #045341;
+  --color-fy-teal-700: #024132;
+  --color-fy-teal-800: #013024;
+  --color-fy-teal-900: #011f17;
+
+  /* Sky Color Scale */
+  --color-fy-sky-50: #e2f3fd;
+  --color-fy-sky-100: #a4defa;
+  --color-fy-sky-200: #73cdef;
+  --color-fy-sky-300: #42bce5;
+  --color-fy-sky-400: #3293b4;
+  --color-fy-sky-500: #236d86;
+  --color-fy-sky-600: #1c5b70;
+  --color-fy-sky-700: #15495a;
+  --color-fy-sky-800: #0e3846;
+  --color-fy-sky-900: #082832;
+
+  /* Gray Color Scale */
+  --color-fy-gray-50: #d6d6d6;
+  --color-fy-gray-100: #afafaf;
+  --color-fy-gray-200: #9c9c9c;
+  --color-fy-gray-300: #898989;
+  --color-fy-gray-400: #656565;
+  --color-fy-gray-500: #434343;
+  --color-fy-gray-600: #333333;
+  --color-fy-gray-700: #242424;
+  --color-fy-gray-800: #121212;
+  --color-fy-gray-900: #000000;
+
+  /* Sage Color Scale */
+  --color-fy-sage-50: #b3e6d7;
+  --color-fy-sage-100: #92bcb0;
+  --color-fy-sage-200: #82a89d;
+  --color-fy-sage-300: #73958b;
+  --color-fy-sage-400: #556f67;
+  --color-fy-sage-500: #394b46;
+  --color-fy-sage-600: #2c3a36;
+  --color-fy-sage-700: #1f2a27;
+  --color-fy-sage-800: #111816;
+  --color-fy-sage-900: #040706;
+
+  /* Stone Color Scale */
+  --color-fy-stone-50: #e6e5e4;
+  --color-fy-stone-100: #c1bcbb;
+  --color-fy-stone-200: #afa8a7;
+  --color-fy-stone-300: #9e9593;
+  --color-fy-stone-400: #78716f;
+  --color-fy-stone-500: #544e4d;
+  --color-fy-stone-600: #433e3d;
+  --color-fy-stone-700: #322f2e;
+  --color-fy-stone-800: #22201f;
+  --color-fy-stone-900: #131111;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    Dynamic Brand Colors
    Default values here are overridden at runtime by theme.client.ts
    using colors from the API (sid_site.layout_primary_color, etc.)
    ───────────────────────────────────────────────────────────── */
+
 :root {
   --color-primary: #266B88;
   --color-secondary: #F7700B;
+  --color-primary-orange: #f4701b;
+  --color-primary-teal: #12b793;
+  --color-primary-sky: #236d86;
+  --color-primary-grey: #040706;
+  --color-section-bg-light: #f0f7f5;
+  --color-footer-bg: #080f0d;
   --color-primary-light: color-mix(in srgb, var(--color-primary) 15%, white);
   --color-primary-dark: color-mix(in srgb, var(--color-primary) 80%, black);
   --color-secondary-light: color-mix(in srgb, var(--color-secondary) 15%, white);
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.147 0.004 49.3);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.147 0.004 49.3);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.147 0.004 49.3);
+  --primary: oklch(0.214 0.009 43.1);
+  --primary-foreground: oklch(0.986 0.002 67.8);
+  --secondary: oklch(0.96 0.002 17.2);
+  --secondary-foreground: oklch(0.214 0.009 43.1);
+  --muted: oklch(0.96 0.002 17.2);
+  --muted-foreground: oklch(0.547 0.021 43.1);
+  --accent: oklch(0.96 0.002 17.2);
+  --accent-foreground: oklch(0.214 0.009 43.1);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0.005 34.3);
+  --input: oklch(0.922 0.005 34.3);
+  --ring: oklch(0.714 0.014 41.2);
+  --chart-1: oklch(0.868 0.007 39.5);
+  --chart-2: oklch(0.547 0.021 43.1);
+  --chart-3: oklch(0.438 0.017 39.3);
+  --chart-4: oklch(0.367 0.016 35.7);
+  --chart-5: oklch(0.268 0.011 36.5);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.986 0.002 67.8);
+  --sidebar-foreground: oklch(0.147 0.004 49.3);
+  --sidebar-primary: oklch(0.214 0.009 43.1);
+  --sidebar-primary-foreground: oklch(0.986 0.002 67.8);
+  --sidebar-accent: oklch(0.96 0.002 17.2);
+  --sidebar-accent-foreground: oklch(0.214 0.009 43.1);
+  --sidebar-border: oklch(0.922 0.005 34.3);
+  --sidebar-ring: oklch(0.714 0.014 41.2);
 }
 
-/* Brand color utility classes */
-.text-brand-primary { color: var(--color-primary); }
-.text-brand-secondary { color: var(--color-secondary); }
-.bg-brand-primary { background-color: var(--color-primary); }
-.bg-brand-secondary { background-color: var(--color-secondary); }
-.bg-brand-primary-light { background-color: var(--color-primary-light); }
-.border-brand-primary { border-color: var(--color-primary); }
-.border-brand-secondary { border-color: var(--color-secondary); }
+@layer utilities {
 
-/* Brand buttons */
-.btn-brand-primary {
-  background-color: var(--color-primary);
-  color: white;
-  transition: background-color 0.2s ease;
+
+  /* Brand color utility classes */
+  .text-brand-primary {
+    color: var(--color-primary);
+  }
+
+  .text-brand-secondary {
+    color: var(--color-secondary);
+  }
+
+  .bg-brand-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-brand-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .bg-brand-primary-light {
+    background-color: var(--color-primary-light);
+  }
+
+  .border-brand-primary {
+    border-color: var(--color-primary);
+  }
+
+  .border-brand-secondary {
+    border-color: var(--color-secondary);
+  }
+
+  /* Brand buttons */
+  .btn-brand-primary {
+    background-color: var(--color-primary);
+    color: white;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-brand-primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .btn-brand-secondary {
+    background-color: var(--color-secondary);
+    color: white;
+    transition: background-color 0.2s ease;
+  }
 }
-.btn-brand-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-.btn-brand-secondary {
-  background-color: var(--color-secondary);
-  color: white;
-  transition: background-color 0.2s ease;
-}
+
 
 /* ─────────────────────────────────────────────────────────────
    Global Typography & Layout
    ───────────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
+
+  .main-layout {
+    @apply max-w-11xl mx-auto;
+  }
 }
 
 /* Prose (HTML content from API fulltext field) */
@@ -57,32 +380,61 @@ html {
   text-decoration: underline;
 }
 
-/* ─────────────────────────────────────────────────────────────
+
+
+@layer components {
+
+  /* ─────────────────────────────────────────────────────────────
    Navigation
    ───────────────────────────────────────────────────────────── */
-.nav-link {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: #374151;
-  transition: color 0.15s ease;
-  text-decoration: none;
-}
+  .nav-link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #374151;
+    transition: color 0.15s ease;
+    text-decoration: none;
+  }
 
-.nav-link:hover,
-.nav-link.router-link-active {
-  color: var(--color-primary);
-}
+  .nav-link:hover,
+  .nav-link.router-link-active {
+    color: var(--color-primary);
+  }
 
-/* ─────────────────────────────────────────────────────────────
+  /* ─────────────────────────────────────────────────────────────
    Page transitions
    ───────────────────────────────────────────────────────────── */
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 0.2s ease;
-}
+  .page-enter-active,
+  .page-leave-active {
+    transition: opacity 0.2s ease;
+  }
 
-.page-enter-from,
-.page-leave-to {
-  opacity: 0;
-}
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 0;
+  }
 
+  /* Hero CSS */
+  .hero-section {
+    @apply relative min-h-150 w-full overflow-hidden bg-white lg:min-h-175;
+  }
+
+  .hero-slide {
+    @apply absolute inset-0 flex h-full w-full items-center transition-opacity duration-700 ease-in-out;
+  }
+
+  .hero-cta {
+    @apply font-lora bg-fy-orange-300 inline-flex items-center justify-center rounded-full px-6 py-3 font-bold text-white transition-all duration-300 ease-out hover:opacity-90 hover:shadow-sm active:scale-95 lg:px-8 lg:py-4;
+  }
+
+  .hero-trust-row {
+    @apply mt-8 flex flex-wrap items-center gap-4;
+  }
+
+  .hero-dot {
+    @apply h-2 w-2 cursor-pointer rounded-full transition-all duration-300 ease-out;
+  }
+
+  .hero-floating-card {
+    @apply shadow-fy-teal-300/15 animate-in fade-in slide-in-from-bottom-4 absolute flex items-center gap-3 rounded-2xl bg-white p-4 shadow-xl duration-700;
+  }
+}

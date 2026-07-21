@@ -18,7 +18,7 @@ const widgetComponentMap: Record<string, ReturnType<typeof defineAsyncComponent>
 const resolvedComponent = computed(() => {
   return widgetComponentMap[props.block.widget_element_path] ?? null;
 });
-console.log("Rendering HomeBlockRenderer for:", props.block?.widget_element_path);
+// console.log("Rendering HomeBlockRenderer for:", props.block?.widget_element_path);
 </script>
 
 <template>
