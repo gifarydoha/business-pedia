@@ -183,6 +183,7 @@ const SOCIALS = [
               >
                 <NuxtLink
                   :to="link.href || '#'"
+                  :prefetch="false"
                   class="group flex items-center text-white/60 transition-colors hover:text-white"
                 >
                   <UIcon

@@ -11,15 +11,17 @@ const bgImage = computed(() => props.image ? buildImageUrl(props.image) : null);
 
 <template>
   <div class="bg-brand-primary relative mb-8 overflow-hidden rounded-xl py-16 text-white md:py-24">
-    <!-- Background Image -->
-    <div
-      v-if="bgImage"
-      class="absolute inset-0 z-0 opacity-20"
-    >
+    <!-- Background Image / Placeholder -->
+    <div class="absolute inset-0 z-0 opacity-20">
       <NuxtImg
+        v-if="bgImage"
         :src="bgImage"
         alt="Banner Background"
         class="size-full object-cover"
+      />
+      <div
+        v-else
+        class="size-full bg-black"
       />
     </div>
 

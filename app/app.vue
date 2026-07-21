@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const settingsStore = useSettingsStore();
 const config = useRuntimeConfig();
+const { buildImageUrl } = useImageUrl();
 
 // Dynamic <title> using org name from API, fallback to appName env var
 useHead({
@@ -10,7 +11,7 @@ useHead({
   },
   link: computed(() =>
     settingsStore.org?.favicon
-      ? [{ rel: "icon", type: "image/png", href: settingsStore.org.favicon }]
+      ? [{ rel: "icon", type: "image/png", href: buildImageUrl(settingsStore.org.favicon) }]
       : [],
   ),
   htmlAttrs: { lang: "en" },

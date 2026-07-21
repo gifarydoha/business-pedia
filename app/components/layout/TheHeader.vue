@@ -13,6 +13,12 @@ const mobileDropdowns = ref<Record<string, boolean>>({});
 const toggleMobileDropdown = (id: string | number) => {
   mobileDropdowns.value[id] = !mobileDropdowns.value[id];
 };
+
+const getHref = (item: { url?: string; link?: string }) => {
+  const target = item.url || item.link;
+  if (!target) return "/";
+  return target.startsWith("/") ? target : `/${target}`;
+};
 </script>
 
 <template>
@@ -55,7 +61,8 @@ const toggleMobileDropdown = (id: string | number) => {
                 :key="child.id"
               >
                 <NuxtLink
-                  :to="`/${child.url}`"
+                  :to="getHref(child)"
+                  :prefetch="false"
                   class="hover:text-brand-primary block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                 >
                   {{ child.label }}
@@ -66,7 +73,8 @@ const toggleMobileDropdown = (id: string | number) => {
           <!-- Regular item -->
           <NuxtLink
             v-else
-            :to="`/${item.url}`"
+            :to="getHref(item)"
+            :prefetch="false"
             class="nav-link"
           >
             {{ item.label }}
@@ -190,7 +198,8 @@ const toggleMobileDropdown = (id: string | number) => {
                 <NuxtLink
                   v-for="child in item.children"
                   :key="child.id"
-                  :to="`/${child.url}`"
+                  :to="getHref(child)"
+                  :prefetch="false"
                   class="hover:text-brand-primary block py-1 text-sm text-gray-600 transition-colors"
                   @click="isMobileMenuOpen = false"
                 >
@@ -202,7 +211,8 @@ const toggleMobileDropdown = (id: string | number) => {
             <!-- Regular item -->
             <NuxtLink
               v-else
-              :to="`/${item.url}`"
+              :to="getHref(item)"
+              :prefetch="false"
               class="hover:text-brand-primary block py-4 font-medium text-gray-900"
               @click="isMobileMenuOpen = false"
             >
