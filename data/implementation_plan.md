@@ -729,29 +729,26 @@ Each widget component (`WidgetCourses.vue`, `WidgetTopics.vue`, etc.) receives:
 
 ### 5.1 [NEW] `app/server/api/page/[alias].get.ts` — Server proxy for page content
 
+> [!NOTE]
+> Page content endpoint is: `GET /website/website_api/content/{alias}?access_key=…`
+
 ```typescript
 // app/server/api/page/[alias].get.ts
-import type { SettingsApiResponse } from "~/types/api";
+import type { PageContent, SeoMeta } from "~/types/api";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
   const alias = getRouterParam(event, "alias");
 
-  const data = await $fetch<SettingsApiResponse>(
-    `${config.public.apiBase}/settings`,
+  // Endpoint: /website/website_api/content/{alias}?access_key=…
+  const data = await $fetch<{ page_content: PageContent; seo_meta: SeoMeta }>(
+    `${config.public.apiBase}/content/${alias}`,
     {
-      query: {
-        access_key: config.apiAccessKey,
-        alias,
-      },
+      query: { access_key: config.apiAccessKey },
     }
   );
 
-  return {
-    page_content: data.page_content,
-    seo_meta: data.seo_meta,
-    widgets: data.widgets,
-  };
+  return data;
 });
 ```
 
@@ -805,19 +802,23 @@ useSeoMeta({
 
 ## Phase 6 — Auth: Login/Register + JWT Pinia Store
 
-### Key points from API analysis:
-- `access_key` auth is for **public** (site settings, pages)
-- User auth uses **JWT** (Bearer token) for protected endpoints
+> [!NOTE]
+> Auth endpoints are **not yet defined** in the API. Auth pages (Login/Register) will be built with a clean interface but the actual API call URLs will be filled in once the backend is ready. The store will use placeholder endpoint stubs.
+
+### Key points:
+- `access_key` auth is for **public** endpoints (site settings, pages)
+- User auth will use **JWT** (Bearer token) for protected endpoints when endpoints are ready
 - JWT stored in `localStorage` under `bp_jwt_token`
+- Auth store, middleware, and plugins are set up now — just needs real endpoint URLs later
 
 ### Files:
-- **`app/stores/auth.ts`** — exactly as defined in the guideline (already good)
-- **`app/plugins/auth.client.ts`** — restores JWT on page load (already good)
-- **`app/middleware/auth.ts`** — guards protected routes (already good)
+- **`app/stores/auth.ts`** — JWT store with login/logout/register (endpoint URLs as env-configurable stubs)
+- **`app/plugins/auth.client.ts`** — restores JWT on page load
+- **`app/middleware/auth.ts`** — guards protected routes
 - **`app/middleware/guest.ts`** — redirects logged-in users away from login/register
 
 ### [NEW] `app/pages/login.vue` and `app/pages/register.vue`
-Standard form pages using `authStore.login()` / `authStore.register()`, with `definePageMeta({ middleware: ["guest"] })`.
+UI-complete pages with `definePageMeta({ middleware: ["guest"] })`. Endpoint wired to `NUXT_PUBLIC_AUTH_BASE` env var (to be filled later).
 
 ---
 
@@ -945,19 +946,14 @@ Phase 8:
 
 ---
 
-## Open Questions
+## Resolved Questions ✅
 
-> [!IMPORTANT]
-> **Q1: API endpoint for specific pages** — The reference API (`/website/website_api/settings?access_key=…`) appears to be a **global** settings endpoint returning the home page data. Is there a separate endpoint for fetching individual CMS pages (e.g., `/settings?alias=guidelines`), or is there a different endpoint like `/website_api/pages/{alias}`?
-
-> [!IMPORTANT]
-> **Q2: Auth endpoints** — Does your CodeIgniter API have login/register endpoints? What are their URL patterns? (e.g., `/auth/login`, `/api/v1/login`?) This affects the `useAuthStore` login/register actions.
-
-> [!NOTE]
-> **Q3: Widget `items` are empty on `courses`, `topics`, `call_actions`** — The `items: []` on these blocks suggests the content might come from a **separate API call** (e.g., `/api/courses?limit=6`). Should these widgets fetch their own data, or is the `items` array expected to be populated by the API?
-
-> [!NOTE]
-> **Q4: Multi-tenant (SID) support** — The API has a `sid` field (`"cityhospital"` in the example, `"autofymind"` for the real site). Is business-pedia a **single-site app** (one SID hardcoded in `.env`), or will it serve multiple SID tenants?
+| # | Question | Answer | Impact |
+|---|---|---|---|
+| 1 | Page content endpoint? | `GET /website/website_api/content/{alias}?access_key=…` | Server proxy uses this URL pattern |
+| 2 | Auth endpoints? | Not yet defined — build UI now, wire endpoints later | Auth store uses env var stub |
+| 3 | Widget `items: []` empty? | No data yet — widgets render empty state gracefully | Each widget handles empty items with placeholder/skeleton |
+| 4 | Multi-tenant SID? | Multi-tenant, controlled from admin panel (not Nuxt) | Nuxt reads SID from env var; admin sets it externally |
 
 ---
 
