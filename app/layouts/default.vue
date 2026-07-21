@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col">
+  <div class="mx-auto flex min-h-screen max-w-480 flex-col">
     <LayoutTheHeader />
     <main class="grow">
       <slot />

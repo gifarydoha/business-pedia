@@ -76,7 +76,7 @@ const logo = computed(() => buildImageUrl(org.value?.logo));
           >
             <UIcon
               name="i-heroicons-map-pin"
-              class="mt-0.5 size-5 flex-shrink-0"
+              class="mt-0.5 size-5 shrink-0"
             />
             <span>{{ org.address }}</span>
           </li>
@@ -86,7 +86,7 @@ const logo = computed(() => buildImageUrl(org.value?.logo));
           >
             <UIcon
               name="i-heroicons-phone"
-              class="size-5 flex-shrink-0"
+              class="size-5 shrink-0"
             />
             <span>{{ org.mobile || org['hot-number'] }}</span>
           </li>
@@ -96,7 +96,7 @@ const logo = computed(() => buildImageUrl(org.value?.logo));
           >
             <UIcon
               name="i-heroicons-envelope"
-              class="size-5 flex-shrink-0"
+              class="size-5 shrink-0"
             />
             <a
               :href="`mailto:${org['contact-email']}`"
