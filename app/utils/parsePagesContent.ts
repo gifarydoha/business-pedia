@@ -6,7 +6,8 @@ function text(el: HTMLElement | null | undefined): string {
   return el.textContent?.trim() ?? "";
 }
 
-export function parsePagesContent(fulltext: string) {
+export function parsePagesContent(fulltext: string = "") {
+  if (!fulltext) fulltext = "";
   let doc = parse(fulltext);
   let sections = doc.querySelectorAll("section");
 

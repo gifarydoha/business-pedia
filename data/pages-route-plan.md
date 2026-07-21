@@ -14,7 +14,7 @@
 | `pages/[pageSlug]/page.js` (server component + SSR fetch) | `app/pages/pages/[slug].vue` with `useFetch` (SSR-safe)    |
 | `DynamicPageClient.jsx` (client component)                | Vue SFC `<script setup>` — no client split needed          |
 | `generateMetadata()`                                      | `useSeoMeta()` inside the page                             |
-| `notFound()`                                              | `throw createError({ statusCode: 404 })`                   |
+| `notFound()`                                              | `throw createError({ status: 404 })`                   |
 | `layout.jsx` shared wrapper                               | `app/layouts/pages.vue`                                    |
 
 > **Dropped from Next.js reference:** `parsePagesContent()`, `PagesHero`, `PagesIntro`,
@@ -109,7 +109,7 @@ const slug = route.params.slug as string;
 // 3. Whitelist guard — only serve known slugs
 const ALLOWED_SLUGS = ['about', 'contact', 'privacy', 'terms'];
 if (!ALLOWED_SLUGS.includes(slug)) {
-  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
+  throw createError({ status: 404, statusMessage: 'Page Not Found' });
 }
 
 // 4. Fetch content from API (SSR + client hydration)
@@ -124,7 +124,7 @@ const { data, error, status } = await useFetch<ContentApiResponse>(
 
 // 5. 404 if API returns nothing
 if (!data.value?.page_content) {
-  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
+  throw createError({ status: 404, statusMessage: 'Page Not Found' });
 }
 
 // 6. Reactive data refs

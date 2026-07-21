@@ -18,7 +18,7 @@ useHead({
 </script>
 
 <template>
-  <div class="min-h-screen max-w-480 bg-white text-slate-900">
+  <div class="min-h-screen max-w-11xl bg-white text-slate-900">
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />

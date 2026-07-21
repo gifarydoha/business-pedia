@@ -23,6 +23,6 @@ export default defineNuxtRouteMiddleware((to) => {
   const requiredLevel = roleHierarchy[requiredRole];
 
   if (userLevel < requiredLevel) {
-    throw createError({ statusCode: 403, message: "Forbidden: insufficient permissions" });
+    throw createError({ status: 403, message: "Forbidden: insufficient permissions" });
   }
 });

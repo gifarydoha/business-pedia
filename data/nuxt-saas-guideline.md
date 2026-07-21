@@ -702,7 +702,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const requiredLevel = roleHierarchy[requiredRole];
 
   if (userLevel < requiredLevel) {
-    throw createError({ statusCode: 403, message: "Forbidden: insufficient permissions" });
+    throw createError({ status: 403, message: "Forbidden: insufficient permissions" });
   }
 });
 ```
@@ -1170,11 +1170,11 @@ Create **`app/error.vue`**:
 ```vue
 <!-- app/error.vue -->
 <script setup lang="ts">
-const props = defineProps<{ error: { statusCode: number; message: string } }>();
+const props = defineProps<{ error: { status: number; message: string } }>();
 
 const title = computed(() => {
-  if (props.error.statusCode === 404) return "Page Not Found";
-  if (props.error.statusCode === 403) return "Access Denied";
+  if (props.error.status === 404) return "Page Not Found";
+  if (props.error.status === 403) return "Access Denied";
   return "Something Went Wrong";
 });
 </script>
@@ -1182,7 +1182,7 @@ const title = computed(() => {
 <template>
   <div class="min-h-screen flex items-center justify-center">
     <div class="text-center">
-      <h1 class="text-6xl font-bold text-gray-800">{{ error.statusCode }}</h1>
+      <h1 class="text-6xl font-bold text-gray-800">{{ error.status }}</h1>
       <p class="mt-4 text-xl text-gray-600">{{ title }}</p>
       <NuxtLink to="/" class="mt-8 inline-block">Go Home</NuxtLink>
     </div>

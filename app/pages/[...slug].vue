@@ -10,6 +10,11 @@ const alias = computed(() => {
   return Array.isArray(params) ? params.join("/") : params;
 });
 
+const ALLOWED_SLUGS = ["about", "contact", "terms", "privacy"];
+if (alias.value && ALLOWED_SLUGS.includes(alias.value)) {
+  await navigateTo(`/pages/${alias.value}`);
+}
+
 const config = useRuntimeConfig();
 const { data, error, status } = await useFetch<ContentApiResponse>(
   `${config.public.apiBase}/content/${alias.value}`,
@@ -19,6 +24,16 @@ const { data, error, status } = await useFetch<ContentApiResponse>(
 );
 
 const page = computed(() => data.value?.content);
+
+const isPageEmpty = computed(() => {
+  if (!page.value) return true;
+  if (typeof page.value === "object" && Object.keys(page.value).length === 0) return true;
+  return false;
+});
+
+if (error.value || isPageEmpty.value) {
+  throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true });
+}
 
 useSeoMeta({
   title: computed(() => page.value?.meta_title || page.value?.title),
@@ -43,22 +58,10 @@ useSeoMeta({
 
     <!-- Error State -->
     <div
-      v-else-if="error || !page"
+      v-else-if="error || isPageEmpty"
       class="container mx-auto py-20 text-center"
     >
-      <UIcon
-        name="i-heroicons-exclamation-triangle"
-        class="mx-auto mb-4 size-16 text-red-400"
-      />
-      <h1 class="mb-2 text-2xl font-bold text-gray-900">
-        Page Not Found
-      </h1>
-      <p class="mb-6 text-gray-500">
-        The content you are looking for does not exist or failed to load.
-      </p>
-      <NuxtLink to="/">
-        <UButton class="btn-brand-primary">Return to Home</UButton>
-      </NuxtLink>
+      <!-- Now handled globally by error.vue -->
     </div>
 
     <!-- Content State -->
@@ -67,11 +70,11 @@ useSeoMeta({
       class="container mx-auto px-4 py-8"
     >
       <SharedPageBanner
-        :title="page.title"
-        :image="page.image_url"
+        :title="page?.title || ''"
+        :image="page?.image_url || ''"
       />
 
-      <SharedParsedPageContent :html-content="page.fulltext" />
+      <SharedParsedPageContent :html-content="page?.fulltext || ''" />
     </div>
   </div>
 </template>
