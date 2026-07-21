@@ -65,6 +65,7 @@ export const useSettingsStore = defineStore("settings", () => {
           query: {
             access_key: config.public.apiAccessKey,
           },
+          timeout: 8000,
         },
       );
 

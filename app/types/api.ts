@@ -51,11 +51,7 @@ export interface PageContent {
 
 /** Response shape for GET /content/{alias} */
 export interface ContentApiResponse {
-  page_content: PageContent;
-  seo_meta: SeoMeta;
-  widgets?: Partial<Widgets>;
-  message: string;
-  code: number;
+  content: PageContent;
 }
 
 // ─────────────────────────────────────────────

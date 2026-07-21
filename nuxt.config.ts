@@ -32,6 +32,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/": { isr: 60 },
+    "/pages/**": { isr: 300 },
     "/guidelines": { isr: 300 },
     "/call-for-paper": { isr: 300 },
     "/contact": { ssr: true },

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 /* Theme CSS */
 

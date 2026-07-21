@@ -1,24 +1,30 @@
-<!-- app/pages/[...slug].vue -->
 <script setup lang="ts">
 import type { ContentApiResponse } from "~/types/api";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "pages" });
 
 const route = useRoute();
-const alias = computed(() => {
-  const params = route.params.slug;
-  return Array.isArray(params) ? params.join("/") : params;
-});
+const slug = route.params.slug as string;
+
+const ALLOWED_SLUGS = ["about", "contact", "terms", "privacy"];
+if (!ALLOWED_SLUGS.includes(slug)) {
+  throw createError({ status: 404, statusText: "Page Not Found" });
+}
 
 const config = useRuntimeConfig();
 const { data, error, status } = await useFetch<ContentApiResponse>(
-  `${config.public.apiBase}/content/${alias.value}`,
+  `${config.public.apiBase}/content/${slug}`,
   {
     query: { access_key: config.public.apiAccessKey },
+    key: `page-${slug}`,
   },
 );
 
 const page = computed(() => data.value?.content);
+
+if (!page.value) {
+  throw createError({ status: 404, statusText: "Page Not Found" });
+}
 
 useSeoMeta({
   title: computed(() => page.value?.meta_title || page.value?.title),

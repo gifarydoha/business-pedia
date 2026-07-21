@@ -33,6 +33,7 @@ export default withNuxt(
           "nav-link",
           "hero-.*",
           "page-.*",
+          "rich-.*",
         ],
       }],
     },
