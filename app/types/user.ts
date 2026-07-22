@@ -1,11 +1,13 @@
 export type UserRole = "admin" | "editor" | "author" | "reviewer" | "reader";
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
+  phone: string;
   role: UserRole;
   avatar?: string;
+  emailVerified: boolean;
   created_at: string;
 }
 

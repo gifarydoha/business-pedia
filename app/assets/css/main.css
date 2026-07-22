@@ -129,7 +129,7 @@
   --color-fy-orange-50: #feded7;
   --color-fy-orange-100: #fda98f;
   --color-fy-orange-200: #f88c55;
-  --color-fy-orange-300: #f4701b;
+  --color-fy-orange-300: #F4701B;
   --color-fy-orange-400: #bb5412;
   --color-fy-orange-500: #843a09;
   --color-fy-orange-600: #6b2d06;
@@ -138,10 +138,10 @@
   --color-fy-orange-900: #230a01;
 
   /* Teal Color Scale */
-  --color-fy-teal-50: #baffe7;
+  --color-fy-teal-50: #f0f7f5;
   --color-fy-teal-100: #19e2b7;
   --color-fy-teal-200: #15cca5;
-  --color-fy-teal-300: #12b793;
+  --color-fy-teal-300: #12B793;
   --color-fy-teal-400: #0b8d71;
   --color-fy-teal-500: #066651;
   --color-fy-teal-600: #045341;
@@ -155,7 +155,7 @@
   --color-fy-sky-200: #73cdef;
   --color-fy-sky-300: #42bce5;
   --color-fy-sky-400: #3293b4;
-  --color-fy-sky-500: #236d86;
+  --color-fy-sky-500: #236D86;
   --color-fy-sky-600: #1c5b70;
   --color-fy-sky-700: #15495a;
   --color-fy-sky-800: #0e3846;
@@ -184,6 +184,7 @@
   --color-fy-sage-700: #1f2a27;
   --color-fy-sage-800: #111816;
   --color-fy-sage-900: #040706;
+  --color-fy-sage-950: #080f0d;
 
   /* Stone Color Scale */
   --color-fy-stone-50: #e6e5e4;
