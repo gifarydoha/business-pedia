@@ -26,13 +26,24 @@ const uniqueTags = computed(() => {
     <h3 class="mb-4 border-b border-gray-100 pb-2 font-lora text-lg font-bold text-gray-900">
       Popular Tags
     </h3>
-    <div v-if="uniqueTags.length > 0" class="flex flex-wrap gap-2">
-      <UBadge v-for="tag in uniqueTags" :key="tag" color="warning" variant="soft"
-        class="hover:bg-primary-orange/50 cursor-pointer transition-colors hover:text-white">
+    <div
+      v-if="uniqueTags.length > 0"
+      class="flex flex-wrap gap-2"
+    >
+      <UBadge
+        v-for="tag in uniqueTags"
+        :key="tag"
+        color="warning"
+        variant="soft"
+        class="cursor-pointer transition-colors hover:bg-primary-orange/50 hover:text-white"
+      >
         {{ tag }}
       </UBadge>
     </div>
-    <div v-else class="text-sm text-gray-500 italic">
+    <div
+      v-else
+      class="text-sm text-gray-500 italic"
+    >
       No tags available.
     </div>
   </div>

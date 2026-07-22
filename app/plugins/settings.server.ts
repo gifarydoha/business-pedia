@@ -12,7 +12,7 @@ export default defineNuxtPlugin(async () => {
 
   const settingsStore = useSettingsStore();
   if (!settingsStore.isLoaded) {
-    await settingsStore.loadSettings();
+    await settingsStore.loadSettings(); // <-- THIS IS THE TRIGGER
     // console.log("[settings plugin] Settings loaded on server for:", path);
   }
 });

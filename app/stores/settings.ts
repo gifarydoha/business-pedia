@@ -60,7 +60,7 @@ export const useSettingsStore = defineStore("settings", () => {
     try {
       const config = useRuntimeConfig();
       const raw = await $fetch<SettingsApiResponse>(
-        `${config.public.apiBase}/settings`,
+        `${config.public.apiBase}/settings`, // <-- THIS IS THE API URL
         {
           query: {
             access_key: config.public.apiAccessKey,
