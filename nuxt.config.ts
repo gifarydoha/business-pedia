@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxt/icon",
     "@nuxtjs/color-mode",
+    "@vee-validate/nuxt",
   ],
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
@@ -28,6 +29,7 @@ export default defineNuxtConfig({
       kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
       imageBase: process.env.NUXT_PUBLIC_IMAGE_BASE ?? "https://autofymind.com",
       appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Business-Pedia",
+      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
     },
   },
 
@@ -39,8 +41,14 @@ export default defineNuxtConfig({
     "/contact": { ssr: true },
     "/dashboard/**": { ssr: true },
     "/**": { isr: 120 },
+    // auth routes
     "/login": { ssr: false },
     "/register": { ssr: false },
+    "/forgot-password": { ssr: false },
+    "/reset-password": { ssr: false },
+    "/verify-otp": { ssr: false },
+    "/verify-email": { ssr: false },
+
     "/submit-paper": { ssr: true },
     // Internal Nuxt server API routes — always fresh
     "/api/**": { cors: true, cache: false },
@@ -62,6 +70,13 @@ export default defineNuxtConfig({
         blockSpacing: true,
       },
     },
+  },
+
+  fonts: {
+    families: [
+      { name: "Poppins", weights: [300, 400, 500, 600, 700] },
+      { name: "Lora", weights: [400, 500, 600, 700] },
+    ],
   },
 
   // i18n
