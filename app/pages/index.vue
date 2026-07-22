@@ -15,7 +15,7 @@ useSeoMeta({
   ogImage: computed(() => seo.value?.image_url ?? "/og-image.png"),
   ogUrl: computed(() => seo.value?.canonical_url),
 });
-console.log("Rendering index");
+// console.log("Rendering index");
 </script>
 
 <template>
