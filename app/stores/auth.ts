@@ -1,92 +1,135 @@
-// app/stores/auth.ts
-// JWT authentication store.
-// Stores token and user in localStorage (client-only).
-// Auth endpoints TBD — configure via NUXT_PUBLIC_AUTH_BASE when ready.
-
+import { defineStore } from "pinia";
 import type { User } from "~/types/user";
+import type {
+  CISimpleResponse,
+  LoginPayload,
+  RegisterPayload,
+  GoogleLoginPayload,
+  VerifyOtpPayload,
+  ResendOtpPayload,
+  ForgotPasswordPayload,
+  ResetPasswordPayload,
+} from "~/types/auth";
+import { useAuthService } from "~/services/auth.service";
 
-const TOKEN_KEY = "bp_jwt_token";
-const USER_KEY = "bp_user";
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
+    user: null as User | null,
+    resetToken: null as string | null, // Temporary reset_token — held only while user is on /reset-password, cleared on submit
+    loading: false,
+    error: null as string | null,
+    initialized: false,
+  }),
 
-export const useAuthStore = defineStore("auth", () => {
-  // ─── State ───────────────────────────────────────────────────────────────
-  const token = ref<string | null>(null);
-  const user = ref<User | null>(null);
+  getters: {
+    isAuthenticated: (state) => !!state.user,
+    isEmailVerified: (state) => !!state.user?.emailVerified,
+    // Role-based getters — required by middleware/role.ts
+    userRole: (state) => state.user?.role ?? null,
+    isAdmin: (state) => state.user?.role === "admin",
+    isEditor: (state) => ["admin", "editor"].includes(state.user?.role ?? ""),
+    isAuthor: (state) => ["admin", "editor", "author"].includes(state.user?.role ?? ""),
+    isLoggedIn: (state) => !!state.user,
+  },
 
-  // ─── Getters ─────────────────────────────────────────────────────────────
-  const isLoggedIn = computed(() => !!token.value);
-  const userRole = computed(() => user.value?.role ?? null);
-  const isAdmin = computed(() => userRole.value === "admin");
-  const isEditor = computed(() => ["admin", "editor"].includes(userRole.value ?? ""));
-  const isAuthor = computed(() => ["admin", "editor", "author"].includes(userRole.value ?? ""));
-
-  // ─── Actions ─────────────────────────────────────────────────────────────
-  function restoreFromStorage() {
-    if (import.meta.client) {
-      const savedToken = localStorage.getItem(TOKEN_KEY);
-      const savedUser = localStorage.getItem(USER_KEY);
-      if (savedToken) token.value = savedToken;
-      if (savedUser) {
-        try {
-          user.value = JSON.parse(savedUser) as User;
-        }
-        catch {
-          // Ignore corrupt data
-        }
+  actions: {
+    // ── Pre-login actions (no tokens involved)
+    async register(payload: RegisterPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        return await authService.register(payload);
       }
-    }
-  }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Registration failed.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
 
-  async function login(email: string, password: string) {
-    const config = useRuntimeConfig();
-    // TODO: Replace with real auth endpoint when available
-    // e.g. `${config.public.apiBase}/auth/login`
-    const response = await $fetch<{ token: string; user: User }>(
-      `${config.public.apiBase}/auth/login`,
-      { method: "POST", body: { email, password } },
-    );
+    async verifyOtp(payload: VerifyOtpPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await authService.verifyOtp(payload);
+        if (payload.purpose === "reset_password" && res.data?.reset_token) {
+          this.resetToken = res.data.reset_token;
+        }
+        return res;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Invalid or expired code.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
 
-    token.value = response.token;
-    user.value = response.user;
+    async resendOtp(payload: ResendOtpPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        return await authService.resendOtp(payload);
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not resend code.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
 
-    if (import.meta.client) {
-      localStorage.setItem(TOKEN_KEY, response.token);
-      localStorage.setItem(USER_KEY, JSON.stringify(response.user));
-    }
+    async forgotPassword(payload: ForgotPasswordPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        return await authService.forgotPassword(payload);
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not send reset code.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
 
-    return response;
-  }
+    async resetPassword(payload: ResetPasswordPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await authService.resetPassword(payload);
+        this.resetToken = null; // clear after use — one-time token
+        return res;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not reset password.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
 
-  async function register(payload: { name: string; email: string; password: string }) {
-    const config = useRuntimeConfig();
-    // TODO: Replace with real auth endpoint when available
-    return await $fetch<{ token: string; user: User }>(
-      `${config.public.apiBase}/auth/register`,
-      { method: "POST", body: payload },
-    );
-  }
+    // ── Authenticated actions
 
-  function logout() {
-    token.value = null;
-    user.value = null;
-    if (import.meta.client) {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
-    }
-    return navigateTo("/login");
-  }
-
-  return {
-    token,
-    user,
-    isLoggedIn,
-    userRole,
-    isAdmin,
-    isEditor,
-    isAuthor,
-    restoreFromStorage,
-    login,
-    register,
-    logout,
-  };
+    async login(payload: LoginPayload) {
+      const authService = useAuthService();
+      const { setTokens, userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
+      try {
+        const result = await authService.login(payload);
+        setTokens(result.tokens);
+        this.user = result.user;
+        // Persist user in cookie — initAuth() can hydrate from here without a network call
+        userCookie.value = JSON.stringify(result.user);
+        return result;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Login failed. Please check your credentials.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
+  },
 });
