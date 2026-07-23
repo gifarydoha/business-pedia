@@ -7,7 +7,7 @@ export interface AuthTokents {
   refreshToken: string;
 }
 
-export interface AuthResults {
+export interface AuthResult {
   user: User;
   tokens: AuthTokents;
 }

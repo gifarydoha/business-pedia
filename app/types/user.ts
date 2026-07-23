@@ -8,7 +8,7 @@ export interface User {
   role: UserRole;
   avatar?: string;
   emailVerified: boolean;
-  created_at: string;
+  createdAt: string;
 }
 
 export interface AuthTokenPayload {

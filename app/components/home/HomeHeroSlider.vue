@@ -115,7 +115,7 @@ const slide = computed(() => activeSlides.value[currentSlide.value] || activeSli
           <!-- Headline -->
           <h1
             :key="`headline-${currentSlide}`"
-            class="leading-1 mb-5 font-lora text-[clamp(2rem,4.5vw,3.25rem)] font-bold text-fy-sage-900 duration-700  animate-in fade-in"
+            class="mb-5 font-lora text-[clamp(2rem,4.5vw,3.25rem)] leading-1 font-bold text-fy-sage-900 duration-700  animate-in fade-in"
           >
             {{ slide.headline[0] }}
             <br>
