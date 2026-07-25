@@ -1,10 +1,10 @@
 // app/middleware/guest.ts
-export default defineNuxtRouteMiddleware(() => {
+export default defineNuxtRouteMiddleware(async () => {
   const authStore = useAuthStore();
-  if (import.meta.client) {
-    authStore.restoreFromStorage();
+  if (!authStore.initialized) {
+    await authStore.initAuth();
   }
-  if (authStore.isLoggedIn) {
+  if (authStore.isAuthenticated) {
     return navigateTo("/dashboard");
   }
 });

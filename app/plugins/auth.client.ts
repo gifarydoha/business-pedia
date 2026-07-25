@@ -1,8 +1,4 @@
-// app/plugins/auth.client.ts
-// Runs only on the CLIENT after hydration.
-// Restores JWT token and user from localStorage on every page load.
-
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin(async () => {
   const authStore = useAuthStore();
-  authStore.restoreFromStorage();
+  await authStore.initAuth();
 });

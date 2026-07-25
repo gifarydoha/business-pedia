@@ -1,10 +1,10 @@
 // app/middleware/auth.ts
-export default defineNuxtRouteMiddleware(() => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const authStore = useAuthStore();
-  if (import.meta.client) {
-    authStore.restoreFromStorage();
+  if (!authStore.initialized) {
+    await authStore.initAuth();
   }
-  if (!authStore.isLoggedIn) {
-    return navigateTo("/login");
+  if (!authStore.isAuthenticated) {
+    return navigateTo(`/login?redirect=${encodeURIComponent(to.fullPath)}`);
   }
 });

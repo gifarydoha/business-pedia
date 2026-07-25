@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
   if (!requiredRole) return;
 
-  if (!authStore.isLoggedIn) {
+  if (!authStore.isAuthenticated) {
     return navigateTo("/login");
   }
 
