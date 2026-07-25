@@ -131,5 +131,60 @@ export const useAuthStore = defineStore("auth", {
       }
       finally { this.loading = false; }
     },
+
+    async loginWithGoogle(payload: GoogleLoginPayload) {
+      const authService = useAuthService();
+      const { setTokens, userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
+      try {
+        const result = await authService.loginWithGoogle(payload);
+        setTokens(result.tokens);
+        this.user = result.user;
+        userCookie.value = JSON.stringify(result.user);
+        return result;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Google sign-in failed.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
+
+    async initAuth() {
+      if (this.initialized) return;
+      const { accessToken, userCookie } = useAuthTokens();
+
+      // Fast path — hydrate from cookie (no network call)
+      if (userCookie.value) {
+        try {
+          this.user = JSON.parse(userCookie.value) as User;
+        }
+        catch { this.user = null; }
+      }
+      // Slow path — cookie missing but access token present: fetch fresh user from server
+      else if (accessToken.value) {
+        const authService = useAuthService();
+        try {
+          this.user = await authService.fetchUser();
+          userCookie.value = JSON.stringify(this.user);
+        }
+        catch { this.user = null; }
+      }
+
+      this.initialized = true;
+    },
+
+    async logout() {
+      const authService = useAuthService();
+      const { refreshToken, clearTokens } = useAuthTokens();
+      if (refreshToken.value) {
+        await authService.logout(refreshToken.value);
+      }
+      clearTokens();
+      this.user = null;
+      this.initialized = false;
+      await navigateTo("/login");
+    },
   },
 });
