@@ -13,9 +13,9 @@
  */
 
 import type { TypedSchema, TypedSchemaError } from "vee-validate";
-import type { ZodTypeAny } from "zod";
+import type { z, ZodTypeAny } from "zod";
 
-export function zodSchema<T extends ZodTypeAny>(schema: T): TypedSchema {
+export function zodSchema<T extends ZodTypeAny>(schema: T): TypedSchema<z.input<T>, z.output<T>> {
   return {
     __type: "VVTypedSchema",
 
