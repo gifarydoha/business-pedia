@@ -1,7 +1,8 @@
 # Nuxt 3 Auth System — Implementation Plan
+
 ### Business-Pedia — CodeIgniter (now) → NestJS (6–8 months)
 
-Stack: Nuxt 4 + TypeScript + Tailwind CSS v4 (@nuxt/ui v4) + Pinia + Valibot (via @vee-validate/nuxt)
+Stack: Nuxt 4 + TypeScript + Tailwind CSS v4 (@nuxt/ui v4) + Pinia + VeeValidate + Zod
 Auth: Email/password + Google Sign-In, with access + refresh tokens + OTP verification
 Backend: CodeIgniter (JWT in JSON response body), migrating to NestJS later
 
@@ -28,6 +29,7 @@ NestJS typically won't wrap responses this way — it'll likely just return `{ u
 Instead, all HTTP calls live in one file (`auth.service.ts`) with a single mapper function (`mapCIResponse`) that converts whatever the backend sends into one clean internal shape (`AuthResult`). Every other file — pages, Pinia store, middleware — only ever touches that clean shape. On migration day, you rewrite one function; everything else stays untouched.
 
 **Refresh tokens.** Two tokens instead of one:
+
 - **Access token** — short-lived (15–30 min), sent as `Authorization: Bearer ...` on every API call.
 - **Refresh token** — long-lived (7–30 days), used only to silently get a new access token when the old one expires.
 
@@ -43,23 +45,23 @@ If an access token leaks, it's useless within minutes. The refresh token is used
 
 ### Pre-login endpoints — plain `$fetch`, no Bearer token
 
-| Endpoint | Body | Returns |
-|---|---|---|
-| `POST /auth/register` | `name, phone, email, password, password_confirmation` | success message only |
-| `POST /auth/verify-otp` | `email, otp, purpose ("register" \| "reset_password")` | `register` → success message; `reset_password` → `reset_token` |
-| `POST /auth/resend-otp` | `email, purpose` | success message |
-| `POST /auth/login` | `email, password` | `user, access_token, refresh_token` |
-| `POST /auth/google` | `id_token` | `user, access_token, refresh_token` (verify server-side; de-duplicate by email) |
-| `POST /auth/forgot-password` | `email` | success message |
-| `POST /auth/reset-password` | `email, reset_token, password, password_confirmation` | success message |
+| Endpoint                     | Body                                                   | Returns                                                                         |
+| ---------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| `POST /auth/register`        | `name, phone, email, password, password_confirmation`  | success message only                                                            |
+| `POST /auth/verify-otp`      | `email, otp, purpose ("register" \| "reset_password")` | `register` → success message; `reset_password` → `reset_token`                  |
+| `POST /auth/resend-otp`      | `email, purpose`                                       | success message                                                                 |
+| `POST /auth/login`           | `email, password`                                      | `user, access_token, refresh_token`                                             |
+| `POST /auth/google`          | `id_token`                                             | `user, access_token, refresh_token` (verify server-side; de-duplicate by email) |
+| `POST /auth/forgot-password` | `email`                                                | success message                                                                 |
+| `POST /auth/reset-password`  | `email, reset_token, password, password_confirmation`  | success message                                                                 |
 
 ### Authenticated endpoints — `$api` (Bearer token auto-attached + auto-refreshed)
 
-| Endpoint | Body | Returns |
-|---|---|---|
+| Endpoint             | Body            | Returns                           |
+| -------------------- | --------------- | --------------------------------- |
 | `POST /auth/refresh` | `refresh_token` | new `access_token, refresh_token` |
-| `POST /auth/logout` | `refresh_token` | invalidates it server-side |
-| `GET /auth/me` | Bearer token | current user |
+| `POST /auth/logout`  | `refresh_token` | invalidates it server-side        |
+| `GET /auth/me`       | Bearer token    | current user                      |
 
 ---
 
@@ -108,7 +110,9 @@ both tokens stored in cookies, user object stored in user cookie
 ```bash
 # @pinia/nuxt and pinia are already in package.json — skip them
 # @nuxt/fonts is already installed — do NOT install @nuxtjs/google-fonts
-npm install @vee-validate/nuxt valibot --save
+npm install @vee-validate/nuxt zod --save
+# ✅ Zod v4 — @vee-validate/zod is NOT installed (it only supports Zod v3).
+# Instead we use a custom 20-line bridge: utils/zodSchema.ts (see Section 12)
 ```
 
 > **Do NOT run:** `npm install pinia @pinia/nuxt @nuxtjs/google-fonts`
@@ -124,32 +128,32 @@ npm install @vee-validate/nuxt valibot --save
 export default defineNuxtConfig({
   modules: [
     // ... keep all existing modules ...
-    '@vee-validate/nuxt',  // ADD
+    "@vee-validate/nuxt", // ADD
   ],
 
   // ADD fonts config block for @nuxt/fonts (already installed)
   fonts: {
     families: [
-      { name: 'Poppins', weights: [400, 500, 600, 700] },
-      { name: 'Lora', weights: [400, 500, 600] },
+      { name: "Poppins", weights: [400, 500, 600, 700] },
+      { name: "Lora", weights: [400, 500, 600] },
     ],
   },
 
   runtimeConfig: {
     public: {
       // ... keep existing keys: apiBase, kbApiBase, imageBase, appName, apiAccessKey ...
-      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || '',  // ADD
+      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || "", // ADD
     },
   },
 
   routeRules: {
     // ... keep all existing rules ...
     // ADD the missing auth routes:
-    '/forgot-password': { ssr: false },
-    '/reset-password': { ssr: false },
-    '/verify-otp': { ssr: false },
+    "/forgot-password": { ssr: false },
+    "/reset-password": { ssr: false },
+    "/verify-otp": { ssr: false },
   },
-})
+});
 ```
 
 ### CSS tokens — Tailwind v4 syntax (no tailwind.config.ts)
@@ -159,13 +163,13 @@ Your project uses `@nuxt/ui` v4 + Tailwind v4. **There is no `tailwind.config.ts
 ```css
 /* app/assets/css/main.css — ADD inside or alongside your existing @theme block */
 @theme {
-  --font-poppins: 'Poppins', sans-serif;
-  --font-lora: 'Lora', serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-lora: "Lora", serif;
 
   --color-fy-teal-50: #f0f7f5;
-  --color-fy-teal-300: #12B793;
-  --color-fy-sky-500: #236D86;
-  --color-fy-orange-300: #F4701B;
+  --color-fy-teal-300: #12b793;
+  --color-fy-sky-500: #236d86;
+  --color-fy-orange-300: #f4701b;
   --color-fy-sage-900: #040706;
   --color-fy-sage-950: #080f0d;
 }
@@ -181,23 +185,23 @@ Your project uses `@nuxt/ui` v4 + Tailwind v4. **There is no `tailwind.config.ts
 // types/user.ts — update in-place (do not delete this file)
 // id is string — CI returns numeric ID; mapper converts it with String()
 
-export type UserRole = 'admin' | 'editor' | 'author' | 'reviewer' | 'reader'
+export type UserRole = "admin" | "editor" | "author" | "reviewer" | "reader";
 
 export interface User {
-  id: string          // always string — CI returns number, mapper converts it
-  name: string
-  email: string
-  phone?: string      // added for registration
-  role: UserRole      // kept — required by middleware/role.ts
-  avatar?: string     // kept as 'avatar', not 'avatarUrl'
-  emailVerified: boolean
-  createdAt: string
+  id: string; // always string — CI returns number, mapper converts it
+  name: string;
+  email: string;
+  phone?: string; // added for registration
+  role: UserRole; // kept — required by middleware/role.ts
+  avatar?: string; // kept as 'avatar', not 'avatarUrl'
+  emailVerified: boolean;
+  createdAt: string;
 }
 
 export interface AuthTokenPayload {
-  token: string
-  expires_at: string
-  user: User
+  token: string;
+  expires_at: string;
+  user: User;
 }
 ```
 
@@ -206,109 +210,109 @@ export interface AuthTokenPayload {
 ```typescript
 // types/auth.ts — new file
 
-import type { User, UserRole } from '~/types/user'
+import type { User, UserRole } from "~/types/user";
 
-export type { User, UserRole }
+export type { User, UserRole };
 
 export interface AuthTokens {
-  accessToken: string
-  refreshToken: string
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface AuthResult {
-  user: User
-  tokens: AuthTokens
+  user: User;
+  tokens: AuthTokens;
 }
 
 export interface LoginPayload {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface RegisterPayload {
-  name: string
-  phone: string
-  email: string
-  password: string
-  passwordConfirmation: string
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
 }
 
 export interface VerifyOtpPayload {
-  email: string
-  otp: string
-  purpose: 'register' | 'reset_password'
+  email: string;
+  otp: string;
+  purpose: "register" | "reset_password";
 }
 
 export interface ResendOtpPayload {
-  email: string
-  purpose: 'register' | 'reset_password'
+  email: string;
+  purpose: "register" | "reset_password";
 }
 
 export interface ForgotPasswordPayload {
-  email: string
+  email: string;
 }
 
 export interface ResetPasswordPayload {
-  email: string
-  resetToken: string
-  password: string
-  passwordConfirmation: string
+  email: string;
+  resetToken: string;
+  password: string;
+  passwordConfirmation: string;
 }
 
 export interface GoogleLoginPayload {
-  idToken: string
+  idToken: string;
 }
 
 // ─── Raw CodeIgniter response shapes ───────────────────────────────────────────
 // These are the ONLY interfaces that change on NestJS migration.
 
 export interface CIAuthResponse {
-  status: boolean
-  message: string
+  status: boolean;
+  message: string;
   data: {
     user: {
-      id: number
-      name: string
-      email: string
-      phone?: string
-      role: UserRole
-      avatar?: string
-      email_verified: boolean
-      created_at: string
-    }
-    access_token: string
-    refresh_token: string
-  }
+      id: number;
+      name: string;
+      email: string;
+      phone?: string;
+      role: UserRole;
+      avatar?: string;
+      email_verified: boolean;
+      created_at: string;
+    };
+    access_token: string;
+    refresh_token: string;
+  };
 }
 
 export interface CIRefreshResponse {
-  status: boolean
+  status: boolean;
   data: {
-    access_token: string
-    refresh_token: string
-  }
+    access_token: string;
+    refresh_token: string;
+  };
 }
 
 // Simple CI response — used for endpoints that only return a status + message
 export interface CISimpleResponse {
-  status: boolean
-  message: string
+  status: boolean;
+  message: string;
 }
 
 // OTP verify for reset_password purpose returns a reset_token inside data
 export interface CIVerifyOtpResponse {
-  status: boolean
-  message: string
+  status: boolean;
+  message: string;
   data?: {
-    reset_token?: string
-  }
+    reset_token?: string;
+  };
 }
 
 export interface CIMeResponse {
-  status: boolean
+  status: boolean;
   data: {
-    user: CIAuthResponse['data']['user']
-  }
+    user: CIAuthResponse["data"]["user"];
+  };
 }
 ```
 
@@ -319,45 +323,45 @@ export interface CIMeResponse {
 ```typescript
 // composables/useAuthTokens.ts — new file
 
-const ACCESS_COOKIE = 'auth_access_token'
-const REFRESH_COOKIE = 'auth_refresh_token'
-const USER_COOKIE = 'auth_user'
+const ACCESS_COOKIE = "auth_access_token";
+const REFRESH_COOKIE = "auth_refresh_token";
+const USER_COOKIE = "auth_user";
 
 export function useAuthTokens() {
   const accessToken = useCookie<string | null>(ACCESS_COOKIE, {
-    maxAge: 60 * 30,           // 30 min — matches access token lifetime
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    maxAge: 60 * 30, // 30 min — matches access token lifetime
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     default: () => null,
-  })
+  });
 
   const refreshToken = useCookie<string | null>(REFRESH_COOKIE, {
     maxAge: 60 * 60 * 24 * 30, // 30 days — matches refresh token lifetime
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     default: () => null,
-  })
+  });
 
   // Stores the serialised User object — lets initAuth() hydrate without a network call on reload
   const userCookie = useCookie<string | null>(USER_COOKIE, {
     maxAge: 60 * 60 * 24 * 30,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     default: () => null,
-  })
+  });
 
   function setTokens(tokens: { accessToken: string; refreshToken: string }) {
-    accessToken.value = tokens.accessToken
-    refreshToken.value = tokens.refreshToken
+    accessToken.value = tokens.accessToken;
+    refreshToken.value = tokens.refreshToken;
   }
 
   function clearTokens() {
-    accessToken.value = null
-    refreshToken.value = null
-    userCookie.value = null
+    accessToken.value = null;
+    refreshToken.value = null;
+    userCookie.value = null;
   }
 
-  return { accessToken, refreshToken, userCookie, setTokens, clearTokens }
+  return { accessToken, refreshToken, userCookie, setTokens, clearTokens };
 }
 ```
 
@@ -372,71 +376,72 @@ export function useAuthTokens() {
 
 ```typescript
 // plugins/api.ts — new file
-import type { CIRefreshResponse } from '~/types/auth'
+import type { CIRefreshResponse } from "~/types/auth";
 
 export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig()
-  let refreshPromise: Promise<string | null> | null = null
+  const config = useRuntimeConfig();
+  let refreshPromise: Promise<string | null> | null = null;
 
   async function performRefresh(): Promise<string | null> {
-    const { refreshToken, setTokens, clearTokens } = useAuthTokens()
-    if (!refreshToken.value) return null
+    const { refreshToken, setTokens, clearTokens } = useAuthTokens();
+    if (!refreshToken.value) return null;
 
     try {
-      const res = await $fetch<CIRefreshResponse>('/auth/refresh', {
+      const res = await $fetch<CIRefreshResponse>("/auth/refresh", {
         baseURL: config.public.apiBase,
-        method: 'POST',
+        method: "POST",
         body: { refresh_token: refreshToken.value },
-      })
+      });
       setTokens({
         accessToken: res.data.access_token,
         refreshToken: res.data.refresh_token,
-      })
-      return res.data.access_token
-    }
-    catch {
-      clearTokens()
-      return null
+      });
+      return res.data.access_token;
+    } catch {
+      clearTokens();
+      return null;
     }
   }
 
   const api = $fetch.create({
     baseURL: config.public.apiBase,
     onRequest({ options }) {
-      const { accessToken } = useAuthTokens()
+      const { accessToken } = useAuthTokens();
       if (accessToken.value) {
         options.headers = {
           ...options.headers,
           Authorization: `Bearer ${accessToken.value}`,
-        }
+        };
       }
     },
     async onResponseError({ response, request, options }) {
-      if (response.status !== 401) return
+      if (response.status !== 401) return;
 
       // De-dupe: if multiple requests 401 at once, only one refresh fires
       if (!refreshPromise) {
         refreshPromise = performRefresh().finally(() => {
-          refreshPromise = null
-        })
+          refreshPromise = null;
+        });
       }
-      const newAccessToken = await refreshPromise
+      const newAccessToken = await refreshPromise;
 
       if (newAccessToken) {
         // Retry the original request once with the fresh token
         return $fetch(request, {
           ...options,
-          headers: { ...options.headers, Authorization: `Bearer ${newAccessToken}` },
-        })
-      }
-      else {
-        await navigateTo('/login')
+          headers: {
+            ...options.headers,
+            Authorization: `Bearer ${newAccessToken}`,
+          },
+        });
+      } else {
+        await navigateTo("/login");
       }
     },
-  })
+  });
 
-  return { provide: { api } }
-})
+  return { provide: { api } };
+});
 ```
 
 ---
@@ -461,8 +466,8 @@ import type {
   ForgotPasswordPayload,
   ResetPasswordPayload,
   GoogleLoginPayload,
-} from '~/types/auth'
-import type { User } from '~/types/user'
+} from "~/types/auth";
+import type { User } from "~/types/user";
 
 function mapCIResponse(res: CIAuthResponse): AuthResult {
   return {
@@ -480,10 +485,10 @@ function mapCIResponse(res: CIAuthResponse): AuthResult {
       accessToken: res.data.access_token,
       refreshToken: res.data.refresh_token,
     },
-  }
+  };
 }
 
-function mapCIUser(raw: CIAuthResponse['data']['user']): User {
+function mapCIUser(raw: CIAuthResponse["data"]["user"]): User {
   return {
     id: String(raw.id),
     name: raw.name,
@@ -493,20 +498,20 @@ function mapCIUser(raw: CIAuthResponse['data']['user']): User {
     avatar: raw.avatar,
     emailVerified: raw.email_verified,
     createdAt: raw.created_at,
-  }
+  };
 }
 
 export function useAuthService() {
-  const { $api } = useNuxtApp()
-  const config = useRuntimeConfig()
-  const base = config.public.apiBase
+  const { $api } = useNuxtApp();
+  const config = useRuntimeConfig();
+  const base = config.public.apiBase;
 
   // ── Pre-login — plain $fetch (no Bearer token) ──────────────────────────────
 
   async function register(payload: RegisterPayload): Promise<CISimpleResponse> {
-    return $fetch<CISimpleResponse>('/auth/register', {
+    return $fetch<CISimpleResponse>("/auth/register", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: {
         name: payload.name,
         phone: payload.phone,
@@ -514,86 +519,95 @@ export function useAuthService() {
         password: payload.password,
         password_confirmation: payload.passwordConfirmation,
       },
-    })
+    });
   }
 
-  async function verifyOtp(payload: VerifyOtpPayload): Promise<CIVerifyOtpResponse> {
+  async function verifyOtp(
+    payload: VerifyOtpPayload,
+  ): Promise<CIVerifyOtpResponse> {
     // Plain $fetch — user is not logged in yet; no Bearer token should be attached.
     // This is a door that is meant to always be open — no lock installed.
-    return $fetch<CIVerifyOtpResponse>('/auth/verify-otp', {
+    return $fetch<CIVerifyOtpResponse>("/auth/verify-otp", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: {
         email: payload.email,
         otp: payload.otp,
         purpose: payload.purpose,
       },
-    })
+    });
   }
 
-  async function resendOtp(payload: ResendOtpPayload): Promise<CISimpleResponse> {
-    return $fetch<CISimpleResponse>('/auth/resend-otp', {
+  async function resendOtp(
+    payload: ResendOtpPayload,
+  ): Promise<CISimpleResponse> {
+    return $fetch<CISimpleResponse>("/auth/resend-otp", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: { email: payload.email, purpose: payload.purpose },
-    })
+    });
   }
 
-  async function forgotPassword(payload: ForgotPasswordPayload): Promise<CISimpleResponse> {
-    return $fetch<CISimpleResponse>('/auth/forgot-password', {
+  async function forgotPassword(
+    payload: ForgotPasswordPayload,
+  ): Promise<CISimpleResponse> {
+    return $fetch<CISimpleResponse>("/auth/forgot-password", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: { email: payload.email },
-    })
+    });
   }
 
-  async function resetPassword(payload: ResetPasswordPayload): Promise<CISimpleResponse> {
-    return $fetch<CISimpleResponse>('/auth/reset-password', {
+  async function resetPassword(
+    payload: ResetPasswordPayload,
+  ): Promise<CISimpleResponse> {
+    return $fetch<CISimpleResponse>("/auth/reset-password", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: {
         email: payload.email,
         reset_token: payload.resetToken,
         password: payload.password,
         password_confirmation: payload.passwordConfirmation,
       },
-    })
+    });
   }
 
   // ── Authenticated — $api (Bearer token auto-attached + auto-refreshed) ───────
 
   async function login(payload: LoginPayload): Promise<AuthResult> {
     // login itself doesn't need a token, but it's safe to use $fetch here too
-    const res = await $fetch<CIAuthResponse>('/auth/login', {
+    const res = await $fetch<CIAuthResponse>("/auth/login", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: payload,
-    })
-    return mapCIResponse(res)
+    });
+    return mapCIResponse(res);
   }
 
-  async function loginWithGoogle(payload: GoogleLoginPayload): Promise<AuthResult> {
-    const res = await $fetch<CIAuthResponse>('/auth/google', {
+  async function loginWithGoogle(
+    payload: GoogleLoginPayload,
+  ): Promise<AuthResult> {
+    const res = await $fetch<CIAuthResponse>("/auth/google", {
       baseURL: base,
-      method: 'POST',
+      method: "POST",
       body: { id_token: payload.idToken },
-    })
-    return mapCIResponse(res)
+    });
+    return mapCIResponse(res);
   }
 
   async function fetchUser(): Promise<User> {
-    const res = await ($api as typeof $fetch)<CIMeResponse>('/auth/me')
-    return mapCIUser(res.data.user)
+    const res = await ($api as typeof $fetch)<CIMeResponse>("/auth/me");
+    return mapCIUser(res.data.user);
   }
 
   async function logout(refreshToken: string): Promise<void> {
     try {
-      await ($api as typeof $fetch)('/auth/logout', {
-        method: 'POST',
+      await ($api as typeof $fetch)("/auth/logout", {
+        method: "POST",
         body: { refresh_token: refreshToken },
-      })
-    }
-    catch {
+      });
+    } catch {
       // ignore — we clear local tokens regardless
     }
   }
@@ -608,7 +622,7 @@ export function useAuthService() {
     loginWithGoogle,
     fetchUser,
     logout,
-  }
+  };
 }
 ```
 
@@ -620,8 +634,8 @@ export function useAuthService() {
 
 ```typescript
 // stores/auth.ts — replaces current content entirely
-import { defineStore } from 'pinia'
-import type { User } from '~/types/user'
+import { defineStore } from "pinia";
+import type { User } from "~/types/user";
 import type {
   CISimpleResponse,
   LoginPayload,
@@ -631,9 +645,9 @@ import type {
   ResendOtpPayload,
   ForgotPasswordPayload,
   ResetPasswordPayload,
-} from '~/types/auth'
+} from "~/types/auth";
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: null as User | null,
     // Temporary reset_token — held only while user is on /reset-password, cleared on submit
@@ -648,9 +662,10 @@ export const useAuthStore = defineStore('auth', {
     isEmailVerified: (state) => !!state.user?.emailVerified,
     // Role-based getters — required by middleware/role.ts
     userRole: (state) => state.user?.role ?? null,
-    isAdmin: (state) => state.user?.role === 'admin',
-    isEditor: (state) => ['admin', 'editor'].includes(state.user?.role ?? ''),
-    isAuthor: (state) => ['admin', 'editor', 'author'].includes(state.user?.role ?? ''),
+    isAdmin: (state) => state.user?.role === "admin",
+    isEditor: (state) => ["admin", "editor"].includes(state.user?.role ?? ""),
+    isAuthor: (state) =>
+      ["admin", "editor", "author"].includes(state.user?.role ?? ""),
     // Alias kept so middleware/role.ts compiles without change (it checks isLoggedIn)
     isLoggedIn: (state) => !!state.user,
   },
@@ -659,158 +674,174 @@ export const useAuthStore = defineStore('auth', {
     // ── Pre-login actions (no tokens involved) ─────────────────────────────────
 
     async register(payload: RegisterPayload) {
-      const authService = useAuthService()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
       try {
-        return await authService.register(payload)
+        return await authService.register(payload);
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Registration failed.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Registration failed.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     async verifyOtp(payload: VerifyOtpPayload) {
-      const authService = useAuthService()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
       try {
-        const res = await authService.verifyOtp(payload)
+        const res = await authService.verifyOtp(payload);
         // If purpose === 'reset_password', backend returns a reset_token — store it temporarily
-        if (payload.purpose === 'reset_password' && res.data?.reset_token) {
-          this.resetToken = res.data.reset_token
+        if (payload.purpose === "reset_password" && res.data?.reset_token) {
+          this.resetToken = res.data.reset_token;
         }
-        return res
+        return res;
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Invalid or expired code.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Invalid or expired code.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     async resendOtp(payload: ResendOtpPayload) {
-      const authService = useAuthService()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
       try {
-        return await authService.resendOtp(payload)
+        return await authService.resendOtp(payload);
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Could not resend code.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Could not resend code.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     async forgotPassword(payload: ForgotPasswordPayload) {
-      const authService = useAuthService()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
       try {
-        return await authService.forgotPassword(payload)
+        return await authService.forgotPassword(payload);
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Could not send reset code.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Could not send reset code.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     async resetPassword(payload: ResetPasswordPayload) {
-      const authService = useAuthService()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
       try {
-        const res = await authService.resetPassword(payload)
-        this.resetToken = null // clear after use — one-time token
-        return res
+        const res = await authService.resetPassword(payload);
+        this.resetToken = null; // clear after use — one-time token
+        return res;
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Could not reset password.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Could not reset password.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     // ── Authenticated actions ──────────────────────────────────────────────────
 
     async login(payload: LoginPayload) {
-      const authService = useAuthService()
-      const { setTokens, userCookie } = useAuthTokens()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      const { setTokens, userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
       try {
-        const result = await authService.login(payload)
-        setTokens(result.tokens)
-        this.user = result.user
+        const result = await authService.login(payload);
+        setTokens(result.tokens);
+        this.user = result.user;
         // Persist user in cookie — initAuth() can hydrate from here without a network call
-        userCookie.value = JSON.stringify(result.user)
-        return result
+        userCookie.value = JSON.stringify(result.user);
+        return result;
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Login failed. Please check your credentials.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Login failed. Please check your credentials.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     async loginWithGoogle(payload: GoogleLoginPayload) {
-      const authService = useAuthService()
-      const { setTokens, userCookie } = useAuthTokens()
-      this.loading = true
-      this.error = null
+      const authService = useAuthService();
+      const { setTokens, userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
       try {
-        const result = await authService.loginWithGoogle(payload)
-        setTokens(result.tokens)
-        this.user = result.user
-        userCookie.value = JSON.stringify(result.user)
-        return result
+        const result = await authService.loginWithGoogle(payload);
+        setTokens(result.tokens);
+        this.user = result.user;
+        userCookie.value = JSON.stringify(result.user);
+        return result;
+      } catch (err: unknown) {
+        this.error =
+          (err as { data?: CISimpleResponse })?.data?.message ??
+          "Google sign-in failed.";
+        throw err;
+      } finally {
+        this.loading = false;
       }
-      catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? 'Google sign-in failed.'
-        throw err
-      }
-      finally { this.loading = false }
     },
 
     async initAuth() {
-      if (this.initialized) return
-      const { accessToken, userCookie } = useAuthTokens()
+      if (this.initialized) return;
+      const { accessToken, userCookie } = useAuthTokens();
 
       // Fast path — hydrate from cookie (no network call)
       if (userCookie.value) {
         try {
-          this.user = JSON.parse(userCookie.value) as User
+          this.user = JSON.parse(userCookie.value) as User;
+        } catch {
+          this.user = null;
         }
-        catch { this.user = null }
       }
       // Slow path — cookie missing but access token present: fetch fresh user from server
       else if (accessToken.value) {
-        const authService = useAuthService()
+        const authService = useAuthService();
         try {
-          this.user = await authService.fetchUser()
-          userCookie.value = JSON.stringify(this.user)
+          this.user = await authService.fetchUser();
+          userCookie.value = JSON.stringify(this.user);
+        } catch {
+          this.user = null;
         }
-        catch { this.user = null }
       }
 
-      this.initialized = true
+      this.initialized = true;
     },
 
     async logout() {
-      const authService = useAuthService()
-      const { refreshToken, clearTokens } = useAuthTokens()
-      if (refreshToken.value) await authService.logout(refreshToken.value)
-      clearTokens()
-      this.user = null
-      this.initialized = false
-      await navigateTo('/login')
+      const authService = useAuthService();
+      const { refreshToken, clearTokens } = useAuthTokens();
+      if (refreshToken.value) await authService.logout(refreshToken.value);
+      clearTokens();
+      this.user = null;
+      this.initialized = false;
+      await navigateTo("/login");
     },
   },
-})
+});
 ```
 
 ---
@@ -824,9 +855,9 @@ export const useAuthStore = defineStore('auth', {
 ```typescript
 // plugins/auth.client.ts — replaces current content
 export default defineNuxtPlugin(async () => {
-  const authStore = useAuthStore()
-  await authStore.initAuth()
-})
+  const authStore = useAuthStore();
+  await authStore.initAuth();
+});
 ```
 
 ---
@@ -838,12 +869,12 @@ export default defineNuxtPlugin(async () => {
 ```typescript
 // middleware/auth.ts
 export default defineNuxtRouteMiddleware(async (to) => {
-  const authStore = useAuthStore()
-  if (!authStore.initialized) await authStore.initAuth()
+  const authStore = useAuthStore();
+  if (!authStore.initialized) await authStore.initAuth();
   if (!authStore.isAuthenticated) {
-    return navigateTo(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
+    return navigateTo(`/login?redirect=${encodeURIComponent(to.fullPath)}`);
   }
-})
+});
 ```
 
 ### `middleware/guest.ts` — replaces current content
@@ -851,10 +882,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
 ```typescript
 // middleware/guest.ts
 export default defineNuxtRouteMiddleware(async () => {
-  const authStore = useAuthStore()
-  if (!authStore.initialized) await authStore.initAuth()
-  if (authStore.isAuthenticated) return navigateTo('/dashboard')
-})
+  const authStore = useAuthStore();
+  if (!authStore.initialized) await authStore.initAuth();
+  if (authStore.isAuthenticated) return navigateTo("/dashboard");
+});
 ```
 
 ### `middleware/role.ts` — one line change
@@ -863,69 +894,97 @@ export default defineNuxtRouteMiddleware(async () => {
 // middleware/role.ts — change line 10: isLoggedIn → isAuthenticated
 // (isLoggedIn getter is kept as an alias in the store, so this change is optional but canonical)
 if (!authStore.isAuthenticated) {
-  return navigateTo('/login')
+  return navigateTo("/login");
 }
 ```
 
 ---
 
-## 12. Form validation — Valibot + VeeValidate
+## 12. Form validation — VeeValidate + Zod v4
 
-### Why Valibot (not Zod)
+### Why VeeValidate + Zod (custom bridge)
 
-Valibot is the recommended schema library for Nuxt — it is far smaller (< 1 KB per schema vs Zod's ~13 KB), tree-shakes unused validators, and `@vee-validate/nuxt` auto-imports everything. `@vee-validate/valibot` bridges the two with zero config.
+VeeValidate is the Vue equivalent of React Hook Form. Zod v4 is used as the schema library. `@vee-validate/zod` is **not installed** — it only supports Zod v3 (peer: `"^3.24.0"`) and has not shipped a Zod v4 release. Instead, a small custom bridge (`utils/zodSchema.ts`) implements VeeValidate's `TypedSchema` interface directly. It is ~20 lines, requires no maintenance, and will never have a version conflict.
+
+### Bridge utility — `utils/zodSchema.ts` [NEW FILE — create this first]
+
+```typescript
+// utils/zodSchema.ts — new file
+// Custom VeeValidate ↔ Zod v4 bridge (replaces @vee-validate/zod)
+import type { TypedSchema, TypedSchemaError } from 'vee-validate'
+import type { ZodTypeAny } from 'zod'
+
+export function zodSchema<T extends ZodTypeAny>(schema: T): TypedSchema {
+  return {
+    __type: 'VVTypedSchema',
+    async parse(values: unknown) {
+      const result = await schema.safeParseAsync(values)
+      if (result.success) {
+        return { value: result.data, errors: [] }
+      }
+      const errors: TypedSchemaError[] = result.error.issues.map((issue) => ({
+        path: issue.path.join('.'),
+        errors: [issue.message],
+      }))
+      return { value: undefined, errors }
+    },
+  }
+}
+```
+
+> Because Nuxt auto-imports everything from `utils/`, `zodSchema` is available in every page without any import statement. You can still import it explicitly if you prefer clarity.
 
 ### Schemas — `schemas/auth.schemas.ts`
 
 ```typescript
 // schemas/auth.schemas.ts — new file
-import * as v from 'valibot'
+import { z } from 'zod'
 
-export const RegisterSchema = v.pipe(
-  v.object({
-    name: v.pipe(v.string(), v.minLength(2, 'Name must be at least 2 characters')),
-    phone: v.pipe(v.string(), v.regex(/^\+?[0-9]{7,15}$/, 'Enter a valid phone number')),
-    email: v.pipe(v.string(), v.email('Enter a valid email address')),
-    password: v.pipe(v.string(), v.minLength(8, 'Password must be at least 8 characters')),
-    passwordConfirmation: v.string(),
-  }),
-  v.forward(
-    v.partialCheck(
-      [['password'], ['passwordConfirmation']],
-      input => input.password === input.passwordConfirmation,
-      'Passwords do not match',
-    ),
-    ['passwordConfirmation'],
-  ),
-)
+export const RegisterSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    phone: z.string().regex(/^\+?[0-9]{7,15}$/, 'Enter a valid phone number'),
+    email: z.string().email('Enter a valid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    passwordConfirmation: z.string(),
+  })
+  .refine(data => data.password === data.passwordConfirmation, {
+    message: 'Passwords do not match',
+    path: ['passwordConfirmation'],
+  })
 
-export const LoginSchema = v.object({
-  email: v.pipe(v.string(), v.email('Enter a valid email address')),
-  password: v.pipe(v.string(), v.minLength(1, 'Password is required')),
+export const LoginSchema = z.object({
+  email: z.string().email('Enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
 })
 
-export const ForgotPasswordSchema = v.object({
-  email: v.pipe(v.string(), v.email('Enter a valid email address')),
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email('Enter a valid email address'),
 })
 
-export const OtpSchema = v.object({
-  otp: v.pipe(v.string(), v.length(6, 'Enter the 6-digit code'), v.regex(/^\d{6}$/, 'Code must be 6 digits')),
+export const OtpSchema = z.object({
+  otp: z
+    .string()
+    .length(6, 'Enter the 6-digit code')
+    .regex(/^\d{6}$/, 'Code must be 6 digits'),
 })
 
-export const ResetPasswordSchema = v.pipe(
-  v.object({
-    password: v.pipe(v.string(), v.minLength(8, 'Password must be at least 8 characters')),
-    passwordConfirmation: v.string(),
-  }),
-  v.forward(
-    v.partialCheck(
-      [['password'], ['passwordConfirmation']],
-      input => input.password === input.passwordConfirmation,
-      'Passwords do not match',
-    ),
-    ['passwordConfirmation'],
-  ),
-)
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    passwordConfirmation: z.string(),
+  })
+  .refine(data => data.password === data.passwordConfirmation, {
+    message: 'Passwords do not match',
+    path: ['passwordConfirmation'],
+  })
+
+// Inferred types — use instead of writing separate payload interfaces
+export type RegisterInput = z.infer<typeof RegisterSchema>
+export type LoginInput = z.infer<typeof LoginSchema>
+export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
+export type OtpInput = z.infer<typeof OtpSchema>
+export type ResetPasswordInput = z.infer<typeof ResetPasswordSchema>
 ```
 
 ### Usage pattern in pages
@@ -933,18 +992,18 @@ export const ResetPasswordSchema = v.pipe(
 ```vue
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/valibot'
-import { LoginSchema } from '~/schemas/auth.schemas'
+// zodSchema is auto-imported from utils/zodSchema.ts — no import needed
+// LoginSchema is auto-imported from schemas/ via Nuxt auto-imports
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: toTypedSchema(LoginSchema),
+  validationSchema: zodSchema(LoginSchema),  // ← our custom bridge, not toTypedSchema
 })
 
 const [email, emailAttrs] = defineField('email')
 const [password, passwordAttrs] = defineField('password')
 
 const onSubmit = handleSubmit(async (values) => {
-  // values is fully typed as { email: string; password: string }
+  // values is typed — errors are field-mapped by VeeValidate
   await authStore.login(values)
 })
 </script>
@@ -971,49 +1030,61 @@ declare global {
     google: {
       accounts: {
         id: {
-          initialize: (config: { client_id: string; callback: (r: { credential: string }) => void }) => void
-          renderButton: (el: HTMLElement, config: Record<string, unknown>) => void
-        }
-      }
-    }
+          initialize: (config: {
+            client_id: string;
+            callback: (r: { credential: string }) => void;
+          }) => void;
+          renderButton: (
+            el: HTMLElement,
+            config: Record<string, unknown>,
+          ) => void;
+        };
+      };
+    };
   }
 }
 
 export function useGoogleAuth() {
-  const config = useRuntimeConfig()
-  const scriptLoaded = ref(false)
+  const config = useRuntimeConfig();
+  const scriptLoaded = ref(false);
 
   function loadScript(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (window.google?.accounts?.id) {
-        scriptLoaded.value = true
-        return resolve()
+        scriptLoaded.value = true;
+        return resolve();
       }
-      const script = document.createElement('script')
-      script.src = 'https://accounts.google.com/gsi/client'
-      script.async = true
-      script.defer = true
-      script.onload = () => { scriptLoaded.value = true; resolve() }
-      script.onerror = reject
-      document.head.appendChild(script)
-    })
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        scriptLoaded.value = true;
+        resolve();
+      };
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
   }
 
-  async function renderButton(el: HTMLElement, onCredential: (idToken: string) => void) {
-    await loadScript()
+  async function renderButton(
+    el: HTMLElement,
+    onCredential: (idToken: string) => void,
+  ) {
+    await loadScript();
     window.google.accounts.id.initialize({
       client_id: config.public.googleClientId,
       callback: (response) => onCredential(response.credential),
-    })
+    });
     window.google.accounts.id.renderButton(el, {
-      theme: 'outline',
-      size: 'large',
+      theme: "outline",
+      size: "large",
       width: el.clientWidth,
-      text: 'continue_with',
-    })
+      text: "continue_with",
+    });
   }
 
-  return { loadScript, renderButton, scriptLoaded }
+  return { loadScript, renderButton, scriptLoaded };
 }
 ```
 
@@ -1026,93 +1097,139 @@ export function useGoogleAuth() {
 ```vue
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/valibot'
-import { LoginSchema } from '~/schemas/auth.schemas'
+// zodSchema auto-imported from utils/zodSchema.ts
+import { LoginSchema } from "~/schemas/auth.schemas";
 
-definePageMeta({ middleware: 'guest' })
+definePageMeta({ middleware: "guest" });
 
-const authStore = useAuthStore()
-const { renderButton } = useGoogleAuth()
-const route = useRoute()
+const authStore = useAuthStore();
+const { renderButton } = useGoogleAuth();
+const route = useRoute();
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: toTypedSchema(LoginSchema),
-})
-const [email, emailAttrs] = defineField('email')
-const [password, passwordAttrs] = defineField('password')
+  validationSchema: zodSchema(LoginSchema),
+});
+const [email, emailAttrs] = defineField("email");
+const [password, passwordAttrs] = defineField("password");
 
-const serverError = ref('')
-const googleBtnRef = ref<HTMLElement | null>(null)
+const serverError = ref("");
+const googleBtnRef = ref<HTMLElement | null>(null);
 
 const onSubmit = handleSubmit(async (values) => {
-  serverError.value = ''
+  serverError.value = "";
   try {
-    await authStore.login(values)
-    await navigateTo((route.query.redirect as string) || '/dashboard')
+    await authStore.login(values);
+    await navigateTo((route.query.redirect as string) || "/dashboard");
+  } catch {
+    serverError.value = authStore.error || "Login failed";
   }
-  catch { serverError.value = authStore.error || 'Login failed' }
-})
+});
 
 async function handleGoogleCredential(idToken: string) {
-  serverError.value = ''
+  serverError.value = "";
   try {
-    await authStore.loginWithGoogle({ idToken })
-    await navigateTo('/dashboard')
+    await authStore.loginWithGoogle({ idToken });
+    await navigateTo("/dashboard");
+  } catch {
+    serverError.value = authStore.error || "Google sign-in failed";
   }
-  catch { serverError.value = authStore.error || 'Google sign-in failed' }
 }
 
 onMounted(() => {
-  if (googleBtnRef.value) renderButton(googleBtnRef.value, handleGoogleCredential)
-})
+  if (googleBtnRef.value)
+    renderButton(googleBtnRef.value, handleGoogleCredential);
+});
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8">
-      <h1 class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-1">Welcome back</h1>
-      <p class="font-lora text-sm text-slate-500 mb-6">Sign in to continue your journey</p>
+  <div
+    class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8"
+    >
+      <h1
+        class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-1"
+      >
+        Welcome back
+      </h1>
+      <p class="font-lora text-sm text-slate-500 mb-6">
+        Sign in to continue your journey
+      </p>
 
       <div ref="googleBtnRef" class="w-full mb-4" />
 
       <div class="flex items-center gap-3 my-6">
         <div class="h-px flex-1 bg-slate-200" />
-        <span class="font-poppins text-xs text-slate-400 uppercase tracking-wide">or</span>
+        <span
+          class="font-poppins text-xs text-slate-400 uppercase tracking-wide"
+          >or</span
+        >
         <div class="h-px flex-1 bg-slate-200" />
       </div>
 
       <form class="space-y-4" @submit="onSubmit">
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Email</label>
-          <input v-bind="emailAttrs" v-model="email" type="email"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300 focus:border-fy-teal-300" />
-          <p v-if="errors.email" class="font-lora text-xs text-red-500 mt-1">{{ errors.email }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Email</label
+          >
+          <input
+            v-bind="emailAttrs"
+            v-model="email"
+            type="email"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300 focus:border-fy-teal-300"
+          />
+          <p v-if="errors.email" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.email }}
+          </p>
         </div>
 
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Password</label>
-          <input v-bind="passwordAttrs" v-model="password" type="password"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300 focus:border-fy-teal-300" />
-          <p v-if="errors.password" class="font-lora text-xs text-red-500 mt-1">{{ errors.password }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Password</label
+          >
+          <input
+            v-bind="passwordAttrs"
+            v-model="password"
+            type="password"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300 focus:border-fy-teal-300"
+          />
+          <p v-if="errors.password" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.password }}
+          </p>
         </div>
 
         <div class="flex justify-end">
-          <NuxtLink to="/forgot-password" class="font-poppins text-sm text-fy-sky-500 hover:underline">
+          <NuxtLink
+            to="/forgot-password"
+            class="font-poppins text-sm text-fy-sky-500 hover:underline"
+          >
             Forgot password?
           </NuxtLink>
         </div>
 
-        <p v-if="serverError" class="font-lora text-sm text-red-600">{{ serverError }}</p>
+        <p v-if="serverError" class="font-lora text-sm text-red-600">
+          {{ serverError }}
+        </p>
 
-        <button type="submit" :disabled="authStore.loading"
-          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition">
-          {{ authStore.loading ? 'Signing in…' : 'Sign in' }}
+        <button
+          type="submit"
+          :disabled="authStore.loading"
+          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition"
+        >
+          {{ authStore.loading ? "Signing in…" : "Sign in" }}
         </button>
       </form>
 
       <p class="text-center font-lora text-sm text-slate-500 mt-6">
         Don't have an account?
-        <NuxtLink to="/register" class="text-fy-teal-300 font-medium hover:underline">Sign up</NuxtLink>
+        <NuxtLink
+          to="/register"
+          class="text-fy-teal-300 font-medium hover:underline"
+          >Sign up</NuxtLink
+        >
       </p>
     </div>
   </div>
@@ -1126,114 +1243,189 @@ onMounted(() => {
 ```vue
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/valibot'
-import { RegisterSchema } from '~/schemas/auth.schemas'
+// zodSchema auto-imported from utils/zodSchema.ts
+import { RegisterSchema } from "~/schemas/auth.schemas";
 
-definePageMeta({ middleware: 'guest' })
+definePageMeta({ middleware: "guest" });
 
-const authStore = useAuthStore()
-const { renderButton } = useGoogleAuth()
+const authStore = useAuthStore();
+const { renderButton } = useGoogleAuth();
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: toTypedSchema(RegisterSchema),
-})
-const [name, nameAttrs] = defineField('name')
-const [phone, phoneAttrs] = defineField('phone')
-const [email, emailAttrs] = defineField('email')
-const [password, passwordAttrs] = defineField('password')
-const [passwordConfirmation, passwordConfirmationAttrs] = defineField('passwordConfirmation')
+  validationSchema: zodSchema(RegisterSchema),
+});
+const [name, nameAttrs] = defineField("name");
+const [phone, phoneAttrs] = defineField("phone");
+const [email, emailAttrs] = defineField("email");
+const [password, passwordAttrs] = defineField("password");
+const [passwordConfirmation, passwordConfirmationAttrs] = defineField(
+  "passwordConfirmation",
+);
 
-const serverError = ref('')
-const googleBtnRef = ref<HTMLElement | null>(null)
+const serverError = ref("");
+const googleBtnRef = ref<HTMLElement | null>(null);
 
 const onSubmit = handleSubmit(async (values) => {
-  serverError.value = ''
+  serverError.value = "";
   try {
-    await authStore.register(values)
+    await authStore.register(values);
     // No tokens returned from register — go to OTP verification
-    await navigateTo(`/verify-otp?purpose=register&email=${encodeURIComponent(values.email)}`)
+    await navigateTo(
+      `/verify-otp?purpose=register&email=${encodeURIComponent(values.email)}`,
+    );
+  } catch {
+    serverError.value = authStore.error || "Registration failed";
   }
-  catch { serverError.value = authStore.error || 'Registration failed' }
-})
+});
 
 async function handleGoogleCredential(idToken: string) {
-  serverError.value = ''
+  serverError.value = "";
   try {
-    await authStore.loginWithGoogle({ idToken })
-    await navigateTo('/dashboard')
-  }
-  catch {
+    await authStore.loginWithGoogle({ idToken });
+    await navigateTo("/dashboard");
+  } catch {
     // Backend returns an error if this email is already registered via password
-    serverError.value = authStore.error || 'Google sign-in failed'
+    serverError.value = authStore.error || "Google sign-in failed";
   }
 }
 
 onMounted(() => {
-  if (googleBtnRef.value) renderButton(googleBtnRef.value, handleGoogleCredential)
-})
+  if (googleBtnRef.value)
+    renderButton(googleBtnRef.value, handleGoogleCredential);
+});
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8">
-      <h1 class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-1">Create your account</h1>
-      <p class="font-lora text-sm text-slate-500 mb-6">Mindset. Action. Happiness.</p>
+  <div
+    class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8"
+    >
+      <h1
+        class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-1"
+      >
+        Create your account
+      </h1>
+      <p class="font-lora text-sm text-slate-500 mb-6">
+        Mindset. Action. Happiness.
+      </p>
 
       <div ref="googleBtnRef" class="w-full mb-4" />
 
       <div class="flex items-center gap-3 my-6">
         <div class="h-px flex-1 bg-slate-200" />
-        <span class="font-poppins text-xs text-slate-400 uppercase tracking-wide">or</span>
+        <span
+          class="font-poppins text-xs text-slate-400 uppercase tracking-wide"
+          >or</span
+        >
         <div class="h-px flex-1 bg-slate-200" />
       </div>
 
       <form class="space-y-4" @submit="onSubmit">
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Full name</label>
-          <input v-bind="nameAttrs" v-model="name" type="text"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.name" class="font-lora text-xs text-red-500 mt-1">{{ errors.name }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Full name</label
+          >
+          <input
+            v-bind="nameAttrs"
+            v-model="name"
+            type="text"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.name" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.name }}
+          </p>
         </div>
 
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Phone number</label>
-          <input v-bind="phoneAttrs" v-model="phone" type="tel"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.phone" class="font-lora text-xs text-red-500 mt-1">{{ errors.phone }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Phone number</label
+          >
+          <input
+            v-bind="phoneAttrs"
+            v-model="phone"
+            type="tel"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.phone" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.phone }}
+          </p>
         </div>
 
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Email</label>
-          <input v-bind="emailAttrs" v-model="email" type="email"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.email" class="font-lora text-xs text-red-500 mt-1">{{ errors.email }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Email</label
+          >
+          <input
+            v-bind="emailAttrs"
+            v-model="email"
+            type="email"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.email" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.email }}
+          </p>
         </div>
 
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Password</label>
-          <input v-bind="passwordAttrs" v-model="password" type="password"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.password" class="font-lora text-xs text-red-500 mt-1">{{ errors.password }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Password</label
+          >
+          <input
+            v-bind="passwordAttrs"
+            v-model="password"
+            type="password"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.password" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.password }}
+          </p>
         </div>
 
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Confirm password</label>
-          <input v-bind="passwordConfirmationAttrs" v-model="passwordConfirmation" type="password"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.passwordConfirmation" class="font-lora text-xs text-red-500 mt-1">{{ errors.passwordConfirmation }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Confirm password</label
+          >
+          <input
+            v-bind="passwordConfirmationAttrs"
+            v-model="passwordConfirmation"
+            type="password"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p
+            v-if="errors.passwordConfirmation"
+            class="font-lora text-xs text-red-500 mt-1"
+          >
+            {{ errors.passwordConfirmation }}
+          </p>
         </div>
 
-        <p v-if="serverError" class="font-lora text-sm text-red-600">{{ serverError }}</p>
+        <p v-if="serverError" class="font-lora text-sm text-red-600">
+          {{ serverError }}
+        </p>
 
-        <button type="submit" :disabled="authStore.loading"
-          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition">
-          {{ authStore.loading ? 'Creating account…' : 'Create account' }}
+        <button
+          type="submit"
+          :disabled="authStore.loading"
+          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition"
+        >
+          {{ authStore.loading ? "Creating account…" : "Create account" }}
         </button>
       </form>
 
       <p class="text-center font-lora text-sm text-slate-500 mt-6">
         Already have an account?
-        <NuxtLink to="/login" class="text-fy-teal-300 font-medium hover:underline">Sign in</NuxtLink>
+        <NuxtLink
+          to="/login"
+          class="text-fy-teal-300 font-medium hover:underline"
+          >Sign in</NuxtLink
+        >
       </p>
     </div>
   </div>
@@ -1247,103 +1439,146 @@ onMounted(() => {
 ```vue
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/valibot'
-import { OtpSchema } from '~/schemas/auth.schemas'
+// zodSchema auto-imported from utils/zodSchema.ts
+import { OtpSchema } from "~/schemas/auth.schemas";
 
 // No auth middleware — user is not logged in yet
-const authStore = useAuthStore()
-const route = useRoute()
+const authStore = useAuthStore();
+const route = useRoute();
 
-const purpose = computed(() => route.query.purpose as 'register' | 'reset_password')
-const email = computed(() => route.query.email as string)
+const purpose = computed(
+  () => route.query.purpose as "register" | "reset_password",
+);
+const email = computed(() => route.query.email as string);
 
 // Guard: purpose and email must be present
-if (!purpose.value || !email.value) await navigateTo('/login')
+if (!purpose.value || !email.value) await navigateTo("/login");
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: toTypedSchema(OtpSchema),
-})
-const [otp, otpAttrs] = defineField('otp')
+  validationSchema: zodSchema(OtpSchema),
+});
+const [otp, otpAttrs] = defineField("otp");
 
-const serverError = ref('')
-const successMessage = ref('')
+const serverError = ref("");
+const successMessage = ref("");
 
 // ── Resend cooldown — local state only, does not need to survive navigation ────
-const resendCooldown = ref(0)
-let cooldownTimer: ReturnType<typeof setInterval> | null = null
+const resendCooldown = ref(0);
+let cooldownTimer: ReturnType<typeof setInterval> | null = null;
 
 function startCooldown() {
-  resendCooldown.value = 60
+  resendCooldown.value = 60;
   cooldownTimer = setInterval(() => {
-    resendCooldown.value--
+    resendCooldown.value--;
     if (resendCooldown.value <= 0 && cooldownTimer) {
-      clearInterval(cooldownTimer)
-      cooldownTimer = null
+      clearInterval(cooldownTimer);
+      cooldownTimer = null;
     }
-  }, 1000)
+  }, 1000);
 }
 
 onUnmounted(() => {
-  if (cooldownTimer) clearInterval(cooldownTimer)
-})
+  if (cooldownTimer) clearInterval(cooldownTimer);
+});
 
 // ── Submit OTP ─────────────────────────────────────────────────────────────────
 const onSubmit = handleSubmit(async (values) => {
-  serverError.value = ''
+  serverError.value = "";
   try {
-    await authStore.verifyOtp({ email: email.value, otp: values.otp, purpose: purpose.value })
+    await authStore.verifyOtp({
+      email: email.value,
+      otp: values.otp,
+      purpose: purpose.value,
+    });
 
-    if (purpose.value === 'register') {
-      successMessage.value = 'Email verified! Redirecting to sign in…'
-      setTimeout(() => navigateTo('/login'), 1200)
-    }
-    else {
+    if (purpose.value === "register") {
+      successMessage.value = "Email verified! Redirecting to sign in…";
+      setTimeout(() => navigateTo("/login"), 1200);
+    } else {
       // reset_token is now stored in authStore.resetToken — go to reset-password
-      await navigateTo(`/reset-password?email=${encodeURIComponent(email.value)}`)
+      await navigateTo(
+        `/reset-password?email=${encodeURIComponent(email.value)}`,
+      );
     }
+  } catch {
+    serverError.value = authStore.error || "Invalid or expired code.";
   }
-  catch { serverError.value = authStore.error || 'Invalid or expired code.' }
-})
+});
 
 // ── Resend OTP ─────────────────────────────────────────────────────────────────
 async function resend() {
-  if (resendCooldown.value > 0) return
-  serverError.value = ''
+  if (resendCooldown.value > 0) return;
+  serverError.value = "";
   try {
-    await authStore.resendOtp({ email: email.value, purpose: purpose.value })
-    successMessage.value = 'New code sent!'
-    startCooldown()
+    await authStore.resendOtp({ email: email.value, purpose: purpose.value });
+    successMessage.value = "New code sent!";
+    startCooldown();
+  } catch {
+    serverError.value =
+      authStore.error || "Could not resend. Try again shortly.";
   }
-  catch { serverError.value = authStore.error || 'Could not resend. Try again shortly.' }
 }
 
 const headingText = computed(() =>
-  purpose.value === 'register' ? 'Verify your email' : 'Enter reset code',
-)
+  purpose.value === "register" ? "Verify your email" : "Enter reset code",
+);
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8 text-center">
-      <h1 class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-2">{{ headingText }}</h1>
+  <div
+    class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8 text-center"
+    >
+      <h1
+        class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-2"
+      >
+        {{ headingText }}
+      </h1>
       <p class="font-lora text-sm text-slate-500 mb-6">
-        We sent a 6-digit code to <span class="font-medium text-fy-sage-900">{{ email }}</span>
+        We sent a 6-digit code to
+        <span class="font-medium text-fy-sage-900">{{ email }}</span>
       </p>
 
       <form class="space-y-4 text-left" @submit="onSubmit">
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">6-digit code</label>
-          <input v-bind="otpAttrs" v-model="otp" type="text" maxlength="6" autocomplete="one-time-code"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.otp" class="font-lora text-xs text-red-500 mt-1">{{ errors.otp }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >6-digit code</label
+          >
+          <input
+            v-bind="otpAttrs"
+            v-model="otp"
+            type="text"
+            maxlength="6"
+            autocomplete="one-time-code"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.otp" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.otp }}
+          </p>
         </div>
 
-        <p v-if="successMessage" class="font-lora text-sm text-fy-teal-300 text-center">{{ successMessage }}</p>
-        <p v-if="serverError" class="font-lora text-sm text-red-600 text-center">{{ serverError }}</p>
+        <p
+          v-if="successMessage"
+          class="font-lora text-sm text-fy-teal-300 text-center"
+        >
+          {{ successMessage }}
+        </p>
+        <p
+          v-if="serverError"
+          class="font-lora text-sm text-red-600 text-center"
+        >
+          {{ serverError }}
+        </p>
 
-        <button type="submit" :disabled="authStore.loading"
-          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition">
-          {{ authStore.loading ? 'Verifying…' : 'Verify code' }}
+        <button
+          type="submit"
+          :disabled="authStore.loading"
+          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition"
+        >
+          {{ authStore.loading ? "Verifying…" : "Verify code" }}
         </button>
       </form>
 
@@ -1352,8 +1587,11 @@ const headingText = computed(() =>
         <button
           :disabled="resendCooldown > 0"
           class="text-fy-sky-500 font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
-          @click="resend">
-          {{ resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend code' }}
+          @click="resend"
+        >
+          {{
+            resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Resend code"
+          }}
         </button>
       </p>
     </div>
@@ -1368,52 +1606,83 @@ const headingText = computed(() =>
 ```vue
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/valibot'
-import { ForgotPasswordSchema } from '~/schemas/auth.schemas'
+// zodSchema auto-imported from utils/zodSchema.ts
+import { ForgotPasswordSchema } from "~/schemas/auth.schemas";
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: toTypedSchema(ForgotPasswordSchema),
-})
-const [email, emailAttrs] = defineField('email')
+  validationSchema: zodSchema(ForgotPasswordSchema),
+});
+const [email, emailAttrs] = defineField("email");
 
-const serverError = ref('')
+const serverError = ref("");
 
 const onSubmit = handleSubmit(async (values) => {
-  serverError.value = ''
+  serverError.value = "";
   try {
-    await authStore.forgotPassword({ email: values.email })
-    await navigateTo(`/verify-otp?purpose=reset_password&email=${encodeURIComponent(values.email)}`)
+    await authStore.forgotPassword({ email: values.email });
+    await navigateTo(
+      `/verify-otp?purpose=reset_password&email=${encodeURIComponent(values.email)}`,
+    );
+  } catch {
+    serverError.value = authStore.error || "Something went wrong";
   }
-  catch { serverError.value = authStore.error || 'Something went wrong' }
-})
+});
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8">
-      <h1 class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-1">Reset your password</h1>
-      <p class="font-lora text-sm text-slate-500 mb-6">We'll email you a reset code</p>
+  <div
+    class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8"
+    >
+      <h1
+        class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-1"
+      >
+        Reset your password
+      </h1>
+      <p class="font-lora text-sm text-slate-500 mb-6">
+        We'll email you a reset code
+      </p>
 
       <form class="space-y-4" @submit="onSubmit">
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Email</label>
-          <input v-bind="emailAttrs" v-model="email" type="email"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.email" class="font-lora text-xs text-red-500 mt-1">{{ errors.email }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Email</label
+          >
+          <input
+            v-bind="emailAttrs"
+            v-model="email"
+            type="email"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.email" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.email }}
+          </p>
         </div>
 
-        <p v-if="serverError" class="font-lora text-sm text-red-600">{{ serverError }}</p>
+        <p v-if="serverError" class="font-lora text-sm text-red-600">
+          {{ serverError }}
+        </p>
 
-        <button type="submit" :disabled="authStore.loading"
-          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition">
-          {{ authStore.loading ? 'Sending…' : 'Send reset code' }}
+        <button
+          type="submit"
+          :disabled="authStore.loading"
+          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition"
+        >
+          {{ authStore.loading ? "Sending…" : "Send reset code" }}
         </button>
       </form>
 
       <p class="text-center font-lora text-sm text-slate-500 mt-6">
-        <NuxtLink to="/login" class="text-fy-sky-500 font-medium hover:underline">Back to sign in</NuxtLink>
+        <NuxtLink
+          to="/login"
+          class="text-fy-sky-500 font-medium hover:underline"
+          >Back to sign in</NuxtLink
+        >
       </p>
     </div>
   </div>
@@ -1427,66 +1696,105 @@ const onSubmit = handleSubmit(async (values) => {
 ```vue
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/valibot'
-import { ResetPasswordSchema } from '~/schemas/auth.schemas'
+// zodSchema auto-imported from utils/zodSchema.ts
+import { ResetPasswordSchema } from "~/schemas/auth.schemas";
 
-const authStore = useAuthStore()
-const route = useRoute()
+const authStore = useAuthStore();
+const route = useRoute();
 
 // Guard — if reset_token is missing the user got here without verifying OTP
-if (!authStore.resetToken) await navigateTo('/forgot-password')
+if (!authStore.resetToken) await navigateTo("/forgot-password");
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: toTypedSchema(ResetPasswordSchema),
-})
-const [password, passwordAttrs] = defineField('password')
-const [passwordConfirmation, passwordConfirmationAttrs] = defineField('passwordConfirmation')
+  validationSchema: zodSchema(ResetPasswordSchema),
+});
+const [password, passwordAttrs] = defineField("password");
+const [passwordConfirmation, passwordConfirmationAttrs] = defineField(
+  "passwordConfirmation",
+);
 
-const serverError = ref('')
-const successMessage = ref('')
+const serverError = ref("");
+const successMessage = ref("");
 
 const onSubmit = handleSubmit(async (values) => {
-  serverError.value = ''
+  serverError.value = "";
   try {
     await authStore.resetPassword({
-      email: route.query.email as string,  // passed through query from /forgot-password → /verify-otp → here
-      resetToken: authStore.resetToken!,   // guaranteed non-null by the guard above
+      email: route.query.email as string, // passed through query from /forgot-password → /verify-otp → here
+      resetToken: authStore.resetToken!, // guaranteed non-null by the guard above
       password: values.password,
       passwordConfirmation: values.passwordConfirmation,
-    })
-    successMessage.value = 'Password reset. Redirecting to sign in…'
-    setTimeout(() => navigateTo('/login'), 1500)
+    });
+    successMessage.value = "Password reset. Redirecting to sign in…";
+    setTimeout(() => navigateTo("/login"), 1500);
+  } catch {
+    serverError.value = authStore.error || "Reset token is invalid or expired";
   }
-  catch { serverError.value = authStore.error || 'Reset token is invalid or expired' }
-})
+});
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8">
-      <h1 class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-6">Set a new password</h1>
+  <div
+    class="min-h-screen flex items-center justify-center bg-fy-teal-50 px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-fy-teal-50 p-6 sm:p-8"
+    >
+      <h1
+        class="font-poppins text-xl sm:text-2xl font-semibold text-fy-sage-900 mb-6"
+      >
+        Set a new password
+      </h1>
 
       <form class="space-y-4" @submit="onSubmit">
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">New password</label>
-          <input v-bind="passwordAttrs" v-model="password" type="password"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.password" class="font-lora text-xs text-red-500 mt-1">{{ errors.password }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >New password</label
+          >
+          <input
+            v-bind="passwordAttrs"
+            v-model="password"
+            type="password"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p v-if="errors.password" class="font-lora text-xs text-red-500 mt-1">
+            {{ errors.password }}
+          </p>
         </div>
 
         <div>
-          <label class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1">Confirm new password</label>
-          <input v-bind="passwordConfirmationAttrs" v-model="passwordConfirmation" type="password"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300" />
-          <p v-if="errors.passwordConfirmation" class="font-lora text-xs text-red-500 mt-1">{{ errors.passwordConfirmation }}</p>
+          <label
+            class="block font-poppins text-sm font-medium text-fy-sage-900 mb-1"
+            >Confirm new password</label
+          >
+          <input
+            v-bind="passwordConfirmationAttrs"
+            v-model="passwordConfirmation"
+            type="password"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-lora focus:outline-none focus:ring-2 focus:ring-fy-teal-300"
+          />
+          <p
+            v-if="errors.passwordConfirmation"
+            class="font-lora text-xs text-red-500 mt-1"
+          >
+            {{ errors.passwordConfirmation }}
+          </p>
         </div>
 
-        <p v-if="successMessage" class="font-lora text-sm text-fy-teal-300">{{ successMessage }}</p>
-        <p v-if="serverError" class="font-lora text-sm text-red-600">{{ serverError }}</p>
+        <p v-if="successMessage" class="font-lora text-sm text-fy-teal-300">
+          {{ successMessage }}
+        </p>
+        <p v-if="serverError" class="font-lora text-sm text-red-600">
+          {{ serverError }}
+        </p>
 
-        <button type="submit" :disabled="authStore.loading"
-          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition">
-          {{ authStore.loading ? 'Resetting…' : 'Reset password' }}
+        <button
+          type="submit"
+          :disabled="authStore.loading"
+          class="w-full bg-fy-orange-300 hover:opacity-90 disabled:opacity-60 text-white font-poppins font-medium rounded-lg py-2.5 px-6 text-sm transition"
+        >
+          {{ authStore.loading ? "Resetting…" : "Reset password" }}
         </button>
       </form>
     </div>
@@ -1498,11 +1806,11 @@ const onSubmit = handleSubmit(async (values) => {
 
 ## 15. Files to delete
 
-| File | Reason |
-|------|--------|
-| `composables/useApi.ts` | Replaced by `plugins/api.ts` (`$api`). No call-sites existed outside its own definition — safe to delete. |
-| `pages/verify-email.vue` | Replaced by `pages/verify-otp.vue` |
-| `pages/verify-email/[token].vue` | Replaced by `pages/verify-otp.vue` |
+| File                             | Reason                                                                                                    |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `composables/useApi.ts`          | Replaced by `plugins/api.ts` (`$api`). No call-sites existed outside its own definition — safe to delete. |
+| `pages/verify-email.vue`         | Replaced by `pages/verify-otp.vue`                                                                        |
+| `pages/verify-email/[token].vue` | Replaced by `pages/verify-otp.vue`                                                                        |
 
 ---
 
@@ -1511,6 +1819,7 @@ const onSubmit = handleSubmit(async (values) => {
 ### Google → existing email/password account (backend responsibility)
 
 When a user calls `POST /auth/google`, the backend must:
+
 1. Decode the `id_token` and verify it with Google's public key server-side
 2. Extract the email from the decoded token
 3. Check if that email already exists in the DB registered via email/password
@@ -1546,7 +1855,7 @@ Implement in this exact sequence to avoid import errors:
 5. `plugins/api.ts` — new file (the authenticated `$api` plugin)
 6. `services/auth.service.ts` — new file
 7. `stores/auth.ts` — full content replacement
-8. `nuxt.config.ts` — **additive only**: `googleClientId` + missing route rules + `@vee-validate/nuxt` module + `fonts` config
+8. `nuxt.config.ts` — **additive only**: `googleClientId` + missing route rules + `@vee-validate/nuxt` module + `fonts` config (install: `npm install @vee-validate/nuxt zod @vee-validate/zod`)
 9. `assets/css/main.css` — add `@theme {}` color/font tokens
 10. `middleware/auth.ts` — replace body (async, uses `isAuthenticated`)
 11. `middleware/guest.ts` — replace body (async, uses `isAuthenticated`)

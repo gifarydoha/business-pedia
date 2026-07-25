@@ -31,9 +31,9 @@
     "pinia": "^4.0.2",
     "tailwindcss": "^4.3.3",
     "tailwindcss-animate": "^1.0.7",
-    "valibot": "^1.4.2",
     "vue": "^3.5.40",
-    "vue-router": "^5.2.0"
+    "vue-router": "^5.2.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.3",
@@ -43,5 +43,10 @@
     "eslint-plugin-tailwindcss": "^4.2.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.3.7"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1",
+    "sharp": "^0.35.3",
+    "brace-expansion": "^5.0.8"
   }
 }
