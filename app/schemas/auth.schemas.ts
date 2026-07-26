@@ -3,7 +3,7 @@ import { z } from "zod";
 export const RegisterSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters"),
-    phone: z.string().regex(/^(?:\+8801|01)[0-9]{9}$/, "Enter a valid Bangladeshi mobile number"),
+    phone: z.string().regex(/^(?:\+8801|8801|01)[0-9]{9}$/, "Enter a valid Bangladeshi mobile number"),
     email: z.email("Enter a valid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     passwordConfirmation: z.string(),

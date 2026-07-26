@@ -12,6 +12,22 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@vee-validate/nuxt",
   ],
+
+  $development: {
+    vite: {
+      server: {
+        warmup: {
+          clientFiles: [
+            "./app/pages/*.vue",
+            "./app/layouts/*.vue",
+          ],
+        },
+        watch: {
+          ignored: ["**/node_modules/**", "**/.nuxt/**"],
+        },
+      },
+    },
+  },
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
 
@@ -55,6 +71,16 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2025-07-15",
 
+  vite: {
+    optimizeDeps: {
+      include: [
+        "vee-validate",
+        "pinia",
+        "zod",
+      ],
+    },
+  },
+
   typescript: {
     strict: true,
     typeCheck: false,
@@ -96,6 +122,7 @@ export default defineNuxtConfig({
 
   // Sitemap
   sitemap: {
+    enabled: process.env.NODE_ENV !== "development",
     sources: [
       "/api/__sitemap__/urls",
     ],
