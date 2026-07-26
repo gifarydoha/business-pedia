@@ -1,6 +1,6 @@
 <!-- app/layouts/auth.vue -->
 <script setup lang="ts">
-// Layout for Login and Register pages.
+// Shared layout for authentication pages.
 // Displays a centered card with a minimal header.
 const settingsStore = useSettingsStore();
 const { buildImageUrl } = useImageUrl();

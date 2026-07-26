@@ -19,6 +19,7 @@ export default defineNuxtConfig({
         warmup: {
           clientFiles: [
             "./app/pages/*.vue",
+            "./app/pages/(auth)/*.vue",
             "./app/layouts/*.vue",
           ],
         },

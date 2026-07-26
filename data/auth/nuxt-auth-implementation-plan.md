@@ -1807,7 +1807,7 @@ const onSubmit = handleSubmit(async (values) => {
 ## 15. Files to delete
 
 | File                             | Reason                                                                                                    |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| ----------------------------------| -----------------------------------------------------------------------------------------------------------|
 | `composables/useApi.ts`          | Replaced by `plugins/api.ts` (`$api`). No call-sites existed outside its own definition — safe to delete. |
 | `pages/verify-email.vue`         | Replaced by `pages/verify-otp.vue`                                                                        |
 | `pages/verify-email/[token].vue` | Replaced by `pages/verify-otp.vue`                                                                        |
@@ -1888,3 +1888,15 @@ Implement in this exact sequence to avoid import errors:
 - [ ] Password reset → old refresh tokens invalidated server-side (confirm with backend dev)
 - [ ] Mobile viewport (375px): buttons full-width, cards don't touch edges, OTP input readable
 - [ ] Form validation fires before any network call: empty submit, invalid email, password < 8 chars, mismatch
+
+
+
+app/pages/auth/
+├── login.vue                  → /login
+├── register.vue               → /register
+├── password/
+│   ├── forgot.vue             → /forgot-password
+│   └── reset.vue              → /reset-password
+└── verification/
+    ├── otp.vue                → /verify-otp
+    └── email.vue              → /verify-email
