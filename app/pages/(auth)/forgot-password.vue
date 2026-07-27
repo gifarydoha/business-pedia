@@ -56,7 +56,7 @@ const onSubmit = handleSubmit(async (values) => {
         to="/login"
         class="font-medium text-fy-sky-500 hover:underline"
       >
-        Back to sign in
+        Back to Login
       </NuxtLink>
     </p>
   </AuthCard>

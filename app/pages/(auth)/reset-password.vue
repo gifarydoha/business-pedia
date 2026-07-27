@@ -27,7 +27,7 @@ const onSubmit = handleSubmit(async (values) => {
       password: values.password,
       passwordConfirmation: values.passwordConfirmation,
     });
-    successMessage.value = "Password reset. Redirecting to sign in…";
+    successMessage.value = "Password reset. Redirecting to Login…";
     setTimeout(() => navigateTo("/login"), 1500);
   }
   catch {

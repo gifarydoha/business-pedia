@@ -122,7 +122,7 @@ onMounted(() => {
         to="/login"
         class="font-medium text-fy-teal-300 hover:underline"
       >
-        Sign in
+        Login
       </NuxtLink>
     </p>
   </AuthCard>

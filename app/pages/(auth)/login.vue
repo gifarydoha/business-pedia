@@ -50,7 +50,7 @@ onMounted(() => {
 <template>
   <AuthCard
     heading="Welcome back"
-    subtitle="Sign in to continue your journey"
+    subtitle="Login to continue your journey"
   >
     <div
       ref="googleBtnRef"
