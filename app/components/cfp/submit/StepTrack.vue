@@ -2,7 +2,7 @@
 import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
 import { CONFERENCE_TRACKS } from "~/types/submission";
 
-const { form, nextStep, skipStep } = useSubmissionWizard();
+const { form, nextStep } = useSubmissionWizard();
 </script>
 
 <template>
@@ -39,13 +39,6 @@ const { form, nextStep, skipStep } = useSubmissionWizard();
         @click="nextStep"
       >
         Continue &gt;&gt;
-      </button>
-      <button
-        type="button"
-        class="font-poppins text-sm text-cfp-olive underline"
-        @click="skipStep"
-      >
-        Skip
       </button>
     </div>
   </div>

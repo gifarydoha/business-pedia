@@ -1,8 +1,14 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
 import { COUNTRIES } from "~/types/submission";
 
-const { form, addAuthor, removeAuthor, nextStep, prevStep, skipStep } = useSubmissionWizard();
+const { form, addAuthor, removeAuthor, nextStep, prevStep } = useSubmissionWizard();
+
+const isAuthorsValid = computed(() => {
+  if (form.value.authors.length === 0) return false;
+  return form.value.authors.every((a) => a.firstName && a.lastName && a.email && a.country && a.organization);
+});
 </script>
 
 <template>
@@ -125,17 +131,11 @@ const { form, addAuthor, removeAuthor, nextStep, prevStep, skipStep } = useSubmi
       </button>
       <button
         type="button"
-        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white"
+        :disabled="!isAuthorsValid"
+        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
         @click="nextStep"
       >
         Save and Continue &gt;&gt;
-      </button>
-      <button
-        type="button"
-        class="font-poppins text-sm text-cfp-olive underline"
-        @click="skipStep"
-      >
-        Skip
       </button>
     </div>
   </div>

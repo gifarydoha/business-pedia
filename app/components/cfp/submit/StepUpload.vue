@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
 
-const { form, nextStep, prevStep, submit } = useSubmissionWizard();
+const { form, nextStep, prevStep } = useSubmissionWizard();
 
 const handleFile = (e: Event) => {
   const target = e.target as HTMLInputElement;
@@ -9,7 +9,6 @@ const handleFile = (e: Event) => {
 };
 
 const handleSubmit = () => {
-  submit();
   nextStep(); // lands on the preview step
 };
 </script>
@@ -62,10 +61,10 @@ const handleSubmit = () => {
       <button
         type="button"
         :disabled="!form.paperFile"
-        class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
         @click="handleSubmit"
       >
-        Submit
+        Preview
       </button>
     </div>
   </div>

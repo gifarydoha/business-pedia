@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { toRaw } from "vue";
 import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
 
-const { form, goToStep } = useSubmissionWizard();
+const { form, goToStep, submit } = useSubmissionWizard();
+
+const handleSubmit = () => {
+  submit();
+  console.log("Submitted Data:", toRaw(form.value));
+};
 </script>
 
 <template>
@@ -95,5 +101,15 @@ const { form, goToStep } = useSubmissionWizard();
         Include in proceedings: {{ form.includeInProceedings ? 'Yes' : 'No' }}
       </p>
     </section>
+
+    <div class="mt-8 flex justify-end">
+      <button
+        type="button"
+        class="rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white shadow hover:opacity-90 transition-opacity"
+        @click="handleSubmit"
+      >
+        Submit Form
+      </button>
+    </div>
   </div>
 </template>
