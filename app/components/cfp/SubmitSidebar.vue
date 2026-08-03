@@ -49,8 +49,8 @@ defineProps<{
             v-for="d in [
               { label: 'Submission opens', date: '10 March 2026', urgent: false },
               { label: 'Notification', date: '20 Sep 2026', urgent: false },
-              { label: 'Deadline', date: '31 Jan 2024', urgent: true },
-              { label: 'Conference', date: '1–2 Apr 2024', urgent: false },
+              { label: 'Deadline', date: '31 Jan 2027', urgent: true },
+              { label: 'Conference', date: '1–2 Apr 2027', urgent: false },
             ]"
             :key="d.label"
             class="flex items-start justify-between gap-3"

@@ -62,7 +62,7 @@ onUnmounted(() => {
           Submission deadline
         </p>
         <p class="font-lora text-base font-bold text-cfp-red">
-          31 January 2024
+          31 January 2027
         </p>
         <NuxtLink
           to="/submit-paper"

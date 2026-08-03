@@ -7,7 +7,7 @@
         Ready to submit your paper?
       </h3>
       <p class="font-poppins text-sm text-white/70">
-        Deadline: <span class="font-semibold text-cfp-yellow">31 January 2024</span> · Bangladesh Standard Time
+        Deadline: <span class="font-semibold text-cfp-yellow">31 January 2027</span> · Bangladesh Standard Time
       </p>
     </div>
     <div class="flex shrink-0 flex-wrap gap-4">

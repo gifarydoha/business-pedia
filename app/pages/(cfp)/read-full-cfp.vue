@@ -16,7 +16,7 @@ useSeoMeta({
         class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-6 py-4 sm:flex-row sm:items-center"
       >
         <p class="font-poppins text-sm text-white/80">
-          Submission deadline: <span class="font-semibold text-cfp-yellow">31 January 2024</span>
+          Submission deadline: <span class="font-semibold text-cfp-yellow">31 January 2027</span>
         </p>
         <NuxtLink
           to="/submit-paper"
