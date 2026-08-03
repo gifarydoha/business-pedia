@@ -3,6 +3,7 @@
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth"], // Basic auth for now, role can be added later
+  path: "/_deprecated/submit-paper",
 });
 
 useSeoMeta({ title: "Submit a Paper" });

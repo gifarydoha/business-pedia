@@ -11,14 +11,14 @@ const contacts = computed(() => settingsStore.cfpContacts);
     <div class="mx-auto max-w-6xl px-6">
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
-          Submission
+          Contacts
         </span>
         <h2 class="mt-2 mb-6 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
-          Submission & Contacts
+          Contacts Persons
         </h2>
 
         <!-- Peer review blurb -->
-        <div class="mb-8 max-w-3xl rounded-2xl border border-cfp-olive/15 bg-white p-8 shadow-lg">
+        <!-- <div class="mb-8 max-w-3xl rounded-2xl border border-cfp-olive/15 bg-white p-8 shadow-lg">
           <h3 class="mb-3 font-lora text-lg font-semibold text-cfp-olive">
             Peer-Review Process
           </h3>
@@ -44,13 +44,13 @@ const contacts = computed(() => settingsStore.cfpContacts);
               Author Instructions
             </a>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Contacts -->
-      <h3 class="mb-6 font-lora text-xl font-semibold text-cfp-olive">
+      <!-- <h3 class="mb-6 font-lora text-xl font-semibold text-cfp-olive">
         Contact Persons
-      </h3>
+      </h3> -->
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div
           v-for="c in contacts"

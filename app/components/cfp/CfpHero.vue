@@ -41,13 +41,13 @@ const settingsStore = useSettingsStore();
 
       <div class="flex flex-wrap gap-4">
         <a
-          href="#submit"
+          href="/submit-paper"
           class="rounded-full bg-cfp-red px-8 py-3 font-lora text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
         >
           Submit Your Paper
         </a>
         <a
-          href="#about"
+          href="/read-full-cfp"
           class="rounded-full border-2 border-white px-8 py-3 font-lora text-base font-bold text-white transition-colors hover:bg-white/10"
         >
           Read Full CFP

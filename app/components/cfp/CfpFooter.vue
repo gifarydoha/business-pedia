@@ -1,39 +1,39 @@
 <script setup lang="ts">
 const settingsStore = useSettingsStore();
-const { buildImageUrl } = useImageUrl();
+// const { buildImageUrl } = useImageUrl();
 
-const logo = computed(() => buildImageUrl(settingsStore.org?.logo));
-const orgName = computed(() => settingsStore.org?.name ?? "SBAC 2026");
+// const logo = computed(() => buildImageUrl(settingsStore.org?.logo));
+// const orgName = computed(() => settingsStore.org?.name ?? "SBAC 2026");
 
-const FALLBACK_NAV_LINKS = [
-  { label: "About", href: "/#about" },
-  { label: "Principles", href: "/#principles" },
-  { label: "Tracks", href: "/#tracks" },
-  { label: "Dates", href: "/#dates" },
-  { label: "Guidelines", href: "/guidelines" },
-  { label: "Submit Paper", href: "/submit-paper" },
-];
+// const FALLBACK_NAV_LINKS = [
+//   { label: "About", href: "/#about" },
+//   { label: "Principles", href: "/#principles" },
+//   { label: "Tracks", href: "/#tracks" },
+//   { label: "Dates", href: "/#dates" },
+//   { label: "Guidelines", href: "/guidelines" },
+//   { label: "Submit Paper", href: "/submit-paper" },
+// ];
 
-const getHref = (item: { url?: string; link?: string }) => {
-  const target = item.url || item.link;
-  if (!target) return "/";
-  return target.startsWith("/") ? target : `/${target}`;
-};
+// const getHref = (item: { url?: string; link?: string }) => {
+//   const target = item.url || item.link;
+//   if (!target) return "/";
+//   return target.startsWith("/") ? target : `/${target}`;
+// };
 
-const navLinks = computed(() => {
-  if (settingsStore.mainMenu && settingsStore.mainMenu.length > 0) {
-    return settingsStore.mainMenu.map((item) => ({
-      label: item.label,
-      href: getHref(item),
-    }));
-  }
-  return FALLBACK_NAV_LINKS;
-});
+// const navLinks = computed(() => {
+//   if (settingsStore.mainMenu && settingsStore.mainMenu.length > 0) {
+//     return settingsStore.mainMenu.map((item) => ({
+//       label: item.label,
+//       href: getHref(item),
+//     }));
+//   }
+//   return FALLBACK_NAV_LINKS;
+// });
 </script>
 
 <template>
   <footer class="bg-cfp-olive-dark text-white/75">
-    <div class="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-3">
+    <!-- <div class="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-3">
       <div>
         <div class="mb-4 flex items-center gap-3">
           <NuxtImg
@@ -98,7 +98,7 @@ const navLinks = computed(() => {
           {{ settingsStore.cfpHero.portalUrl.replace(/^https?:\/\//, '') }}
         </a>
       </div>
-    </div>
+    </div> -->
 
     <div class="border-t border-white/10">
       <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row">

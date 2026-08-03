@@ -52,23 +52,19 @@ const tracks = [
     <!-- Header -->
     <div class="mb-10">
       <span
-        class="mb-4 inline-block rounded-full bg-cfp-yellow/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase"
-      >
+        class="mb-4 inline-block rounded-full bg-cfp-yellow/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase">
         Call for Papers
       </span>
       <h1 class="mb-3 font-lora text-3xl leading-tight font-bold text-cfp-olive md:text-4xl lg:text-5xl">
         13th Social Business Academia Conference 2026
       </h1>
       <p class="font-lora text-lg text-cfp-yellow italic md:text-xl">
-        December 2026 · Berlin
+        November 2026 · Bangkok
       </p>
     </div>
 
     <!-- Overview -->
-    <section
-      id="overview"
-      class="mb-12 scroll-mt-24"
-    >
+    <section id="overview" class="mb-12 scroll-mt-24">
       <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
         Overview
       </h2>
@@ -90,7 +86,7 @@ const tracks = [
         </p>
         <p>
           Social Business Academia Conference (SBAC 2026), an interdisciplinary conference,
-          is to be held on 13 December 2026 in Berlin. This notice is to help give you time
+          is to be held on 13 November 2026 in Bangkok. This notice is to help give you time
           to prepare a submission. We invite academic papers, practitioner cases, and
           concept notes on innovative ideas on any issues related to social business.
         </p>
@@ -102,10 +98,7 @@ const tracks = [
     </section>
 
     <!-- Tracks -->
-    <section
-      id="tracks"
-      class="mb-12 scroll-mt-24"
-    >
+    <section id="tracks" class="mb-12 scroll-mt-24">
       <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
         General Subjects for Conference Papers
       </h2>
@@ -114,14 +107,9 @@ const tracks = [
         tracks:
       </p>
       <ol class="space-y-3">
-        <li
-          v-for="(t, i) in tracks"
-          :key="i"
-          class="flex items-start gap-3"
-        >
+        <li v-for="(t, i) in tracks" :key="i" class="flex items-start gap-3">
           <span
-            class="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-cfp-olive font-lora text-xs font-bold text-white"
-          >
+            class="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-cfp-olive font-lora text-xs font-bold text-white">
             {{ i + 1 }}
           </span>
           <span class="font-poppins leading-relaxed text-gray-700">{{ t }}</span>
@@ -130,10 +118,7 @@ const tracks = [
     </section>
 
     <!-- Principles -->
-    <section
-      id="principles"
-      class="mb-12 scroll-mt-24"
-    >
+    <section id="principles" class="mb-12 scroll-mt-24">
       <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
         7 Principles of Social Business
       </h2>
@@ -148,14 +133,9 @@ const tracks = [
         </p>
       </div>
       <ol class="space-y-4">
-        <li
-          v-for="(p, i) in principles"
-          :key="i"
-          class="flex items-start gap-4"
-        >
+        <li v-for="(p, i) in principles" :key="i" class="flex items-start gap-4">
           <span
-            class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-cfp-olive font-lora text-sm font-bold text-white"
-          >
+            class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-cfp-olive font-lora text-sm font-bold text-white">
             {{ i + 1 }}
           </span>
           <span class="font-poppins leading-relaxed text-gray-700">{{ p }}</span>
@@ -164,10 +144,7 @@ const tracks = [
     </section>
 
     <!-- Themes -->
-    <section
-      id="themes"
-      class="mb-12 scroll-mt-24"
-    >
+    <section id="themes" class="mb-12 scroll-mt-24">
       <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
         Paper Themes
       </h2>
@@ -175,11 +152,7 @@ const tracks = [
         This provides wide scope for themes of papers, which, in the past, have covered:
       </p>
       <div class="grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-2">
-        <div
-          v-for="(th, i) in themes"
-          :key="i"
-          class="flex items-start gap-2.5"
-        >
+        <div v-for="(th, i) in themes" :key="i" class="flex items-start gap-2.5">
           <span class="mt-2 size-1.5 shrink-0 rounded-full bg-cfp-yellow" />
           <span class="font-poppins text-sm leading-relaxed text-gray-700">{{ th }}</span>
         </div>
@@ -190,10 +163,7 @@ const tracks = [
     </section>
 
     <!-- Submission -->
-    <section
-      id="submission"
-      class="mb-12 scroll-mt-24"
-    >
+    <section id="submission" class="mb-12 scroll-mt-24">
       <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
         Submission Details
       </h2>
@@ -218,16 +188,12 @@ const tracks = [
         </p>
       </div>
       <div class="mt-8 flex flex-wrap gap-4">
-        <NuxtLink
-          to="/submit-paper"
-          class="rounded-full bg-cfp-red px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
-        >
+        <NuxtLink to="/submit-paper"
+          class="rounded-full bg-cfp-red px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90">
           Submit Your Paper
         </NuxtLink>
-        <NuxtLink
-          to="/guidelines"
-          class="rounded-full border-2 border-cfp-olive px-8 py-3 font-lora font-bold text-cfp-olive transition-colors hover:bg-cfp-olive/5"
-        >
+        <NuxtLink to="/guidelines"
+          class="rounded-full border-2 border-cfp-olive px-8 py-3 font-lora font-bold text-cfp-olive transition-colors hover:bg-cfp-olive/5">
           Author Guidelines
         </NuxtLink>
       </div>

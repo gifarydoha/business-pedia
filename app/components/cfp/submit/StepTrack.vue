@@ -1,0 +1,52 @@
+<script setup lang="ts">
+import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
+import { CONFERENCE_TRACKS } from "~/types/submission";
+
+const { form, nextStep, skipStep } = useSubmissionWizard();
+</script>
+
+<template>
+  <div>
+    <h2 class="mb-1 font-lora text-lg font-bold text-cfp-olive">
+      Conference Track Selection
+    </h2>
+    <p class="mb-5 font-poppins text-sm text-gray-500">
+      Please select a track to proceed with your submission.
+    </p>
+
+    <div class="mb-8 space-y-3">
+      <label
+        v-for="t in CONFERENCE_TRACKS"
+        :key="t"
+        class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-colors"
+        :class="form.track === t ? 'border-cfp-olive bg-cfp-olive-pale' : 'border-cfp-olive/20 hover:border-cfp-olive/40'"
+      >
+        <input
+          v-model="form.track"
+          type="radio"
+          :value="t"
+          class="accent-cfp-olive"
+        >
+        <span class="font-poppins text-sm text-gray-700">{{ t }}</span>
+      </label>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <button
+        type="button"
+        :disabled="!form.track"
+        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+        @click="nextStep"
+      >
+        Continue &gt;&gt;
+      </button>
+      <button
+        type="button"
+        class="font-poppins text-sm text-cfp-olive underline"
+        @click="skipStep"
+      >
+        Skip
+      </button>
+    </div>
+  </div>
+</template>

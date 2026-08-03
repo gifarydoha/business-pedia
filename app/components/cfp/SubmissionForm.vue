@@ -310,7 +310,7 @@ const inputClass = (hasError: boolean) =>
         <div class="space-y-3">
           <label
             v-for="opt in [
-              { val: 'in-person', label: 'In-person', desc: 'Attend and present in Berlin (recommended)' },
+              { val: 'in-person', label: 'In-person', desc: 'Attend and present in Bangkok (recommended)' },
               { val: 'online', label: 'Online', desc: 'Present remotely via the conference platform' },
             ]"
             :key="opt.val"
