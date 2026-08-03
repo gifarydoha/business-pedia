@@ -2,27 +2,27 @@
 const dates = [
   {
     label: "Submission Opens",
-    date: "10 March 2023",
+    date: "10 March 2026",
     urgent: false,
   },
   {
     label: "Notification of Acceptance",
-    date: "20 September 2023",
+    date: "20 September 2026",
     urgent: false,
   },
   {
     label: "Camera-Ready Submission",
-    date: "25 September 2025",
+    date: "25 September 2026",
     urgent: false,
   },
   {
     label: "Deadline for Submissions",
-    date: "31 January 2024",
+    date: "31 January 2027",
     urgent: true,
   },
   {
     label: "Conference Days",
-    date: "1–2 April 2024",
+    date: "1–2 April 2027",
     urgent: false,
   },
 ];
