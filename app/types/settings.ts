@@ -13,4 +13,5 @@ export interface AppSettings {
   widgets: Widgets;
   homeSeoMeta: SeoMeta;
   homePageContent: PageContent;
+  cfpSettings?: import("./api").CfpSettings;
 }

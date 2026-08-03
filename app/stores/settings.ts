@@ -5,6 +5,7 @@
 
 import type { AppSettings } from "~/types/settings";
 import type { SettingsApiResponse } from "~/types/api";
+import { CFP_MOCK } from "~/data/cfp.mock";
 
 export const useSettingsStore = defineStore("settings", () => {
   // ─── State ───────────────────────────────────────────────────────────────
@@ -45,6 +46,17 @@ export const useSettingsStore = defineStore("settings", () => {
   });
 
   const homeSeoMeta = computed(() => settings.value?.homeSeoMeta ?? null);
+
+  // ─── CFP Getters ─────────────────────────────────────────────────────────
+  const cfp = computed(() => settings.value?.cfpSettings ?? CFP_MOCK);
+
+  const cfpHero = computed(() => cfp.value);
+  const cfpDates = computed(() => cfp.value.dates);
+  const cfpTracks = computed(() => cfp.value.tracks);
+  const cfpThemes = computed(() => cfp.value.themes);
+  const cfpPrinciples = computed(() => cfp.value.principles);
+  const cfpContacts = computed(() => cfp.value.contacts);
+  const cfpNextSteps = computed(() => cfp.value.nextSteps ?? []);
 
   // ─── Actions ─────────────────────────────────────────────────────────────
 
@@ -121,6 +133,13 @@ export const useSettingsStore = defineStore("settings", () => {
     sliderItems,
     homePageBlocks,
     homeSeoMeta,
+    cfpHero,
+    cfpDates,
+    cfpTracks,
+    cfpThemes,
+    cfpPrinciples,
+    cfpContacts,
+    cfpNextSteps,
     // Actions
     loadSettings,
     reset,

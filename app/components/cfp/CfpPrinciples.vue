@@ -1,41 +1,6 @@
 <script setup lang="ts">
-const principles = [
-  {
-    n: 1,
-    text: "Business objective will be to overcome poverty, or one or more problems (such as education, health, technology access, and environment) which threaten people and society.",
-    short: "Overcome Poverty & Social Problems",
-  },
-  {
-    n: 2,
-    text: "Financial and economic sustainability.",
-    short: "Financial Sustainability",
-  },
-  {
-    n: 3,
-    text: "Investors get back their investment amount only; no dividend is given beyond investment money.",
-    short: "No Dividend Beyond Investment",
-  },
-  {
-    n: 4,
-    text: "When investment amount is paid back, company profit stays with the company for expansion and improvement.",
-    short: "Profit Reinvested for Growth",
-  },
-  {
-    n: 5,
-    text: "Gender sensitive and environmentally conscious.",
-    short: "Gender & Environmentally Conscious",
-  },
-  {
-    n: 6,
-    text: "Workforce gets market wage with better working conditions.",
-    short: "Fair Wages & Better Conditions",
-  },
-  {
-    n: 7,
-    text: "Do it with joy.",
-    short: "Do It With Joy",
-  },
-];
+const settingsStore = useSettingsStore();
+const principles = computed(() => settingsStore.cfpPrinciples);
 </script>
 
 <template>

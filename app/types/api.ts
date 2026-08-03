@@ -239,3 +239,74 @@ export interface ApiError {
   errors?: Record<string, string[]>;
   status: number;
 }
+
+// ─────────────────────────────────────────────
+// CFP Settings Data
+// ─────────────────────────────────────────────
+export interface CfpDate {
+  label: string;
+  date: string;
+  urgent: boolean;
+}
+
+export interface CfpTrack {
+  label: string;
+  icon: string;
+  tag: string;
+}
+
+export interface CfpPrinciple {
+  n: number;
+  short: string;
+  text: string;
+}
+
+export interface CfpContact {
+  name: string;
+  title: string;
+  affiliation: string;
+  email: string;
+}
+
+export interface CfpHeroStat {
+  val: string;
+  label: string;
+}
+
+export interface CfpNextStep {
+  n: number;
+  title: string;
+  detail: string;
+}
+
+export interface CfpSettings {
+  conferenceName: string;
+  edition: string;
+  year: string;
+  location: string;
+  tagline: string;
+  description: string;
+  submissionDeadline: string;
+  portalUrl: string;
+  stats: CfpHeroStat[];
+  dates: CfpDate[];
+  tracks: CfpTrack[];
+  themes: string[];
+  principles: CfpPrinciple[];
+  contacts: CfpContact[];
+  peerReviewBlurb: string;
+  footerCopyright: string;
+  footerHostedBy: string;
+  nextSteps: CfpNextStep[];
+}
+
+export interface SubmissionFormData {
+  title: string;
+  authors: string;
+  affiliation: string;
+  track: string;
+  abstract: string;
+  presentationType: string;
+  email: string;
+  file: File | null;
+}

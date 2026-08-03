@@ -1,9 +1,11 @@
 <script setup lang="ts">
-definePageMeta({ layout: "cfp" });
+const settingsStore = useSettingsStore();
+
+definePageMeta({ layout: "cfp", path: "/" });
 
 useSeoMeta({
-  title: "Call for Papers — SBAC 2026",
-  description: "13th Social Business Academia Conference. Submit your paper on social business, poverty, SDGs, and related themes.",
+  title: computed(() => settingsStore.cfpHero.conferenceName ?? "SBAC 2026"),
+  description: computed(() => settingsStore.cfpHero.description ?? ""),
 });
 </script>
 

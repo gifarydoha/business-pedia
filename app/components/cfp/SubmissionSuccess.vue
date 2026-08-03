@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { CfpNextStep, SubmissionFormData } from "~/types/api";
+
 defineProps<{
-  form: any;
-  nextSteps: any[];
+  form: SubmissionFormData | null;
+  nextSteps: CfpNextStep[];
 }>();
 
 defineEmits<{

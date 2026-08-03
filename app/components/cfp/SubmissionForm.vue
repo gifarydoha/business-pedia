@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 
+import type { SubmissionFormData } from "~/types/api";
+
 const emit = defineEmits<{
-  (e: "success", form: any): void;
+  (e: "success", form: SubmissionFormData): void;
 }>();
 
 const tracks = [

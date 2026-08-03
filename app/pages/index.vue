@@ -1,6 +1,7 @@
 <!-- app/pages/index.vue -->
 <script setup lang="ts">
-definePageMeta({ layout: "default" });
+// DEPRECATED: The main homepage is now cfp.vue. This file is kept for reference.
+definePageMeta({ layout: "default", path: "/_deprecated/home" });
 
 const settingsStore = useSettingsStore();
 

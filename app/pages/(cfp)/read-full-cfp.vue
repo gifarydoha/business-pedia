@@ -1,8 +1,9 @@
 <script setup lang="ts">
+const settingsStore = useSettingsStore();
 definePageMeta({ layout: "cfp" });
 
 useSeoMeta({
-  title: "Call for Papers — SBAC 2026",
+  title: computed(() => `Call for Papers — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
 });
 </script>
 
@@ -16,7 +17,7 @@ useSeoMeta({
         class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-6 py-4 sm:flex-row sm:items-center"
       >
         <p class="font-poppins text-sm text-white/80">
-          Submission deadline: <span class="font-semibold text-cfp-yellow">31 January 2027</span>
+          Submission deadline: <span class="font-semibold text-cfp-yellow">{{ settingsStore.cfpHero.submissionDeadline }}</span>
         </p>
         <NuxtLink
           to="/submit-paper"

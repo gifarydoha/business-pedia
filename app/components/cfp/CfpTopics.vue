@@ -1,27 +1,7 @@
 <script setup lang="ts">
-const tracks = [
-  { label: "Health & Sport", icon: "🏥", tag: "Track 1" },
-  { label: "Education", icon: "🎓", tag: "Track 2" },
-  { label: "Technology & Artificial Intelligence", icon: "🤖", tag: "Track 3" },
-  { label: "Finance & the SDGs", icon: "💹", tag: "Track 4" },
-  { label: "Marketing & Entrepreneurship", icon: "📊", tag: "Track 5" },
-  { label: "Environment, Disaster Management & Pollution Control", icon: "🌱", tag: "Track 6" },
-];
-
-const themes = [
-  "Social business & COVID-19 pandemic",
-  "Poverty and wealth concentration",
-  "Sustainable development & climate change",
-  "Achieving UN SDGs via social business",
-  "Affordable healthcare for underserved populations",
-  "Technology for unreachable communities",
-  "Social business vs. CSR & social enterprise",
-  "Innovative financing (bonds, crowdfunding, VC)",
-  "Research & teaching methodologies",
-  "Measurement of social impact",
-  "Emerging management methodologies",
-  "Social business and AI & robotics",
-];
+const settingsStore = useSettingsStore();
+const tracks = computed(() => settingsStore.cfpTracks);
+const themes = computed(() => settingsStore.cfpThemes);
 </script>
 
 <template>

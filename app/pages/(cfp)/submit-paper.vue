@@ -1,50 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+
+import type { SubmissionFormData } from "~/types/api";
+
+const settingsStore = useSettingsStore();
 
 definePageMeta({ layout: "cfp" });
 
 useSeoMeta({
-  title: "Submit Your Paper — SBAC 2026",
+  title: computed(() => `Submit Your Paper — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
 });
 
-const nextSteps = [
-  {
-    n: 1,
-    title: "Acknowledgement email",
-    detail: "You will receive an automated confirmation email within 24 hours of submission.",
-  },
-  {
-    n: 2,
-    title: "Assignment to reviewers",
-    detail: "The Scientific Committee assigns your submission to two domain experts for double-blind peer review.",
-  },
-  {
-    n: 3,
-    title: "Review period",
-    detail: "Reviewers evaluate originality, methodology, and relevance. Allow 4–6 weeks for a decision.",
-  },
-  {
-    n: 4,
-    title: "Decision notification",
-    detail: "You will be notified of acceptance, revision request, or rejection by 20 September 2026.",
-  },
-  {
-    n: 5,
-    title: "Camera-ready submission",
-    detail: "If accepted, submit your final formatted paper by 25 September 2026 along with registration confirmation.",
-  },
-];
-
-interface SubmissionFormData {
-  title: string;
-  authors: string;
-  affiliation: string;
-  track: string;
-  abstract: string;
-  presentationType: string;
-  email: string;
-  file: File | null;
-}
+const nextSteps = computed(() => settingsStore.cfpNextSteps);
 
 const submitted = ref(false);
 const submittedForm = ref<SubmissionFormData | null>(null);

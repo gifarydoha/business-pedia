@@ -1,8 +1,9 @@
 <script setup lang="ts">
+const settingsStore = useSettingsStore();
 definePageMeta({ layout: "cfp" });
 
 useSeoMeta({
-  title: "Submission Guidelines — SBAC 2026",
+  title: computed(() => `Submission Guidelines — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
 });
 </script>
 
