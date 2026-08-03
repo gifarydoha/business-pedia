@@ -49,6 +49,14 @@
   --color-primary-sky: var(--color-primary-sky);
   --color-primary-grey: var(--color-primary-grey);
 
+  /* CFP Colors */
+  --color-cfp-olive: #707C44;
+  --color-cfp-olive-dark: #4d5730;
+  --color-cfp-olive-pale: #EFF1E8;
+  --color-cfp-cream: #FAF7F0;
+  --color-cfp-yellow: #F4A222;
+  --color-cfp-red: #CA493A;
+
   /* Theme Tokens */
   --color-section-bg-light: var(--color-section-bg-light);
   --color-footer-bg: var(--color-footer-bg);
