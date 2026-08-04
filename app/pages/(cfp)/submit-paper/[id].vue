@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
 
-definePageMeta({ layout: "cfp" });
+definePageMeta({ layout: "default" });
 useSeoMeta({ title: "Edit Paper Submission" });
 
 const { currentStep } = useSubmissionWizard();

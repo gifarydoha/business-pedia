@@ -72,6 +72,15 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2025-07-15",
 
+  nitro: {
+    prerender: {
+      // Don't fail the whole build if a dynamic route 404s during generation
+      failOnError: false,
+      // Ignore routes that require live API data and can't be statically pre-rendered
+      ignore: ["/api/__sitemap__/urls"],
+    },
+  },
+
   vite: {
     optimizeDeps: {
       include: [
@@ -124,8 +133,7 @@ export default defineNuxtConfig({
   // Sitemap
   sitemap: {
     enabled: process.env.NODE_ENV !== "development",
-    sources: [
-      "/api/__sitemap__/urls",
-    ],
+    // No dynamic API sources — they don't exist during static generation
+    // Link crawling is automatic in @nuxtjs/sitemap v8+ (no crawlLinks option needed)
   },
 });

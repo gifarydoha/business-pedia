@@ -3,6 +3,9 @@
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
 
+/* Ensure Tailwind v4 scans all source files during nuxt generate */
+@source "../../**/*.{vue,ts,js}";
+
 /* Theme CSS */
 
 @theme inline {

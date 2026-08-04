@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const settingsStore = useSettingsStore();
-definePageMeta({ layout: "cfp" });
+definePageMeta({ layout: "default" });
 
 useSeoMeta({
   title: computed(() => `Call for Papers — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
@@ -14,15 +14,13 @@ useSeoMeta({
     <!-- Top CTA strip -->
     <div class="bg-cfp-olive">
       <div
-        class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-6 py-4 sm:flex-row sm:items-center"
-      >
+        class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-6 py-4 sm:flex-row sm:items-center">
         <p class="font-poppins text-sm text-white/80">
-          Submission deadline: <span class="font-semibold text-cfp-yellow">{{ settingsStore.cfpHero.submissionDeadline }}</span>
+          Submission deadline: <span class="font-semibold text-cfp-yellow">{{ settingsStore.cfpHero.submissionDeadline
+            }}</span>
         </p>
-        <NuxtLink
-          to="/submit-paper"
-          class="shrink-0 rounded-full bg-cfp-red px-6 py-2 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
-        >
+        <NuxtLink to="/submit-paper"
+          class="shrink-0 rounded-full bg-cfp-red px-6 py-2 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90">
           Submit Your Paper
         </NuxtLink>
       </div>
