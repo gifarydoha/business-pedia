@@ -1,11 +1,17 @@
 export default defineNuxtConfig({
+
+  extends: [
+    "./layers/base",
+    "./layers/conference",
+    "./layers/autofymind",
+    "./layers/ecommerce",
+  ],
   modules: [
     "@vueuse/nuxt",
     "@nuxt/ui",
     "@nuxt/eslint",
     "@nuxt/image",
     "@pinia/nuxt",
-    "@nuxtjs/i18n",
     "@nuxtjs/sitemap",
     "@nuxt/fonts",
     "@nuxt/icon",
@@ -18,9 +24,9 @@ export default defineNuxtConfig({
       server: {
         warmup: {
           clientFiles: [
-            "./app/pages/*.vue",
-            "./app/pages/(auth)/*.vue",
-            "./app/layouts/*.vue",
+            "./pages/*.vue",
+            "./pages/(auth)/*.vue",
+            "./layouts/*.vue",
           ],
         },
         watch: {
@@ -45,7 +51,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com/website/website_api",
       kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
       imageBase: process.env.NUXT_PUBLIC_IMAGE_BASE ?? "https://autofymind.com",
-      appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Business-Pedia",
+      appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy-Frontend",
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
     },
   },
@@ -55,7 +61,6 @@ export default defineNuxtConfig({
     "/pages/**": { isr: 300 },
     "/guidelines": { isr: 300 },
     "/call-for-paper": { isr: 300 },
-    "/contact": { ssr: true },
     "/dashboard/**": { ssr: true },
     "/**": { isr: 120 },
     // auth routes

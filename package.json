@@ -1,19 +1,23 @@
 {
-  "name": "business-pedia",
+  "name": "autofy-frontend",
   "type": "module",
+  "workspaces": ["layers/*"],
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "preview:static": "npx serve .output/public",
-    "postinstall": "nuxt prepare && node scripts/patch-nuxt.js",
+    "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@autofy/base": "*",
+    "@autofy/conference": "*",
+    "@autofy/ecommerce": "*",
+    "@autofy/lms": "*",
     "@nuxt/eslint": "^1.16.0",
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/icon": "^2.3.1",

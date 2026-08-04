@@ -1,0 +1,16 @@
+{
+  "name": "@autofy/conference",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build"
+  },
+  "dependencies": {
+    "@autofy/base": "*"
+  },
+  "devDependencies": {
+    "nuxt": "^4.5.0"
+  }
+}
