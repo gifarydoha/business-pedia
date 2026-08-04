@@ -1,4 +1,4 @@
-import type { CIRefreshResponse } from "~/types/auth";
+import type { CIRefreshResponse } from "~~/layers/base/types/auth";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();

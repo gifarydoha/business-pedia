@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toRaw } from "vue";
-import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
+import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 
 const { form, goToStep, submit } = useSubmissionWizard();
 
@@ -105,7 +105,7 @@ const handleSubmit = () => {
     <div class="mt-8 flex justify-end">
       <button
         type="button"
-        class="rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white shadow hover:opacity-90 transition-opacity"
+        class="rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white shadow transition-opacity hover:opacity-90"
         @click="handleSubmit"
       >
         Submit Form

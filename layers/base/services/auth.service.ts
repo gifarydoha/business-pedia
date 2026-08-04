@@ -11,8 +11,8 @@ import type {
   ForgotPasswordPayload,
   ResetPasswordPayload,
   GoogleLoginPayload,
-} from "~/types/auth";
-import type { User } from "~/types/user";
+} from "~~/layers/base/types/auth";
+import type { User } from "~~/layers/base/types/user";
 
 function mapCIResponse(res: CIAuthResponse): AuthResult {
   return {

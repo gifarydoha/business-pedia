@@ -1,6 +1,6 @@
 <!-- app/pages/[...slug].vue -->
 <script setup lang="ts">
-import type { ContentApiResponse } from "~/types/api";
+import type { ContentApiResponse } from "~~/layers/base/types/api";
 
 definePageMeta({ layout: "default" });
 

@@ -1,4 +1,4 @@
-import type { SubmissionFormData, SubmissionAuthor } from "~/types/submission";
+import type { SubmissionFormData, SubmissionAuthor } from "~~/layers/conference/types/submission";
 
 const STEPS = ["track", "details", "authors", "upload", "preview"] as const;
 export type WizardStep = typeof STEPS[number];

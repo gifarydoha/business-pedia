@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CfpFooter from "~/components/cfp/CfpFooter.vue";
-import CfpNav from "~/components/cfp/CfpNav.vue";
+import CfpFooter from "~~/layers/conference/components/cfp/CfpFooter.vue";
+import CfpNav from "~~/layers/conference/components/cfp/CfpNav.vue";
 </script>
 
 <template>

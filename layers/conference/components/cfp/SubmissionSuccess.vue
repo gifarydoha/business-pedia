@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CfpNextStep, SubmissionFormData } from "~/types/api";
+import type { CfpNextStep, SubmissionFormData } from "~~/layers/base/types/api";
 
 defineProps<{
   form: SubmissionFormData | null;

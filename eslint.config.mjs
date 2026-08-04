@@ -2,13 +2,20 @@
 import withNuxt from "./.nuxt/eslint.config.mjs";
 import tailwind from "eslint-plugin-tailwindcss";
 
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const cssPath = path.resolve(__dirname, "layers/base/assets/css/main.css");
+
 export default withNuxt(
   // Tailwind: register plugin + rules in one object
   {
     plugins: tailwind.configs.recommended.plugins,
     settings: {
       tailwindcss: {
-        cssConfigPath: "app/assets/css/main.css",
+        cssConfigPath: cssPath,
       },
     },
     rules: {

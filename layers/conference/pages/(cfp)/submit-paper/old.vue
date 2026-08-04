@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-import type { SubmissionFormData } from "~/types/api";
+import type { SubmissionFormData } from "~~/layers/base/types/api";
 
 const settingsStore = useSettingsStore();
 
@@ -30,7 +30,12 @@ const handleReset = () => {
 <template>
   <div>
     <!-- Success screen -->
-    <CfpSubmissionSuccess v-if="submitted" :form="submittedForm" :next-steps="nextSteps" @reset="handleReset" />
+    <CfpSubmissionSuccess
+      v-if="submitted"
+      :form="submittedForm"
+      :next-steps="nextSteps"
+      @reset="handleReset"
+    />
 
     <!-- Form -->
     <div v-else>
@@ -40,7 +45,8 @@ const handleReset = () => {
       <div class="bg-cfp-olive">
         <div class="mx-auto max-w-6xl px-6 py-16 md:py-20">
           <span
-            class="mb-5 inline-block rounded-full bg-cfp-yellow/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+            class="mb-5 inline-block rounded-full bg-cfp-yellow/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase"
+          >
             Submission Portal
           </span>
           <h1 class="mb-4 font-lora text-3xl leading-tight font-bold text-white md:text-5xl">

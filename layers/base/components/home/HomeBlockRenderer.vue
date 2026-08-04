@@ -1,6 +1,6 @@
 <!-- app/components/home/HomeBlockRenderer.vue -->
 <script setup lang="ts">
-import type { HomePageBlock } from "~/types/api";
+import type { HomePageBlock } from "~~/layers/base/types/api";
 
 const props = defineProps<{
   block: HomePageBlock;
@@ -9,10 +9,10 @@ const props = defineProps<{
 // Map widget_element_path values to async components.
 // If the API returns a block path that doesn't exist here, it fails gracefully.
 const widgetComponentMap: Record<string, ReturnType<typeof defineAsyncComponent>> = {
-  courses: defineAsyncComponent(() => import("~/components/widgets/WidgetCourses.vue")),
-  topics: defineAsyncComponent(() => import("~/components/widgets/WidgetTopics.vue")),
-  questions: defineAsyncComponent(() => import("~/components/widgets/WidgetQuestions.vue")),
-  call_actions: defineAsyncComponent(() => import("~/components/widgets/WidgetCallActions.vue")),
+  courses: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetCourses.vue")),
+  topics: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetTopics.vue")),
+  questions: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetQuestions.vue")),
+  call_actions: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetCallActions.vue")),
 };
 
 const resolvedComponent = computed(() => {

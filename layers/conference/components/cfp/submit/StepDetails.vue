@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
+import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 
 const { form, nextStep, prevStep } = useSubmissionWizard();
 </script>

@@ -1,4 +1,4 @@
-import type { KbListResponse, KbDetailResponse, KbCategory, KbListItem } from "~/types/kb";
+import type { KbListResponse, KbDetailResponse, KbCategory, KbListItem } from "~~/layers/lms/types/kb";
 
 export const useKnowledgebase = () => {
   const config = useRuntimeConfig();

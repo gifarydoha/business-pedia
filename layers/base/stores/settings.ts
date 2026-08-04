@@ -3,9 +3,9 @@
 // Fetches from /api/settings (our Nuxt server proxy) once at app boot,
 // then provides typed getters to all components.
 
-import type { AppSettings } from "~/types/settings";
-import type { SettingsApiResponse } from "~/types/api";
-import { CFP_MOCK } from "~/data/cfp.mock";
+import type { AppSettings } from "~~/layers/base/types/settings";
+import type { SettingsApiResponse } from "~~/layers/base/types/api";
+import { CFP_MOCK } from "~~/layers/conference/data/cfp.mock";
 
 export const useSettingsStore = defineStore("settings", () => {
   // ─── State ───────────────────────────────────────────────────────────────

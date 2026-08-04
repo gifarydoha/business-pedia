@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
-import { COUNTRIES } from "~/types/submission";
+import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
+import { COUNTRIES } from "~~/layers/conference/types/submission";
 
 const { form, addAuthor, removeAuthor, nextStep, prevStep } = useSubmissionWizard();
 

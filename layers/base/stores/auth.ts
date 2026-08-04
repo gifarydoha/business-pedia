@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { User } from "~/types/user";
+import type { User } from "~~/layers/base/types/user";
 import type {
   CISimpleResponse,
   LoginPayload,
@@ -9,8 +9,8 @@ import type {
   ResendOtpPayload,
   ForgotPasswordPayload,
   ResetPasswordPayload,
-} from "~/types/auth";
-import { useAuthService } from "~/services/auth.service";
+} from "~~/layers/base/types/auth";
+import { useAuthService } from "~~/layers/base/services/auth.service";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({

@@ -1,1 +1,1 @@
-export default defineNuxtConfig({ extends: ['../base'] })
+export default defineNuxtConfig({ extends: ["../base"] });

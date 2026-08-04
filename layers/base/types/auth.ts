@@ -1,4 +1,4 @@
-import type { User, UserRole } from "~/types/user";
+import type { User, UserRole } from "~~/layers/base/types/user";
 
 export type { User, UserRole };
 

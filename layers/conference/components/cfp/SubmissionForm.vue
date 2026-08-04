@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 
-import type { SubmissionFormData } from "~/types/api";
+import type { SubmissionFormData } from "~~/layers/base/types/api";
 
 const emit = defineEmits<{
   (e: "success", form: SubmissionFormData): void;

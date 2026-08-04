@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSubmissionWizard } from "~/composables/useSubmissionWizard";
-import { CONFERENCE_TRACKS } from "~/types/submission";
+import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
+import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
 const { form, nextStep } = useSubmissionWizard();
 </script>

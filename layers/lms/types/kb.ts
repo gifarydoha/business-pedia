@@ -16,10 +16,9 @@ export interface KbListItem {
   is_featured: string;
 }
 
-export interface KbDetailItem extends KbListItem {
-  // Contains full HTML with quote-block / highlight / pull-quote
-  // divs and a [#FEATURED_MEDIA#] placeholder
-}
+// Contains full HTML with quote-block / highlight / pull-quote
+// divs and a [#FEATURED_MEDIA#] placeholder
+export type KbDetailItem = KbListItem;
 
 export interface H2Entry {
   text: string;

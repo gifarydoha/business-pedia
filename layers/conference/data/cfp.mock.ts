@@ -1,4 +1,4 @@
-import type { CfpSettings } from "~/types/api";
+import type { CfpSettings } from "~~/layers/base/types/api";
 
 export const CFP_MOCK: CfpSettings = {
   conferenceName: "13th Social Business Academia Conference 2026",

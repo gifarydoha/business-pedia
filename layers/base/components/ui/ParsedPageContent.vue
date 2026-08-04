@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { parsePagesContent } from "~/utils/parsePagesContent";
+import { parsePagesContent } from "~~/layers/base/utils/parsePagesContent";
 import { computed } from "vue";
 
 const props = defineProps<{

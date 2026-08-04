@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { KbListItem } from "~/types/kb";
+import type { KbListItem } from "~~/layers/lms/types/kb";
 
 const props = defineProps<{
   articles: KbListItem[];

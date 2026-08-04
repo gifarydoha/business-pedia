@@ -18,8 +18,11 @@ const steps = [
       The Submission Process
     </h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <div v-for="s in steps" :key="s.n"
-        class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl">
+      <div
+        v-for="s in steps"
+        :key="s.n"
+        class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+      >
         <div class="mb-3 font-lora text-3xl font-bold text-cfp-yellow">
           {{ s.n }}
         </div>
