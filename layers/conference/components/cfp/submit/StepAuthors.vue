@@ -38,12 +38,12 @@ const isAuthorsValid = computed(() => {
         <input
           v-model="author.lastName"
           placeholder="Name"
-          class="rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+          class="rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
         >
         <input
           v-model="author.firstName"
           placeholder="First Name"
-          class="rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+          class="rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
         >
       </div>
 
@@ -51,7 +51,7 @@ const isAuthorsValid = computed(() => {
         <input
           v-model="author.otherName"
           placeholder="Other Name"
-          class="rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+          class="rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
         >
         <div class="flex items-center gap-4">
           <label class="flex items-center gap-1 font-poppins text-sm">
@@ -74,34 +74,34 @@ const isAuthorsValid = computed(() => {
       <input
         v-model="author.email"
         placeholder="Email"
-        class="mb-3 w-full rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+        class="mb-3 w-full rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
       >
 
       <select
         v-model="author.country"
-        class="mb-3 w-full rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+        class="mb-3 w-full rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900"
       >
         <option value="">
           Select Country
         </option>
         <option
           v-for="c in COUNTRIES"
-          :key="c"
-          :value="c"
+          :key="c.id"
+          :value="c.id"
         >
-          {{ c }}
+          {{ c.name }}
         </option>
       </select>
 
       <input
         v-model="author.organization"
         placeholder="Organization"
-        class="mb-3 w-full rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+        class="mb-3 w-full rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
       >
       <input
         v-model="author.position"
         placeholder="Position"
-        class="mb-3 w-full rounded-lg border border-cfp-olive/20 px-3 py-2 font-poppins text-sm"
+        class="mb-3 w-full rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
       >
 
       <label class="flex items-center gap-2 font-poppins text-sm">

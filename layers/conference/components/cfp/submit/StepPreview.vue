@@ -1,12 +1,68 @@
 <script setup lang="ts">
+import { useConferenceService } from "#layers/conference/services/conference.service";
 import { toRaw } from "vue";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
+import { COUNTRIES, CONFERENCE_TRACKS, type PresentationTrack } from "~~/layers/conference/types/submission";
+
+const getCountryName = (countryId: number | "") => {
+  if (!countryId) return "";
+  const country = COUNTRIES.find((c) => c.id === countryId);
+  return country ? country.name : "";
+};
 
 const { form, goToStep, submit } = useSubmissionWizard();
 
-const handleSubmit = () => {
-  submit();
+const { submitConferencePaper } = useConferenceService();
+
+const submitPaper = async () => {
+  const formData = new FormData();
   console.log("Submitted Data:", toRaw(form.value));
+
+  formData.append("title", form.value.title);
+  formData.append("abstract", form.value.abstract);
+  formData.append("keywords", form.value.keywords);
+
+  formData.append("paper_code", "P-" + Math.floor(Math.random() * 1000000));
+  formData.append("is_has_permission_to_publish", form.value.includeInProceedings ? "1" : "0");
+  formData.append("email_notification_to_author", "1");
+
+  const trackIndex = CONFERENCE_TRACKS.indexOf(form.value.track as PresentationTrack);
+  if (trackIndex !== -1) {
+    formData.append("conference_track_id", (trackIndex + 1).toString());
+  }
+
+  form.value.authors.forEach((a, index) => {
+    formData.append(`authors[${index}][first_name]`, a.firstName);
+    formData.append(`authors[${index}][last_name]`, a.lastName);
+    formData.append(`authors[${index}][other_name]`, a.otherName || "");
+    formData.append(`authors[${index}][email]`, a.email);
+    formData.append(`authors[${index}][gender]`, a.gender);
+    formData.append(`authors[${index}][country_id]`, a.country.toString());
+    formData.append(`authors[${index}][organization]`, a.organization);
+    formData.append(`authors[${index}][position]`, a.position);
+    formData.append(`authors[${index}][is_corresponding_author]`, a.isCorrespondingAuthor ? "1" : "0");
+  });
+
+  if (form.value.paperFile) {
+    formData.append("paper_file", form.value.paperFile);
+  }
+
+  formData.append("conference_id", "9");
+  // formData.append('is_my_paper', '1');
+
+  try {
+    const response = await submitConferencePaper(formData) as { code: number; message?: string };
+
+    if (response.code === 200) {
+      submit();
+    }
+    else {
+      console.error(response.message);
+    }
+  }
+  catch (error) {
+    console.error("Upload failed", error);
+  }
 };
 </script>
 
@@ -77,7 +133,7 @@ const handleSubmit = () => {
           Author {{ i + 1 }}: {{ a.firstName }} {{ a.lastName }}
         </p>
         <p class="font-poppins text-xs text-gray-500">
-          {{ a.email }} · {{ a.organization }} · {{ a.country }}
+          {{ a.email }} · {{ a.organization }} · {{ getCountryName(a.country) }}
         </p>
       </div>
     </section>
@@ -106,7 +162,7 @@ const handleSubmit = () => {
       <button
         type="button"
         class="rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white shadow transition-opacity hover:opacity-90"
-        @click="handleSubmit"
+        @click="submitPaper"
       >
         Submit Form
       </button>

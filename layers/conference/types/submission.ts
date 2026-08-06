@@ -14,7 +14,7 @@ export interface SubmissionAuthor {
   otherName: string;
   gender: "male" | "female" | "";
   email: string;
-  country: string;
+  country: number | "";
   organization: string;
   position: string;
   isCorrespondingAuthor: boolean;
@@ -41,8 +41,25 @@ export const CONFERENCE_TRACKS: PresentationTrack[] = [
 ];
 
 // Trim/extend as you like — static per your answer
-export const COUNTRIES = [
-  "Bangladesh", "India", "United Kingdom", "United States", "Germany",
-  "Canada", "Australia", "Pakistan", "Nepal", "Sri Lanka", "Malaysia",
-  "Singapore", "United Arab Emirates", "Saudi Arabia", "Other",
+export interface Country {
+  id: number;
+  name: string;
+}
+
+export const COUNTRIES: Country[] = [
+  { id: 1, name: "Bangladesh" },
+  { id: 2, name: "India" },
+  { id: 3, name: "United Kingdom" },
+  { id: 4, name: "United States" },
+  { id: 5, name: "Germany" },
+  { id: 6, name: "Canada" },
+  { id: 7, name: "Australia" },
+  { id: 8, name: "Pakistan" },
+  { id: 9, name: "Nepal" },
+  { id: 10, name: "Sri Lanka" },
+  { id: 11, name: "Malaysia" },
+  { id: 12, name: "Singapore" },
+  { id: 13, name: "United Arab Emirates" },
+  { id: 14, name: "Saudi Arabia" },
+  { id: 15, name: "Other" },
 ];

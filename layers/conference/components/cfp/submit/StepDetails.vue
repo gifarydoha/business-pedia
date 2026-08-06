@@ -29,7 +29,7 @@ const { form, nextStep, prevStep } = useSubmissionWizard();
       <textarea
         v-model="form.title"
         rows="2"
-        class="w-full rounded-xl border border-cfp-olive/25 p-3 font-poppins text-sm outline-none focus:border-cfp-olive"
+        class="w-full rounded-xl border border-cfp-olive/25 bg-white p-3 font-poppins text-sm text-gray-900 placeholder-gray-500 outline-none focus:border-cfp-olive"
       />
     </div>
 
@@ -40,7 +40,7 @@ const { form, nextStep, prevStep } = useSubmissionWizard();
       <textarea
         v-model="form.abstract"
         rows="8"
-        class="w-full rounded-xl border border-cfp-olive/25 p-3 font-poppins text-sm outline-none focus:border-cfp-olive"
+        class="w-full rounded-xl border border-cfp-olive/25 bg-white p-3 font-poppins text-sm text-gray-900 placeholder-gray-500 outline-none focus:border-cfp-olive"
       />
     </div>
 
@@ -52,7 +52,7 @@ const { form, nextStep, prevStep } = useSubmissionWizard();
         v-model="form.keywords"
         rows="3"
         placeholder="Comma-separated keywords"
-        class="w-full rounded-xl border border-cfp-olive/25 p-3 font-poppins text-sm outline-none focus:border-cfp-olive"
+        class="w-full rounded-xl border border-cfp-olive/25 bg-white p-3 font-poppins text-sm text-gray-900 placeholder-gray-500 outline-none focus:border-cfp-olive"
       />
     </div>
 
