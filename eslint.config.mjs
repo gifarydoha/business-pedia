@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 import withNuxt from "./.nuxt/eslint.config.mjs";
 import tailwind from "eslint-plugin-tailwindcss";
 

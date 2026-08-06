@@ -1,1 +1,2 @@
-export default defineNuxtConfig({ extends: ["../base"] });
+export default defineNuxtConfig({
+  srcDir: ".", extends: ["../base"] });

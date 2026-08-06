@@ -22,7 +22,7 @@ defineEmits<{
     <div class="flex min-h-96 items-center justify-center px-6 py-24">
       <div class="w-full max-w-xl text-center">
         <div class="mb-6 flex justify-center">
-          <CfpLogo class="h-16 w-auto" />
+          <CfpSharedLogo class="h-16 w-auto" />
         </div>
         <div class="mb-6 inline-flex size-16 items-center justify-center rounded-full bg-cfp-olive/10">
           <svg

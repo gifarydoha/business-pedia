@@ -5,7 +5,7 @@ import type { SubmissionFormData } from "~~/layers/base/types/api";
 
 const settingsStore = useSettingsStore();
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "conference" });
 
 useSeoMeta({
   title: computed(() => `Submit Your Paper — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
@@ -30,7 +30,7 @@ const handleReset = () => {
 <template>
   <div>
     <!-- Success screen -->
-    <CfpSubmissionSuccess
+    <CfpSubmitSuccess
       v-if="submitted"
       :form="submittedForm"
       :next-steps="nextSteps"
@@ -39,7 +39,7 @@ const handleReset = () => {
 
     <!-- Form -->
     <div v-else>
-      <CfpBreadcrumb :crumbs="[{ label: 'Submit Your Paper' }]" />
+      <CfpSharedBreadcrumb :crumbs="[{ label: 'Submit Your Paper' }]" />
 
       <!-- Page header -->
       <div class="bg-cfp-olive">
@@ -61,7 +61,7 @@ const handleReset = () => {
 
       <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
         <div class="items-start lg:grid lg:grid-cols-[1fr_320px] lg:gap-14">
-          <CfpSubmissionForm @success="handleSuccess" />
+          <CfpSubmitForm @success="handleSuccess" />
           <CfpSubmitSidebar :next-steps="nextSteps" />
         </div>
       </div>

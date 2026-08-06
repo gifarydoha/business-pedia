@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const settingsStore = useSettingsStore();
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "conference" });
 
 useSeoMeta({
   title: computed(() => `Submission Guidelines — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
@@ -9,7 +9,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <CfpBreadcrumb :crumbs="[{ label: 'Submission Guidelines' }]" />
+    <CfpSharedBreadcrumb :crumbs="[{ label: 'Submission Guidelines' }]" />
 
     <!-- Page header -->
     <div class="bg-cfp-olive">
@@ -31,8 +31,8 @@ useSeoMeta({
 
     <div class="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <CfpGuidelinesSections />
-      <CfpSubmissionSteps />
-      <CfpCtaBand />
+      <CfpGuidelinesSubmissionSteps />
+      <CfpGuidelinesCtaBand />
     </div>
   </div>
 </template>

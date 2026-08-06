@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const settingsStore = useSettingsStore();
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "conference" });
 
 useSeoMeta({
   title: computed(() => `Call for Papers — ${settingsStore.cfpHero.conferenceName ?? "SBAC 2026"}`),
@@ -9,7 +9,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <CfpBreadcrumb :crumbs="[{ label: 'Call for Papers' }]" />
+    <CfpSharedBreadcrumb :crumbs="[{ label: 'Call for Papers' }]" />
 
     <!-- Top CTA strip -->
     <div class="bg-cfp-olive">
@@ -32,7 +32,7 @@ useSeoMeta({
     <div class="mx-auto max-w-6xl px-6 py-12 lg:py-16">
       <div class="items-start lg:grid lg:grid-cols-[1fr_260px] lg:gap-14">
         <CfpReadFullContent />
-        <CfpTocSidebar />
+        <CfpReadTocSidebar />
       </div>
     </div>
   </div>

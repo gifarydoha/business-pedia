@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import CategoryCard from "~/components/kb/CategoryCard.vue";
-import KbSidebar from "~/components/kb/KbSidebar.vue";
-import { useKnowledgebase } from "~/composables/useKnowledgebase";
+import CategoryCard from "~~/layers/lms/components/kb/CategoryCard.vue";
+import KbSidebar from "~~/layers/lms/components/kb/KbSidebar.vue";
+import { useKnowledgebase } from "~~/layers/lms/composables/useKnowledgebase";
 
 const { getKbList, getCategoryMap } = useKnowledgebase();
 const { data, status, error } = await getKbList();

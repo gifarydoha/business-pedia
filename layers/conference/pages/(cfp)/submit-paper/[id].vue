@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "Edit Paper Submission" });
 
 const { currentStep } = useSubmissionWizard();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
-import { LoginSchema } from "~/schemas/auth.schemas";
+import { LoginSchema } from "~~/layers/base/schemas/auth.schemas";
 // zodSchema auto-imported from utils/zodSchema.ts
 
 definePageMeta({ middleware: "guest", path: "/login" });

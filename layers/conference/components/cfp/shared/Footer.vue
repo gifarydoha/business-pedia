@@ -42,7 +42,7 @@ const settingsStore = useSettingsStore();
             :alt="orgName"
             class="h-10 w-auto object-contain brightness-200 grayscale"
           />
-          <CfpLogo
+          <CfpSharedLogo
             v-else
             class="h-10 w-auto brightness-200 grayscale"
           />

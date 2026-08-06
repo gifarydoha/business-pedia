@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OtpSchema } from "~/schemas/auth.schemas";
+import { OtpSchema } from "~~/layers/base/schemas/auth.schemas";
 
 const authStore = useAuthStore();
 const route = useRoute();

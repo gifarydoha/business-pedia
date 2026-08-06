@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
-import { ResetPasswordSchema } from "~/schemas/auth.schemas";
+import { ResetPasswordSchema } from "~~/layers/base/schemas/auth.schemas";
 
 const authStore = useAuthStore();
 const route = useRoute();

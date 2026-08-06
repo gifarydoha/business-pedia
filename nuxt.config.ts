@@ -1,5 +1,4 @@
 export default defineNuxtConfig({
-
   extends: [
     "./layers/base",
     "./layers/conference",

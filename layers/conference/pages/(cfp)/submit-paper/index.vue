@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "conference" });
 await navigateTo("/submit-paper/draft", { redirectCode: 301 });
 </script>
 

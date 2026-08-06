@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const settingsStore = useSettingsStore();
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "conference" });
 
 useSeoMeta({
   title: computed(() => settingsStore.cfpHero.conferenceName ?? "SBAC 2026"),
@@ -11,10 +11,10 @@ useSeoMeta({
 
 <template>
   <div>
-    <CfpHero />
-    <CfpPrinciples />
-    <CfpTopics />
-    <CfpDates />
-    <CfpSubmission />
+    <HomeCfpHero />
+    <HomeCfpPrinciples />
+    <HomeCfpTopics />
+    <HomeCfpDates />
+    <HomeCfpSubmission />
   </div>
 </template>
