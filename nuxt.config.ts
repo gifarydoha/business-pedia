@@ -126,6 +126,11 @@ export default defineNuxtConfig({
     },
   },
 
+  // Nuxt Image Configuration
+  image: {
+    domains: ["autofymind.com"],
+  },
+
   // Sitemap
   sitemap: {
     enabled: process.env.NODE_ENV !== "development",

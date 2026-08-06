@@ -5,17 +5,21 @@ import { useRoute } from "vue-router";
 const open = ref(false);
 const route = useRoute();
 const settingsStore = useSettingsStore();
+const authStore = useAuthStore(); // ⚠️ adjust to your actual auth store if named differently
 const { buildImageUrl } = useImageUrl();
 
-const logo = computed(() => buildImageUrl(settingsStore.org?.logo));
-const orgName = computed(() => settingsStore.org?.name ?? "13th Social Business Academia Conference 2026");
+const logo = computed(() => settingsStore.org?.logo ? buildImageUrl(settingsStore.org.logo) : null);
+const logoError = ref(false);
+const orgName = computed(() => settingsStore.cfpHero.conferenceName ?? settingsStore.org?.name ?? "11th Social Business Academia Conference 2023");
+const conferenceDate = computed(() => settingsStore.cfpDates.find((d) => d.label === "Conference Dates")?.date ?? "01 - 02 April, 2024");
+const conferenceLocation = computed(() => settingsStore.cfpHero.location ?? "Asian Institute of Technology, Thailand");
+
+const isLoggedIn = computed(() => authStore.isLoggedIn);
 
 const FALLBACK_NAV_LINKS = [
-  { label: "About", href: "/#about" },
-  { label: "Principles", href: "/#principles" },
-  { label: "Tracks", href: "/#tracks" },
-  { label: "Dates", href: "/#dates" },
-  { label: "Guidelines", href: "/guidelines" },
+  { label: "Announcement", href: "/#announcement" },
+  { label: "Tracks and Sessions", href: "/#tracks" },
+  { label: "Call For Papers", href: "/read-full-cfp" },
 ];
 
 const getHref = (item: { url?: string; link?: string }) => {
@@ -38,60 +42,69 @@ const isActive = (href: string) => {
   if (href.startsWith("/#")) return route.path === "/";
   return route.path === href;
 };
+
+const authAction = computed(() =>
+  isLoggedIn.value
+    ? { label: "Submit Paper", href: "/submit-paper/draft" }
+    : { label: "Login", href: "/login" },
+);
 </script>
 
 <template>
   <header class="sticky top-0 z-50 flex w-full flex-col shadow-sm">
     <!-- Top Navbar -->
     <div class="bg-white">
-      <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <!-- Left Side: Logo & Info -->
         <NuxtLink
           to="/"
           class="group flex flex-wrap items-center gap-4"
         >
           <NuxtImg
-            v-if="logo"
+            v-if="logo && !logoError"
             :src="logo"
             :alt="orgName"
-            class="h-14 w-auto object-contain"
+            class="h-12 w-auto object-contain md:h-14"
+            @error="logoError = true"
           />
           <NuxtImg
             v-else
             src="/images/cfp-logo.png"
             :alt="orgName"
-            class="h-14 w-auto object-contain"
+            class="h-12 w-auto object-contain md:h-14"
           />
           <div class="flex flex-col justify-center">
-            <span class="font-lora text-xl font-medium text-cyan-600 transition-colors group-hover:text-cyan-700 sm:text-2xl">
+            <span
+              class="font-lora text-base font-medium text-cfp-olive transition-colors group-hover:text-cfp-olive/80 sm:text-xl"
+            >
               {{ orgName }}
             </span>
-            <div class="mt-1 flex flex-wrap items-center gap-2 font-poppins text-sm text-cyan-600">
-              <span>1–2 April 2027</span>
+            <div class="mt-1 flex flex-wrap items-center gap-1.5 font-poppins text-xs text-cfp-olive/80 sm:text-sm">
+              <span>{{ conferenceDate }}</span>
               <Icon
                 name="ph:map-pin-fill"
-                class="size-4"
+                class="size-3.5 shrink-0 sm:size-4"
               />
-              <span>Chatrium Hotel Riverside Bangkok, Thailand</span>
+              <span>{{ conferenceLocation }}</span>
             </div>
           </div>
         </NuxtLink>
 
         <!-- Right Side: FAQ / Contact (Desktop) -->
-        <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-cyan-600 md:flex">
+        <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-cfp-olive md:flex">
           <NuxtLink
             to="#"
-            class="transition-colors hover:text-cyan-800"
+            class="transition-colors hover:text-cfp-red"
           >FAQ</NuxtLink>
           <NuxtLink
             to="/pages/contact"
-            class="transition-colors hover:text-cyan-800"
+            class="transition-colors hover:text-cfp-red"
           >Contact</NuxtLink>
         </div>
 
         <!-- Mobile hamburger -->
         <button
-          class="text-cyan-600 md:hidden"
+          class="text-cfp-olive md:hidden"
           aria-label="Toggle menu"
           @click="open = !open"
         >
@@ -121,27 +134,25 @@ const isActive = (href: string) => {
     </div>
 
     <!-- Bottom Navbar -->
-    <div class="hidden bg-cfp-olive md:block">
+    <div class="hidden bg-cfp-yellow md:block">
       <div class="mx-auto flex max-w-6xl items-center justify-between pl-6">
-        <!-- Links -->
         <div class="flex items-center gap-6 overflow-x-auto">
           <NuxtLink
             v-for="l in navLinks"
             :key="l.label"
             :to="l.href"
-            class="py-4 font-poppins text-sm font-medium tracking-wide whitespace-nowrap uppercase transition-colors hover:text-white"
-            :class="isActive(l.href) ? 'text-white' : 'text-white/80'"
+            class="py-4 font-poppins text-sm font-medium tracking-wide whitespace-nowrap uppercase transition-colors hover:text-cfp-olive"
+            :class="isActive(l.href) ? 'text-cfp-olive' : 'text-white'"
           >
             {{ l.label }}
           </NuxtLink>
         </div>
 
-        <!-- Sign in Button -->
         <NuxtLink
-          to="/login"
-          class="inline-flex h-full items-center self-stretch bg-white px-8 py-4 font-poppins text-sm font-bold text-gray-900 transition-colors hover:bg-gray-100"
+          :to="authAction.href"
+          class="inline-flex h-full items-center self-stretch bg-white px-8 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
         >
-          Sign in
+          {{ authAction.label }}
         </NuxtLink>
       </div>
     </div>
@@ -149,35 +160,37 @@ const isActive = (href: string) => {
     <!-- Mobile menu -->
     <div
       v-show="open"
-      class="flex flex-col gap-3 bg-cfp-olive px-6 pt-2 pb-4 md:hidden"
+      class="flex flex-col gap-3 bg-cfp-yellow px-6 pt-2 pb-4 md:hidden"
     >
       <NuxtLink
         v-for="l in navLinks"
         :key="l.label"
         :to="l.href"
-        class="py-2 font-poppins text-sm tracking-wide uppercase transition-colors hover:text-white"
-        :class="isActive(l.href) ? 'text-cfp-yellow font-medium' : 'text-white/80'"
+        class="py-2 font-poppins text-sm tracking-wide uppercase transition-colors hover:text-cfp-olive"
+        :class="isActive(l.href) ? 'text-cfp-olive font-semibold' : 'text-white'"
         @click="open = false"
       >
         {{ l.label }}
       </NuxtLink>
-      <div class="my-2 h-px w-full bg-white/20" />
+      <div class="my-2 h-px w-full bg-white/30" />
       <NuxtLink
-        to="/faq"
-        class="py-1 font-poppins text-sm text-white/80 hover:text-white"
+        to="#"
+        class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
         @click="open = false"
-      >FAQ</NuxtLink>
+      >FAQ
+      </NuxtLink>
       <NuxtLink
-        to="/contact"
-        class="py-1 font-poppins text-sm text-white/80 hover:text-white"
-        @click="open = false"
-      >Contact</NuxtLink>
-      <NuxtLink
-        to="/login"
-        class="mt-4 rounded bg-white px-5 py-2 text-center font-poppins text-sm font-bold text-gray-900 transition-colors hover:bg-gray-100"
+        to="/pages/contact"
+        class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
         @click="open = false"
       >
-        Sign in
+        Contact</NuxtLink>
+      <NuxtLink
+        :to="authAction.href"
+        class="mt-4 rounded bg-white px-5 py-2 text-center font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+        @click="open = false"
+      >
+        {{ authAction.label }}
       </NuxtLink>
     </div>
   </header>

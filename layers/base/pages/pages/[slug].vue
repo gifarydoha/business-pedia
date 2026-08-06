@@ -73,11 +73,11 @@ useSeoMeta({
       class="container mx-auto px-4 py-8"
     >
       <SharedPageBanner
-        :title="page.title"
+        :title="page.title || page.meta_title || ''"
         :image="page.image_url"
       />
 
-      <SharedParsedPageContent :html-content="page.fulltext" />
+      <SharedParsedPageContent :html-content="page.fulltext || ''" />
     </div>
   </div>
 </template>
