@@ -18,14 +18,23 @@ export const useKnowledgebase = () => {
   };
 
   /**
-   * Fetches the detail for a specific article by its alias.
+   * Fetches the detail for a specific article by resolving its alias to an ID.
+   * The API only accepts `article-{id}` format — not the Bengali alias directly.
+   * Uses the cached list to resolve alias → id without an extra network request.
    */
   const getKbDetail = (alias: string) => {
-    return useAsyncData<KbDetailResponse>(`kb-detail-${alias}`, () =>
-      $fetch<KbDetailResponse>(`${kbApiBase}/kb/${alias}`, {
+    return useAsyncData<KbDetailResponse>(`kb-detail-${alias}`, async () => {
+      // Resolve alias → numeric id from the list (cached via useAsyncData key)
+      const listData = await $fetch<KbListResponse>(`${kbApiBase}/kbs`, {
         query: { access_key: apiAccessKey },
-      }),
-    );
+      });
+      const match = listData.kb_titles.find((item) => item.alias === alias);
+      if (!match) throw new Error(`Article not found for alias: ${alias}`);
+
+      return $fetch<KbDetailResponse>(`${kbApiBase}/kb/article-${match.id}`, {
+        query: { access_key: apiAccessKey },
+      });
+    });
   };
 
   /**

@@ -80,11 +80,11 @@ const isActive = (href: string) => {
         <!-- Right Side: FAQ / Contact (Desktop) -->
         <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-cyan-600 md:flex">
           <NuxtLink
-            to="/faq"
+            to="#"
             class="transition-colors hover:text-cyan-800"
           >FAQ</NuxtLink>
           <NuxtLink
-            to="/contact"
+            to="/pages/contact"
             class="transition-colors hover:text-cyan-800"
           >Contact</NuxtLink>
         </div>

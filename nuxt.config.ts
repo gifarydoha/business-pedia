@@ -117,6 +117,15 @@ export default defineNuxtConfig({
     ],
   },
 
+  icon: {
+    serverBundle: {
+      collections: ["heroicons", "simple-icons", "lucide", "ph"],
+    },
+    clientBundle: {
+      scan: true,
+    },
+  },
+
   // Sitemap
   sitemap: {
     enabled: process.env.NODE_ENV !== "development",

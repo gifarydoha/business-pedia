@@ -22,7 +22,7 @@ const { data, error, status } = await useFetch<ContentApiResponse>(
 
 const page = computed(() => data.value?.content);
 
-if (!page.value) {
+if (error.value || !page.value) {
   throw createError({ status: 404, statusText: "Page Not Found" });
 }
 
@@ -69,7 +69,7 @@ useSeoMeta({
 
     <!-- Content State -->
     <div
-      v-else
+      v-else-if="page"
       class="container mx-auto px-4 py-8"
     >
       <SharedPageBanner

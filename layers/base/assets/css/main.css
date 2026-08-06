@@ -377,7 +377,8 @@ html {
   }
 
   .main-layout {
-    @apply max-w-11xl mx-auto;
+    max-width: var(--spacing-11xl);
+    margin-inline: auto;
   }
 }
 
