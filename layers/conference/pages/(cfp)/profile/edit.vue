@@ -13,19 +13,29 @@ useSeoMeta({ title: "Edit Profile" });
     />
 
     <!-- Page header -->
-    <div class="bg-cfp-olive">
-      <div class="mx-auto flex max-w-4xl items-center gap-5 px-6 py-12 md:py-16">
-        <div>
-          <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
-            Account
-          </span>
-          <h1 class="mt-1 font-lora text-3xl font-bold text-white md:text-4xl">
-            Edit Profile
-          </h1>
+    <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
+      <div class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
+        <h1 class="mb-6 font-lora text-2xl font-bold text-cfp-olive md:text-3xl">
+          Edit Profile
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-5">
+          <NuxtLink
+            to="/my-papers"
+            class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-cfp-olive"
+          >
+            My Papers
+          </NuxtLink>
+          <NuxtLink
+            to="/submit-paper"
+            class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+          >
+            Submit a Paper
+          </NuxtLink>
         </div>
       </div>
-    </div>
 
-    <ProfileEditForm />
+      <ProfileEditForm />
+    </div>
   </div>
 </template>

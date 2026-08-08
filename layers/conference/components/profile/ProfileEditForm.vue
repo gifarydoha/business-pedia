@@ -1,34 +1,12 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from "vue";
+// import type { ProfileFormState, CustomField } from "~/layers/conference/types/profile";
+import type { ProfileFormState } from "~/layers/conference/types/profile";
+import { defaultProfileFormState, countries } from "~/layers/conference/data/profile.mock";
 
 const router = useRouter();
 
-type CustomField = { id: number; label: string; value: string };
-
-type FormState = {
-  name: string;
-  email: string;
-  userId: string;
-  affiliation: string;
-  country: string;
-  bio: string;
-  customFields: CustomField[];
-};
-
-const form = ref<FormState>({
-  name: "Dr. Amara Osei-Bonsu",
-  email: "amara.osei@northsouth.edu",
-  userId: "USR-2023-04817",
-  affiliation: "North South University, Dhaka",
-  country: "Bangladesh",
-  bio: "Associate Professor of Economics with a focus on social business frameworks, microfinance, and SDG-aligned enterprise models in developing economies. Active researcher and peer reviewer for SBAC since 2019.",
-  customFields: [],
-});
-
-const countries = [
-  "Bangladesh", "Germany", "United Kingdom", "United States", "India",
-  "Canada", "Australia", "France", "Japan", "Brazil", "Other",
-];
+const form = ref<ProfileFormState>({ ...defaultProfileFormState });
 
 // let customFieldCounter = 1;
 
@@ -69,7 +47,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
     novalidate
     @submit="handleSave"
   >
-    <div class="mx-auto max-w-4xl space-y-8 px-6 py-12 md:py-16">
+    <div class="mx-auto max-w-4xl space-y-8 px-4 py-12 md:px-0 md:pt-0 md:pb-16">
       <!-- Avatar card -->
       <div class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
         <h2 class="mb-6 border-b border-cfp-olive/10 pb-3 font-lora text-lg font-bold text-cfp-olive">
@@ -85,7 +63,9 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
             @mouseleave="avatarHover = false"
             @click="fileRef?.click()"
           >
-            <div class="flex size-20 items-center justify-center rounded-full border-4 border-cfp-olive-pale bg-cfp-yellow">
+            <div
+              class="flex size-20 items-center justify-center rounded-full border-4 border-cfp-olive-pale bg-cfp-yellow"
+            >
               <span class="font-lora text-2xl font-bold text-cfp-olive">
                 {{ avatarInitials }}
               </span>
@@ -378,7 +358,9 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
       </div> -->
 
       <!-- Action buttons — sticky on mobile -->
-      <div class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-cfp-olive/10 bg-cfp-cream/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none">
+      <div
+        class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-cfp-olive/10 bg-cfp-cream/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none"
+      >
         <button
           type="submit"
           :disabled="saving || saved"

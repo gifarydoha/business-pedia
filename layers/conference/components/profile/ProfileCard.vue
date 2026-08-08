@@ -1,16 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{
-  name: string;
-  email: string;
-  userId: string;
-  affiliation: string;
-  country: string;
-  bio: string;
-  avatarInitials: string;
-  joined: string;
-  papers: number;
-  track: string;
-}>();
+import type { UserProfile } from "../../types/profile";
+
+const props = defineProps<UserProfile>();
 
 const fields = computed(() => [
   { label: "Affiliation", value: props.affiliation },
@@ -22,29 +13,6 @@ const fields = computed(() => [
 
 <template>
   <div>
-    <!-- Quick actions — one clear primary action, "My Papers" de-emphasized -->
-    <div class="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
-      <div>
-        <p class="font-poppins text-sm font-medium text-gray-700">
-          Deadline: <span class="font-semibold text-cfp-red">31 January 2024</span>
-        </p>
-      </div>
-      <div class="flex flex-wrap items-center gap-5">
-        <NuxtLink
-          to="/my-papers"
-          class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-cfp-olive"
-        >
-          My Papers
-        </NuxtLink>
-        <NuxtLink
-          to="/submit-paper"
-          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
-        >
-          Submit a Paper
-        </NuxtLink>
-      </div>
-    </div>
-
     <!-- Stats row -->
     <div class="mb-5 grid grid-cols-3 gap-3">
       <div
