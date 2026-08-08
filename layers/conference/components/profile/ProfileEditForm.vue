@@ -30,7 +30,7 @@ const countries = [
   "Canada", "Australia", "France", "Japan", "Brazil", "Other",
 ];
 
-let customFieldCounter = 1;
+// let customFieldCounter = 1;
 
 const avatarInitials = ref("AO");
 const avatarHover = ref(false);
@@ -42,13 +42,13 @@ const handleChange = () => {
   if (saved.value) saved.value = false;
 };
 
-const addCustomField = () => {
-  form.value.customFields.push({ id: customFieldCounter++, label: "", value: "" });
-};
+// const addCustomField = () => {
+//   form.value.customFields.push({ id: customFieldCounter++, label: "", value: "" });
+// };
 
-const removeCustomField = (id: number) => {
-  form.value.customFields = form.value.customFields.filter((f) => f.id !== id);
-};
+// const removeCustomField = (id: number) => {
+//   form.value.customFields = form.value.customFields.filter((f) => f.id !== id);
+// };
 
 const handleSave = async (e: Event) => {
   e.preventDefault();
@@ -293,7 +293,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
       </div>
 
       <!-- Custom fields card -->
-      <div class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
+      <!-- <div class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
         <div class="mb-6 flex items-center justify-between border-b border-cfp-olive/10 pb-3">
           <h2 class="font-lora text-lg font-bold text-cfp-olive">
             Additional Fields
@@ -355,7 +355,6 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           </div>
         </div>
 
-        <!-- Add Field ghost button -->
         <button
           type="button"
           class="flex w-full justify-center gap-2 rounded-xl border-2 border-dashed border-cfp-olive/25 px-5 py-3 font-poppins text-sm font-medium text-cfp-olive/60 transition-colors hover:border-cfp-olive/50 hover:text-cfp-olive"
@@ -376,7 +375,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           </svg>
           Add Field
         </button>
-      </div>
+      </div> -->
 
       <!-- Action buttons — sticky on mobile -->
       <div class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-cfp-olive/10 bg-cfp-cream/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none">

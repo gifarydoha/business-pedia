@@ -26,6 +26,6 @@ useSeoMeta({ title: "Edit Profile" });
       </div>
     </div>
 
-    <ProfileProfileEditForm />
+    <ProfileEditForm />
   </div>
 </template>

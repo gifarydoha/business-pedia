@@ -3,7 +3,7 @@ definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "My Profile" });
 
 const user = {
-  name: "Dr. Amara Osei-Bonsu",
+  name: "Dr. Amara Osei",
   email: "amara.osei@northsouth.edu",
   userId: "USR-2023-04817",
   affiliation: "North South University, Dhaka",
@@ -20,18 +20,12 @@ const user = {
   <div>
     <CfpSharedBreadcrumb :crumbs="[{ label: 'My Profile' }]" />
 
-    <div class="mx-auto max-w-4xl px-6 py-12 md:py-16">
-      <!-- Page title -->
-      <div class="mb-8">
-        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
-          Account
-        </span>
-        <h1 class="mt-1 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
-          My Profile
-        </h1>
-      </div>
+    <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
+      <h1 class="mb-6 font-lora text-2xl font-bold text-cfp-olive md:text-3xl">
+        My Profile
+      </h1>
 
-      <ProfileProfileCard v-bind="user" />
+      <ProfileCard v-bind="user" />
     </div>
   </div>
 </template>

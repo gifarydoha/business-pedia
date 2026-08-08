@@ -22,81 +22,31 @@ const fields = computed(() => [
 
 <template>
   <div>
-    <!-- Main profile card -->
-    <div class="mb-6 overflow-hidden rounded-2xl border border-cfp-olive/15 bg-white shadow-lg">
-      <!-- Card header band -->
-      <div class="relative h-24 bg-cfp-olive" />
-
-      <!-- Avatar + identity -->
-      <div class="px-6 pb-8 md:px-8">
-        <div class="-mt-12 mb-6 flex items-start justify-between">
-          <!-- Avatar -->
-          <div class="flex size-20 shrink-0 items-center justify-center rounded-full border-4 border-white bg-cfp-yellow shadow-lg">
-            <span class="font-lora text-2xl font-bold text-cfp-olive">
-              {{ avatarInitials }}
-            </span>
-          </div>
-
-          <!-- Edit button — top-right of card -->
-          <div class="mt-14">
-            <NuxtLink
-              to="/profile/edit"
-              class="inline-flex items-center gap-2 rounded-full bg-cfp-olive px-5 py-2 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
-            >
-              <svg
-                class="size-3.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-              Edit Profile
-            </NuxtLink>
-          </div>
-        </div>
-
-        <!-- Name + email + user ID -->
-        <h2 class="mb-1 font-lora text-2xl font-bold text-cfp-olive md:text-3xl">
-          {{ name }}
-        </h2>
-        <p class="mb-3 font-poppins text-sm text-gray-500">
-          {{ email }}
+    <!-- Quick actions — one clear primary action, "My Papers" de-emphasized -->
+    <div class="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
+      <div>
+        <p class="font-poppins text-sm font-medium text-gray-700">
+          Deadline: <span class="font-semibold text-cfp-red">31 January 2024</span>
         </p>
-        <span class="mb-6 inline-block rounded-full bg-cfp-olive-pale px-3 py-1 font-poppins text-xs tracking-wide text-cfp-olive/70">
-          ID: {{ userId }}
-        </span>
-
-        <!-- Bio -->
-        <div class="mb-8">
-          <p class="border-l-4 border-cfp-yellow pl-4 font-lora leading-relaxed text-gray-600 italic">
-            {{ bio }}
-          </p>
-        </div>
-
-        <!-- Field rows -->
-        <div class="divide-y divide-cfp-olive/8">
-          <div
-            v-for="f in fields"
-            :key="f.label"
-            class="flex items-start justify-between gap-6 py-4"
-          >
-            <span class="w-36 shrink-0 font-poppins text-sm text-gray-400">
-              {{ f.label }}
-            </span>
-            <span class="text-right font-poppins text-sm text-gray-800">{{ f.value }}</span>
-          </div>
-        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-5">
+        <NuxtLink
+          to="/my-papers"
+          class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-cfp-olive"
+        >
+          My Papers
+        </NuxtLink>
+        <NuxtLink
+          to="/submit-paper"
+          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+        >
+          Submit a Paper
+        </NuxtLink>
       </div>
     </div>
 
     <!-- Stats row -->
-    <div class="mb-6 grid grid-cols-3 gap-4">
+    <div class="mb-5 grid grid-cols-3 gap-3">
       <div
         v-for="s in [
           { val: papers, label: 'Papers Submitted' },
@@ -104,40 +54,77 @@ const fields = computed(() => [
           { val: '1', label: 'Accepted' },
         ]"
         :key="s.label"
-        class="rounded-2xl border border-cfp-olive/15 bg-white p-5 text-center shadow-lg transition-shadow hover:shadow-xl"
+        class="rounded-2xl border border-gray-100 bg-white p-4 text-center"
       >
-        <div class="mb-1 font-lora text-3xl font-bold text-cfp-olive">
+        <div class="mb-0.5 font-lora text-2xl font-bold text-cfp-olive">
           {{ s.val }}
         </div>
-        <div class="font-poppins text-xs text-gray-500">
+        <div class="font-poppins text-xs text-gray-400">
           {{ s.label }}
         </div>
       </div>
     </div>
 
-    <!-- Quick actions -->
-    <div class="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 shadow-lg">
-      <div>
-        <p class="mb-0.5 font-lora text-base font-semibold text-cfp-olive">
-          Ready to submit your next paper?
-        </p>
-        <p class="font-poppins text-sm text-gray-500">
-          Deadline: <span class="font-semibold text-cfp-red">31 January 2024</span>
-        </p>
+    <!-- Main profile card — light, no header band -->
+    <div class=" rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+      <!-- Avatar + identity -->
+      <div class="mb-6 flex items-start justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="flex size-16 shrink-0 items-center justify-center rounded-full bg-cfp-olive/10">
+            <span class="font-lora text-lg font-bold text-cfp-olive">
+              {{ avatarInitials }}
+            </span>
+          </div>
+          <div>
+            <h2 class="font-lora text-xl font-bold text-cfp-olive md:text-2xl">
+              {{ name }}
+            </h2>
+            <p class="font-poppins text-sm text-gray-500">
+              {{ email }}
+            </p>
+          </div>
+        </div>
+
+        <NuxtLink
+          to="/profile/edit"
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cfp-olive/25 px-4 py-1.5 font-poppins text-sm font-medium text-cfp-olive transition-colors hover:bg-cfp-olive/5"
+        >
+          <svg
+            class="size-3.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+          Edit
+        </NuxtLink>
       </div>
-      <div class="flex flex-wrap gap-3">
-        <NuxtLink
-          to="/submit-paper"
-          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+
+      <span class="mb-6 inline-block rounded-full bg-gray-50 px-3 py-1 font-poppins text-xs text-gray-400">
+        ID: {{ userId }}
+      </span>
+
+      <!-- Bio -->
+      <p class="mb-6 font-poppins text-sm leading-relaxed text-gray-600">
+        {{ bio }}
+      </p>
+
+      <!-- Field rows -->
+      <div class="divide-y divide-gray-100 border-t border-gray-100">
+        <div
+          v-for="f in fields"
+          :key="f.label"
+          class="flex items-center justify-between gap-6 py-3"
         >
-          Submit a Paper
-        </NuxtLink>
-        <NuxtLink
-          to="/my-papers"
-          class="rounded-full border-2 border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive/5"
-        >
-          My Papers
-        </NuxtLink>
+          <span class="font-poppins text-sm text-gray-400">{{ f.label }}</span>
+          <span class="font-poppins text-sm font-medium text-gray-700">{{ f.value }}</span>
+        </div>
       </div>
     </div>
   </div>
