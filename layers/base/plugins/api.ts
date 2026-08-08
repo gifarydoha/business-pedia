@@ -1,3 +1,4 @@
+import { $fetch, type $Fetch } from "ofetch";
 import type { CIRefreshResponse } from "~~/layers/base/types/auth";
 
 export default defineNuxtPlugin(() => {
@@ -26,7 +27,7 @@ export default defineNuxtPlugin(() => {
     }
   }
 
-  const api = $fetch.create({
+  const api: $Fetch = $fetch.create({
     baseURL: config.public.apiBase,
     onRequest({ options }) {
       const { accessToken } = useAuthTokens();
@@ -51,7 +52,7 @@ export default defineNuxtPlugin(() => {
         // Retry the original request once with the fresh token
         const headers = new Headers(options.headers);
         headers.set("Authorization", `Bearer ${newAccessToken}`);
-        return $fetch(request, {
+        await $fetch(request, {
           ...options,
           headers,
         } as Parameters<typeof $fetch>[1]);

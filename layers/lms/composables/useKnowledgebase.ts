@@ -1,3 +1,4 @@
+import { $fetch } from "ofetch";
 import type { KbListResponse, KbDetailResponse, KbCategory, KbListItem } from "~~/layers/lms/types/kb";
 
 export const useKnowledgebase = () => {
