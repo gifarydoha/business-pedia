@@ -21,6 +21,9 @@ export default defineNuxtConfig({
     "@": rootDir,
     "#layers": join(rootDir, "layers"),
   },
+  routeRules: {
+    "/submit-paper": { redirect: "/submit-paper/draft" },
+  },
   nitro: {
     prerender: {
       failOnError: false,
