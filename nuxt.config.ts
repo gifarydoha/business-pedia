@@ -42,18 +42,17 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  runtimeConfig: {
-    // 🌐 PUBLIC — safe to expose to browser
-    public: {
-      apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY ?? "",
-      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com/website/website_api",
-      kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
-      confApiBase: process.env.NUXT_PUBLIC_CONF_API_BASE ?? "https://localhost:9100",
-      imageBase: process.env.NUXT_PUBLIC_IMAGE_BASE ?? "https://autofymind.com",
-      appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy-Frontend",
-      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
-    },
-  },
+  // runtimeConfig: {
+  //   public: {
+  //     apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY ?? "",
+  //     apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com/website/website_api",
+  //     kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
+  //     confApiBase: process.env.NUXT_PUBLIC_CONF_API_BASE ?? "https://localhost:9100",
+  //     imageBase: process.env.NUXT_PUBLIC_IMAGE_BASE ?? "https://autofymind.com",
+  //     appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy-Frontend",
+  //     googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
+  //   },
+  // },
 
   routeRules: {
     "/": { isr: 60 },

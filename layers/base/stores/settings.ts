@@ -71,7 +71,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
     try {
       const config = useRuntimeConfig();
-      const raw = await $fetch<SettingsApiResponse>(
+      const raw = (await $fetch(
         `${config.public.apiBase}/settings`, // <-- THIS IS THE API URL
         {
           query: {
@@ -79,20 +79,20 @@ export const useSettingsStore = defineStore("settings", () => {
           },
           timeout: 8000,
         },
-      );
+      )) as SettingsApiResponse;
 
-      const orgInfo = raw.sid_site.app_setting.organization_information;
+      const orgInfo = raw?.sid_site?.app_setting?.organization_information ?? null;
       settings.value = {
-        sid: raw.sid,
+        sid: raw?.sid ?? null,
         org: orgInfo,
-        socialMedia: raw.sid_site.app_setting.social_media ?? {},
-        primaryColor: raw.sid_site.layout_primary_color ?? "#266B88",
-        secondaryColor: raw.sid_site.layout_secondary_color ?? "#F7700B",
-        defaultLanguage: raw.sid_site.default_language_code ?? "en",
-        aboutContent: raw.sid_site.about_content ?? "",
-        widgets: raw.widgets,
-        homeSeoMeta: raw.seo_meta,
-        homePageContent: raw.page_content,
+        socialMedia: raw?.sid_site?.app_setting?.social_media ?? {},
+        primaryColor: raw?.sid_site?.layout_primary_color ?? "#266B88",
+        secondaryColor: raw?.sid_site?.layout_secondary_color ?? "#F7700B",
+        defaultLanguage: raw?.sid_site?.default_language_code ?? "en",
+        aboutContent: raw?.sid_site?.about_content ?? "",
+        widgets: raw?.widgets ?? {},
+        homeSeoMeta: raw?.seo_meta ?? null,
+        homePageContent: raw?.page_content ?? null,
       };
 
       isLoaded.value = true;
