@@ -47,7 +47,7 @@ const submitPaper = async () => {
     formData.append("paper_file", form.value.paperFile);
   }
 
-  formData.append("conference_id", "9");
+  formData.append("conference_id", "10");
   // formData.append('is_my_paper', '1');
 
   try {
