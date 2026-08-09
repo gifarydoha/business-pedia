@@ -20,7 +20,7 @@ export function useConferenceService() {
     });
   }
 
-  async function getConferencePapers(conferenceId: string = "9", userUid: string = "1") {
+  async function getConferencePapers(conferenceId: string = "10", userUid: string = "101101") {
     return $fetch("/conference/conference_api/conference_paper", {
       baseURL: confBase,
       method: "GET",

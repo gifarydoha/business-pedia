@@ -9,7 +9,7 @@ definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "My Conference Papers" });
 
 const { getConferencePapers } = useConferenceService();
-const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers("9", "1"), {
+const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers("10", "101101"), {
   server: false,
 });
 
