@@ -1,14 +1,95 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import type { Paper, PaperStatus } from "~/layers/conference/types/paper";
-import { mockPapers } from "~/layers/conference/data/papers.mock";
 import PaperPreviewModal from "~/layers/conference/components/papers/PaperPreviewModal.vue";
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
+import { useConferenceService } from "~/layers/conference/services/conference.service";
 
 definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "My Conference Papers" });
 
-const papers = ref<Paper[]>(mockPapers);
+const { getConferencePapers } = useConferenceService();
+const { data: rawPapers } = await useAsyncData("my-papers", () => getConferencePapers("9", "1"));
+
+interface RawAuthor {
+  first_name?: string;
+  last_name?: string;
+}
+
+interface RawPaper {
+  id?: string | number;
+  paper_id?: string | number;
+  paper_uid?: string | number;
+  title?: string;
+  paper_title?: string;
+  conference_track_name?: string;
+  track?: string;
+  track_name?: string;
+  category?: string;
+  final_decision?: string;
+  current_status?: string;
+  created?: string;
+  submittedDate?: string;
+  submitted_date?: string;
+  created_at?: string;
+  abstract?: string;
+  paper_abstract?: string;
+  authors?: string | RawAuthor[];
+  [key: string]: unknown;
+}
+
+const papers = computed<Paper[]>(() => {
+  if (!rawPapers.value) return [];
+
+  const response = rawPapers.value as RawPaper[] | { conference_papers?: RawPaper[]; data?: RawPaper[] } | null;
+  let items: RawPaper[] = [];
+  if (Array.isArray(response)) {
+    items = response;
+  }
+  else if (response && typeof response === "object") {
+    if (Array.isArray(response.conference_papers)) {
+      items = response.conference_papers;
+    }
+    else if (Array.isArray(response.data)) {
+      items = response.data;
+    }
+  }
+
+  return items.map((p) => {
+    let authorNames = "Unknown Authors";
+    if (Array.isArray(p.authors)) {
+      authorNames = p.authors.map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ");
+    }
+    else if (typeof p.authors === "string") {
+      authorNames = p.authors;
+    }
+
+    let mappedStatus: PaperStatus = "Draft";
+    if (p.final_decision === "accepted") {
+      mappedStatus = "Accepted";
+    }
+    else if (p.final_decision === "rejected") {
+      mappedStatus = "Rejected";
+    }
+    else if (p.current_status === "submitted" || p.current_status === "under_review") {
+      mappedStatus = "Under Review";
+    }
+    else if (p.current_status === "abstract_saved") {
+      mappedStatus = "Draft";
+    }
+
+    return {
+      id: String(p.id || p.paper_id || p.paper_uid || Math.random()),
+      title: String(p.title || p.paper_title || "Untitled"),
+      track: String(p.conference_track_name || p.track || p.track_name || p.category || "Uncategorized"),
+      status: mappedStatus,
+      submittedDate: String(p.created || p.submittedDate || p.submitted_date || p.created_at || "Unknown Date"),
+      abstract: String(p.abstract || p.paper_abstract || "No abstract provided."),
+      authors: authorNames || "Unknown Authors",
+      ...p,
+    } as unknown as Paper;
+  });
+});
 
 type FilterTab = "All" | PaperStatus;
 const filterTabs: FilterTab[] = ["All", "Accepted", "Under Review", "Rejected"];

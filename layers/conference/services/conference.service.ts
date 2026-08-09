@@ -19,7 +19,21 @@ export function useConferenceService() {
     });
   }
 
+  async function getConferencePapers(conferenceId: string = "9", userUid: string = "1") {
+    return $fetch("/conference/conference_api/conference_paper", {
+      baseURL: confBase,
+      method: "GET",
+      query: {
+        access_key: "123456789",
+        conference_id: conferenceId,
+        user_uid: userUid,
+        is_my_paper: "1",
+      },
+    });
+  }
+
   return {
     submitConferencePaper,
+    getConferencePapers,
   };
 }
