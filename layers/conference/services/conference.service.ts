@@ -36,7 +36,7 @@ export function useConferenceService() {
   }
 
   // get a single paper
-  async function getConferencePaper(id: string | number, conferenceId: string = "10", userUid: string = "101101") {
+  async function getConferencePaper(id: string | number, conferenceId: string = "10", userUid: string = "101") {
     return $fetch(`/conference/conference_api/conference_paper/${id}`, {
       baseURL: confBase,
       method: "GET",
