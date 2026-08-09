@@ -1,6 +1,7 @@
 export function useConferenceService() {
   const config = useRuntimeConfig();
   const confBase = String(config.public.confApiBase);
+  // const confBase = config.public.confApiBase;
 
   async function submitConferencePaper(formData: FormData) {
     // We pass conference_id, is_my_paper, and access_key as query parameters
@@ -25,9 +26,9 @@ export function useConferenceService() {
       method: "GET",
       query: {
         access_key: "123456789",
-        conference_id: conferenceId,
-        user_uid: userUid,
         is_my_paper: "1",
+        conference_id: conferenceId,
+        user_id: userUid,
       },
     });
   }

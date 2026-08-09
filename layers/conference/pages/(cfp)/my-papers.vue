@@ -9,7 +9,9 @@ definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "My Conference Papers" });
 
 const { getConferencePapers } = useConferenceService();
-const { data: rawPapers } = await useAsyncData("my-papers", () => getConferencePapers("9", "1"));
+const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers("9", "1"), {
+  server: false,
+});
 
 interface RawAuthor {
   first_name?: string;
@@ -57,11 +59,25 @@ const papers = computed<Paper[]>(() => {
 
   return items.map((p) => {
     let authorNames = "Unknown Authors";
-    if (Array.isArray(p.authors)) {
-      authorNames = p.authors.map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ");
+    let authorsData: any = p.authors;
+
+    if (typeof authorsData === "string") {
+      try {
+        const parsed = JSON.parse(authorsData);
+        if (Array.isArray(parsed)) {
+          authorsData = parsed;
+        }
+      }
+      catch (e) {
+        // Ignore if not valid JSON
+      }
     }
-    else if (typeof p.authors === "string") {
-      authorNames = p.authors;
+
+    if (Array.isArray(authorsData)) {
+      authorNames = authorsData.map((a: any) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ");
+    }
+    else if (typeof authorsData === "string" && authorsData.trim() !== "") {
+      authorNames = authorsData;
     }
 
     let mappedStatus: PaperStatus = "Draft";
@@ -79,6 +95,7 @@ const papers = computed<Paper[]>(() => {
     }
 
     return {
+      ...p,
       id: String(p.id || p.paper_id || p.paper_uid || Math.random()),
       title: String(p.title || p.paper_title || "Untitled"),
       track: String(p.conference_track_name || p.track || p.track_name || p.category || "Uncategorized"),
@@ -86,7 +103,6 @@ const papers = computed<Paper[]>(() => {
       submittedDate: String(p.created || p.submittedDate || p.submitted_date || p.created_at || "Unknown Date"),
       abstract: String(p.abstract || p.paper_abstract || "No abstract provided."),
       authors: authorNames || "Unknown Authors",
-      ...p,
     } as unknown as Paper;
   });
 });
@@ -179,9 +195,20 @@ const closePreview = () => {
         </p>
       </div>
 
+      <!-- Loading state -->
+      <div
+        v-if="status === 'pending' || status === 'idle'"
+        class="flex flex-col items-center justify-center rounded-2xl border border-cfp-olive/15 bg-white p-16 shadow-lg"
+      >
+        <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+        <p class="mt-4 font-poppins text-sm text-gray-500">
+          Loading your papers...
+        </p>
+      </div>
+
       <!-- Empty state -->
       <div
-        v-if="filtered.length === 0"
+        v-else-if="filtered.length === 0"
         class="rounded-2xl border border-cfp-olive/15 bg-white p-16 text-center shadow-lg"
       >
         <div class="mx-auto mb-5 flex size-16 items-center justify-center rounded-full bg-cfp-olive-pale">
