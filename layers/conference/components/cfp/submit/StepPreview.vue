@@ -67,7 +67,7 @@ const submitPaper = async () => {
     let response: { code: number; message?: string };
 
     if (paperId && paperId !== "draft") {
-      response = await updateConferencePaper(paperId, formData) as { code: number; message?: string };
+      response = await updateConferencePaper(paperId, formData, currentUserId) as { code: number; message?: string };
     }
     else {
       response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string };

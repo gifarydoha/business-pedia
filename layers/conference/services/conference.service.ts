@@ -50,7 +50,7 @@ export function useConferenceService() {
   }
 
   // Update a single paper
-  async function updateConferencePaper(id: string | number, formData: FormData) {
+  async function updateConferencePaper(id: string | number, formData: FormData, userId: string | number) {
     const conferenceId = formData.get("conference_id")?.toString() || "10";
     const isMyPaper = formData.get("is_my_paper")?.toString() || "1";
 
@@ -59,7 +59,7 @@ export function useConferenceService() {
       method: "PUT",
       query: {
         access_key: "123456789",
-        user_id: "101",
+        user_id: String(userId),
         conference_id: conferenceId,
         is_my_paper: isMyPaper,
       },
