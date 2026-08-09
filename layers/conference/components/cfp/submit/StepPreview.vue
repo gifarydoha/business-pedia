@@ -11,8 +11,8 @@ const getCountryName = (countryId: number | "") => {
 };
 
 const { form, goToStep, submit } = useSubmissionWizard();
-
 const { submitConferencePaper } = useConferenceService();
+const toast = useToast();
 
 const submitPaper = async () => {
   const formData = new FormData();
@@ -54,13 +54,30 @@ const submitPaper = async () => {
     const response = await submitConferencePaper(formData) as { code: number; message?: string };
 
     if (response.code === 200) {
+      toast.add({
+        title: "Success",
+        description: "Paper successfully submitted!",
+        color: "success",
+      });
       submit();
+      navigateTo("/my-papers");
     }
     else {
+      toast.add({
+        title: "Submission failed",
+        description: response.message || "An unknown error occurred.",
+        color: "warning",
+      });
       console.error(response.message);
     }
   }
-  catch (error) {
+  catch (error: unknown) {
+    const err = error as Error;
+    toast.add({
+      title: "Submission failed",
+      description: err.message || "An error occurred during submission.",
+      color: "warning",
+    });
     console.error("Upload failed", error);
   }
 };
