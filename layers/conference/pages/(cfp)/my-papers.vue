@@ -59,22 +59,23 @@ const papers = computed<Paper[]>(() => {
 
   return items.map((p) => {
     let authorNames = "Unknown Authors";
-    let authorsData: any = p.authors;
+    let authorsData: string | RawAuthor[] | undefined = p.authors;
 
     if (typeof authorsData === "string") {
       try {
-        const parsed = JSON.parse(authorsData);
+        const parsed = JSON.parse(authorsData) as unknown;
         if (Array.isArray(parsed)) {
-          authorsData = parsed;
+          authorsData = parsed as RawAuthor[];
         }
       }
       catch (e) {
+        console.error(e);
         // Ignore if not valid JSON
       }
     }
 
     if (Array.isArray(authorsData)) {
-      authorNames = authorsData.map((a: any) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ");
+      authorNames = authorsData.map((a: RawAuthor) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ");
     }
     else if (typeof authorsData === "string" && authorsData.trim() !== "") {
       authorNames = authorsData;
