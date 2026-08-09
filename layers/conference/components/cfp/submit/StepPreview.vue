@@ -4,6 +4,9 @@ import { toRaw } from "vue";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { COUNTRIES, CONFERENCE_TRACKS, type PresentationTrack } from "~~/layers/conference/types/submission";
 
+const route = useRoute();
+const paperId = route.params.id as string | undefined;
+
 const getCountryName = (countryId: number | "") => {
   if (!countryId) return "";
   const country = COUNTRIES.find((c) => c.id === countryId);
@@ -11,7 +14,7 @@ const getCountryName = (countryId: number | "") => {
 };
 
 const { form, goToStep, submit } = useSubmissionWizard();
-const { submitConferencePaper } = useConferenceService();
+const { submitConferencePaper, updateConferencePaper } = useConferenceService();
 const toast = useToast();
 
 const submitPaper = async () => {
@@ -51,12 +54,20 @@ const submitPaper = async () => {
   // formData.append('is_my_paper', '1');
 
   try {
-    const response = await submitConferencePaper(formData) as { code: number; message?: string };
+    // const response = await submitConferencePaper(formData) as { code: number; message?: string };
+    let response: { code: number; message?: string };
+
+    if (paperId) {
+      response = await updateConferencePaper(paperId, formData) as { code: number; message?: string };
+    }
+    else {
+      response = await submitConferencePaper(formData) as { code: number; message?: string };
+    }
 
     if (response.code === 200) {
       toast.add({
         title: "Success",
-        description: "Paper successfully submitted!",
+        description: paperId ? "Paper successfully updated!" : "Paper successfully submitted!",
         color: "success",
       });
       submit();
