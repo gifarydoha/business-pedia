@@ -18,8 +18,27 @@ const { submitConferencePaper, updateConferencePaper } = useConferenceService();
 const toast = useToast();
 
 const submitPaper = async () => {
+  // const authStore = useAuthStore();
+  // const currentUserId = authStore.user?.id || "";
+  const currentUserId = "101";
+
   const formData = new FormData();
   console.log("Submitted Data:", toRaw(form.value));
+
+  const authors = form.value.authors.map((author) => ({
+    // account_id: String(currentUserId),
+    account_id: "101",
+    type: "author",
+    first_name: author.firstName,
+    last_name: author.lastName,
+    other_name: author.otherName || "",
+    email: author.email,
+    gender: author.gender,
+    country_id: String(author.country),
+    organization: author.organization,
+    position: author.position,
+    is_corresponding_author: author.isCorrespondingAuthor ? "1" : "0",
+  }));
 
   formData.append("title", form.value.title);
   formData.append("abstract", form.value.abstract);
@@ -34,40 +53,30 @@ const submitPaper = async () => {
     formData.append("conference_track_id", (trackIndex + 1).toString());
   }
 
-  form.value.authors.forEach((a, index) => {
-    formData.append(`authors[${index}][first_name]`, a.firstName);
-    formData.append(`authors[${index}][last_name]`, a.lastName);
-    formData.append(`authors[${index}][other_name]`, a.otherName || "");
-    formData.append(`authors[${index}][email]`, a.email);
-    formData.append(`authors[${index}][gender]`, a.gender);
-    formData.append(`authors[${index}][country_id]`, a.country.toString());
-    formData.append(`authors[${index}][organization]`, a.organization);
-    formData.append(`authors[${index}][position]`, a.position);
-    formData.append(`authors[${index}][is_corresponding_author]`, a.isCorrespondingAuthor ? "1" : "0");
-  });
+  // Send one JSON field—do not use authors[0][...].
+  formData.append("authors", JSON.stringify(authors));
 
   if (form.value.paperFile) {
-    formData.append("paper_file", form.value.paperFile);
+    formData.append("paper_file_name", form.value.paperFile);
   }
 
   formData.append("conference_id", "10");
-  // formData.append('is_my_paper', '1');
+  formData.append("is_my_paper", "1");
 
   try {
-    // const response = await submitConferencePaper(formData) as { code: number; message?: string };
     let response: { code: number; message?: string };
 
-    if (paperId) {
+    if (paperId && paperId !== "draft") {
       response = await updateConferencePaper(paperId, formData) as { code: number; message?: string };
     }
     else {
-      response = await submitConferencePaper(formData) as { code: number; message?: string };
+      response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string };
     }
 
     if (response.code === 200) {
       toast.add({
         title: "Success",
-        description: paperId ? "Paper successfully updated!" : "Paper successfully submitted!",
+        description: (paperId && paperId !== "draft") ? "Paper successfully updated!" : "Paper successfully submitted!",
         color: "success",
       });
       submit();
