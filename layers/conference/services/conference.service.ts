@@ -22,7 +22,7 @@ export function useConferenceService() {
   }
 
   // get all papers of a user
-  async function getConferencePapers(conferenceId: string = "10", userUid: string = "101") {
+  async function getConferencePapers(conferenceId: string | number = "10", userUid: string | number) {
     return $fetch("/conference/conference_api/conference_paper", {
       baseURL: confBase,
       method: "GET",
@@ -30,13 +30,13 @@ export function useConferenceService() {
         access_key: "123456789",
         is_my_paper: "1",
         conference_id: conferenceId,
-        user_id: userUid,
+        user_id: String(userUid),
       },
     });
   }
 
   // get a single paper
-  async function getConferencePaper(id: string | number, conferenceId: string = "10", userUid: string = "101") {
+  async function getConferencePaper(id: string | number, conferenceId: string | number = "10", userUid: string | number) {
     return $fetch(`/conference/conference_api/conference_paper/${id}`, {
       baseURL: confBase,
       method: "GET",
@@ -44,7 +44,7 @@ export function useConferenceService() {
         access_key: "123456789",
         is_my_paper: "1",
         conference_id: conferenceId,
-        user_id: userUid,
+        user_id: String(userUid),
       },
     });
   }

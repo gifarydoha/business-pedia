@@ -16,8 +16,9 @@ const { currentStep, form, submitted, reset } = useSubmissionWizard();
 // Ensure we never show the success screen when editing an existing paper.
 submitted.value = false;
 const { getConferencePaper } = useConferenceService();
+const authStore = useAuthStore();
 
-const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, "10", "101"));
+const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, "10", authStore.user?.id || ""));
 
 // watch(error, (err) => {
 //   if (err) console.error("Failed to fetch paper:", err);

@@ -18,16 +18,14 @@ const { submitConferencePaper, updateConferencePaper } = useConferenceService();
 const toast = useToast();
 
 const submitPaper = async () => {
-  // const authStore = useAuthStore();
-  // const currentUserId = authStore.user?.id || "";
-  const currentUserId = "101";
+  const authStore = useAuthStore();
+  const currentUserId = authStore.user?.id || "";
 
   const formData = new FormData();
   console.log("Submitted Data:", toRaw(form.value));
 
   const authors = form.value.authors.map((author) => ({
-    // account_id: String(currentUserId),
-    account_id: "101",
+    account_id: String(currentUserId),
     type: "author",
     ...(paperId && paperId !== "draft" && author.id ? { id: author.id } : {}),
     first_name: author.firstName,

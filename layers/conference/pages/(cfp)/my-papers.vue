@@ -10,7 +10,8 @@ definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "My Conference Papers" });
 
 const { getConferencePapers } = useConferenceService();
-const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers("10", "101"), {
+const authStore = useAuthStore();
+const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers("10", authStore.user?.id || ""), {
   server: false,
 });
 

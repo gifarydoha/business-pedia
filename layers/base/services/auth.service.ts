@@ -120,7 +120,7 @@ export function useAuthService() {
   }
 
   async function loginWithGoogle(payload: GoogleLoginPayload): Promise<AuthResult> {
-    const res = await $fetch<CIAuthResponse>("/auth/google", {
+    const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/google", {
       baseURL: base,
       method: "POST",
       body: { id_token: payload.idToken },

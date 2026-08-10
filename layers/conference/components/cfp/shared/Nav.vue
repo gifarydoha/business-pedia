@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 
 const open = ref(false);
+const userDropdownOpen = ref(false);
+const mobileAccountOpen = ref(false);
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const authStore = useAuthStore(); // ⚠️ adjust to your actual auth store if named differently
+const authStore = useAuthStore();
 const { buildImageUrl } = useImageUrl();
 
 const logo = computed(() => settingsStore.org?.logo ? buildImageUrl(settingsStore.org.logo) : null);
@@ -15,6 +17,25 @@ const conferenceDate = computed(() => settingsStore.cfpDates.find((d) => d.label
 const conferenceLocation = computed(() => settingsStore.cfpHero.location ?? "Asian Institute of Technology, Thailand");
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
+const authUser = computed(() => authStore.user);
+
+const avatarUrl = computed(() => {
+  const av = authUser.value?.avatar;
+  if (!av) return null;
+  return av.startsWith("http") ? av : buildImageUrl(av);
+});
+
+const userInitials = computed(() => {
+  const name = authUser.value?.name;
+  if (!name) return "?";
+  return name
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0)
+    .map((w) => w[0]!.toUpperCase())
+    .join("")
+    .slice(0, 2);
+});
 
 const FALLBACK_NAV_LINKS = [
   { label: "Announcement", href: "/#announcement" },
@@ -43,19 +64,33 @@ const isActive = (href: string) => {
   return route.path === href;
 };
 
-const authAction = computed(() =>
-  isLoggedIn.value
-    ? { label: "Submit Paper", href: "/submit-paper/draft" }
-    : { label: "Login", href: "/login" },
-);
+const USER_MENU_ITEMS = [
+  { label: "My Profile", href: "/profile", icon: "ph:user" },
+  { label: "My Papers", href: "/my-papers", icon: "ph:file-text" },
+  { label: "Submit Paper", href: "/submit-paper/draft", icon: "ph:paper-plane-tilt" },
+];
+
+async function handleLogout() {
+  userDropdownOpen.value = false;
+  open.value = false;
+  await authStore.logout();
+}
+
+function onClickOutside(e: MouseEvent) {
+  const el = document.getElementById("user-dropdown-wrapper");
+  if (el && !el.contains(e.target as Node)) {
+    userDropdownOpen.value = false;
+  }
+}
+
+onMounted(() => document.addEventListener("click", onClickOutside));
+onUnmounted(() => document.removeEventListener("click", onClickOutside));
 </script>
 
 <template>
   <header class="sticky top-0 z-50 flex w-full flex-col shadow-sm">
-    <!-- Top Navbar -->
     <div class="bg-white">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-        <!-- Left Side: Logo & Info -->
         <NuxtLink
           to="/"
           class="group flex flex-wrap items-center gap-4"
@@ -74,9 +109,7 @@ const authAction = computed(() =>
             class="h-12 w-auto object-contain md:h-14"
           />
           <div class="flex flex-col justify-center">
-            <span
-              class="font-lora text-base font-medium text-cfp-olive transition-colors group-hover:text-cfp-olive/80 sm:text-xl"
-            >
+            <span class="font-lora text-base font-medium text-cfp-olive transition-colors group-hover:text-cfp-olive/80 sm:text-xl">
               {{ orgName }}
             </span>
             <div class="mt-1 flex flex-wrap items-center gap-1.5 font-poppins text-xs text-cfp-olive/80 sm:text-sm">
@@ -90,7 +123,6 @@ const authAction = computed(() =>
           </div>
         </NuxtLink>
 
-        <!-- Right Side: FAQ / Contact (Desktop) -->
         <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-cfp-olive md:flex">
           <NuxtLink
             to="#"
@@ -102,7 +134,6 @@ const authAction = computed(() =>
           >Contact</NuxtLink>
         </div>
 
-        <!-- Mobile hamburger -->
         <button
           class="text-cfp-olive md:hidden"
           aria-label="Toggle menu"
@@ -133,7 +164,6 @@ const authAction = computed(() =>
       </div>
     </div>
 
-    <!-- Bottom Navbar -->
     <div class="hidden bg-cfp-yellow md:block">
       <div class="mx-auto flex max-w-6xl items-center justify-between pl-6">
         <div class="flex items-center gap-6 overflow-x-auto">
@@ -148,16 +178,96 @@ const authAction = computed(() =>
           </NuxtLink>
         </div>
 
+        <div
+          v-if="isLoggedIn"
+          id="user-dropdown-wrapper"
+          class="relative self-stretch"
+        >
+          <button
+            class="inline-flex h-full items-center gap-2.5 self-stretch bg-white px-5 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+            @click.stop="userDropdownOpen = !userDropdownOpen"
+          >
+            <span class="relative inline-flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-cfp-olive/10 ring-1 ring-cfp-olive/20">
+              <img
+                v-if="avatarUrl"
+                :src="avatarUrl"
+                :alt="authUser?.name"
+                class="size-full object-cover"
+              >
+              <span
+                v-else
+                class="text-xs font-bold text-cfp-olive"
+              >{{ userInitials }}</span>
+            </span>
+            <span class="max-w-30 truncate">{{ authUser?.name }}</span>
+            <Icon
+              name="ph:caret-down-bold"
+              class="size-3.5 shrink-0 transition-transform duration-200"
+              :class="userDropdownOpen ? 'rotate-180' : ''"
+            />
+          </button>
+
+          <Transition
+            enter-active-class="transition duration-150 ease-out"
+            enter-from-class="opacity-0 -translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition duration-100 ease-in"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 -translate-y-1"
+          >
+            <div
+              v-show="userDropdownOpen"
+              class="absolute top-full right-0 z-50 min-w-48 overflow-hidden rounded-b-xl bg-white shadow-lg ring-1 ring-black/5"
+            >
+              <div class="border-b border-gray-100 px-4 py-3">
+                <p class="truncate font-poppins text-xs font-semibold text-cfp-olive">
+                  {{ authUser?.name }}
+                </p>
+                <p class="truncate font-poppins text-xs text-gray-400">
+                  {{ authUser?.email }}
+                </p>
+              </div>
+              <nav class="py-1">
+                <NuxtLink
+                  v-for="item in USER_MENU_ITEMS"
+                  :key="item.href"
+                  :to="item.href"
+                  class="flex items-center gap-3 px-4 py-2.5 font-poppins text-sm text-gray-700 transition-colors hover:bg-cfp-yellow/20 hover:text-cfp-olive"
+                  @click="userDropdownOpen = false"
+                >
+                  <Icon
+                    :name="item.icon"
+                    class="size-4 shrink-0 text-cfp-olive/70"
+                  />
+                  {{ item.label }}
+                </NuxtLink>
+              </nav>
+              <div class="border-t border-gray-100 py-1">
+                <button
+                  class="flex w-full items-center gap-3 px-4 py-2.5 font-poppins text-sm text-cfp-red transition-colors hover:bg-red-50"
+                  @click="handleLogout"
+                >
+                  <Icon
+                    name="ph:sign-out-bold"
+                    class="size-4 shrink-0"
+                  />
+                  Logout
+                </button>
+              </div>
+            </div>
+          </Transition>
+        </div>
+
         <NuxtLink
-          :to="authAction.href"
+          v-else
+          to="/login"
           class="inline-flex h-full items-center self-stretch bg-white px-8 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
         >
-          {{ authAction.label }}
+          Login
         </NuxtLink>
       </div>
     </div>
 
-    <!-- Mobile menu -->
     <div
       v-show="open"
       class="flex flex-col gap-3 bg-cfp-yellow px-6 pt-2 pb-4 md:hidden"
@@ -177,20 +287,89 @@ const authAction = computed(() =>
         to="#"
         class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
         @click="open = false"
-      >FAQ
-      </NuxtLink>
+      >FAQ</NuxtLink>
       <NuxtLink
         to="/pages/contact"
         class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
         @click="open = false"
-      >
-        Contact</NuxtLink>
+      >Contact</NuxtLink>
+
+      <div class="my-1 h-px w-full bg-white/30" />
+
+      <template v-if="isLoggedIn">
+        <button
+          class="flex w-full items-center justify-between py-2 font-poppins text-sm font-semibold text-white"
+          @click="mobileAccountOpen = !mobileAccountOpen"
+        >
+          <span class="flex items-center gap-2.5">
+            <span class="inline-flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/20 ring-1 ring-white/30">
+              <img
+                v-if="avatarUrl"
+                :src="avatarUrl"
+                :alt="authUser?.name"
+                class="size-full object-cover"
+              >
+              <span
+                v-else
+                class="text-xs font-bold text-white"
+              >{{ userInitials }}</span>
+            </span>
+            <span class="max-w-40 truncate">{{ authUser?.name }}</span>
+          </span>
+          <Icon
+            name="ph:caret-down-bold"
+            class="size-3.5 shrink-0 transition-transform duration-200"
+            :class="mobileAccountOpen ? 'rotate-180' : ''"
+          />
+        </button>
+
+        <Transition
+          enter-active-class="transition-all duration-200 ease-out"
+          enter-from-class="opacity-0 max-h-0"
+          enter-to-class="opacity-100 max-h-60"
+          leave-active-class="transition-all duration-150 ease-in"
+          leave-from-class="opacity-100 max-h-60"
+          leave-to-class="opacity-0 max-h-0"
+        >
+          <div
+            v-show="mobileAccountOpen"
+            class="overflow-hidden rounded-xl bg-white/10 backdrop-blur-sm"
+          >
+            <NuxtLink
+              v-for="item in USER_MENU_ITEMS"
+              :key="item.href"
+              :to="item.href"
+              class="flex items-center gap-3 px-4 py-3 font-poppins text-sm text-white transition-colors hover:bg-white/10"
+              @click="open = false; mobileAccountOpen = false"
+            >
+              <Icon
+                :name="item.icon"
+                class="size-4 shrink-0 text-white/70"
+              />
+              {{ item.label }}
+            </NuxtLink>
+            <div class="mx-4 h-px bg-white/20" />
+            <button
+              class="flex w-full items-center gap-3 px-4 py-3 font-poppins text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+              @click="handleLogout"
+            >
+              <Icon
+                name="ph:sign-out-bold"
+                class="size-4 shrink-0"
+              />
+              Logout
+            </button>
+          </div>
+        </Transition>
+      </template>
+
       <NuxtLink
-        :to="authAction.href"
-        class="mt-4 rounded bg-white px-5 py-2 text-center font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+        v-else
+        to="/login"
+        class="mt-2 rounded bg-white px-5 py-2 text-center font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
         @click="open = false"
       >
-        {{ authAction.label }}
+        Login
       </NuxtLink>
     </div>
   </header>
