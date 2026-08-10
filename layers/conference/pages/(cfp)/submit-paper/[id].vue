@@ -12,6 +12,9 @@ const paperId = route.params.id as string;
 console.log("Edit page loaded for Paper ID:", paperId);
 
 const { currentStep, form, submitted, reset } = useSubmissionWizard();
+
+// Ensure we never show the success screen when editing an existing paper.
+submitted.value = false;
 const { getConferencePaper } = useConferenceService();
 
 const { data: paperData, status, error } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, "10", "101"));

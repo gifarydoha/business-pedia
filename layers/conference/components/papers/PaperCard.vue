@@ -30,7 +30,7 @@ const pdfUrl = computed(() =>
 async function downloadPdf() {
   if (!pdfUrl.value) return;
   try {
-    const blob = await $fetch<Blob>(pdfUrl.value, { responseType: "blob" });
+    const blob = await $fetch(pdfUrl.value, { responseType: "blob" }) as Blob;
     const objectUrl = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = objectUrl;

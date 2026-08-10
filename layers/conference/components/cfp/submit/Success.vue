@@ -14,7 +14,7 @@ defineEmits<{
 
 <template>
   <div>
-    <CfpBreadcrumb
+    <CfpSharedBreadcrumb
       :crumbs="[
         { label: 'Submit Your Paper', href: '/submit-paper' },
         { label: 'Confirmation' },
@@ -94,12 +94,12 @@ defineEmits<{
           >
             Back to Home
           </NuxtLink>
-          <button
+          <!-- <button
             class="rounded-full border-2 border-cfp-olive px-7 py-3 font-lora font-bold text-cfp-olive transition-colors hover:bg-cfp-olive/5"
             @click="$emit('reset')"
           >
             Submit Another Paper
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
