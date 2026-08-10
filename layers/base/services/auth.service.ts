@@ -151,7 +151,7 @@ export function useAuthService() {
 
   async function logout(refreshToken: string): Promise<void> {
     try {
-      await ($api as typeof $fetch)("/auth/logout", {
+      await ($api as typeof $fetch)("/ciaur/secure_api/logout", {
         method: "POST",
         body: { refresh_token: refreshToken },
       });
