@@ -13,35 +13,16 @@ defineEmits<{
 const config = useRuntimeConfig();
 const confBase = String(config.public.confApiBase);
 
-// Auth params required by the conference API
-const API_PARAMS = new URLSearchParams({
-  access_key: "123456789",
-  is_my_paper: "1",
-  conference_id: "10",
-  user_id: "101",
-}).toString();
+// PDF path in the CodeIgniter fdrives directory
+const PDF_BASE_PATH = "fdrives/sid/qawmiworld/conference/2026";
 
 const pdfUrl = computed(() =>
   props.paper.paper_file_name
-    ? `${confBase}/conference/conference_api/conference_paper/file/${props.paper.paper_file_name}?${API_PARAMS}`
+    ? `${confBase}/${PDF_BASE_PATH}/${props.paper.paper_file_name}`
     : null,
 );
 
-async function downloadPdf() {
-  if (!pdfUrl.value) return;
-  try {
-    const blob = await $fetch(pdfUrl.value, { responseType: "blob" }) as Blob;
-    const objectUrl = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = objectUrl;
-    a.download = props.paper.paper_file_name ?? "paper.pdf";
-    a.click();
-    URL.revokeObjectURL(objectUrl);
-  }
-  catch (e) {
-    console.error("PDF download failed:", e);
-  }
-}
+// PDF download handled by the <a download> anchor directly — no blob fetch needed.
 </script>
 
 <template>
@@ -96,25 +77,26 @@ async function downloadPdf() {
             Preview
           </button>
 
-          <!-- Preview PDF -->
+          <!-- Preview PDF: opens in new tab using browser's native PDF viewer -->
           <a
             v-if="pdfUrl"
             :href="pdfUrl"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex-1 rounded-full border-2 border-blue-400/40 px-5 py-2 text-center font-lora text-sm font-bold text-blue-600 transition-colors hover:border-blue-500 hover:bg-blue-50 md:flex-none"
+            class="flex-1 rounded-full border-2 border-cfp-olive/40 px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:border-cfp-olive hover:bg-cfp-olive-pale md:flex-none"
           >
             Preview PDF
           </a>
 
-          <!-- Download PDF -->
-          <button
+          <!-- Download PDF: uses <a download> so the browser prompts a save dialog -->
+          <a
             v-if="pdfUrl"
-            class="flex-1 rounded-full border-2 border-emerald-400/40 px-5 py-2 text-center font-lora text-sm font-bold text-emerald-700 transition-colors hover:border-emerald-500 hover:bg-emerald-50 md:flex-none"
-            @click="downloadPdf"
+            :href="pdfUrl"
+            :download="paper.paper_file_name ?? 'paper.pdf'"
+            class="flex-1 rounded-full border-2 border-cfp-olive px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white md:flex-none"
           >
             Download
-          </button>
+          </a>
 
           <NuxtLink
             :to="`/submit-paper/${paper.id}`"
