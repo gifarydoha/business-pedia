@@ -22,7 +22,9 @@ const pdfUrl = computed(() =>
     : null,
 );
 
-// PDF download handled by the <a download> anchor directly — no blob fetch needed.
+// No JS download logic needed.
+// The browser handles the download natively via <a download> once the backend
+// sends Access-Control-Allow-Origin + Content-Disposition: attachment headers.
 </script>
 
 <template>
@@ -68,42 +70,44 @@ const pdfUrl = computed(() =>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="flex shrink-0 gap-3 md:flex-col">
+        <!-- Actions: 2x2 grid -->
+        <div class="grid shrink-0 grid-cols-2 gap-2 sm:w-64 md:w-72">
+          <!-- Lowest importance: Preview (Modal) -->
           <button
-            class="flex-1 rounded-full border-2 border-cfp-olive/30 px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:border-cfp-olive hover:bg-cfp-olive-pale md:flex-none"
+            class="flex-1 rounded-full border-2 border-cfp-olive/20 px-3 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive-pale"
             @click="$emit('preview', paper)"
           >
             Preview
           </button>
 
-          <!-- Preview PDF: opens in new tab using browser's native PDF viewer -->
+          <!-- Highest importance: Edit -->
+          <NuxtLink
+            :to="`/submit-paper/${paper.id}`"
+            class="flex-1 rounded-full border-2 border-cfp-red bg-cfp-red px-3 py-2 text-center font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+          >
+            Edit
+          </NuxtLink>
+
+          <!-- Medium importance: Preview PDF -->
           <a
             v-if="pdfUrl"
             :href="pdfUrl"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex-1 rounded-full border-2 border-cfp-olive/40 px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:border-cfp-olive hover:bg-cfp-olive-pale md:flex-none"
+            class="flex-1 rounded-full border-2 border-cfp-olive px-3 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
           >
             Preview PDF
           </a>
 
-          <!-- Download PDF: uses <a download> so the browser prompts a save dialog -->
+          <!-- High importance: Download -->
           <a
             v-if="pdfUrl"
             :href="pdfUrl"
             :download="paper.paper_file_name ?? 'paper.pdf'"
-            class="flex-1 rounded-full border-2 border-cfp-olive px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white md:flex-none"
+            class="flex-1 rounded-full border-2 border-cfp-olive bg-cfp-olive px-3 py-2 text-center font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             Download
           </a>
-
-          <NuxtLink
-            :to="`/submit-paper/${paper.id}`"
-            class="flex-1 rounded-full border-2 border-cfp-olive px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white md:flex-none"
-          >
-            Edit
-          </NuxtLink>
         </div>
       </div>
     </div>
