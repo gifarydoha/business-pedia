@@ -51,6 +51,15 @@ export interface GoogleLoginPayload {
   idToken: string;
 }
 
+export interface QuickRegisterPayload {
+  name: string;
+  email: string;
+  contact_number: string;
+  username: string;
+  password: string;
+  confirm_password: string;
+}
+
 // ─── Raw CodeIgniter response shapes ───────────────────────────────────────────
 // These are the ONLY interfaces that change on NestJS migration.
 

@@ -9,6 +9,7 @@ import type {
   ResendOtpPayload,
   ForgotPasswordPayload,
   ResetPasswordPayload,
+  QuickRegisterPayload,
 } from "~~/layers/base/types/auth";
 import { useAuthService } from "~~/layers/base/services/auth.service";
 
@@ -146,6 +147,25 @@ export const useAuthStore = defineStore("auth", {
       }
       catch (err: unknown) {
         this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Google sign-in failed.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
+
+    async quickRegister(payload: QuickRegisterPayload) {
+      const authService = useAuthService();
+      const { setTokens, userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
+      try {
+        const result = await authService.quickRegister(payload);
+        setTokens(result.tokens);
+        this.user = result.user;
+        userCookie.value = JSON.stringify(result.user);
+        return result;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Quick registration failed.";
         throw err;
       }
       finally { this.loading = false; }

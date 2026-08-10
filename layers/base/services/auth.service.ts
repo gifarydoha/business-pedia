@@ -12,6 +12,7 @@ import type {
   ForgotPasswordPayload,
   ResetPasswordPayload,
   GoogleLoginPayload,
+  QuickRegisterPayload,
 } from "~~/layers/base/types/auth";
 import type { User } from "~~/layers/base/types/user";
 
@@ -127,6 +128,22 @@ export function useAuthService() {
     return mapCIResponse(res);
   }
 
+  async function quickRegister(payload: QuickRegisterPayload): Promise<AuthResult> {
+    const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/quick_account", {
+      baseURL: config.public.confApiBase,
+      method: "POST",
+      body: new URLSearchParams({
+        name: payload.name,
+        email: payload.email,
+        contact_number: payload.contact_number,
+        username: payload.username,
+        password: payload.password,
+        confirm_password: payload.confirm_password,
+      }),
+    });
+    return mapCIResponse(res);
+  }
+
   async function fetchUser(): Promise<User> {
     const res = await ($api as typeof $fetch)<CIMeResponse>("/auth/me");
     return mapCIUser(res.data.user);
@@ -152,6 +169,7 @@ export function useAuthService() {
     resetPassword,
     login,
     loginWithGoogle,
+    quickRegister,
     fetchUser,
     logout,
   };

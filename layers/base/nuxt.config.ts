@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY ?? "",
-      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com/website/website_api",
+      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "http://localhost:9100",
       kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
       confApiBase: "http://localhost:9100",
       // confApiBase: process.env.NUXT_PUBLIC_CONF_API_BASE ?? "http://localhost:9100",
