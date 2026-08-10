@@ -74,9 +74,9 @@ const fields = computed(() => [
         </NuxtLink>
       </div>
 
-      <span class="mb-6 inline-block rounded-full bg-gray-50 px-3 py-1 font-poppins text-xs text-gray-400">
+      <!-- <span class="mb-6 inline-block rounded-full bg-gray-50 px-3 py-1 font-poppins text-xs text-gray-400">
         ID: {{ userId }}
-      </span>
+      </span> -->
 
       <!-- Bio -->
       <p class="mb-6 font-poppins text-sm leading-relaxed text-gray-600">

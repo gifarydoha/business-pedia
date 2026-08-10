@@ -1,10 +1,44 @@
 <script setup lang="ts">
-import { defaultUser } from "~/layers/conference/data/profile.mock";
+import type { UserProfile } from "~/layers/conference/types/profile";
 
 definePageMeta({ layout: "conference" });
 useSeoMeta({ title: "My Profile" });
 
-const user = defaultUser;
+const authStore = useAuthStore();
+const authUser = computed(() => authStore.user);
+
+// Helper: derive initials from name ("doha15" → "D", "Amara Osei" → "AO")
+function getInitials(name: string | undefined): string {
+  if (!name) return "?";
+  return name
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0)
+    .map((w) => w[0]!.toUpperCase())
+    .join("")
+    .slice(0, 2);
+}
+
+// Helper: format ISO date → "August 2026"
+function formatJoined(iso: string | undefined): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+}
+
+const user = computed<UserProfile>(() => ({
+  // ── Live from API ──────────────────────────────────────────────
+  name: authUser.value?.name ?? "—",
+  email: authUser.value?.email ?? "—",
+  userId: authUser.value?.id ? `USR-${authUser.value.id}` : "—",
+  avatarInitials: getInitials(authUser.value?.name),
+  joined: formatJoined(authUser.value?.createdAt),
+  // ── Static defaults (not returned by API) ─────────────────────
+  affiliation: "North South University, Dhaka",
+  country: "Bangladesh",
+  bio: "No bio provided.",
+  papers: 0,
+  track: "—",
+}));
 </script>
 
 <template>
