@@ -51,7 +51,7 @@ function mapCIUser(raw: CIAuthResponse["data"]["user"]): User {
 export function useAuthService() {
   const { $api } = useNuxtApp();
   const config = useRuntimeConfig();
-  const base = config.public.apiBase;
+  const base = config.public.authBase as string;
 
   async function register(payload: RegisterPayload): Promise<CISimpleResponse> {
     return $fetch<CISimpleResponse>("/auth/register", {
@@ -130,7 +130,7 @@ export function useAuthService() {
 
   async function quickRegister(payload: QuickRegisterPayload): Promise<AuthResult> {
     const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/quick_account", {
-      baseURL: config.public.confApiBase,
+      baseURL: base,
       method: "POST",
       body: new URLSearchParams({
         name: payload.name,
