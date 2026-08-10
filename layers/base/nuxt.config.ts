@@ -32,15 +32,23 @@ export default defineNuxtConfig({
       confApiBase: env.ciBase,
       imageBase: env.imageBase,
       appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy-Frontend",
-      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
+      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
     },
   },
   dir: {
     public: "../../public",
   },
   srcDir: ".",
+  routeRules: {
+    "/**": {
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+      },
+    },
+  },
   compatibilityDate: "2026-08-08",
   pinia: {
     storesDirs: ["./stores/**"],
   },
+
 });

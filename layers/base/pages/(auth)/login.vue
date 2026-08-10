@@ -23,7 +23,7 @@ const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
     await authStore.login(values);
-    await navigateTo((route.query.redirect as string) || "/dashboard");
+    await navigateTo((route.query.redirect as string) || "/profile");
   }
   catch {
     serverError.value = authStore.error || "Login failed";
@@ -34,7 +34,7 @@ async function handleGoogleCredential(idToken: string) {
   clearErrors();
   try {
     await authStore.loginWithGoogle({ idToken });
-    await navigateTo("/dashboard");
+    await navigateTo("/profile");
   }
   catch {
     serverError.value = authStore.error || "Google sign-in failed";

@@ -111,7 +111,7 @@ export function useAuthService() {
   // ── Authenticated — $api (Bearer token auto-attached + auto-refreshed) ───────
 
   async function login(payload: LoginPayload): Promise<AuthResult> {
-    const res = await $fetch<CIAuthResponse>("/auth/login", {
+    const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/password_login", {
       baseURL: base,
       method: "POST",
       body: payload,
