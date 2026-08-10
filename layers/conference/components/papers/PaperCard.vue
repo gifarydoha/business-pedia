@@ -88,14 +88,14 @@ const pdfUrl = computed(() =>
           </NuxtLink>
 
           <!-- Medium importance: Preview PDF -->
-          <button
+          <!-- <button
             v-if="pdfUrl"
             class="flex-1 rounded-lg border-2 border-primary-teal px-3 py-2 text-center font-lora text-sm font-bold
             text-primary-teal transition-colors hover:bg-primary-teal hover:text-white"
             @click.prevent="$emit('preview-pdf', pdfUrl)"
           >
             Preview PDF
-          </button>
+          </button> -->
 
           <!-- High importance: Download -->
           <a
