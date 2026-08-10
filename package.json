@@ -39,6 +39,7 @@
     "tailwindcss": "^4.3.3",
     "tailwindcss-animate": "^1.0.7",
     "vue": "^3.5.40",
+    "vue-pdf-embed": "^2.1.5",
     "vue-router": "^5.2.0",
     "zod": "^4.4.3"
   },

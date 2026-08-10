@@ -7,7 +7,8 @@ const props = defineProps<{
 }>();
 
 defineEmits<{
-  preview: [paper: Paper];
+  "preview": [paper: Paper];
+  "preview-pdf": [url: string];
 }>();
 
 const config = useRuntimeConfig();
@@ -21,14 +22,12 @@ const pdfUrl = computed(() =>
     ? `${confBase}/${PDF_BASE_PATH}/${props.paper.paper_file_name}`
     : null,
 );
-
-// No JS download logic needed.
-// The browser handles the download natively via <a download> once the backend
-// sends Access-Control-Allow-Origin + Content-Disposition: attachment headers.
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-2xl border border-cfp-olive/15 bg-white shadow-lg transition-shadow hover:shadow-xl">
+  <div
+    class="overflow-hidden rounded-2xl border border-cfp-olive/15 bg-white shadow-lg transition-shadow hover:shadow-xl"
+  >
     <div class="p-6 md:p-7">
       <div class="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
         <!-- Content -->
@@ -74,7 +73,7 @@ const pdfUrl = computed(() =>
         <div class="grid shrink-0 grid-cols-2 gap-2 sm:w-64 md:w-72">
           <!-- Lowest importance: Preview (Modal) -->
           <button
-            class="flex-1 rounded-full border-2 border-cfp-olive/20 px-3 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive-pale"
+            class="flex-1 rounded-lg border-2 border-cfp-olive/30 px-3 py-2 text-center font-lora text-sm font-semibold text-cfp-olive/70 transition-colors hover:bg-cfp-olive/10 hover:text-cfp-olive"
             @click="$emit('preview', paper)"
           >
             Preview
@@ -83,28 +82,28 @@ const pdfUrl = computed(() =>
           <!-- Highest importance: Edit -->
           <NuxtLink
             :to="`/submit-paper/${paper.id}`"
-            class="flex-1 rounded-full border-2 border-cfp-red bg-cfp-red px-3 py-2 text-center font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+            class="flex-1 rounded-lg bg-cfp-red px-3 py-2 text-center font-lora text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             Edit
           </NuxtLink>
 
           <!-- Medium importance: Preview PDF -->
-          <a
+          <button
             v-if="pdfUrl"
-            :href="pdfUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex-1 rounded-full border-2 border-cfp-olive px-3 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+            class="flex-1 rounded-lg border-2 border-primary-teal px-3 py-2 text-center font-lora text-sm font-bold
+            text-primary-teal transition-colors hover:bg-primary-teal hover:text-white"
+            @click.prevent="$emit('preview-pdf', pdfUrl)"
           >
             Preview PDF
-          </a>
+          </button>
 
           <!-- High importance: Download -->
           <a
             v-if="pdfUrl"
             :href="pdfUrl"
             :download="paper.paper_file_name ?? 'paper.pdf'"
-            class="flex-1 rounded-full border-2 border-cfp-olive bg-cfp-olive px-3 py-2 text-center font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+            class="flex-1 rounded-lg bg-primary-teal px-3 py-2 text-center font-lora text-sm font-bold text-white
+            shadow-sm transition-opacity hover:opacity-90"
           >
             Download
           </a>

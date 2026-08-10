@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import type { Paper, PaperStatus } from "~/layers/conference/types/paper";
 import PaperPreviewModal from "~/layers/conference/components/papers/PaperPreviewModal.vue";
+import PdfPreviewModal from "~/layers/conference/components/papers/PdfPreviewModal.vue";
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
 import { useConferenceService } from "~/layers/conference/services/conference.service";
 
@@ -131,6 +132,8 @@ const counts = computed(() => ({
 const closePreview = () => {
   preview.value = null;
 };
+
+const pdfPreviewUrl = ref<string | null>(null);
 </script>
 
 <template>
@@ -140,6 +143,13 @@ const closePreview = () => {
       v-if="preview"
       :preview="preview"
       @close="closePreview"
+    />
+
+    <!-- PDF Preview Modal -->
+    <PdfPreviewModal
+      v-if="pdfPreviewUrl"
+      :pdf-url="pdfPreviewUrl"
+      @close="pdfPreviewUrl = null"
     />
 
     <CfpSharedBreadcrumb :crumbs="[{ label: 'My Conference Papers' }]" />
@@ -253,6 +263,7 @@ const closePreview = () => {
           :key="paper.id"
           :paper="paper"
           @preview="preview = paper"
+          @preview-pdf="url => pdfPreviewUrl = url"
         />
       </div>
 
