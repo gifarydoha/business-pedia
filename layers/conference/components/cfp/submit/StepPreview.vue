@@ -80,7 +80,6 @@ const submitPaper = async () => {
         color: "success",
       });
       submit();
-      navigateTo("/my-papers");
     }
     else {
       toast.add({

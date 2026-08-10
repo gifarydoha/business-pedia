@@ -2,13 +2,46 @@
 import type { Paper } from "~/layers/conference/types/paper";
 import { statusConfig } from "~/layers/conference/data/papers.mock";
 
-defineProps<{
+const props = defineProps<{
   paper: Paper;
 }>();
 
 defineEmits<{
   preview: [paper: Paper];
 }>();
+
+const config = useRuntimeConfig();
+const confBase = String(config.public.confApiBase);
+
+// Auth params required by the conference API
+const API_PARAMS = new URLSearchParams({
+  access_key: "123456789",
+  is_my_paper: "1",
+  conference_id: "10",
+  user_id: "101",
+}).toString();
+
+const pdfUrl = computed(() =>
+  props.paper.paper_file_name
+    ? `${confBase}/conference/conference_api/conference_paper/file/${props.paper.paper_file_name}?${API_PARAMS}`
+    : null,
+);
+
+async function downloadPdf() {
+  if (!pdfUrl.value) return;
+  try {
+    const blob = await $fetch<Blob>(pdfUrl.value, { responseType: "blob" });
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = props.paper.paper_file_name ?? "paper.pdf";
+    a.click();
+    URL.revokeObjectURL(objectUrl);
+  }
+  catch (e) {
+    console.error("PDF download failed:", e);
+  }
+}
 </script>
 
 <template>
@@ -62,6 +95,27 @@ defineEmits<{
           >
             Preview
           </button>
+
+          <!-- Preview PDF -->
+          <a
+            v-if="pdfUrl"
+            :href="pdfUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex-1 rounded-full border-2 border-blue-400/40 px-5 py-2 text-center font-lora text-sm font-bold text-blue-600 transition-colors hover:border-blue-500 hover:bg-blue-50 md:flex-none"
+          >
+            Preview PDF
+          </a>
+
+          <!-- Download PDF -->
+          <button
+            v-if="pdfUrl"
+            class="flex-1 rounded-full border-2 border-emerald-400/40 px-5 py-2 text-center font-lora text-sm font-bold text-emerald-700 transition-colors hover:border-emerald-500 hover:bg-emerald-50 md:flex-none"
+            @click="downloadPdf"
+          >
+            Download
+          </button>
+
           <NuxtLink
             :to="`/submit-paper/${paper.id}`"
             class="flex-1 rounded-full border-2 border-cfp-olive px-5 py-2 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white md:flex-none"

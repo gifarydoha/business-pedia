@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { CfpNextStep, SubmissionFormData } from "~~/layers/base/types/api";
+import type { CfpNextStep } from "~~/layers/base/types/api";
+import type { SubmissionFormData } from "~~/layers/conference/types/submission";
 
 defineProps<{
   form: SubmissionFormData | null;
@@ -43,16 +44,19 @@ defineEmits<{
           Submission Received!
         </h1>
         <p class="mb-2 font-poppins leading-relaxed text-gray-600">
-          Thank you, <strong class="text-cfp-olive">{{ form?.authors?.split(',')[0]?.trim() }}</strong>.
+          Thank you, <strong class="text-cfp-olive">{{ form?.authors?.[0]?.firstName }} {{ form?.authors?.[0]?.lastName }}</strong>.
           Your paper <em>"{{ form?.title }}"</em> has been submitted successfully for SBAC 2026.
         </p>
         <p class="mb-8 font-poppins text-sm text-gray-500">
           A confirmation email will be sent to
-          <span class="font-medium text-cfp-olive">{{ form?.email }}</span> within 24 hours.
+          <span class="font-medium text-cfp-olive">{{ form?.authors?.[0]?.email }}</span> within 24 hours.
         </p>
 
         <!-- What happens next -->
-        <div class="mb-8 rounded-2xl border border-cfp-olive/15 bg-white p-6 text-left shadow-lg">
+        <div
+          v-if="nextSteps && nextSteps.length"
+          class="mb-8 rounded-2xl border border-cfp-olive/15 bg-white p-6 text-left shadow-lg"
+        >
           <h2 class="mb-4 font-lora text-lg font-semibold text-cfp-olive">
             What Happens Next
           </h2>
@@ -79,8 +83,14 @@ defineEmits<{
 
         <div class="flex flex-wrap justify-center gap-4">
           <NuxtLink
-            to="/"
+            to="/my-papers"
             class="rounded-full bg-cfp-olive px-7 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
+          >
+            Go to My Papers
+          </NuxtLink>
+          <NuxtLink
+            to="/"
+            class="rounded-full border border-cfp-olive px-7 py-3 font-lora font-bold text-cfp-olive transition-opacity hover:opacity-90"
           >
             Back to Home
           </NuxtLink>

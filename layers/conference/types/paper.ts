@@ -8,4 +8,5 @@ export type Paper = {
   submittedDate: string;
   abstract: string;
   authors: string;
+  paper_file_name?: string;
 };
