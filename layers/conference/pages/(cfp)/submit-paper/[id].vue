@@ -17,11 +17,11 @@ const { currentStep, form, submitted, reset } = useSubmissionWizard();
 submitted.value = false;
 const { getConferencePaper } = useConferenceService();
 
-const { data: paperData, status, error } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, "10", "101"));
+const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, "10", "101"));
 
-watch(error, (err) => {
-  if (err) console.error("Failed to fetch paper:", err);
-}, { immediate: true });
+// watch(error, (err) => {
+//   if (err) console.error("Failed to fetch paper:", err);
+// }, { immediate: true });
 
 // Define a local type for the expected API response to avoid 'any'
 type ApiPaperResponse = {

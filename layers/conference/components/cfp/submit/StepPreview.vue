@@ -29,6 +29,7 @@ const submitPaper = async () => {
     // account_id: String(currentUserId),
     account_id: "101",
     type: "author",
+    ...(paperId && paperId !== "draft" && author.id ? { id: author.id } : {}),
     first_name: author.firstName,
     last_name: author.lastName,
     other_name: author.otherName || "",
