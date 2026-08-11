@@ -99,7 +99,7 @@ onMounted(() => {
     <p class="mt-6 text-center font-lora text-sm text-slate-500">
       Don't have an account?
       <NuxtLink
-        to="/register"
+        to="/quick-register"
         class="font-medium text-fy-teal-300 hover:underline"
       >
         Sign up

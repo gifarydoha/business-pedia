@@ -45,7 +45,7 @@ defineProps<{
         v-else
         class="flex justify-center gap-4"
       >
-        <NuxtLink to="/register">
+        <NuxtLink to="/quick-register">
           <UButton
             size="xl"
             color="neutral"

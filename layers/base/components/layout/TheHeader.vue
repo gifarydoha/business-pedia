@@ -108,7 +108,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               size="sm"
             >Login</UButton>
           </NuxtLink>
-          <NuxtLink to="/register">
+          <NuxtLink to="/quick-register">
             <UButton
               class="btn-brand-primary"
               size="sm"
@@ -261,7 +261,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                 </UButton>
               </NuxtLink>
               <NuxtLink
-                to="/register"
+                to="/quick-register"
                 class="w-full"
                 @click="isMobileMenuOpen = false"
               >

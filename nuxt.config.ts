@@ -65,6 +65,7 @@ export default defineNuxtConfig({
     // auth routes
     "/login": { ssr: false },
     "/register": { ssr: false },
+    "/quick-register": { ssr: false },
     "/forgot-password": { ssr: false },
     "/reset-password": { ssr: false },
     "/verify-otp": { ssr: false },

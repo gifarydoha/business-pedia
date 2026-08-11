@@ -4,6 +4,7 @@ Allow: /
 # Exclude protected/private routes from crawlers
 Disallow: /login
 Disallow: /register
+Disallow: /quick-register
 Disallow: /submit-paper
 Disallow: /dashboard
 
