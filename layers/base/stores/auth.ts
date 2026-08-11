@@ -1,4 +1,6 @@
 import { defineStore } from "pinia";
+import { navigateTo } from "#imports";
+import { useAuthTokens } from "~~/layers/base/composables/useAuthTokens";
 import type { User } from "~~/layers/base/types/user";
 import type {
   CISimpleResponse,
@@ -175,10 +177,11 @@ export const useAuthStore = defineStore("auth", {
       if (this.initialized) return;
       const { accessToken, userCookie } = useAuthTokens();
 
+      const userCookieVal = userCookie.value;
       // Fast path — hydrate from cookie (no network call)
-      if (userCookie.value) {
+      if (userCookieVal) {
         try {
-          this.user = JSON.parse(userCookie.value) as User;
+          this.user = JSON.parse(userCookieVal) as User;
         }
         catch { this.user = null; }
       }
@@ -198,8 +201,9 @@ export const useAuthStore = defineStore("auth", {
     async logout() {
       const authService = useAuthService();
       const { refreshToken, clearTokens } = useAuthTokens();
-      if (refreshToken.value) {
-        await authService.logout(refreshToken.value);
+      const refreshTokenVal = refreshToken.value;
+      if (refreshTokenVal) {
+        await authService.logout(refreshTokenVal);
       }
       clearTokens();
       this.user = null;
