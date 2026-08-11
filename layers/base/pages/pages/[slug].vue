@@ -13,7 +13,7 @@ if (!ALLOWED_SLUGS.includes(slug)) {
 
 const config = useRuntimeConfig();
 const { data, error, status } = await useFetch<ContentApiResponse>(
-  `${config.public.apiBase}/content/${slug}`,
+  `${config.public.apiBase}/website/website_api/content/${slug}`,
   {
     query: { access_key: config.public.apiAccessKey },
     key: `page-${slug}`,

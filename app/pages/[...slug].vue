@@ -17,7 +17,7 @@ if (alias.value && ALLOWED_SLUGS.includes(alias.value)) {
 
 const config = useRuntimeConfig();
 const { data, error, status } = await useFetch<ContentApiResponse>(
-  `${config.public.apiBase}/content/${alias.value}`,
+  `${config.public.apiBase}/website/website_api/content/${alias.value}`,
   {
     query: { access_key: config.public.apiAccessKey },
   },

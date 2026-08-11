@@ -8,10 +8,10 @@ const ENV_CONFIG = {
     imageBase: "http://localhost:9100",
   },
   prod: {
-    apiBase: "https://sbacbackend.autofybusiness.com/website/website_api",
+    apiBase: "https://sbacbackend.autofybusiness.com",
     authBase: "https://sbacbackend.autofybusiness.com",
     // authBase: "http://localhost:9100",
-    ciBase: "https://sbacbackend.autofybusiness.com/website/website_api",
+    ciBase: "https://sbacbackend.autofybusiness.com",
     imageBase: "https://sbacbackend.autofybusiness.com",
   },
 } as const;
