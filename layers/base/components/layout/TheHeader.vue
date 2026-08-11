@@ -86,7 +86,7 @@ const getHref = (item: { url?: string; link?: string }) => {
       <div class="hidden items-center gap-3 lg:flex">
         <template v-if="authStore.isLoggedIn">
           <NuxtLink
-            to="/dashboard"
+            to="/profile"
             class="hover:text-brand-primary text-sm font-medium text-gray-700"
           >
             {{ authStore.user?.name }}
@@ -230,7 +230,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               <div class="flex flex-col gap-2 rounded-lg bg-gray-50 p-4">
                 <span class="text-xs text-gray-500">Logged in as</span>
                 <NuxtLink
-                  to="/dashboard"
+                  to="/profile"
                   class="truncate text-sm font-medium text-gray-900"
                   @click="isMobileMenuOpen = false"
                 >

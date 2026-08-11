@@ -6,6 +6,6 @@ Disallow: /login
 Disallow: /register
 Disallow: /quick-register
 Disallow: /submit-paper
-Disallow: /dashboard
+Disallow: /profile
 
 Sitemap: https://autofymind.com/sitemap.xml

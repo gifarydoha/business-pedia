@@ -5,6 +5,6 @@ export default defineNuxtRouteMiddleware(async () => {
     await authStore.initAuth();
   }
   if (authStore.isAuthenticated) {
-    return navigateTo("/dashboard");
+    return navigateTo("/profile");
   }
 });

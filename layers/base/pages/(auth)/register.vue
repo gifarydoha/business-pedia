@@ -40,7 +40,7 @@ async function handleGoogleCredential(idToken: string) {
   clearErrors();
   try {
     await authStore.loginWithGoogle({ idToken });
-    await navigateTo("/dashboard");
+    await navigateTo("/profile");
   }
   catch {
     // Backend returns an error if this email is already registered via password
