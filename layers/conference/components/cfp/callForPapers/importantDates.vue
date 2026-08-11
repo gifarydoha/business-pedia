@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CfpDate } from "~/composables/useCfpContent";
+import type { CfpDate } from "../../../types/cfp";
 
 const props = defineProps<{
   dates: CfpDate[];
@@ -9,7 +9,7 @@ const props = defineProps<{
 <template>
   <section
     id="dates"
-    class="bg-cfp-cream py-20 md:py-28"
+    class="py-20 md:py-28"
   >
     <div class="mx-auto max-w-6xl px-6">
       <div class="mb-14">

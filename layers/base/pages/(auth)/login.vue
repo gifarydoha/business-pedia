@@ -3,7 +3,7 @@ import { useForm } from "vee-validate";
 import { LoginSchema } from "~~/layers/base/schemas/auth.schemas";
 // zodSchema auto-imported from utils/zodSchema.ts
 
-definePageMeta({ middleware: "guest", path: "/login" });
+definePageMeta({ layout: "conference", middleware: "guest", path: "/login" });
 
 const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();

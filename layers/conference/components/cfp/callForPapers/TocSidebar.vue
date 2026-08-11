@@ -7,9 +7,7 @@ const observer = ref<IntersectionObserver | null>(null);
 const tocSections = [
   { id: "overview", label: "Overview" },
   { id: "tracks", label: "Conference Tracks" },
-  { id: "principles", label: "7 Principles" },
-  { id: "themes", label: "Paper Themes" },
-  { id: "submission", label: "Submission" },
+  { id: "important-dates", label: "Important Dates" },
 ];
 
 onMounted(() => {

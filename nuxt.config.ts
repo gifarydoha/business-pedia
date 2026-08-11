@@ -58,7 +58,7 @@ export default defineNuxtConfig({
     "/": { isr: 60 },
     "/pages/**": { isr: 300 },
     "/guidelines": { isr: 300 },
-    "/call-for-paper": { isr: 300 },
+    "/call-for-papers": { ssr: true },
     "/dashboard/**": { ssr: true },
     "/**": { isr: 120 },
 

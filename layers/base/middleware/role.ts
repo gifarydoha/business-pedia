@@ -17,6 +17,7 @@ export default defineNuxtRouteMiddleware((to) => {
     author: 2,
     reviewer: 1,
     reader: 0,
+    client: 0,
   };
 
   const userLevel = roleHierarchy[authStore.userRole ?? "reader"];

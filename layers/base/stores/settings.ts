@@ -71,7 +71,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
     try {
       const config = useRuntimeConfig();
-      const raw = (await $fetch(
+      const raw = await $fetch<SettingsApiResponse>(
         `${config.public.apiBase}/website/website_api/settings`, // <-- THIS IS THE API URL
         {
           query: {
@@ -79,7 +79,7 @@ export const useSettingsStore = defineStore("settings", () => {
           },
           timeout: 8000,
         },
-      )) as SettingsApiResponse;
+      );
 
       const orgInfo = raw?.sid_site?.app_setting?.organization_information ?? null;
       settings.value = {

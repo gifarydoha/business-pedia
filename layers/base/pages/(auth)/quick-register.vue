@@ -3,7 +3,7 @@ import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
 import { QuickRegisterSchema } from "~~/layers/base/schemas/auth.schemas";
 
-definePageMeta({ middleware: "guest", path: "/quick-register" });
+definePageMeta({ layout: "conference", middleware: "guest", path: "/quick-register" });
 
 const authStore = useAuthStore();
 const { serverError, clearErrors } = useAuthForm();
