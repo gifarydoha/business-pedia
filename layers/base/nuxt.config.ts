@@ -17,8 +17,8 @@ const ENV_CONFIG = {
 } as const;
 
 type CIEnv = keyof typeof ENV_CONFIG;
-const ciEnv = (process.env.NUXT_CI_ENV ?? "dev") as CIEnv;
-const env = ENV_CONFIG[ciEnv] ?? ENV_CONFIG.dev;
+const ciEnv = (process.env.NUXT_CI_ENV ?? "prod") as CIEnv;
+const env = ENV_CONFIG[ciEnv] ?? ENV_CONFIG.prod;
 
 export default defineNuxtConfig({
   modules: ["@pinia/nuxt"],

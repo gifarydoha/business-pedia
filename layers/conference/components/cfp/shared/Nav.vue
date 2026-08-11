@@ -38,9 +38,9 @@ const userInitials = computed(() => {
 });
 
 const FALLBACK_NAV_LINKS = [
-  { label: "Announcement", href: "/#announcement" },
-  { label: "Tracks and Sessions", href: "/#tracks" },
-  { label: "Call For Papers", href: "/read-full-cfp" },
+  { label: "Call For Papers", href: "/call-for-papers" },
+  { label: "Tracks", href: "/tracks" },
+  { label: "Committee", href: "/committee" },
 ];
 
 const getHref = (item: { url?: string; link?: string }) => {
@@ -51,6 +51,9 @@ const getHref = (item: { url?: string; link?: string }) => {
 
 const navLinks = computed(() => {
   if (settingsStore.mainMenu && settingsStore.mainMenu.length > 0) {
+    // console.log(settingsStore.mainMenu.map((item) => ({
+    //   href: getHref(item),
+    // })));
     return settingsStore.mainMenu.map((item) => ({
       label: item.label,
       href: getHref(item),
@@ -124,14 +127,14 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
         </NuxtLink>
 
         <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-cfp-olive md:flex">
-          <NuxtLink
+          <!-- <NuxtLink
             to="#"
             class="transition-colors hover:text-cfp-red"
           >FAQ</NuxtLink>
           <NuxtLink
             to="/pages/contact"
             class="transition-colors hover:text-cfp-red"
-          >Contact</NuxtLink>
+          >Contact</NuxtLink> -->
         </div>
 
         <button
@@ -283,7 +286,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
         {{ l.label }}
       </NuxtLink>
       <div class="my-2 h-px w-full bg-white/30" />
-      <NuxtLink
+      <!-- <NuxtLink
         to="#"
         class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
         @click="open = false"
@@ -292,7 +295,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
         to="/pages/contact"
         class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
         @click="open = false"
-      >Contact</NuxtLink>
+      >Contact</NuxtLink> -->
 
       <div class="my-1 h-px w-full bg-white/30" />
 
