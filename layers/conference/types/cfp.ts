@@ -28,3 +28,24 @@ export interface CfpContent {
   tracks: CfpTrack[];
   dates: CfpDate[];
 }
+
+export interface CommitteeMember {
+  name: string;
+  title: string;
+  email: string | null;
+  isTrackChair: boolean;
+}
+
+export interface CommitteeGroup {
+  trackName: string;
+  members: CommitteeMember[];
+}
+
+/** Full parsed content for the /committee page. */
+export interface CommitteeContent {
+  coChairs: CommitteeMember[];
+  groups: CommitteeGroup[];
+}
+
+/** Full parsed content for the /tracks page (just the track list). */
+export type TracksContent = CfpTrack[];
