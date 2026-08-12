@@ -52,6 +52,7 @@ export function useAuthService() {
   const { $api } = useNuxtApp();
   const config = useRuntimeConfig();
   const base = config.public.authBase as string;
+  console.log(base);
 
   async function register(payload: RegisterPayload): Promise<CISimpleResponse> {
     return $fetch<CISimpleResponse>("/auth/register", {

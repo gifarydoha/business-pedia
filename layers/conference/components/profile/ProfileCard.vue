@@ -14,7 +14,7 @@ const fields = computed(() => [
 <template>
   <div>
     <!-- Stats row -->
-    <div class="mb-5 grid grid-cols-3 gap-3">
+    <!-- <div class="mb-5 grid grid-cols-3 gap-3">
       <div
         v-for="s in [
           { val: papers, label: 'Papers Submitted' },
@@ -31,7 +31,7 @@ const fields = computed(() => [
           {{ s.label }}
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Main profile card — light, no header band -->
     <div class=" rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
@@ -53,7 +53,7 @@ const fields = computed(() => [
           </div>
         </div>
 
-        <NuxtLink
+        <!-- <NuxtLink
           to="/profile/edit"
           class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cfp-olive/25 px-4 py-1.5 font-poppins text-sm font-medium text-cfp-olive transition-colors hover:bg-cfp-olive/5"
         >
@@ -71,7 +71,7 @@ const fields = computed(() => [
             />
           </svg>
           Edit
-        </NuxtLink>
+        </NuxtLink> -->
       </div>
 
       <!-- <span class="mb-6 inline-block rounded-full bg-gray-50 px-3 py-1 font-poppins text-xs text-gray-400">

@@ -158,7 +158,7 @@ const pdfPreviewUrl = ref<string | null>(null);
     <!-- Page header -->
     <div class="mx-auto mt-8 flex max-w-6xl flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
       <h1 class="mb-6 font-lora text-2xl font-bold text-cfp-olive md:text-3xl">
-        SBAC 2023
+        Social Business Academia Conference
       </h1>
 
       <div class="flex flex-wrap items-center gap-5">

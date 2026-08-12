@@ -33,8 +33,8 @@ const user = computed<UserProfile>(() => ({
   avatarInitials: getInitials(authUser.value?.name),
   joined: formatJoined(authUser.value?.createdAt),
   // ── Static defaults (not returned by API) ─────────────────────
-  affiliation: "North South University, Dhaka",
-  country: "Bangladesh",
+  affiliation: "—",
+  country: "—",
   bio: "No bio provided.",
   papers: 0,
   track: "—",
