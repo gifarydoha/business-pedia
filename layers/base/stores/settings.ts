@@ -101,9 +101,9 @@ export const useSettingsStore = defineStore("settings", () => {
       const err = e as { data?: { statusMessage?: string }; message?: string };
       error.value
         = err.data?.statusMessage
-        ?? err.message
-        ?? "Failed to load site settings.";
-      console.error("[settings store] Failed to load settings:", error.value);
+          ?? err.message
+          ?? "Failed to load site settings.";
+      // console.error("[settings store] Failed to load settings:", error.value);
     }
     finally {
       isLoading.value = false;
