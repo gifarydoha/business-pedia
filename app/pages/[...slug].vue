@@ -32,7 +32,7 @@ const isPageEmpty = computed(() => {
 });
 
 if (error.value || isPageEmpty.value) {
-  throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true });
+  showError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true });
 }
 
 useSeoMeta({

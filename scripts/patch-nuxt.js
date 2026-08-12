@@ -16,6 +16,6 @@ if (fs.existsSync(pluginPath)) {
   if (content.includes(badExport)) {
     content = content.replace(badExport, goodExport);
     fs.writeFileSync(pluginPath, content, "utf8");
-    console.log("[Post-install] Patched Nuxt check-if-page-unused.js to fix NUXT_B2005 warning.");
+    // console.log("[Post-install] Patched Nuxt check-if-page-unused.js to fix NUXT_B2005 warning.");
   }
 }

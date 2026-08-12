@@ -19,7 +19,7 @@ const [password, passwordAttrs] = defineField("password");
 const googleBtnRef = ref<HTMLElement | null>(null);
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log(values);
+  // console.log(values);
   clearErrors();
   try {
     await authStore.login(values);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useConferenceService } from "#layers/conference/services/conference.service";
-import { toRaw } from "vue";
+// import { toRaw } from "vue";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { COUNTRIES, CONFERENCE_TRACKS, type PresentationTrack } from "~~/layers/conference/types/submission";
 
@@ -22,7 +22,7 @@ const submitPaper = async () => {
   const currentUserId = authStore.user?.id || "";
 
   const formData = new FormData();
-  console.log("Submitted Data:", toRaw(form.value));
+  // console.log("Submitted Data:", toRaw(form.value));
 
   const authors = form.value.authors.map((author) => ({
     account_id: String(currentUserId),

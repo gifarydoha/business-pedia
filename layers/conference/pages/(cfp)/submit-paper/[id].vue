@@ -9,7 +9,7 @@ useSeoMeta({ title: "Edit Paper Submission" });
 const route = useRoute();
 const paperId = route.params.id as string;
 
-console.log("Edit page loaded for Paper ID:", paperId);
+// console.log("Edit page loaded for Paper ID:", paperId);
 
 const { currentStep, form, submitted, reset } = useSubmissionWizard();
 
