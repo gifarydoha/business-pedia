@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   css: ["~~/layers/base/assets/css/main.css"],
   runtimeConfig: {
     public: {
-      apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY ?? "",
+      apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY,
       apiBase: env.apiBase,
       authBase: env.authBase,
       kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
