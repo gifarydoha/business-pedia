@@ -1,6 +1,9 @@
 <script setup lang="ts">
-const settingsStore = useSettingsStore();
-const dates = computed(() => settingsStore.cfpDates);
+import type { CfpDate } from "../../types/cfp";
+
+defineProps<{
+  dates: CfpDate[];
+}>();
 </script>
 
 <template>

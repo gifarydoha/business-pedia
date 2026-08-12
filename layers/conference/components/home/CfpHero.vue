@@ -1,5 +1,16 @@
 <script setup lang="ts">
-const settingsStore = useSettingsStore();
+defineProps<{
+  title: string;
+  tagline: string;
+  description: string;
+}>();
+
+const stats = [
+  { val: "13th", label: "Annual Conference" },
+  { val: "6", label: "Conference Tracks" },
+  { val: "23+", label: "Paper Themes" },
+  { val: "4", label: "Peer-Reviewed Contacts" },
+];
 </script>
 
 <template>
@@ -28,15 +39,15 @@ const settingsStore = useSettingsStore();
       </div>
 
       <h1 class="mb-4 max-w-4xl font-lora text-4xl leading-tight font-bold text-white md:text-5xl lg:text-6xl">
-        {{ settingsStore.cfpHero.conferenceName }}
+        {{ title }}
       </h1>
 
       <p class="mb-8 font-lora text-xl text-cfp-yellow italic md:text-2xl">
-        {{ settingsStore.cfpHero.tagline }}
+        {{ tagline }}
       </p>
 
       <p class="mb-10 max-w-2xl font-poppins text-base leading-relaxed text-white/85 md:text-lg">
-        {{ settingsStore.cfpHero.description }}
+        {{ description }}
       </p>
 
       <div class="flex flex-wrap gap-4">
@@ -57,7 +68,7 @@ const settingsStore = useSettingsStore();
       <!-- Stat strip -->
       <div class="mt-16 grid grid-cols-2 gap-6 border-t border-white/20 pt-10 sm:grid-cols-4">
         <div
-          v-for="s in settingsStore.cfpHero.stats"
+          v-for="s in stats"
           :key="s.label"
         >
           <div class="font-lora text-3xl font-bold text-cfp-yellow">
