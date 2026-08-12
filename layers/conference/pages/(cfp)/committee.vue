@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import CommitteeMemberCard from "../../components/cfp/Committee/CommitteeMemberCard.vue";
-import { cfpService } from "../../services/cfp.service";
+import { useCfpService } from "../../services/cfp.service";
 import { parseCommitteeContent } from "../../utils/cfpParser";
 
 definePageMeta({ layout: "conference" });
 
+const cfpService = useCfpService();
 const { data: committeeData, pending: loading, error } = await useAsyncData(
   "committee-content",
-  async () => {
-    const htmlString = await cfpService.fetchCommittee();
-    return parseCommitteeContent(htmlString);
-  },
+  () => cfpService.fetchCommittee().then(parseCommitteeContent),
 );
 
 const coChairs = computed(() => committeeData.value?.coChairs ?? []);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cfpService } from "../../services/cfp.service";
+import { useCfpService } from "../../services/cfp.service";
 import { parseCfpContent } from "../../utils/cfpParser";
 import Header from "../../components/cfp/callForPapers/Header.vue";
 import Meta from "../../components/cfp/callForPapers/Meta.vue";
@@ -10,13 +10,10 @@ import CfpImportantDates from "../../components/cfp/callForPapers/importantDates
 
 definePageMeta({ layout: "conference" });
 
-// const cfpService = cfpService();
+const cfpService = useCfpService();
 const { data: cfpData, pending, error } = await useAsyncData(
   "cfp-content",
-  async () => {
-    const htmlString = await cfpService.fetchCallForPapers();
-    return parseCfpContent(htmlString);
-  },
+  () => cfpService.fetchCallForPapers().then(parseCfpContent),
 );
 </script>
 

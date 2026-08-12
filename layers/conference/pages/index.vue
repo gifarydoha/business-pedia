@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { cfpService } from "../services/cfp.service";
+import { useCfpService } from "../services/cfp.service";
 import { parseCfpContent, parseTracksContent, parseCommitteeContent } from "../utils/cfpParser";
 
 definePageMeta({ layout: "conference" });
 
+const cfpService = useCfpService();
 const { data, pending, error } = await useAsyncData(
   "home-content",
   async () => {

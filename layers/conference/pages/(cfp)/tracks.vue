@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import TrackCard from "../../components/cfp/tracks/TrackCard.vue";
-import { cfpService } from "../../services/cfp.service";
+import { useCfpService } from "../../services/cfp.service";
 import { parseTracksContent } from "../../utils/cfpParser";
 
 definePageMeta({ layout: "conference" });
 
+const cfpService = useCfpService();
 const { data: tracks, pending: loading, error } = await useAsyncData(
   "tracks-content",
-  async () => {
-    const htmlString = await cfpService.fetchTracks();
-    return parseTracksContent(htmlString);
-  },
+  () => cfpService.fetchTracks().then(parseTracksContent),
 );
 </script>
 

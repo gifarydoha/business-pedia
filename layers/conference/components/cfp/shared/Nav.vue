@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
+import { useCfpService } from "../../../services/cfp.service";
+import { parseCfpContent } from "../../../utils/cfpParser";
 
 const open = ref(false);
 const userDropdownOpen = ref(false);
@@ -10,11 +12,17 @@ const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
 const { buildImageUrl } = useImageUrl();
 
+const cfpService = useCfpService();
+const { data: navCfp } = useAsyncData(
+  "nav-cfp-content",
+  () => cfpService.fetchCallForPapers().then(parseCfpContent),
+);
+
 const logo = computed(() => settingsStore.org?.logo ? buildImageUrl(settingsStore.org.logo) : null);
 const logoError = ref(false);
-const orgName = computed(() => settingsStore.cfpHero.conferenceName ?? settingsStore.org?.name ?? "11th Social Business Academia Conference 2023");
-const conferenceDate = computed(() => settingsStore.cfpDates.find((d) => d.label === "Conference Dates")?.date ?? "01 - 02 April, 2024");
-const conferenceLocation = computed(() => settingsStore.cfpHero.location ?? "Asian Institute of Technology, Thailand");
+const orgName = computed(() => navCfp.value?.header.title ?? settingsStore.org?.name ?? "13th Social Business Academia Conference 2026");
+const conferenceDate = computed(() => navCfp.value?.meta.date ?? "November 25–26, 2026");
+const conferenceLocation = computed(() => navCfp.value?.meta.venue ?? "Thailand");
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const authUser = computed(() => authStore.user);
@@ -93,35 +101,35 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
 <template>
   <header class="sticky top-0 z-50 flex w-full flex-col shadow-sm">
     <div class="bg-white">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
         <NuxtLink
           to="/"
-          class="group flex flex-wrap items-center gap-4"
+          class="group flex min-w-0 flex-1 items-center gap-2 sm:gap-4"
         >
           <NuxtImg
             v-if="logo && !logoError"
             :src="logo"
             :alt="orgName"
-            class="h-12 w-auto object-contain md:h-14"
+            class="h-10 w-auto shrink-0 object-contain sm:h-12 md:h-14"
             @error="logoError = true"
           />
           <NuxtImg
             v-else
             src="/images/cfp-logo.png"
             :alt="orgName"
-            class="h-12 w-auto object-contain md:h-14"
+            class="h-10 w-auto shrink-0 object-contain sm:h-12 md:h-14"
           />
-          <div class="flex flex-col justify-center">
-            <span class="font-lora text-base font-medium text-cfp-olive transition-colors group-hover:text-cfp-olive/80 sm:text-xl">
+          <div class="flex min-w-0 flex-col justify-center">
+            <span class="truncate font-lora text-sm font-medium text-cfp-olive transition-colors group-hover:text-cfp-olive/80 sm:text-base md:text-xl">
               {{ orgName }}
             </span>
-            <div class="mt-1 flex flex-wrap items-center gap-1.5 font-poppins text-xs text-cfp-olive/80 sm:text-sm">
-              <span>{{ conferenceDate }}</span>
+            <div class="mt-0.5 flex flex-wrap items-center gap-1 font-poppins text-[10px] text-cfp-olive/80 sm:mt-1 sm:gap-1.5 sm:text-xs md:text-sm">
+              <span class="truncate">{{ conferenceDate }}</span>
               <Icon
                 name="ph:map-pin-fill"
-                class="size-3.5 shrink-0 sm:size-4"
+                class="size-3 shrink-0 sm:size-3.5 md:size-4"
               />
-              <span>{{ conferenceLocation }}</span>
+              <span class="truncate">{{ conferenceLocation }}</span>
             </div>
           </div>
         </NuxtLink>
@@ -138,7 +146,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
         </div>
 
         <button
-          class="text-cfp-olive md:hidden"
+          class="shrink-0 text-cfp-olive md:hidden"
           aria-label="Toggle menu"
           @click="open = !open"
         >
@@ -285,7 +293,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
       >
         {{ l.label }}
       </NuxtLink>
-      <div class="my-2 h-px w-full bg-white/30" />
+      <!-- <div class="my-2 h-px w-full bg-white/30" /> -->
       <!-- <NuxtLink
         to="#"
         class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
@@ -297,7 +305,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
         @click="open = false"
       >Contact</NuxtLink> -->
 
-      <div class="my-1 h-px w-full bg-white/30" />
+      <!-- <div class="my-1 h-px w-full bg-white/30" /> -->
 
       <template v-if="isLoggedIn">
         <button
