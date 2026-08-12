@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import TrackCard from "#layers/conference/components/cfp/tracks/TrackCard.vue";
+import TrackCard from "../../components/cfp/tracks/TrackCard.vue";
+import { cfpService } from "../../services/cfp.service";
+import { parseTracksContent } from "../../utils/cfpParser";
 
-const cfpStore = useCfpStore();
-await useAsyncData("tracks-content", () => cfpStore.loadTracks());
+definePageMeta({ layout: "conference" });
 
-const tracks = computed(() => cfpStore.tracksList);
-const loading = computed(() => cfpStore.loading.tracks);
-const error = computed(() => cfpStore.errors.tracks);
+const { data: tracks, pending: loading, error } = await useAsyncData(
+  "tracks-content",
+  async () => {
+    const htmlString = await cfpService.fetchTracks();
+    return parseTracksContent(htmlString);
+  },
+);
 </script>
 
 <template>
@@ -31,10 +36,10 @@ const error = computed(() => cfpStore.errors.tracks);
         Loading tracks…
       </div>
       <div
-        v-else-if="error"
+        v-else-if="error || !tracks"
         class="py-16 text-center font-poppins text-gray-500"
       >
-        {{ error }}
+        Unable to load Tracks content right now. Please try again shortly.
       </div>
 
       <div

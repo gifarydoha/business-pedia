@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import CommitteeMemberCard from "#layers/conference/components/cfp/Committee/CommitteeMemberCard.vue";
+import CommitteeMemberCard from "../../components/cfp/Committee/CommitteeMemberCard.vue";
+import { cfpService } from "../../services/cfp.service";
+import { parseCommitteeContent } from "../../utils/cfpParser";
 
-const cfpStore = useCfpStore();
-await useAsyncData("committee-content", () => cfpStore.loadCommittee());
+definePageMeta({ layout: "conference" });
 
-const coChairs = computed(() => cfpStore.committeeCoChairs);
-const groups = computed(() => cfpStore.committeeGroups);
-const loading = computed(() => cfpStore.loading.committee);
-const error = computed(() => cfpStore.errors.committee);
+const { data: committeeData, pending: loading, error } = await useAsyncData(
+  "committee-content",
+  async () => {
+    const htmlString = await cfpService.fetchCommittee();
+    return parseCommitteeContent(htmlString);
+  },
+);
+
+const coChairs = computed(() => committeeData.value?.coChairs ?? []);
+const groups = computed(() => committeeData.value?.groups ?? []);
 </script>
 
 <template>
@@ -29,10 +36,10 @@ const error = computed(() => cfpStore.errors.committee);
         Loading committee…
       </div>
       <div
-        v-else-if="error"
+        v-else-if="error || !committeeData"
         class="py-16 text-center font-poppins text-gray-500"
       >
-        {{ error }}
+        Unable to load Committee content right now. Please try again shortly.
       </div>
 
       <template v-else>

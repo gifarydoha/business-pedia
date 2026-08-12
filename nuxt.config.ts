@@ -57,8 +57,7 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { isr: 60 },
     "/pages/**": { isr: 300 },
-    "/guidelines": { isr: 300 },
-    "/call-for-papers": { ssr: true },
+
     "/dashboard/**": { ssr: true },
     "/**": { isr: 120 },
 
@@ -71,6 +70,11 @@ export default defineNuxtConfig({
     "/verify-otp": { ssr: false },
     "/verify-email": { ssr: false },
 
+    // cfp pages
+    "/call-for-papers": { ssr: true },
+    "/committee": { ssr: true },
+    "/tracks": { ssr: true },
+    "/guidelines": { isr: 300 },
     "/submit-paper": { ssr: true },
     // Internal Nuxt server API routes — always fresh
     "/api/**": { cors: true, cache: false },
