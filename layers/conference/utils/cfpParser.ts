@@ -1,6 +1,15 @@
 import { parse, type HTMLElement } from "node-html-parser";
 import DOMPurify from "isomorphic-dompurify";
-import type { CfpContent, CfpHeader, CfpMeta, CfpTrack, CfpDate } from "../types/cfp";
+import type {
+  CfpContent,
+  CfpHeader,
+  CfpMeta,
+  CfpTrack,
+  CfpDate,
+  CommitteeMember,
+  CommitteeGroup,
+  CommitteeContent,
+} from "../types/cfp";
 
 export const EMPTY_CONTENT: CfpContent = {
   header: { title: "", subtitle: "" },
@@ -9,6 +18,19 @@ export const EMPTY_CONTENT: CfpContent = {
   tracks: [],
   dates: [],
 };
+
+const SANITIZE_OPTS = {
+  ADD_ATTR: ["data-section", "data-role", "data-urgent", "data-track", "data-track-chair"],
+};
+
+function sanitizeAndParse(rawHtml: string): HTMLElement {
+  const clean = DOMPurify.sanitize(rawHtml || "", SANITIZE_OPTS);
+  return parse(clean);
+}
+
+function stripTags(str: string): string {
+  return str.replace(/<[^>]*>/g, "");
+}
 
 function textOf(el: HTMLElement | null | undefined): string {
   return (el?.text ?? "").replace(/\s+/g, " ").trim();
@@ -84,12 +106,7 @@ function parseDates(root: HTMLElement): CfpDate[] {
 export function parseCfpContent(rawHtml: string): CfpContent {
   if (!rawHtml) return EMPTY_CONTENT;
 
-  // Keep our structural markers through sanitization — DOMPurify strips
-  // unknown data-* attributes by default.
-  const clean = DOMPurify.sanitize(rawHtml, {
-    ADD_ATTR: ["data-section", "data-role", "data-urgent"],
-  });
-  const root = parse(clean);
+  const root = sanitizeAndParse(rawHtml);
 
   return {
     header: parseHeader(root),
@@ -97,5 +114,69 @@ export function parseCfpContent(rawHtml: string): CfpContent {
     overview: parseOverview(root),
     tracks: parseTracks(root),
     dates: parseDates(root),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Standalone Tracks page (/tracks)
+// ---------------------------------------------------------------------------
+
+export function parseTracksContent(rawHtml: string): CfpTrack[] {
+  const root = sanitizeAndParse(rawHtml);
+  return parseTracks(root);
+}
+
+// ---------------------------------------------------------------------------
+// Standalone Committee page (/committee)
+// ---------------------------------------------------------------------------
+
+function parseMember(li: HTMLElement): CommitteeMember {
+  const html = li.innerHTML;
+
+  const nameMatch = html.match(/<strong>(.*?)<\/strong>/i);
+  const name = nameMatch?.[1] ? stripTags(nameMatch[1]).trim() : "";
+
+  const emailMatch = html.match(/mailto:([^"]+)"/i);
+  const email = emailMatch?.[1] ? emailMatch[1].trim() : null;
+
+  const rest = html
+    .replace(/<strong>.*?<\/strong>/i, "")
+    .replace(/<a[^>]*mailto:[^>]*>.*?<\/a>/i, "");
+
+  const title = stripTags(rest)
+    .replace(/^[,\s]+/, "")
+    .replace(/\(\s*\)\s*$/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return {
+    name,
+    title,
+    email,
+    isTrackChair: li.getAttribute("data-track-chair") === "true",
+  };
+}
+
+function parseCoChairs(root: HTMLElement): CommitteeMember[] {
+  const section = root.querySelector("[data-section=\"co-chairs\"]");
+  if (!section) return [];
+  return section.querySelectorAll("li").map(parseMember);
+}
+
+function parseCommitteeGroups(root: HTMLElement): CommitteeGroup[] {
+  const section = root.querySelector("[data-section=\"committee-groups\"]");
+  if (!section) return [];
+  return section.querySelectorAll("[data-track]").map((groupEl) => {
+    const trackName = groupEl.getAttribute("data-track") ?? textOf(groupEl.querySelector("h3"));
+    const members = groupEl.querySelectorAll("li").map(parseMember);
+    return { trackName, members };
+  });
+}
+
+export function parseCommitteeContent(rawHtml: string): CommitteeContent {
+  const root = sanitizeAndParse(rawHtml);
+  return {
+    coChairs: parseCoChairs(root),
+    groups: parseCommitteeGroups(root),
   };
 }

@@ -1,0 +1,54 @@
+<script setup lang="ts">
+import TrackCard from "#layers/conference/components/cfp/tracks/TrackCard.vue";
+
+const cfpStore = useCfpStore();
+await useAsyncData("tracks-content", () => cfpStore.loadTracks());
+
+const tracks = computed(() => cfpStore.tracksList);
+const loading = computed(() => cfpStore.loading.tracks);
+const error = computed(() => cfpStore.errors.tracks);
+</script>
+
+<template>
+  <section class="bg-cfp-olive-pale py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mb-12">
+        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+          SBAC 2026
+        </span>
+        <h1 class="mt-2 mb-4 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
+          Conference Tracks
+        </h1>
+        <p class="max-w-2xl font-poppins leading-relaxed text-gray-600">
+          SBAC 2026 welcomes submissions across the following nine interdisciplinary tracks.
+        </p>
+      </div>
+
+      <div
+        v-if="loading"
+        class="py-16 text-center font-poppins text-gray-500"
+      >
+        Loading tracks…
+      </div>
+      <div
+        v-else-if="error"
+        class="py-16 text-center font-poppins text-gray-500"
+      >
+        {{ error }}
+      </div>
+
+      <div
+        v-else
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        <TrackCard
+          v-for="(t, i) in tracks"
+          :key="t.name"
+          :index="i + 1"
+          :name="t.name"
+          :description="t.description"
+        />
+      </div>
+    </div>
+  </section>
+</template>
