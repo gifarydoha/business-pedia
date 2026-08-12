@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UserProfile } from "~/layers/conference/types/profile";
 
-definePageMeta({ layout: "conference" });
+definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "My Profile" });
 
 const authStore = useAuthStore();

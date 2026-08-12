@@ -6,7 +6,7 @@ import PdfPreviewModal from "~/layers/conference/components/papers/PdfPreviewMod
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
 import { useConferenceService } from "~/layers/conference/services/conference.service";
 
-definePageMeta({ layout: "conference" });
+definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "My Conference Papers" });
 
 const { getConferencePapers } = useConferenceService();

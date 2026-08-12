@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({ layout: "conference" });
+definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "Edit Profile" });
 </script>
 
