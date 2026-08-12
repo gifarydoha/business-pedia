@@ -34,14 +34,25 @@ export function useCfpService() {
       const response = await $fetch<RawContentResponse>(`${CONTENT_BASE_URL}/${slug}` as string, {
         params: { access_key: config.public.apiAccessKey },
       });
-      const html = response.content?.fulltext ?? "";
+      // console.log(`[cfpService] Raw response for ${slug}:`, typeof response === "string" ? response.substring(0, 100) : response);
+      let data: any = response;
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        }
+        catch (e) {
+          // console.error(`[cfpService] Failed to parse JSON for ${slug}`, e);
+        }
+      }
+
+      const html = data?.content?.fulltext ?? "";
       if (!html) {
-        console.warn(`[cfpService] fetchContentBySlug("${slug}"): API returned empty fulltext.`);
+        // console.warn(`[cfpService] fetchContentBySlug("${slug}"): API returned empty fulltext. Response was:`, data);
       }
       return html;
     }
     catch (e) {
-      console.error(`[cfpService] fetchContentBySlug("${slug}") FAILED. URL: ${CONTENT_BASE_URL}/${slug}`, e);
+      // console.error(`[cfpService] fetchContentBySlug("${slug}") FAILED. URL: ${CONTENT_BASE_URL}/${slug}`, e);
       return "";
     }
   }

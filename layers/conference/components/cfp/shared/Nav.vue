@@ -20,6 +20,12 @@ const { data: navCfp } = useAsyncData(
 
 const logo = computed(() => settingsStore.org?.logo ? buildImageUrl(settingsStore.org.logo) : null);
 const logoError = ref(false);
+
+const favicon = computed(() => settingsStore.org?.favicon ? buildImageUrl(settingsStore.org.favicon) : null);
+useHead(() => ({
+  link: favicon.value ? [{ rel: "icon", href: favicon.value }] : [],
+}));
+
 const orgName = computed(() => navCfp.value?.header.title ?? settingsStore.org?.name ?? "13th Social Business Academia Conference 2026");
 const conferenceDate = computed(() => navCfp.value?.meta.date ?? "November 25–26, 2026");
 const conferenceLocation = computed(() => navCfp.value?.meta.venue ?? "Thailand");
