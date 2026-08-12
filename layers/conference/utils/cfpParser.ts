@@ -24,8 +24,14 @@ const SANITIZE_OPTS = {
 };
 
 function sanitizeAndParse(rawHtml: string): HTMLElement {
-  const clean = DOMPurify.sanitize(rawHtml || "", SANITIZE_OPTS);
-  return parse(clean);
+  try {
+    const clean = DOMPurify.sanitize(rawHtml || "", SANITIZE_OPTS);
+    return parse(clean);
+  }
+  catch (e) {
+    console.error("[cfpParser] sanitizeAndParse failed — DOMPurify or node-html-parser crash:", e);
+    return parse(""); // return empty root so callers get empty arrays/strings
+  }
 }
 
 function stripTags(str: string): string {
@@ -104,17 +110,24 @@ function parseDates(root: HTMLElement): CfpDate[] {
 }
 
 export function parseCfpContent(rawHtml: string): CfpContent {
-  if (!rawHtml) return EMPTY_CONTENT;
-
-  const root = sanitizeAndParse(rawHtml);
-
-  return {
-    header: parseHeader(root),
-    meta: parseMeta(root),
-    overview: parseOverview(root),
-    tracks: parseTracks(root),
-    dates: parseDates(root),
-  };
+  if (!rawHtml) {
+    console.warn("[cfpParser] parseCfpContent received empty HTML — API may have returned nothing.");
+    return EMPTY_CONTENT;
+  }
+  try {
+    const root = sanitizeAndParse(rawHtml);
+    return {
+      header: parseHeader(root),
+      meta: parseMeta(root),
+      overview: parseOverview(root),
+      tracks: parseTracks(root),
+      dates: parseDates(root),
+    };
+  }
+  catch (e) {
+    console.error("[cfpParser] parseCfpContent failed:", e);
+    return EMPTY_CONTENT;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -122,8 +135,18 @@ export function parseCfpContent(rawHtml: string): CfpContent {
 // ---------------------------------------------------------------------------
 
 export function parseTracksContent(rawHtml: string): CfpTrack[] {
-  const root = sanitizeAndParse(rawHtml);
-  return parseTracks(root);
+  if (!rawHtml) {
+    console.warn("[cfpParser] parseTracksContent received empty HTML.");
+    return [];
+  }
+  try {
+    const root = sanitizeAndParse(rawHtml);
+    return parseTracks(root);
+  }
+  catch (e) {
+    console.error("[cfpParser] parseTracksContent failed:", e);
+    return [];
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -174,9 +197,19 @@ function parseCommitteeGroups(root: HTMLElement): CommitteeGroup[] {
 }
 
 export function parseCommitteeContent(rawHtml: string): CommitteeContent {
-  const root = sanitizeAndParse(rawHtml);
-  return {
-    coChairs: parseCoChairs(root),
-    groups: parseCommitteeGroups(root),
-  };
+  if (!rawHtml) {
+    console.warn("[cfpParser] parseCommitteeContent received empty HTML.");
+    return { coChairs: [], groups: [] };
+  }
+  try {
+    const root = sanitizeAndParse(rawHtml);
+    return {
+      coChairs: parseCoChairs(root),
+      groups: parseCommitteeGroups(root),
+    };
+  }
+  catch (e) {
+    console.error("[cfpParser] parseCommitteeContent failed:", e);
+    return { coChairs: [], groups: [] };
+  }
 }

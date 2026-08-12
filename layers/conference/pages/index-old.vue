@@ -11,10 +11,9 @@ useSeoMeta({
 
 <template>
   <div>
-    <HomeCfpHero />
     <HomeCfpPrinciples />
     <HomeCfpTopics />
-    <HomeCfpDates />
+    <HomeCfpDates :dates="settingsStore.cfpDates" />
     <HomeCfpSubmission />
   </div>
 </template>
