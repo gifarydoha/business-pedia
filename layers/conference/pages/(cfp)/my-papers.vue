@@ -174,7 +174,7 @@ const pdfPreviewUrl = ref<string | null>(null);
           to="/submit-paper"
           class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
-          + Submit New Paper
+          Submit Paper
         </NuxtLink>
       </div>
     </div>
@@ -271,7 +271,7 @@ const pdfPreviewUrl = ref<string | null>(null);
       </div>
 
       <!-- Bottom CTA -->
-      <div
+      <!-- <div
         v-if="papers.length === 0"
         class="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 sm:flex-row sm:items-center"
       >
@@ -289,7 +289,7 @@ const pdfPreviewUrl = ref<string | null>(null);
         >
           Submit a Paper
         </NuxtLink>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

@@ -15,7 +15,7 @@ const config = useRuntimeConfig();
 const confBase = String(config.public.confApiBase);
 
 // PDF path in the CodeIgniter fdrives directory
-const PDF_BASE_PATH = "fdrives/sid/qawmiworld/conference/2026";
+const PDF_BASE_PATH = "fdrives/sid/sbacbackend/conference/2026";
 
 const pdfUrl = computed(() =>
   props.paper.paper_file_name
@@ -34,11 +34,11 @@ const pdfUrl = computed(() =>
         <div class="min-w-0 flex-1">
           <div class="mb-3 flex flex-wrap items-center gap-2">
             <!-- Track badge -->
-            <span class="rounded-full bg-cfp-yellow/20 px-3 py-1 font-poppins text-xs font-semibold text-cfp-olive">
+            <!-- <span class="rounded-full bg-cfp-yellow/20 px-3 py-1 font-poppins text-xs font-semibold text-cfp-olive">
               {{ paper.track }}
-            </span>
+            </span> -->
             <!-- Status badge -->
-            <span
+            <!-- <span
               class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-poppins text-xs font-semibold"
               :class="[statusConfig[paper.status].bg, statusConfig[paper.status].text]"
             >
@@ -47,7 +47,7 @@ const pdfUrl = computed(() =>
                 :class="statusConfig[paper.status].dot"
               />
               {{ paper.status }}
-            </span>
+            </span> -->
           </div>
 
           <h3 class="mb-2 font-lora text-lg leading-snug font-bold text-cfp-olive">
@@ -62,27 +62,27 @@ const pdfUrl = computed(() =>
             <span>
               <span class="font-medium text-gray-500">Authors:</span> {{ paper.authors }}
             </span>
-            <span>·</span>
-            <span>Submitted {{ paper.submittedDate }}</span>
-            <span>·</span>
-            <span class="font-mono">{{ paper.id }}</span>
+            <!-- <span>·</span> -->
+            <!-- <span>Submitted {{ paper.submittedDate }}</span> -->
+            <!-- <span>·</span> -->
+            <!-- <span class="font-mono">{{ paper.id }}</span> -->
           </div>
         </div>
 
         <!-- Actions: 2x2 grid -->
-        <div class="grid shrink-0 grid-cols-2 gap-2 sm:w-64 md:w-72">
+        <div class="grid shrink-0 grid-cols-1 gap-2 sm:w-40">
           <!-- Lowest importance: Preview (Modal) -->
-          <button
+          <!-- <button
             class="flex-1 rounded-lg border-2 border-cfp-olive/30 px-3 py-2 text-center font-lora text-sm font-semibold text-cfp-olive/70 transition-colors hover:bg-cfp-olive/10 hover:text-cfp-olive"
             @click="$emit('preview', paper)"
           >
             Preview
-          </button>
+          </button> -->
 
           <!-- Highest importance: Edit -->
           <NuxtLink
             :to="`/submit-paper/${paper.id}`"
-            class="flex-1 rounded-lg bg-cfp-red px-3 py-2 text-center font-lora text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+            class="flex-1 rounded-lg bg-cfp-yellow px-3 py-2 text-center font-lora text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             Edit
           </NuxtLink>
@@ -102,7 +102,8 @@ const pdfUrl = computed(() =>
             v-if="pdfUrl"
             :href="pdfUrl"
             :download="paper.paper_file_name ?? 'paper.pdf'"
-            class="flex-1 rounded-lg bg-primary-teal px-3 py-2 text-center font-lora text-sm font-bold text-white
+            target="_blank"
+            class="flex-1 rounded-lg bg-cfp-olive-dark px-3 py-2 text-center font-lora text-sm font-bold text-white
             shadow-sm transition-opacity hover:opacity-90"
           >
             Download
