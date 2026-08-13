@@ -152,7 +152,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
 </script>
 
 <template>
-  <div class="flex h-full w-full">
+  <div class="flex size-full">
     <USidebar
       v-model:open="open"
       collapsible="icon"
