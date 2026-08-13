@@ -41,6 +41,7 @@ export default withNuxt(
           "hero-.*",
           "page-.*",
           "rich-.*",
+          "cfp-.*",
         ],
       }],
     },

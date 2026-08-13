@@ -6,49 +6,49 @@ import { useAuthStore } from "~~/layers/base/stores/auth";
 const authStore = useAuthStore();
 const open = ref(true);
 
-const colorMode = useColorMode();
+// const colorMode = useColorMode();
 
-const teams = ref([
-  {
-    label: "Nuxt",
-    avatar: { src: "https://github.com/nuxt.png", alt: "Nuxt" },
-  },
-  {
-    label: "Vue",
-    avatar: { src: "https://github.com/vuejs.png", alt: "Vue" },
-  },
-  {
-    label: "UnJS",
-    avatar: { src: "https://github.com/unjs.png", alt: "UnJS" },
-  },
-]);
-const selectedTeam = ref(teams.value[0]);
+// const teams = ref([
+//   {
+//     label: "Nuxt",
+//     avatar: { src: "https://github.com/nuxt.png", alt: "Nuxt" },
+//   },
+//   {
+//     label: "Vue",
+//     avatar: { src: "https://github.com/vuejs.png", alt: "Vue" },
+//   },
+//   {
+//     label: "UnJS",
+//     avatar: { src: "https://github.com/unjs.png", alt: "UnJS" },
+//   },
+// ]);
+// const selectedTeam = ref(teams.value[0]);
 
-const teamsItems = computed<DropdownMenuItem[][]>(() => {
-  return [
-    teams.value.map((team, index) => ({
-      ...team,
-      kbds: ["meta", String(index + 1)],
-      onSelect() {
-        selectedTeam.value = team;
-      },
-    })),
-    [
-      {
-        label: "Create team",
-        icon: "i-lucide-circle-plus",
-      },
-    ],
-  ];
-});
+// const teamsItems = computed<DropdownMenuItem[][]>(() => {
+//   return [
+//     teams.value.map((team, index) => ({
+//       ...team,
+//       kbds: ["meta", String(index + 1)],
+//       onSelect() {
+//         selectedTeam.value = team;
+//       },
+//     })),
+//     [
+//       {
+//         label: "Create team",
+//         icon: "i-lucide-circle-plus",
+//       },
+//     ],
+//   ];
+// });
 
 function getItems(state: "collapsed" | "expanded") {
   return [
-    {
-      label: "Inbox",
-      icon: "i-lucide-inbox",
-      badge: "4",
-    },
+    // {
+    //   label: "Inbox",
+    //   icon: "i-lucide-inbox",
+    //   badge: "4",
+    // },
     {
       label: "My Papers",
       icon: "i-lucide-files",
@@ -65,24 +65,24 @@ function getItems(state: "collapsed" | "expanded") {
       to: "/profile",
     },
     {
-      label: "Settings",
-      icon: "i-lucide-settings",
+      // label: "Settings",
+      // icon: "i-lucide-settings",
       defaultOpen: true,
       children:
         state === "expanded"
           ? [
-              {
-                label: "General",
-                icon: "i-lucide-house",
-              },
-              {
-                label: "Team",
-                icon: "i-lucide-users",
-              },
-              {
-                label: "Billing",
-                icon: "i-lucide-credit-card",
-              },
+              // {
+              //   label: "General",
+              //   icon: "i-lucide-house",
+              // },
+              // {
+              //   label: "Team",
+              //   icon: "i-lucide-users",
+              // },
+              // {
+              //   label: "Billing",
+              //   icon: "i-lucide-credit-card",
+              // },
             ]
           : [],
     },
@@ -96,47 +96,47 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
       icon: "i-lucide-user",
       to: "/profile",
     },
-    {
-      label: "Settings",
-      icon: "i-lucide-settings",
-    },
+    // {
+    //   label: "Settings",
+    //   icon: "i-lucide-settings",
+    // },
   ],
-  [
-    {
-      label: "Appearance",
-      icon: "i-lucide-sun-moon",
-      children: [
-        {
-          label: "Light",
-          icon: "i-lucide-sun",
-          type: "checkbox",
-          checked: colorMode.value === "light",
-          onUpdateChecked(checked: boolean) {
-            if (checked) {
-              colorMode.preference = "light";
-            }
-          },
-          onSelect(e: Event) {
-            e.preventDefault();
-          },
-        },
-        {
-          label: "Dark",
-          icon: "i-lucide-moon",
-          type: "checkbox",
-          checked: colorMode.value === "dark",
-          onUpdateChecked(checked: boolean) {
-            if (checked) {
-              colorMode.preference = "dark";
-            }
-          },
-          onSelect(e: Event) {
-            e.preventDefault();
-          },
-        },
-      ],
-    },
-  ],
+  // [
+  //   {
+  //     label: "Appearance",
+  //     icon: "i-lucide-sun-moon",
+  //     children: [
+  //       {
+  //         label: "Light",
+  //         icon: "i-lucide-sun",
+  //         type: "checkbox",
+  //         checked: colorMode.value === "light",
+  //         onUpdateChecked(checked: boolean) {
+  //           if (checked) {
+  //             colorMode.preference = "light";
+  //           }
+  //         },
+  //         onSelect(e: Event) {
+  //           e.preventDefault();
+  //         },
+  //       },
+  //       {
+  //         label: "Dark",
+  //         icon: "i-lucide-moon",
+  //         type: "checkbox",
+  //         checked: colorMode.value === "dark",
+  //         onUpdateChecked(checked: boolean) {
+  //           if (checked) {
+  //             colorMode.preference = "dark";
+  //           }
+  //         },
+  //         onSelect(e: Event) {
+  //           e.preventDefault();
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ],
   [
     {
       label: "Log out",
@@ -157,18 +157,18 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
       v-model:open="open"
       collapsible="icon"
       rail
-      class="static! z-10 h-full!"
+      class="cfp-sidebar static! z-10 h-full!"
       style="position: static !important; height: 100% !important; z-index: 10 !important;"
       :ui="{
         root: 'static! h-full! z-10!',
         container: 'h-full static!',
-        inner: 'bg-[var(--color-cfp-olive)] text-[var(--color-cfp-cream)] divide-transparent h-full!',
+        inner: 'bg-cfp-olive text-cfp-cream divide-transparent h-full!',
         body: 'py-0',
       }"
     >
       <template #header>
         <div class="flex w-full items-center gap-2">
-          <UDropdownMenu
+          <!-- <UDropdownMenu
             :items="teamsItems"
             :content="{ align: 'start', collisionPadding: 12 }"
             :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) min-w-48' }"
@@ -180,17 +180,17 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
               color="neutral"
               variant="ghost"
               square
-              class="w-full overflow-hidden text-[var(--color-cfp-cream)] hover:bg-[var(--color-cfp-olive-dark)] hover:text-[var(--color-cfp-yellow)] data-[state=open]:bg-[var(--color-cfp-olive-dark)] data-[state=open]:text-[var(--color-cfp-yellow)]"
+              class="w-full overflow-hidden text-cfp-cream! hover:bg-cfp-olive-dark! hover:text-cfp-yellow! data-[state=open]:bg-cfp-olive-dark! data-[state=open]:text-cfp-yellow!"
               :ui="{
-                trailingIcon: 'text-[var(--color-cfp-olive-pale)] ms-auto',
+                trailingIcon: 'text-cfp-olive-pale! ms-auto',
               }"
             />
-          </UDropdownMenu>
+          </UDropdownMenu> -->
           <UButton
             icon="i-lucide-x"
             color="neutral"
             variant="ghost"
-            class="shrink-0 text-[var(--color-cfp-cream)] hover:bg-[var(--color-cfp-olive-dark)] hover:text-[var(--color-cfp-yellow)] md:hidden"
+            class="shrink-0 text-cfp-cream! hover:bg-cfp-olive-dark! hover:text-cfp-yellow! md:hidden"
             aria-label="Close sidebar"
             @click="open = false"
           />
@@ -220,9 +220,9 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
             color="neutral"
             variant="ghost"
             square
-            class="w-full overflow-hidden text-[var(--color-cfp-cream)] hover:bg-[var(--color-cfp-olive-dark)] hover:text-[var(--color-cfp-yellow)] data-[state=open]:bg-[var(--color-cfp-olive-dark)] data-[state=open]:text-[var(--color-cfp-yellow)]"
+            class="w-full overflow-hidden text-cfp-cream! hover:bg-cfp-olive-dark! hover:text-cfp-yellow! data-[state=open]:bg-cfp-olive-dark! data-[state=open]:text-cfp-yellow!"
             :ui="{
-              trailingIcon: 'text-[var(--color-cfp-olive-pale)] ms-auto',
+              trailingIcon: 'text-cfp-olive-pale! ms-auto',
             }"
           />
         </UDropdownMenu>
@@ -240,52 +240,9 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
         />
       </div>
 
-      <div class="flex-1 overflow-auto bg-gray-50/50">
+      <div class="flex-1 overflow-auto bg-white">
         <slot />
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Theme colors for Navigation Menu */
-:deep(.cfp-nav-menu a),
-:deep(.cfp-nav-menu button) {
-  color: var(--color-cfp-cream) !important;
-}
-
-:deep(.cfp-nav-menu a:hover),
-:deep(.cfp-nav-menu button:hover) {
-  background-color: var(--color-cfp-olive-dark) !important;
-  color: var(--color-cfp-yellow) !important;
-}
-
-:deep(.cfp-nav-menu a:hover .icon),
-:deep(.cfp-nav-menu button:hover .icon),
-:deep(.cfp-nav-menu a:hover svg),
-:deep(.cfp-nav-menu button:hover svg) {
-  color: var(--color-cfp-yellow) !important;
-}
-
-/* Active links */
-:deep(.cfp-nav-menu a[aria-current="page"]),
-:deep(.cfp-nav-menu button[aria-expanded="true"]),
-:deep(.cfp-nav-menu .active) {
-  background-color: var(--color-cfp-olive-dark) !important;
-  color: var(--color-cfp-yellow) !important;
-}
-
-:deep(.cfp-nav-menu a[aria-current="page"] .icon),
-:deep(.cfp-nav-menu button[aria-expanded="true"] .icon),
-:deep(.cfp-nav-menu .active .icon),
-:deep(.cfp-nav-menu a[aria-current="page"] svg),
-:deep(.cfp-nav-menu button[aria-expanded="true"] svg),
-:deep(.cfp-nav-menu .active svg) {
-  color: var(--color-cfp-yellow) !important;
-}
-
-/* Subtext or badges */
-:deep(.cfp-nav-menu [class*="text-dimmed"]) {
-  color: var(--color-cfp-olive-pale) !important;
-}
-</style>
