@@ -2,7 +2,7 @@
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
-const { form, nextStep } = useSubmissionWizard();
+const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
 </script>
 
 <template>
@@ -32,14 +32,33 @@ const { form, nextStep } = useSubmissionWizard();
     </div>
 
     <div class="flex items-center gap-4">
-      <button
-        type="button"
-        :disabled="!form.track"
-        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
-        @click="nextStep"
-      >
-        Continue &gt;&gt;
-      </button>
+      <template v-if="isEditMode">
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="skipSubmission"
+        >
+          Skip
+        </button>
+        <button
+          type="button"
+          :disabled="!form.track"
+          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          @click="submitPaper"
+        >
+          Submit Form
+        </button>
+      </template>
+      <template v-else>
+        <button
+          type="button"
+          :disabled="!form.track"
+          class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          @click="nextStep"
+        >
+          Continue &gt;&gt;
+        </button>
+      </template>
     </div>
   </div>
 </template>

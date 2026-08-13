@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 
-const { form, nextStep, prevStep } = useSubmissionWizard();
+const { form, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
 
 const handleFile = (e: Event) => {
   const target = e.target as HTMLInputElement;
   form.value.paperFile = target.files?.[0] ?? null;
-};
-
-const handleSubmit = () => {
-  nextStep(); // lands on the preview step
 };
 </script>
 
@@ -105,20 +101,31 @@ const handleSubmit = () => {
     </div>
 
     <div class="flex items-center gap-4">
+      <template v-if="isEditMode">
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="skipSubmission"
+        >
+          Skip
+        </button>
+      </template>
+      <template v-else>
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="prevStep"
+        >
+          &lt;&lt; Author Information
+        </button>
+      </template>
       <button
         type="button"
-        class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
-        @click="prevStep"
+        :disabled="!isEditMode && !form.paperFile"
+        class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+        @click="submitPaper"
       >
-        &lt;&lt; Author Information
-      </button>
-      <button
-        type="button"
-        :disabled="!form.paperFile"
-        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
-        @click="handleSubmit"
-      >
-        Preview
+        Submit Form
       </button>
     </div>
   </div>

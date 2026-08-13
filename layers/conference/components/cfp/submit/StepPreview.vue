@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { useConferenceService } from "#layers/conference/services/conference.service";
-// import { toRaw } from "vue";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-import { COUNTRIES, CONFERENCE_TRACKS, type PresentationTrack } from "~~/layers/conference/types/submission";
-
-const route = useRoute();
-const paperId = route.params.id as string | undefined;
+import { COUNTRIES } from "~~/layers/conference/types/submission";
 
 const getCountryName = (countryId: number | "") => {
   if (!countryId) return "";
@@ -13,92 +8,7 @@ const getCountryName = (countryId: number | "") => {
   return country ? country.name : "";
 };
 
-const { form, goToStep, submit } = useSubmissionWizard();
-const { submitConferencePaper, updateConferencePaper } = useConferenceService();
-const toast = useToast();
-
-const submitPaper = async () => {
-  const authStore = useAuthStore();
-  const currentUserId = authStore.user?.id || "";
-
-  const formData = new FormData();
-  // console.log("Submitted Data:", toRaw(form.value));
-
-  const authors = form.value.authors.map((author) => ({
-    account_id: String(currentUserId),
-    type: "author",
-    ...(paperId && paperId !== "draft" && author.id ? { id: author.id } : {}),
-    first_name: author.firstName,
-    last_name: author.lastName,
-    other_name: author.otherName || "",
-    email: author.email,
-    gender: author.gender,
-    country_id: String(author.country),
-    organization: author.organization,
-    position: author.position,
-    is_corresponding_author: author.isCorrespondingAuthor ? "1" : "0",
-  }));
-
-  formData.append("title", form.value.title);
-  formData.append("abstract", form.value.abstract);
-  formData.append("keywords", form.value.keywords);
-
-  formData.append("paper_code", "P-" + Math.floor(Math.random() * 1000000));
-  formData.append("is_has_permission_to_publish", form.value.includeInProceedings ? "1" : "0");
-  formData.append("email_notification_to_author", "1");
-
-  const trackIndex = CONFERENCE_TRACKS.indexOf(form.value.track as PresentationTrack);
-  if (trackIndex !== -1) {
-    formData.append("conference_track_id", (trackIndex + 1).toString());
-  }
-
-  // Send one JSON field—do not use authors[0][...].
-  formData.append("authors", JSON.stringify(authors));
-
-  if (form.value.paperFile) {
-    formData.append("paper_file_name", form.value.paperFile);
-  }
-
-  formData.append("conference_id", "10");
-  formData.append("is_my_paper", "1");
-
-  try {
-    let response: { code: number; message?: string };
-
-    if (paperId && paperId !== "draft") {
-      response = await updateConferencePaper(paperId, formData, currentUserId) as { code: number; message?: string };
-    }
-    else {
-      response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string };
-    }
-
-    if (response.code === 200) {
-      toast.add({
-        title: "Success",
-        description: (paperId && paperId !== "draft") ? "Paper successfully updated!" : "Paper successfully submitted!",
-        color: "success",
-      });
-      submit();
-    }
-    else {
-      toast.add({
-        title: "Submission failed",
-        description: response.message || "An unknown error occurred.",
-        color: "warning",
-      });
-      console.error(response.message);
-    }
-  }
-  catch (error: unknown) {
-    const err = error as Error;
-    toast.add({
-      title: "Submission failed",
-      description: err.message || "An error occurred during submission.",
-      color: "warning",
-    });
-    console.error("Upload failed", error);
-  }
-};
+const { form, goToStep, submitPaper, skipSubmission, isEditMode } = useSubmissionWizard();
 </script>
 
 <template>
@@ -193,7 +103,15 @@ const submitPaper = async () => {
       </p>
     </section>
 
-    <div class="mt-8 flex justify-end">
+    <div class="mt-8 flex justify-end gap-4">
+      <button
+        v-if="isEditMode"
+        type="button"
+        class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+        @click="skipSubmission"
+      >
+        Skip
+      </button>
       <button
         type="button"
         class="rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white shadow transition-opacity hover:opacity-90"

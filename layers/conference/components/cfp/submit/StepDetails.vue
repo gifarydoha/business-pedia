@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 
-const { form, nextStep, prevStep } = useSubmissionWizard();
+const { form, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
 </script>
 
 <template>
@@ -57,21 +57,40 @@ const { form, nextStep, prevStep } = useSubmissionWizard();
     </div>
 
     <div class="flex items-center gap-4">
-      <button
-        type="button"
-        class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
-        @click="prevStep"
-      >
-        &lt;&lt; Change Track
-      </button>
-      <button
-        type="button"
-        :disabled="!form.title || !form.abstract || !form.keywords"
-        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
-        @click="nextStep"
-      >
-        Save and Continue &gt;&gt;
-      </button>
+      <template v-if="isEditMode">
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="skipSubmission"
+        >
+          Skip
+        </button>
+        <button
+          type="button"
+          :disabled="!form.title || !form.abstract || !form.keywords"
+          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          @click="submitPaper"
+        >
+          Submit Form
+        </button>
+      </template>
+      <template v-else>
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="prevStep"
+        >
+          &lt;&lt; Change Track
+        </button>
+        <button
+          type="button"
+          :disabled="!form.title || !form.abstract || !form.keywords"
+          class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          @click="nextStep"
+        >
+          Save and Continue &gt;&gt;
+        </button>
+      </template>
     </div>
   </div>
 </template>

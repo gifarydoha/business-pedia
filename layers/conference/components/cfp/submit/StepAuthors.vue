@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { COUNTRIES } from "~~/layers/conference/types/submission";
 
-const { form, addAuthor, removeAuthor, nextStep, prevStep } = useSubmissionWizard();
+const { form, addAuthor, removeAuthor, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
 
 const isAuthorsValid = computed(() => {
   if (form.value.authors.length === 0) return false;
@@ -122,21 +122,40 @@ const isAuthorsValid = computed(() => {
     </button>
 
     <div class="flex items-center gap-4">
-      <button
-        type="button"
-        class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
-        @click="prevStep"
-      >
-        &lt;&lt; Abstract and Title
-      </button>
-      <button
-        type="button"
-        :disabled="!isAuthorsValid"
-        class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
-        @click="nextStep"
-      >
-        Save and Continue &gt;&gt;
-      </button>
+      <template v-if="isEditMode">
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="skipSubmission"
+        >
+          Skip
+        </button>
+        <button
+          type="button"
+          :disabled="!isAuthorsValid"
+          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          @click="submitPaper"
+        >
+          Submit Form
+        </button>
+      </template>
+      <template v-else>
+        <button
+          type="button"
+          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          @click="prevStep"
+        >
+          &lt;&lt; Abstract and Title
+        </button>
+        <button
+          type="button"
+          :disabled="!isAuthorsValid"
+          class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          @click="nextStep"
+        >
+          Save and Continue &gt;&gt;
+        </button>
+      </template>
     </div>
   </div>
 </template>

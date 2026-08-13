@@ -81,8 +81,7 @@ watch(paperData, (newVal) => {
     else {
       form.value.authors = [];
     }
-
-    currentStep.value = "preview";
+    currentStep.value = "track";
   }
 }, { immediate: true });
 
@@ -121,7 +120,6 @@ const resetAndGo = () => {
         <CfpSubmitStepDetails v-else-if="currentStep === 'details'" />
         <CfpSubmitStepAuthors v-else-if="currentStep === 'authors'" />
         <CfpSubmitStepUpload v-else-if="currentStep === 'upload'" />
-        <CfpSubmitStepPreview v-else-if="currentStep === 'preview'" />
       </div>
     </div>
   </div>
