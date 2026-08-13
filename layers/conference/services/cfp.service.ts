@@ -29,32 +29,64 @@ export function useCfpService() {
   const config = useRuntimeConfig();
   const CONTENT_BASE_URL = `${config.public.apiBase}/website/website_api/content`;
 
+  /**
+   * Fetches a CMS content slug with automatic retry.
+   *
+   * Retries on BOTH:
+   *  - Network / HTTP errors (fetch failed, 5xx, timeout)
+   *  - Empty `fulltext` responses (confirmed production failure mode where
+   *    the API responds 200 but returns no content)
+   *
+   * Uses linear backoff (600 ms, 1200 ms) between attempts.
+   * Throws only after all attempts are exhausted so useAsyncData can
+   * set its `error` ref and the client-side watcher can auto-retry.
+   */
   async function fetchContentBySlug(slug: string): Promise<string> {
-    try {
-      const response = await $fetch<RawContentResponse>(`${CONTENT_BASE_URL}/${slug}` as string, {
-        params: { access_key: config.public.apiAccessKey },
-      });
-      // console.log(`[cfpService] Raw response for ${slug}:`, typeof response === "string" ? response.substring(0, 100) : response);
-      let data: any = response;
-      if (typeof data === "string") {
-        try {
-          data = JSON.parse(data);
+    const MAX_ATTEMPTS = 3;
+    const BASE_DELAY_MS = 600;
+    let lastError: unknown;
+
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        const response = await $fetch<RawContentResponse>(`${CONTENT_BASE_URL}/${slug}` as string, {
+          params: { access_key: config.public.apiAccessKey },
+          timeout: 10000,
+        });
+
+        let data: any = response;
+        if (typeof data === "string") {
+          try {
+            data = JSON.parse(data);
+          }
+          catch {
+            // ignore — data stays as-is
+          }
         }
-        catch (e) {
-          // console.error(`[cfpService] Failed to parse JSON for ${slug}`, e);
+
+        const html = data?.content?.fulltext ?? "";
+
+        if (html) {
+          // Got valid content — return immediately.
+          return html;
         }
+
+        // API responded but returned empty fulltext — retryable.
+        lastError = new Error(
+          `[cfpService] "${slug}": API returned empty fulltext (attempt ${attempt}/${MAX_ATTEMPTS}).`,
+        );
+      }
+      catch (e) {
+        lastError = e;
       }
 
-      const html = data?.content?.fulltext ?? "";
-      if (!html) {
-        // console.warn(`[cfpService] fetchContentBySlug("${slug}"): API returned empty fulltext. Response was:`, data);
+      if (attempt < MAX_ATTEMPTS) {
+        // Linear backoff: 600 ms, 1200 ms
+        await new Promise(resolve => setTimeout(resolve, BASE_DELAY_MS * attempt));
       }
-      return html;
     }
-    catch (e) {
-      // console.error(`[cfpService] fetchContentBySlug("${slug}") FAILED. URL: ${CONTENT_BASE_URL}/${slug}`, e);
-      return "";
-    }
+
+    // All attempts exhausted — throw so useAsyncData sets its error ref.
+    throw lastError;
   }
 
   return {

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watch, onMounted } from "vue";
 import { useCfpService } from "../services/cfp.service";
 import { parseCfpContent, parseTracksContent, parseCommitteeContent } from "../utils/cfpParser";
 
 definePageMeta({ layout: "conference" });
 
 const cfpService = useCfpService();
-const { data, pending, error } = await useAsyncData(
+const { data, pending, error, refresh } = await useAsyncData(
   "home-content",
   async () => {
     const [cfpHtml, tracksHtml, committeeHtml] = await Promise.all([
@@ -23,6 +23,19 @@ const { data, pending, error } = await useAsyncData(
   },
 );
 
+// If SSR couldn't load data, auto-retry on the client
+// so the page never stays blank — user always sees loading until data arrives.
+onMounted(() => {
+  if (error.value || !data.value) {
+    refresh();
+  }
+});
+watch(error, (err) => {
+  if (err) {
+    setTimeout(() => refresh(), 800);
+  }
+});
+
 const heroTitle = computed(() => data.value?.cfp?.header?.title ?? "SBAC 2026");
 const heroTagline = computed(() => data.value?.cfp?.header?.subtitle ?? "Advancing Social Business Research");
 const heroDescription = computed(() => {
@@ -38,18 +51,15 @@ useSeoMeta({
 
 <template>
   <div>
+    <!-- Loading: shown while fetching or while client is auto-retrying -->
     <div
-      v-if="pending"
-      class="py-32 text-center font-poppins text-gray-500"
+      v-if="pending || error || !data"
+      class="flex min-h-[60vh] flex-col items-center justify-center gap-4 py-32 font-poppins"
     >
-      Loading Homepage…
-    </div>
-
-    <div
-      v-else-if="error || !data"
-      class="py-32 text-center font-poppins text-gray-500"
-    >
-      Unable to load content right now. Please try again shortly.
+      <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+      <p class="text-sm text-gray-400">
+        Loading content…
+      </p>
     </div>
 
     <template v-else>

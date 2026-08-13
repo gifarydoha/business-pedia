@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch, onMounted } from "vue";
 import CommitteeMemberCard from "../../components/cfp/Committee/CommitteeMemberCard.vue";
 import { useCfpService } from "../../services/cfp.service";
 import { parseCommitteeContent } from "../../utils/cfpParser";
@@ -6,10 +7,22 @@ import { parseCommitteeContent } from "../../utils/cfpParser";
 definePageMeta({ layout: "conference" });
 
 const cfpService = useCfpService();
-const { data: committeeData, pending: loading, error } = await useAsyncData(
+const { data: committeeData, pending: loading, error, refresh } = await useAsyncData(
   "committee-content",
   () => cfpService.fetchCommittee().then(parseCommitteeContent),
 );
+
+// If SSR couldn't load data, auto-retry on the client.
+onMounted(() => {
+  if (error.value || !committeeData.value) {
+    refresh();
+  }
+});
+watch(error, (err) => {
+  if (err) {
+    setTimeout(() => refresh(), 800);
+  }
+});
 
 const coChairs = computed(() => committeeData.value?.coChairs ?? []);
 const groups = computed(() => committeeData.value?.groups ?? []);
@@ -27,11 +40,15 @@ const groups = computed(() => committeeData.value?.groups ?? []);
         </h1>
       </div>
 
-      <div v-if="loading" class="py-16 text-center font-poppins text-gray-500">
-        Loading committee…
-      </div>
-      <div v-else-if="error || !committeeData" class="py-16 text-center font-poppins text-gray-500">
-        Unable to load Committee content right now. Please try again shortly.
+      <!-- Loading: shown while fetching or while client is auto-retrying -->
+      <div
+        v-if="loading || error || !committeeData"
+        class="flex min-h-[40vh] flex-col items-center justify-center gap-4"
+      >
+        <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+        <p class="font-poppins text-sm text-gray-400">
+          Loading content…
+        </p>
       </div>
 
       <template v-else>

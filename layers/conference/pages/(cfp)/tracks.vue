@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch, onMounted } from "vue";
 import TrackCard from "../../components/cfp/tracks/TrackCard.vue";
 import { useCfpService } from "../../services/cfp.service";
 import { parseTracksContent } from "../../utils/cfpParser";
@@ -6,10 +7,22 @@ import { parseTracksContent } from "../../utils/cfpParser";
 definePageMeta({ layout: "conference" });
 
 const cfpService = useCfpService();
-const { data: tracks, pending: loading, error } = await useAsyncData(
+const { data: tracks, pending: loading, error, refresh } = await useAsyncData(
   "tracks-content",
   () => cfpService.fetchTracks().then(parseTracksContent),
 );
+
+// If SSR couldn't load data, auto-retry on the client.
+onMounted(() => {
+  if (error.value || !tracks.value) {
+    refresh();
+  }
+});
+watch(error, (err) => {
+  if (err) {
+    setTimeout(() => refresh(), 800);
+  }
+});
 </script>
 
 <template>
@@ -27,15 +40,28 @@ const { data: tracks, pending: loading, error } = await useAsyncData(
         </p>
       </div>
 
-      <div v-if="loading" class="py-16 text-center font-poppins text-gray-500">
-        Loading tracks…
-      </div>
-      <div v-else-if="error || !tracks" class="py-16 text-center font-poppins text-gray-500">
-        Unable to load Tracks content right now. Please try again shortly.
+      <!-- Loading: shown while fetching or while client is auto-retrying -->
+      <div
+        v-if="loading || error || !tracks"
+        class="flex min-h-[40vh] flex-col items-center justify-center gap-4"
+      >
+        <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+        <p class="font-poppins text-sm text-gray-400">
+          Loading content…
+        </p>
       </div>
 
-      <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <TrackCard v-for="(t, i) in tracks" :key="t.name" :index="i + 1" :name="t.name" :description="t.description" />
+      <div
+        v-else
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        <TrackCard
+          v-for="(t, i) in tracks"
+          :key="t.name"
+          :index="i + 1"
+          :name="t.name"
+          :description="t.description"
+        />
       </div>
     </div>
   </section>

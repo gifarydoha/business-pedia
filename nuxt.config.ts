@@ -70,12 +70,12 @@ export default defineNuxtConfig({
     "/verify-otp": { ssr: false },
     "/verify-email": { ssr: false },
 
-    // cfp pages — ISR disabled until data loading is confirmed stable
-    "/call-for-papers": { ssr: true },
-    "/committee": { ssr: true },
-    "/tracks": { ssr: true },
-    "/guidelines": { ssr: true },
-    "/submit-paper": { ssr: true },
+    // cfp pages — SSR with no ISR cache so every request gets fresh CMS data
+    "/call-for-papers": { ssr: true, isr: false },
+    "/committee": { ssr: true, isr: false },
+    "/tracks": { ssr: true, isr: false },
+    "/guidelines": { ssr: true, isr: false },
+    "/submit-paper": { ssr: true, isr: false },
     // Internal Nuxt server API routes — always fresh
     "/api/**": { cors: true, cache: false },
   },
