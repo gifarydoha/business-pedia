@@ -13,7 +13,7 @@ const groups = computed(() => props.committeeData.groups ?? []);
 
 <template>
   <section class="py-20 md:py-28">
-    <div class="mx-auto max-w-6xl px-6">
+    <div class="mx-auto max-w-7xl px-6">
       <div class="mb-14">
         <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
           SBAC 2026
@@ -29,11 +29,7 @@ const groups = computed(() => props.committeeData.groups ?? []);
           Co-Chairs
         </h3>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <CommitteeMemberCard
-            v-for="m in coChairs"
-            :key="m.name"
-            :member="m"
-          />
+          <CommitteeMemberCard v-for="m in coChairs" :key="m.name" :member="m" />
         </div>
       </div>
 
@@ -43,19 +39,12 @@ const groups = computed(() => props.committeeData.groups ?? []);
           Members (including Track Chairs)
         </h3>
         <div class="space-y-12">
-          <div
-            v-for="g in groups"
-            :key="g.trackName"
-          >
+          <div v-for="g in groups" :key="g.trackName">
             <h4 class="mb-4 font-lora text-lg font-semibold text-cfp-olive">
               {{ g.trackName }}
             </h4>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <CommitteeMemberCard
-                v-for="m in g.members"
-                :key="m.name"
-                :member="m"
-              />
+              <CommitteeMemberCard v-for="m in g.members" :key="m.name" :member="m" />
             </div>
           </div>
         </div>

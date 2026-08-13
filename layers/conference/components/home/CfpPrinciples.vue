@@ -4,11 +4,8 @@ const principles = computed(() => settingsStore.cfpPrinciples);
 </script>
 
 <template>
-  <section
-    id="principles"
-    class="bg-cfp-cream py-20 md:py-28"
-  >
-    <div class="mx-auto max-w-6xl px-6">
+  <section id="principles" class="bg-cfp-cream py-20 md:py-28">
+    <div class="mx-auto max-w-7xl px-6">
       <!-- Heading -->
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
@@ -24,13 +21,11 @@ const principles = computed(() => settingsStore.cfpPrinciples);
       </div>
 
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="p in principles"
-          :key="p.n"
-          class="flex gap-4 rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-        >
+        <div v-for="p in principles" :key="p.n"
+          class="flex gap-4 rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl">
           <div class="shrink-0">
-            <div class="flex size-9 items-center justify-center rounded-full bg-cfp-olive font-lora text-sm font-bold text-white">
+            <div
+              class="flex size-9 items-center justify-center rounded-full bg-cfp-olive font-lora text-sm font-bold text-white">
               {{ p.n }}
             </div>
           </div>

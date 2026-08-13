@@ -14,7 +14,7 @@ const { data: tracks, pending: loading, error } = await useAsyncData(
 
 <template>
   <section class="bg-cfp-olive-pale py-20 md:py-28">
-    <div class="mx-auto max-w-6xl px-6">
+    <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
           SBAC 2026
@@ -27,30 +27,15 @@ const { data: tracks, pending: loading, error } = await useAsyncData(
         </p>
       </div>
 
-      <div
-        v-if="loading"
-        class="py-16 text-center font-poppins text-gray-500"
-      >
+      <div v-if="loading" class="py-16 text-center font-poppins text-gray-500">
         Loading tracks…
       </div>
-      <div
-        v-else-if="error || !tracks"
-        class="py-16 text-center font-poppins text-gray-500"
-      >
+      <div v-else-if="error || !tracks" class="py-16 text-center font-poppins text-gray-500">
         Unable to load Tracks content right now. Please try again shortly.
       </div>
 
-      <div
-        v-else
-        class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <TrackCard
-          v-for="(t, i) in tracks"
-          :key="t.name"
-          :index="i + 1"
-          :name="t.name"
-          :description="t.description"
-        />
+      <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <TrackCard v-for="(t, i) in tracks" :key="t.name" :index="i + 1" :name="t.name" :description="t.description" />
       </div>
     </div>
   </section>

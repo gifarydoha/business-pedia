@@ -162,7 +162,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
       :ui="{
         root: 'static! h-full! z-10!',
         container: 'h-full static!',
-        inner: 'bg-elevated/25 divide-transparent h-full!',
+        inner: 'bg-[var(--color-cfp-olive)] text-[var(--color-cfp-cream)] divide-transparent h-full!',
         body: 'py-0',
       }"
     >
@@ -180,9 +180,9 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
               color="neutral"
               variant="ghost"
               square
-              class="w-full overflow-hidden data-[state=open]:bg-elevated"
+              class="w-full overflow-hidden text-[var(--color-cfp-cream)] hover:bg-[var(--color-cfp-olive-dark)] hover:text-[var(--color-cfp-yellow)] data-[state=open]:bg-[var(--color-cfp-olive-dark)] data-[state=open]:text-[var(--color-cfp-yellow)]"
               :ui="{
-                trailingIcon: 'text-dimmed ms-auto',
+                trailingIcon: 'text-[var(--color-cfp-olive-pale)] ms-auto',
               }"
             />
           </UDropdownMenu>
@@ -190,7 +190,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
             icon="i-lucide-x"
             color="neutral"
             variant="ghost"
-            class="shrink-0 md:hidden"
+            class="shrink-0 text-[var(--color-cfp-cream)] hover:bg-[var(--color-cfp-olive-dark)] hover:text-[var(--color-cfp-yellow)] md:hidden"
             aria-label="Close sidebar"
             @click="open = false"
           />
@@ -202,6 +202,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
           :key="state"
           :items="getItems(state)"
           orientation="vertical"
+          class="cfp-nav-menu"
           :ui="{ link: 'p-1.5 overflow-hidden' }"
         />
       </template>
@@ -219,9 +220,9 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
             color="neutral"
             variant="ghost"
             square
-            class="w-full overflow-hidden data-[state=open]:bg-elevated"
+            class="w-full overflow-hidden text-[var(--color-cfp-cream)] hover:bg-[var(--color-cfp-olive-dark)] hover:text-[var(--color-cfp-yellow)] data-[state=open]:bg-[var(--color-cfp-olive-dark)] data-[state=open]:text-[var(--color-cfp-yellow)]"
             :ui="{
-              trailingIcon: 'text-dimmed ms-auto',
+              trailingIcon: 'text-[var(--color-cfp-olive-pale)] ms-auto',
             }"
           />
         </UDropdownMenu>
@@ -245,3 +246,46 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Theme colors for Navigation Menu */
+:deep(.cfp-nav-menu a),
+:deep(.cfp-nav-menu button) {
+  color: var(--color-cfp-cream) !important;
+}
+
+:deep(.cfp-nav-menu a:hover),
+:deep(.cfp-nav-menu button:hover) {
+  background-color: var(--color-cfp-olive-dark) !important;
+  color: var(--color-cfp-yellow) !important;
+}
+
+:deep(.cfp-nav-menu a:hover .icon),
+:deep(.cfp-nav-menu button:hover .icon),
+:deep(.cfp-nav-menu a:hover svg),
+:deep(.cfp-nav-menu button:hover svg) {
+  color: var(--color-cfp-yellow) !important;
+}
+
+/* Active links */
+:deep(.cfp-nav-menu a[aria-current="page"]),
+:deep(.cfp-nav-menu button[aria-expanded="true"]),
+:deep(.cfp-nav-menu .active) {
+  background-color: var(--color-cfp-olive-dark) !important;
+  color: var(--color-cfp-yellow) !important;
+}
+
+:deep(.cfp-nav-menu a[aria-current="page"] .icon),
+:deep(.cfp-nav-menu button[aria-expanded="true"] .icon),
+:deep(.cfp-nav-menu .active .icon),
+:deep(.cfp-nav-menu a[aria-current="page"] svg),
+:deep(.cfp-nav-menu button[aria-expanded="true"] svg),
+:deep(.cfp-nav-menu .active svg) {
+  color: var(--color-cfp-yellow) !important;
+}
+
+/* Subtext or badges */
+:deep(.cfp-nav-menu [class*="text-dimmed"]) {
+  color: var(--color-cfp-olive-pale) !important;
+}
+</style>

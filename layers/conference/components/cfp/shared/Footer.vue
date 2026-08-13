@@ -33,7 +33,7 @@ const settingsStore = useSettingsStore();
 
 <template>
   <footer class="bg-cfp-olive-dark text-white/75">
-    <!-- <div class="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-3">
+    <!-- <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-3">
       <div>
         <div class="mb-4 flex items-center gap-3">
           <NuxtImg
@@ -101,7 +101,7 @@ const settingsStore = useSettingsStore();
     </div> -->
 
     <div class="border-t border-white/10">
-      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row">
         <span class="font-poppins text-xs text-white/40">
           {{ settingsStore.cfpHero.footerCopyright }}
         </span>

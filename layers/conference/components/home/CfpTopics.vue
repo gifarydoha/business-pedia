@@ -5,11 +5,8 @@ const themes = computed(() => settingsStore.cfpThemes);
 </script>
 
 <template>
-  <section
-    id="tracks"
-    class="bg-cfp-olive-pale py-20 md:py-28"
-  >
-    <div class="mx-auto max-w-6xl px-6">
+  <section id="tracks" class="bg-cfp-olive-pale py-20 md:py-28">
+    <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
           Scientific Committee
@@ -24,17 +21,10 @@ const themes = computed(() => settingsStore.cfpThemes);
       </div>
 
       <div class="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="t in tracks"
-          :key="t.label"
-          class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-        >
+        <div v-for="t in tracks" :key="t.label"
+          class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl">
           <div class="mb-4 flex items-start justify-between">
-            <span
-              class="text-3xl"
-              role="img"
-              :aria-label="t.label"
-            >
+            <span class="text-3xl" role="img" :aria-label="t.label">
               {{ t.icon }}
             </span>
             <span class="rounded-full bg-cfp-yellow/20 px-3 py-1 font-poppins text-xs font-semibold text-cfp-olive">
@@ -53,11 +43,7 @@ const themes = computed(() => settingsStore.cfpThemes);
           Specific Themes Covered
         </h3>
         <ul class="grid grid-cols-1 gap-x-10 gap-y-2 sm:grid-cols-2">
-          <li
-            v-for="th in themes"
-            :key="th"
-            class="flex items-start gap-2 font-poppins text-sm text-gray-600"
-          >
+          <li v-for="th in themes" :key="th" class="flex items-start gap-2 font-poppins text-sm text-gray-600">
             <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-cfp-yellow" />
             {{ th }}
           </li>
