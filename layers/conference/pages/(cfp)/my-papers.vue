@@ -111,7 +111,7 @@ const papers = computed<Paper[]>(() => {
 });
 
 type FilterTab = "All" | PaperStatus;
-const filterTabs: FilterTab[] = ["All", "Accepted", "Under Review", "Rejected"];
+// const filterTabs: FilterTab[] = ["All", "Accepted", "Under Review", "Rejected"];
 
 const preview = ref<Paper | null>(null);
 const activeFilter = ref<FilterTab>("All");
@@ -122,13 +122,13 @@ const filtered = computed(() => {
     : papers.value.filter((p) => p.status === activeFilter.value);
 });
 
-const counts = computed(() => ({
-  "All": papers.value.length,
-  "Accepted": papers.value.filter((p) => p.status === "Accepted").length,
-  "Under Review": papers.value.filter((p) => p.status === "Under Review").length,
-  "Rejected": papers.value.filter((p) => p.status === "Rejected").length,
-  "Draft": papers.value.filter((p) => p.status === "Draft").length,
-}));
+// const counts = computed(() => ({
+//   "All": papers.value.length,
+//   "Accepted": papers.value.filter((p) => p.status === "Accepted").length,
+//   "Under Review": papers.value.filter((p) => p.status === "Under Review").length,
+//   "Rejected": papers.value.filter((p) => p.status === "Rejected").length,
+//   "Draft": papers.value.filter((p) => p.status === "Draft").length,
+// }));
 
 const closePreview = () => {
   preview.value = null;
@@ -140,27 +140,40 @@ const pdfPreviewUrl = ref<string | null>(null);
 <template>
   <div>
     <!-- Preview Modal -->
-    <PaperPreviewModal v-if="preview" :preview="preview" @close="closePreview" />
+    <PaperPreviewModal
+      v-if="preview"
+      :preview="preview"
+      @close="closePreview"
+    />
 
     <!-- PDF Preview Modal -->
-    <PdfPreviewModal v-if="pdfPreviewUrl" :pdf-url="pdfPreviewUrl" @close="pdfPreviewUrl = null" />
+    <PdfPreviewModal
+      v-if="pdfPreviewUrl"
+      :pdf-url="pdfPreviewUrl"
+      @close="pdfPreviewUrl = null"
+    />
 
     <CfpSharedBreadcrumb :crumbs="[{ label: 'My Conference Papers' }]" />
 
     <!-- Page header -->
     <div
-      class="mx-auto mt-8 flex max-w-7xl flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
+      class="mx-auto mt-8 flex max-w-7xl flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5"
+    >
       <h1 class="mb-6 font-lora text-2xl font-bold text-cfp-olive md:text-3xl">
         Social Business Academia Conference
       </h1>
 
       <div class="flex flex-wrap items-center gap-5">
-        <NuxtLink to="/my-papers"
-          class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-cfp-olive">
+        <NuxtLink
+          to="/my-papers"
+          class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-cfp-olive"
+        >
           My Papers
         </NuxtLink>
-        <NuxtLink to="/submit-paper"
-          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90">
+        <NuxtLink
+          to="/submit-paper"
+          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+        >
           + Submit New Paper
         </NuxtLink>
       </div>
@@ -168,17 +181,24 @@ const pdfPreviewUrl = ref<string | null>(null);
 
     <div class="mx-auto max-w-7xl px-6 py-10 md:py-14">
       <!-- Filter tabs + summary -->
-      <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+      <!-- <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div class="flex flex-wrap gap-2">
-          <button v-for="tab in filterTabs" :key="tab"
-            class="rounded-full border px-4 py-1.5 font-poppins text-sm transition-colors" :class="[
+          <button
+            v-for="tab in filterTabs"
+            :key="tab"
+            class="rounded-full border px-4 py-1.5 font-poppins text-sm transition-colors"
+            :class="[
               activeFilter === tab
                 ? 'border-cfp-olive bg-cfp-olive text-white'
                 : 'border-cfp-olive/20 bg-white text-gray-600 hover:border-cfp-olive/40',
-            ]" @click="activeFilter = tab">
+            ]"
+            @click="activeFilter = tab"
+          >
             {{ tab }}
-            <span class="ml-1.5 text-xs font-semibold"
-              :class="activeFilter === tab ? 'text-cfp-yellow' : 'text-gray-400'">
+            <span
+              class="ml-1.5 text-xs font-semibold"
+              :class="activeFilter === tab ? 'text-cfp-yellow' : 'text-gray-400'"
+            >
               {{ counts[tab] }}
             </span>
           </button>
@@ -187,11 +207,13 @@ const pdfPreviewUrl = ref<string | null>(null);
         <p class="font-poppins text-sm text-gray-400">
           {{ filtered.length }} paper{{ filtered.length !== 1 ? 's' : '' }} shown
         </p>
-      </div>
+      </div> -->
 
       <!-- Loading state -->
-      <div v-if="status === 'pending' || status === 'idle'"
-        class="flex flex-col items-center justify-center rounded-2xl border border-cfp-olive/15 bg-white p-16 shadow-lg">
+      <div
+        v-if="status === 'pending' || status === 'idle'"
+        class="flex flex-col items-center justify-center rounded-2xl border border-cfp-olive/15 bg-white p-16 shadow-lg"
+      >
         <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
         <p class="mt-4 font-poppins text-sm text-gray-500">
           Loading your papers...
@@ -199,12 +221,23 @@ const pdfPreviewUrl = ref<string | null>(null);
       </div>
 
       <!-- Empty state -->
-      <div v-else-if="filtered.length === 0"
-        class="rounded-2xl border border-cfp-olive/15 bg-white p-16 text-center shadow-lg">
+      <div
+        v-else-if="filtered.length === 0"
+        class="rounded-2xl border border-cfp-olive/15 bg-white p-16 text-center shadow-lg"
+      >
         <div class="mx-auto mb-5 flex size-16 items-center justify-center rounded-full bg-cfp-olive-pale">
-          <svg class="size-7 text-cfp-olive/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <svg
+            class="size-7 text-cfp-olive/50"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
           </svg>
         </div>
         <h3 class="mb-2 font-lora text-xl font-bold text-cfp-olive">
@@ -215,21 +248,33 @@ const pdfPreviewUrl = ref<string | null>(null);
             ? 'You have not submitted any papers for this conference yet. Get started by clicking below.'
             : `You don't have any papers with "${activeFilter}" status.` }}
         </p>
-        <NuxtLink to="/submit-paper"
-          class="inline-block rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90">
+        <NuxtLink
+          to="/submit-paper"
+          class="inline-block rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+        >
           Submit Your First Paper
         </NuxtLink>
       </div>
 
       <!-- Paper cards -->
-      <div v-if="filtered.length > 0" class="space-y-5">
-        <PaperCard v-for="paper in filtered" :key="paper.id" :paper="paper" @preview="preview = paper"
-          @preview-pdf="url => pdfPreviewUrl = url" />
+      <div
+        v-if="filtered.length > 0"
+        class="space-y-5"
+      >
+        <PaperCard
+          v-for="paper in filtered"
+          :key="paper.id"
+          :paper="paper"
+          @preview="preview = paper"
+          @preview-pdf="url => pdfPreviewUrl = url"
+        />
       </div>
 
       <!-- Bottom CTA -->
-      <div v-if="papers.length > 0"
-        class="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 sm:flex-row sm:items-center">
+      <div
+        v-if="papers.length > 0"
+        class="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 sm:flex-row sm:items-center"
+      >
         <div>
           <p class="font-lora text-base font-semibold text-cfp-olive">
             Submit another paper before the deadline
@@ -238,8 +283,10 @@ const pdfPreviewUrl = ref<string | null>(null);
             Deadline: <span class="font-semibold text-cfp-red">31 January 2024</span>
           </p>
         </div>
-        <NuxtLink to="/submit-paper"
-          class="shrink-0 rounded-full bg-cfp-red px-7 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90">
+        <NuxtLink
+          to="/submit-paper"
+          class="shrink-0 rounded-full bg-cfp-red px-7 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+        >
           Submit a Paper
         </NuxtLink>
       </div>

@@ -230,7 +230,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
     </USidebar>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-default bg-white px-4">
+      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-cfp-olive/30 bg-white px-4">
         <UButton
           icon="i-lucide-panel-left"
           color="neutral"
