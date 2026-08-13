@@ -115,7 +115,7 @@ const isAuthorsValid = computed(() => {
 
     <button
       type="button"
-      class="mb-8 rounded-full border border-cfp-olive px-5 py-2 font-lora text-sm font-bold text-cfp-olive"
+      class="mb-8 rounded-full border border-cfp-yellow bg-cfp-yellow px-5 py-2 font-lora text-sm font-bold text-white"
       @click="addAuthor"
     >
       + Add Author

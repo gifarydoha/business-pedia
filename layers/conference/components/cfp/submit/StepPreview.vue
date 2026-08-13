@@ -8,7 +8,7 @@ const getCountryName = (countryId: number | "") => {
   return country ? country.name : "";
 };
 
-const { form, goToStep, submitPaper, skipSubmission, isEditMode } = useSubmissionWizard();
+const { form, goToStep, skipSubmission } = useSubmissionWizard();
 </script>
 
 <template>
@@ -105,19 +105,11 @@ const { form, goToStep, submitPaper, skipSubmission, isEditMode } = useSubmissio
 
     <div class="mt-8 flex justify-end gap-4">
       <button
-        v-if="isEditMode"
         type="button"
         class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
         @click="skipSubmission"
       >
-        Skip
-      </button>
-      <button
-        type="button"
-        class="rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white shadow transition-opacity hover:opacity-90"
-        @click="submitPaper"
-      >
-        Submit Form
+        Close
       </button>
     </div>
   </div>

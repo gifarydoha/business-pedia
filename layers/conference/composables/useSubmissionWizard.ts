@@ -2,7 +2,7 @@ import type { SubmissionFormData, SubmissionAuthor, PresentationTrack } from "~~
 import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 import { useConferenceService } from "#layers/conference/services/conference.service";
 
-const STEPS = ["track", "details", "authors", "upload"] as const;
+const STEPS = ["track", "details", "authors", "upload", "preview"] as const;
 export type WizardStep = typeof STEPS[number];
 
 let nextAuthorId = 1;
