@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const activeSection = ref("overview");
 const observer = ref<IntersectionObserver | null>(null);
 
@@ -63,10 +65,10 @@ onUnmounted(() => {
           October 1, 2026
         </p>
         <NuxtLink
-          to="/submit-paper"
+          :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
           class="mt-4 block rounded-full bg-cfp-red px-5 py-2.5 text-center font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
-          Submit Your Paper
+          {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your Paper' }}
         </NuxtLink>
       </div>
     </div>

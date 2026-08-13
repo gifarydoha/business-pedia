@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { CfpNextStep } from "~~/layers/base/types/api";
 import type { SubmissionFormData } from "~~/layers/conference/types/submission";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 
 defineProps<{
   form: SubmissionFormData | null;
@@ -16,7 +19,10 @@ defineEmits<{
   <div>
     <CfpSharedBreadcrumb
       :crumbs="[
-        { label: 'Submit Your Paper', href: '/submit-paper' },
+        {
+          label: hasSubmittedPaper.value ? 'Edit Your Paper' : 'Submit Your Paper',
+          href: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : '/submit-paper/draft',
+        },
         { label: 'Confirmation' },
       ]"
     />

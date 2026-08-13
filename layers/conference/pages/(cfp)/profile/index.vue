@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { UserProfile } from "~/layers/conference/types/profile";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
 useSeoMeta({ title: "My Profile" });
 
@@ -59,10 +61,10 @@ const user = computed<UserProfile>(() => ({
             My Papers
           </NuxtLink>
           <NuxtLink
-            to="/submit-paper"
+            :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
             class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
-            Submit a Paper
+            {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit a Paper' }}
           </NuxtLink>
         </div>
       </div>

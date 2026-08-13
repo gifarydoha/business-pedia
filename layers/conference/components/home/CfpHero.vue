@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
+
 defineProps<{
   title: string;
   tagline: string;
@@ -51,12 +55,12 @@ const stats = [
       </p>
 
       <div class="flex flex-wrap gap-4">
-        <a
-          href="/submit-paper"
+        <NuxtLink
+          :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
           class="rounded-full bg-cfp-red px-8 py-3 font-lora text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
         >
-          Submit Your Paper
-        </a>
+          {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your Paper' }}
+        </NuxtLink>
         <a
           href="/call-for-papers"
           class="rounded-full border-2 border-white px-8 py-3 font-lora text-base font-bold text-white transition-colors hover:bg-white/10"

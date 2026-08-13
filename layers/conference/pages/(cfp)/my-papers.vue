@@ -5,6 +5,9 @@ import PaperPreviewModal from "~/layers/conference/components/papers/PaperPrevie
 import PdfPreviewModal from "~/layers/conference/components/papers/PdfPreviewModal.vue";
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
 import { useConferenceService } from "~/layers/conference/services/conference.service";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
 useSeoMeta({ title: "My Conference Papers" });
@@ -171,10 +174,10 @@ const pdfPreviewUrl = ref<string | null>(null);
           My Papers
         </NuxtLink>
         <NuxtLink
-          to="/submit-paper"
+          :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
           class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
-          Submit Paper
+          {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Paper' }}
         </NuxtLink>
       </div>
     </div>
@@ -249,10 +252,10 @@ const pdfPreviewUrl = ref<string | null>(null);
             : `You don't have any papers with "${activeFilter}" status.` }}
         </p>
         <NuxtLink
-          to="/submit-paper"
+          :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
           class="inline-block rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
-          Submit Your First Paper
+          {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your First Paper' }}
         </NuxtLink>
       </div>
 

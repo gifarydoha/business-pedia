@@ -3,7 +3,9 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import { useCfpService } from "../../../services/cfp.service";
 import { parseCfpContent } from "../../../utils/cfpParser";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const open = ref(false);
 const userDropdownOpen = ref(false);
 const mobileAccountOpen = ref(false);
@@ -81,11 +83,15 @@ const isActive = (href: string) => {
   return route.path === href;
 };
 
-const USER_MENU_ITEMS = [
+const USER_MENU_ITEMS = computed(() => [
   { label: "My Profile", href: "/profile", icon: "ph:user" },
   { label: "My Papers", href: "/my-papers", icon: "ph:file-text" },
-  { label: "Submit Paper", href: "/submit-paper/draft", icon: "ph:paper-plane-tilt" },
-];
+  {
+    label: hasSubmittedPaper.value ? "Edit Your Paper" : "Submit Paper",
+    href: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : "/submit-paper/draft",
+    icon: "ph:paper-plane-tilt",
+  },
+]);
 
 async function handleLogout() {
   userDropdownOpen.value = false;
@@ -206,7 +212,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
             class="relative self-stretch"
           >
             <button
-              class="inline-flex h-full items-center gap-2.5 self-stretch bg-white px-5 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+              class="inline-flex h-full items-center gap-2.5 self-stretch bg-white px-5 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors"
               @click.stop="userDropdownOpen = !userDropdownOpen"
             >
               <span

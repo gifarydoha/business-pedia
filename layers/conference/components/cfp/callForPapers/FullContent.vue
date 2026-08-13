@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
+
 const themes = [
   "The importance of social business in the context of the COVID-19 pandemic",
   "Poverty and wealth concentration",
@@ -219,10 +223,10 @@ const tracks = [
       </div>
       <div class="mt-8 flex flex-wrap gap-4">
         <NuxtLink
-          to="/submit-paper"
+          :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
           class="rounded-full bg-cfp-red px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
         >
-          Submit Your Paper
+          {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your Paper' }}
         </NuxtLink>
         <NuxtLink
           to="/guidelines"

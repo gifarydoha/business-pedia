@@ -2,8 +2,10 @@
 import { ref, computed } from "vue";
 import type { DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
 import { useAuthStore } from "~~/layers/base/stores/auth";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
 const authStore = useAuthStore();
+const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const open = ref(true);
 
 // const colorMode = useColorMode();
@@ -55,9 +57,9 @@ function getItems(state: "collapsed" | "expanded") {
       to: "/my-papers",
     },
     {
-      label: "Submit Paper",
+      label: hasSubmittedPaper.value ? "Edit Your Paper" : "Submit Paper",
       icon: "i-lucide-file-plus",
-      to: "/submit-paper",
+      to: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : "/submit-paper",
     },
     {
       label: "Profile",

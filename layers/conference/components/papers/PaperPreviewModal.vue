@@ -97,10 +97,10 @@ const emit = defineEmits<{
           Close
         </button>
         <NuxtLink
-          to="/submit-paper"
+          :to="`/submit-paper/${preview.id}`"
           class="flex-1 rounded-full bg-cfp-red px-6 py-2.5 text-center font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
-          Submit New Paper
+          Edit Paper
         </NuxtLink>
       </div>
     </div>

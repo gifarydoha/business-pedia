@@ -3,13 +3,25 @@ import { useConferenceService } from "~~/layers/conference/services/conference.s
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+
 definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "Edit Paper Submission" });
 
 const route = useRoute();
 const paperId = route.params.id as string;
 
-// console.log("Edit page loaded for Paper ID:", paperId);
+const { hasSubmittedPaper, submittedPaperId, isLoading: isPaperLoading } = useUserPaper();
+
+watch(
+  [hasSubmittedPaper, isPaperLoading],
+  ([hasPaper, loading]) => {
+    if (!loading && hasPaper && submittedPaperId.value && paperId !== submittedPaperId.value) {
+      navigateTo(`/submit-paper/${submittedPaperId.value}`);
+    }
+  },
+  { immediate: true },
+);
 
 const { currentStep, form, submitted, reset } = useSubmissionWizard();
 

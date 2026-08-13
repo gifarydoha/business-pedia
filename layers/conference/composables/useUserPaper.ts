@@ -1,0 +1,59 @@
+import { useConferenceService } from "#layers/conference/services/conference.service";
+
+export const useUserPaper = () => {
+  const { getConferencePapers } = useConferenceService();
+  const authStore = useAuthStore();
+
+  const { data: rawPapers, status, refresh } = useLazyAsyncData(
+    "user-paper-status",
+    () => {
+      if (!authStore.user?.id) return Promise.resolve(null);
+      return getConferencePapers("10", authStore.user.id);
+    },
+    {
+      server: false,
+      watch: [() => authStore.user?.id],
+      default: () => null,
+    },
+  );
+
+  const papers = computed(() => {
+    if (!rawPapers.value) return [];
+
+    const response = rawPapers.value as any;
+    let items: any[] = [];
+
+    if (Array.isArray(response)) {
+      items = response;
+    }
+    else if (response && typeof response === "object") {
+      if (Array.isArray(response.conference_papers)) {
+        items = response.conference_papers;
+      }
+      else if (Array.isArray(response.data)) {
+        items = response.data;
+      }
+    }
+
+    return items;
+  });
+
+  const hasSubmittedPaper = computed(() => papers.value.length > 0);
+
+  const submittedPaperId = computed(() => {
+    if (papers.value.length > 0) {
+      const p = papers.value[0];
+      return String(p.id || p.paper_id || p.paper_uid || "");
+    }
+    return "";
+  });
+
+  const isLoading = computed(() => status.value === "pending");
+
+  return {
+    hasSubmittedPaper,
+    submittedPaperId,
+    isLoading,
+    refresh,
+  };
+};
