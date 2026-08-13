@@ -7,6 +7,7 @@ export function useAuthTokens() {
     maxAge: 60 * 30, // 30 min
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
+    path: "/",
     default: () => null,
   });
 
@@ -14,6 +15,7 @@ export function useAuthTokens() {
     maxAge: 60 * 60 * 24 * 30, // 30 days
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
+    path: "/",
     default: () => null,
   });
 
@@ -21,6 +23,7 @@ export function useAuthTokens() {
     maxAge: 60 * 60 * 24 * 30, // 30 days
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
+    path: "/",
     default: () => null,
   });
 

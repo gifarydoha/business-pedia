@@ -175,24 +175,29 @@ export const useAuthStore = defineStore("auth", {
 
     async initAuth() {
       if (this.initialized) return;
-      const { accessToken, userCookie } = useAuthTokens();
+      const { accessToken, refreshToken, userCookie } = useAuthTokens();
 
       const userCookieVal = userCookie.value;
+
       // Fast path — hydrate from cookie (no network call)
       if (userCookieVal) {
         try {
-          this.user = JSON.parse(userCookieVal) as User;
+          this.user = typeof userCookieVal === "string" ? JSON.parse(userCookieVal) : userCookieVal;
         }
         catch { this.user = null; }
       }
-      // Slow path — cookie missing but access token present: fetch fresh user from server
-      else if (accessToken.value) {
+
+      // Slow path — cookie missing or invalid but tokens present: fetch fresh user from server
+      if (!this.user && (accessToken.value || refreshToken.value)) {
         const authService = useAuthService();
         try {
           this.user = await authService.fetchUser();
           userCookie.value = JSON.stringify(this.user);
         }
-        catch { this.user = null; }
+        catch (err: any) {
+          console.error("[Store] fetchUser FAILED:", err);
+          this.user = null;
+        }
       }
 
       this.initialized = true;

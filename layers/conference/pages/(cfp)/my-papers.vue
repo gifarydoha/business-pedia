@@ -272,7 +272,7 @@ const pdfPreviewUrl = ref<string | null>(null);
 
       <!-- Bottom CTA -->
       <div
-        v-if="papers.length > 0"
+        v-if="papers.length === 0"
         class="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 sm:flex-row sm:items-center"
       >
         <div>
