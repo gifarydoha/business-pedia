@@ -23,7 +23,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Title
         </h3>
         <button
-          class="rounded-full border border-cfp-olive px-3 py-1 font-poppins text-xs text-cfp-olive"
+          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('details')"
         >
           Edit
@@ -49,7 +49,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Paper Track
         </h3>
         <button
-          class="rounded-full border border-cfp-olive px-3 py-1 font-poppins text-xs text-cfp-olive"
+          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('track')"
         >
           Edit
@@ -66,7 +66,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Author Information
         </h3>
         <button
-          class="rounded-full border border-cfp-olive px-3 py-1 font-poppins text-xs text-cfp-olive"
+          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('authors')"
         >
           Edit
@@ -92,7 +92,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Paper File
         </h3>
         <button
-          class="rounded-full border border-cfp-olive px-3 py-1 font-poppins text-xs text-cfp-olive"
+          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('upload')"
         >
           Edit

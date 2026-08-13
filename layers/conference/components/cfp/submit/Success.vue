@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { CfpNextStep } from "~~/layers/base/types/api";
 import type { SubmissionFormData } from "~~/layers/conference/types/submission";
-import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+// import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
-const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
+// const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 
 defineProps<{
   form: SubmissionFormData | null;
@@ -17,7 +17,7 @@ defineEmits<{
 
 <template>
   <div>
-    <CfpSharedBreadcrumb
+    <!-- <CfpSharedBreadcrumb
       :crumbs="[
         {
           label: hasSubmittedPaper.value ? 'Edit Your Paper' : 'Submit Your Paper',
@@ -25,9 +25,9 @@ defineEmits<{
         },
         { label: 'Confirmation' },
       ]"
-    />
+    /> -->
     <div class="flex min-h-96 items-center justify-center px-6 py-24">
-      <div class="w-full max-w-xl text-center">
+      <div class="w-full max-w-7xl text-center">
         <div class="mb-6 flex justify-center">
           <CfpSharedLogo class="h-16 w-auto" />
         </div>
@@ -49,14 +49,14 @@ defineEmits<{
         <h1 class="mb-4 font-lora text-3xl font-bold text-cfp-olive">
           Submission Received!
         </h1>
-        <p class="mb-2 font-poppins leading-relaxed text-gray-600">
+        <p class="mx-auto mb-2 max-w-3xl font-poppins leading-relaxed text-gray-600">
           Thank you, <strong class="text-cfp-olive">{{ form?.authors?.[0]?.firstName }} {{ form?.authors?.[0]?.lastName }}</strong>.
           Your paper <em>"{{ form?.title }}"</em> has been submitted successfully for SBAC 2026.
         </p>
-        <p class="mb-8 font-poppins text-sm text-gray-500">
+        <!-- <p class="mb-8 font-poppins text-sm text-gray-500">
           A confirmation email will be sent to
           <span class="font-medium text-cfp-olive">{{ form?.authors?.[0]?.email }}</span> within 24 hours.
-        </p>
+        </p> -->
 
         <!-- What happens next -->
         <div

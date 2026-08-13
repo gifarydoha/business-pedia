@@ -164,7 +164,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
       :ui="{
         root: 'static! h-full! z-10!',
         container: 'h-full static!',
-        inner: 'bg-white xl:bg-elevated/25 divide-transparent h-full!',
+        inner: 'bg-white divide-transparent h-full!',
         body: 'py-0',
       }"
     >
