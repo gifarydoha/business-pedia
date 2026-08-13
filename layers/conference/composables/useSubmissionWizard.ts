@@ -130,7 +130,12 @@ export const useSubmissionWizard = () => {
           description: isEditMode.value ? "Paper successfully updated!" : "Paper successfully submitted!",
           color: "success",
         });
-        submit();
+        if (isEditMode.value && currentStep.value !== "upload") {
+          nextStep();
+        }
+        else {
+          submit();
+        }
       }
       else {
         toast.add({

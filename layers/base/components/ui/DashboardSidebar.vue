@@ -59,7 +59,7 @@ function getItems(state: "collapsed" | "expanded") {
     {
       label: hasSubmittedPaper.value ? "Edit Your Paper" : "Submit Paper",
       icon: "i-lucide-file-plus",
-      to: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : "/submit-paper",
+      to: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : "/submit-paper/draft",
     },
     {
       label: "Profile",
@@ -159,40 +159,37 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
       v-model:open="open"
       collapsible="icon"
       rail
-      class="cfp-sidebar static! z-10 h-full!"
+      class="static! z-10 h-full!"
       style="position: static !important; height: 100% !important; z-index: 10 !important;"
       :ui="{
         root: 'static! h-full! z-10!',
         container: 'h-full static!',
-        inner: 'bg-cfp-olive text-cfp-cream divide-transparent h-full!',
+        inner: 'bg-white xl:bg-elevated/25 divide-transparent h-full!',
         body: 'py-0',
       }"
     >
       <template #header>
         <div class="flex w-full items-center gap-2">
           <!-- <UDropdownMenu
-            :items="teamsItems"
-            :content="{ align: 'start', collisionPadding: 12 }"
-            :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) min-w-48' }"
-            class="min-w-0 flex-1"
-          >
-            <UButton
-              v-bind="selectedTeam"
-              trailing-icon="i-lucide-chevrons-up-down"
-              color="neutral"
-              variant="ghost"
-              square
-              class="w-full overflow-hidden text-cfp-cream! hover:bg-cfp-olive-dark! hover:text-cfp-yellow! data-[state=open]:bg-cfp-olive-dark! data-[state=open]:text-cfp-yellow!"
-              :ui="{
-                trailingIcon: 'text-cfp-olive-pale! ms-auto',
-              }"
-            />
-          </UDropdownMenu> -->
+              :items="teamsItems"
+              :content="{ align: 'start', collisionPadding: 12 }"
+              :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) min-w-48' }"
+              class="min-w-0 flex-1"
+            >
+              <UButton
+                v-bind="selectedTeam"
+                trailing-icon="i-lucide-chevrons-up-down"
+                color="neutral"
+                variant="ghost"
+                square
+                class="w-full overflow-hidden"
+              />
+            </UDropdownMenu> -->
           <UButton
             icon="i-lucide-x"
             color="neutral"
             variant="ghost"
-            class="shrink-0 text-cfp-cream! hover:bg-cfp-olive-dark! hover:text-cfp-yellow! md:hidden"
+            class="shrink-0 md:hidden"
             aria-label="Close sidebar"
             @click="open = false"
           />
@@ -204,7 +201,6 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
           :key="state"
           :items="getItems(state)"
           orientation="vertical"
-          class="cfp-nav-menu"
           :ui="{ link: 'p-1.5 overflow-hidden' }"
         />
       </template>
@@ -222,17 +218,14 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
             color="neutral"
             variant="ghost"
             square
-            class="w-full overflow-hidden text-cfp-cream! hover:bg-cfp-olive-dark! hover:text-cfp-yellow! data-[state=open]:bg-cfp-olive-dark! data-[state=open]:text-cfp-yellow!"
-            :ui="{
-              trailingIcon: 'text-cfp-olive-pale! ms-auto',
-            }"
+            class="w-full overflow-hidden"
           />
         </UDropdownMenu>
       </template>
     </USidebar>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-cfp-olive/30 bg-white px-4">
+      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-default bg-white px-4">
         <UButton
           icon="i-lucide-panel-left"
           color="neutral"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import { LoginSchema } from "~~/layers/base/schemas/auth.schemas";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 // zodSchema auto-imported from utils/zodSchema.ts
 
 definePageMeta({ layout: "conference", middleware: "guest", path: "/login" });
@@ -9,6 +10,7 @@ const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();
 const route = useRoute();
 const { serverError, clearErrors } = useAuthForm();
+const { hasSubmittedPaper, refresh: refreshUserPaper } = useUserPaper();
 
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: zodSchema(LoginSchema),
@@ -23,7 +25,9 @@ const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
     await authStore.login(values);
-    await navigateTo((route.query.redirect as string) || "/profile");
+    await refreshUserPaper();
+    const redirectTo = (route.query.redirect as string) || (hasSubmittedPaper.value ? "/profile" : "/submit-paper/draft");
+    await navigateTo(redirectTo);
   }
   catch {
     serverError.value = authStore.error || "Login failed";
@@ -34,7 +38,9 @@ async function handleGoogleCredential(idToken: string) {
   clearErrors();
   try {
     await authStore.loginWithGoogle({ idToken });
-    await navigateTo("/profile");
+    await refreshUserPaper();
+    const redirectTo = (route.query.redirect as string) || (hasSubmittedPaper.value ? "/profile" : "/submit-paper/draft");
+    await navigateTo(redirectTo);
   }
   catch {
     serverError.value = authStore.error || "Google sign-in failed";

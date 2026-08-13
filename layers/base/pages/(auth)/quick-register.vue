@@ -22,7 +22,7 @@ const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
     await authStore.quickRegister(values);
-    await navigateTo("/profile");
+    await navigateTo("/submit-paper/draft");
   }
   catch {
     serverError.value = authStore.error || "Quick registration failed";

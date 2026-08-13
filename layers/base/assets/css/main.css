@@ -452,59 +452,5 @@ html {
     @apply shadow-fy-teal-300/15 animate-in fade-in slide-in-from-bottom-4 absolute flex items-center gap-3 rounded-2xl bg-white p-4 shadow-xl duration-700;
   }
 
-  /* ─────────────────────────────────────────────────────────────
-     CFP Dashboard Sidebar
-     ───────────────────────────────────────────────────────────── */
-  .cfp-nav-menu a,
-  .cfp-nav-menu button {
-    color: var(--color-cfp-cream) !important;
-  }
 
-  .cfp-nav-menu a .icon,
-  .cfp-nav-menu button .icon,
-  .cfp-nav-menu a svg,
-  .cfp-nav-menu button svg {
-    color: var(--color-cfp-cream) !important;
-  }
-
-  .cfp-nav-menu a:hover,
-  .cfp-nav-menu button:hover {
-    background-color: var(--color-cfp-olive-dark) !important;
-    color: var(--color-cfp-yellow) !important;
-  }
-
-  .cfp-nav-menu a:hover .icon,
-  .cfp-nav-menu button:hover .icon,
-  .cfp-nav-menu a:hover svg,
-  .cfp-nav-menu button:hover svg {
-    color: var(--color-cfp-yellow) !important;
-  }
-
-  /* Active links */
-  .cfp-nav-menu a[aria-current="page"],
-  .cfp-nav-menu button[aria-expanded="true"],
-  .cfp-nav-menu .active {
-    background-color: var(--color-cfp-olive-dark) !important;
-    color: var(--color-cfp-yellow) !important;
-  }
-
-  .cfp-nav-menu a[aria-current="page"] .icon,
-  .cfp-nav-menu button[aria-expanded="true"] .icon,
-  .cfp-nav-menu .active .icon,
-  .cfp-nav-menu a[aria-current="page"] svg,
-  .cfp-nav-menu button[aria-expanded="true"] svg,
-  .cfp-nav-menu .active svg {
-    color: var(--color-cfp-yellow) !important;
-  }
-
-  /* Subtext or badges */
-  .cfp-nav-menu [class*="text-dimmed"] {
-    color: var(--color-cfp-olive-pale) !important;
-  }
-
-  /* Force override for UButton labels and icons globally in the sidebar */
-  .cfp-sidebar button span,
-  .cfp-sidebar button svg {
-    color: inherit !important;
-  }
 }
