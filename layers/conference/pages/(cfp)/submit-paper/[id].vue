@@ -109,12 +109,12 @@ const resetAndGo = () => {
         />
       </div>
       <div v-else>
-        <h1 class="mb-1 font-lora text-2xl font-bold text-cfp-olive">
+        <!-- <h1 class="mb-1 font-lora text-2xl font-bold text-cfp-olive">
           Paper Submission
         </h1>
         <p class="mb-8 border-b border-cfp-olive/10 pb-5 font-poppins text-sm text-gray-500">
           Please fill up the following fields with necessary information. You can save your work and update later.
-        </p>
+        </p> -->
 
         <CfpSubmitStepTrack v-if="currentStep === 'track'" />
         <CfpSubmitStepDetails v-else-if="currentStep === 'details'" />

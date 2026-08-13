@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <NuxtLink
-    :to="`/${category.slug}`"
+    :to="`/topics/${category.slug}`"
     class="group block h-full"
   >
     <UCard

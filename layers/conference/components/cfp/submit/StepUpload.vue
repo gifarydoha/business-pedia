@@ -84,14 +84,14 @@ const handleFile = (e: Event) => {
       Would you like your paper to be included in the conference proceedings if published?
     </p>
     <div class="mb-8 flex gap-6">
-      <label class="flex items-center gap-2 font-poppins text-sm">
+      <label class="flex items-center gap-2 font-poppins text-sm text-black">
         <input
           v-model="form.includeInProceedings"
           type="radio"
           :value="true"
         > Yes
       </label>
-      <label class="flex items-center gap-2 font-poppins text-sm">
+      <label class="flex items-center gap-2 font-poppins text-sm text-black">
         <input
           v-model="form.includeInProceedings"
           type="radio"

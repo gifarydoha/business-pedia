@@ -4,6 +4,10 @@ import { useRoute } from "vue-router";
 import KbSidebar from "~~/layers/lms/components/kb/KbSidebar.vue";
 import { useKnowledgebase } from "~~/layers/lms/composables/useKnowledgebase";
 
+definePageMeta({
+  path: "/topics/:category()",
+});
+
 const route = useRoute();
 const categorySlug = route.params.category as string;
 
@@ -13,6 +17,10 @@ const { data, status, error } = await getKbList();
 const articles = computed(() => data.value?.kb_titles || []);
 const categories = getCategoryMap(articles);
 const category = computed(() => categories.value.get(categorySlug));
+
+if (error.value || !category.value) {
+  throw createError({ statusCode: 404, statusMessage: "Category not found", fatal: true });
+}
 
 const categoryArticles = computed(() => {
   return articles.value.filter((item) => {
@@ -105,7 +113,7 @@ useSeoMeta({
             <NuxtLink
               v-for="article in categoryArticles"
               :key="article.id"
-              :to="`/${categorySlug}/${article.alias}`"
+              :to="`/topics/${categorySlug}/${article.alias}`"
               class="group block"
             >
               <UCard

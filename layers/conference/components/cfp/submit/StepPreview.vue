@@ -13,14 +13,14 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
 
 <template>
   <div>
-    <h2 class="mb-6 font-lora text-xl font-bold text-cfp-olive">
+    <h2 class="mb-6 font-lora text-3xl font-bold text-cfp-olive">
       Paper Detail
     </h2>
 
     <section class="mb-6 border-b border-cfp-olive/10 pb-5">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-sm font-semibold text-cfp-olive">
-          Title &amp; Abstract
+        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+          Title
         </h3>
         <button
           class="rounded-full border border-cfp-olive px-3 py-1 font-poppins text-xs text-cfp-olive"
@@ -29,20 +29,23 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Edit
         </button>
       </div>
-      <p class="mb-2 font-poppins text-sm font-semibold">
+      <p class="mb-2 font-poppins text-lg  font-medium text-black">
         {{ form.title }}
       </p>
-      <p class="font-poppins text-sm leading-relaxed text-gray-600">
+      <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+        Abstract
+      </h3>
+      <p class="font-poppins text-sm leading-relaxed text-black">
         {{ form.abstract }}
       </p>
-      <p class="mt-2 font-poppins text-xs text-gray-500">
+      <p class="mt-2 font-poppins text-xs text-black">
         Keywords: {{ form.keywords }}
       </p>
     </section>
 
     <section class="mb-6 border-b border-cfp-olive/10 pb-5">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-sm font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
           Paper Track
         </h3>
         <button
@@ -52,14 +55,14 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Edit
         </button>
       </div>
-      <p class="font-poppins text-sm">
+      <p class="font-poppins text-sm text-black">
         {{ form.track }}
       </p>
     </section>
 
     <section class="mb-6 border-b border-cfp-olive/10 pb-5">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-sm font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
           Author Information
         </h3>
         <button
@@ -72,12 +75,12 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
       <div
         v-for="(a, i) in form.authors"
         :key="a.id"
-        class="mb-3 rounded-lg bg-gray-50 p-3"
+        class="mb-3 rounded-lg p-3"
       >
-        <p class="font-poppins text-sm font-semibold">
+        <p class="font-poppins text-sm font-semibold text-black">
           Author {{ i + 1 }}: {{ a.firstName }} {{ a.lastName }}
         </p>
-        <p class="font-poppins text-xs text-gray-500">
+        <p class="font-poppins text-xs text-gray-700">
           {{ a.email }} · {{ a.organization }} · {{ getCountryName(a.country) }}
         </p>
       </div>
@@ -85,7 +88,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
 
     <section class="mb-6">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-sm font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
           Paper File
         </h3>
         <button
@@ -95,7 +98,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Edit
         </button>
       </div>
-      <p class="font-poppins text-sm">
+      <p class="font-poppins text-sm text-black">
         {{ form.paperFile?.name ?? 'No file uploaded' }}
       </p>
       <p class="font-poppins text-xs text-gray-500">

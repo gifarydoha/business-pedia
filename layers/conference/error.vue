@@ -31,7 +31,7 @@ const handleError = () => clearError({ redirect: "/" });
       <!-- 404 Error UI -->
       <div
         v-if="(error?.status || error?.statusCode) === 404"
-        class="flex min-h-screen flex-col items-center justify-center gap-8 bg-cfp-olive-pale px-4 py-24"
+        class="flex min-h-screen flex-col items-center justify-center gap-8 bg-cfp-olive-pale px-4 py-12"
       >
         <!-- Error badge -->
         <span
@@ -41,12 +41,12 @@ const handleError = () => clearError({ redirect: "/" });
         </span>
 
         <!-- Decorative icon block -->
-        <div class="flex size-20 items-center justify-center rounded-2xl bg-white shadow-md">
+        <!-- <div class="flex size-20 items-center justify-center rounded-2xl bg-white shadow-md">
           <Icon
             name="ph:compass-fill"
             class="size-9 text-cfp-yellow"
           />
-        </div>
+        </div> -->
 
         <!-- Giant "404" -->
         <p

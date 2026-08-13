@@ -54,14 +54,14 @@ const isAuthorsValid = computed(() => {
           class="rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
         >
         <div class="flex items-center gap-4">
-          <label class="flex items-center gap-1 font-poppins text-sm">
+          <label class="flex items-center gap-1 font-poppins text-sm  text-black">
             <input
               v-model="author.gender"
               type="radio"
               value="male"
             > Male
           </label>
-          <label class="flex items-center gap-1 font-poppins text-sm">
+          <label class="flex items-center gap-1 font-poppins  text-sm text-black">
             <input
               v-model="author.gender"
               type="radio"
@@ -104,7 +104,7 @@ const isAuthorsValid = computed(() => {
         class="mb-3 w-full rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
       >
 
-      <label class="flex items-center gap-2 font-poppins text-sm">
+      <label class="flex items-center gap-2 font-poppins text-sm text-black">
         <input
           v-model="author.isCorrespondingAuthor"
           type="checkbox"

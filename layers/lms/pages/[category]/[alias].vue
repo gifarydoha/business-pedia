@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
+
+definePageMeta({
+  path: "/topics/:category()/:alias()"
+});
+
 import { useRoute } from "vue-router";
 import { useKnowledgebase } from "~~/layers/lms/composables/useKnowledgebase";
 
@@ -9,6 +14,10 @@ const categorySlug = route.params.category as string;
 
 const { getKbDetail } = useKnowledgebase();
 const { data, status, error } = await getKbDetail(alias);
+
+if (error.value || !data.value?.kb_title) {
+  throw createError({ statusCode: 404, statusMessage: "Article not found", fatal: true });
+}
 
 const article = computed(() => data.value?.kb_title);
 const h2Entries = computed(() => data.value?.h2);
@@ -63,7 +72,7 @@ const formattedDetails = computed(() => {
           {{ error ? 'Failed to load article.' : 'Article not found.' }}
         </p>
         <UButton
-          :to="`/${categorySlug}`"
+          :to="`/topics/${categorySlug}`"
           color="neutral"
           variant="solid"
           size="lg"
@@ -82,7 +91,7 @@ const formattedDetails = computed(() => {
       <header class="mx-auto mb-12 max-w-3xl text-center">
         <div class="mb-6 flex items-center justify-center gap-2">
           <UButton
-            :to="`/${categorySlug}`"
+            :to="`/topics/${categorySlug}`"
             color="neutral"
             variant="ghost"
             icon="i-heroicons-arrow-left"

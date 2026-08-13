@@ -24,7 +24,7 @@ const categoryList = computed(() => Array.from(props.categories.values()));
           :key="category.slug"
         >
           <NuxtLink
-            :to="`/${category.slug}`"
+            :to="`/topics/${category.slug}`"
             class="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors"
             :class="[
               currentCategorySlug === category.slug
