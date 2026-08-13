@@ -3,7 +3,7 @@ import { useConferenceService } from "~~/layers/conference/services/conference.s
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
-definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
+definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "Edit Paper Submission" });
 
 const route = useRoute();

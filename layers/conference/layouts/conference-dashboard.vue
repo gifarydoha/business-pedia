@@ -14,6 +14,6 @@
         </div>
       </UiDashboardSidebar>
     </main>
-    <CfpSharedFooter />
+    <!-- <CfpSharedFooter /> -->
   </div>
 </template>
