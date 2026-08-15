@@ -6,6 +6,9 @@
 /* Ensure Tailwind v4 scans all source files during nuxt generate */
 @source "../../**/*.{vue,ts,js}";
 
+/* Completely disable dark mode across the app by assigning the dark variant to an unused class */
+@custom-variant dark (&:where(.disable-dark-mode *));
+
 /* Theme CSS */
 
 @theme inline {
@@ -258,6 +261,7 @@
    ───────────────────────────────────────────────────────────── */
 
 :root {
+  color-scheme: light !important;
   --color-primary: #266B88;
   --color-secondary: #F7700B;
   --color-primary-orange: #f4701b;

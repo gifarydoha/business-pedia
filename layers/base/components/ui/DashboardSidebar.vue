@@ -201,7 +201,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
           :key="state"
           :items="getItems(state)"
           orientation="vertical"
-          :ui="{ link: 'p-1.5 overflow-hidden' }"
+          :ui="{ link: 'p-1.5 overflow-hidden hover:text-cfp-yellow hover:bg-cfp-olive/5' }"
         />
       </template>
 
