@@ -185,14 +185,14 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
                 class="w-full overflow-hidden"
               />
             </UDropdownMenu> -->
-          <UButton
+          <!-- <UButton
             icon="i-lucide-x"
             color="neutral"
             variant="ghost"
             class="shrink-0 md:hidden"
             aria-label="Close sidebar"
             @click="open = false"
-          />
+          /> -->
         </div>
       </template>
 
@@ -201,7 +201,9 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
           :key="state"
           :items="getItems(state)"
           orientation="vertical"
-          :ui="{ link: 'p-1.5 overflow-hidden hover:text-cfp-yellow hover:bg-cfp-olive/5' }"
+          :ui="{
+            link: 'p-2 overflow-hidden transition-colors rounded-md text-slate-800 hover:text-slate-900 hover:bg-cfp-olive/10 data-[active]:bg-slate-100 data-[active]:text-slate-900 data-[active]:hover:text-slate-900',
+          }"
         />
       </template>
 
@@ -209,7 +211,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
         <UDropdownMenu
           :items="userItems"
           :content="{ align: 'center', collisionPadding: 12 }"
-          :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) min-w-48' }"
+          :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) text-slate-900 bg-white min-w-48' }"
         >
           <UButton
             :label="authStore.user?.name || 'User'"
@@ -218,14 +220,14 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
             color="neutral"
             variant="ghost"
             square
-            class="w-full overflow-hidden"
+            class="w-full overflow-hidden text-slate-900 hover:bg-slate-100"
           />
         </UDropdownMenu>
       </template>
     </USidebar>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-default bg-white px-4">
+      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-default px-4 text-slate-900 hover:bg-slate-100">
         <UButton
           icon="i-lucide-panel-left"
           color="neutral"
