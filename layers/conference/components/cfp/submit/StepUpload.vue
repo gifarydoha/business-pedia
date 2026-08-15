@@ -27,7 +27,7 @@ const handleFile = (e: Event) => {
         @change="handleFile"
       >
       <div
-        v-if="!form.paperFile"
+        v-if="!form.paperFile && !form.existingPaperFileName"
         class="flex flex-col items-center justify-center space-y-3"
       >
         <div class="rounded-full bg-white p-4 shadow-sm">
@@ -53,6 +53,32 @@ const handleFile = (e: Event) => {
         </p>
       </div>
       <div
+        v-else-if="!form.paperFile && form.existingPaperFileName"
+        class="flex flex-col items-center justify-center space-y-3"
+      >
+        <div class="rounded-full bg-cfp-olive/10 p-4 shadow-sm">
+          <svg
+            class="size-8 text-cfp-olive"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        </div>
+        <p class="px-4 text-center font-poppins text-sm font-semibold  break-all text-cfp-olive">
+          {{ form.existingPaperFileName }}
+        </p>
+        <p class="font-poppins text-xs text-gray-500">
+          Click or drag to replace existing file
+        </p>
+      </div>
+      <div
         v-else
         class="flex flex-col items-center justify-center space-y-3"
       >
@@ -72,7 +98,7 @@ const handleFile = (e: Event) => {
           </svg>
         </div>
         <p class="font-poppins text-sm font-semibold text-cfp-olive">
-          {{ form.paperFile.name }}
+          {{ form.paperFile?.name }}
         </p>
         <p class="font-poppins text-xs text-gray-500">
           Click or drag to replace

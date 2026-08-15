@@ -27,6 +27,7 @@ export interface SubmissionFormData {
   keywords: string;
   authors: SubmissionAuthor[];
   paperFile: File | null;
+  existingPaperFileName: string | null;
   includeInProceedings: boolean | null;
 }
 

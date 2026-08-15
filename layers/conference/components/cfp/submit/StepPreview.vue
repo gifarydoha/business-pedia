@@ -99,20 +99,20 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
         </button>
       </div>
       <p class="font-poppins text-sm text-black">
-        {{ form.paperFile?.name ?? 'No file uploaded' }}
+        {{ form.paperFile?.name ?? form.existingPaperFileName ?? 'No file uploaded' }}
       </p>
       <p class="font-poppins text-xs text-gray-500">
         Include in proceedings: {{ form.includeInProceedings ? 'Yes' : 'No' }}
       </p>
     </section>
 
-    <div class="mt-8 flex justify-end gap-4">
+    <div class="mt-8 flex justify-start gap-4">
       <button
         type="button"
         class="cursor-pointer rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
         @click="skipSubmission"
       >
-        My Papers
+        Back to My Papers
       </button>
     </div>
   </div>

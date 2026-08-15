@@ -20,7 +20,7 @@ function emptyForm(): SubmissionFormData {
   return {
     track: "", title: "", abstract: "", keywords: "",
     authors: [emptyAuthor()],
-    paperFile: null, includeInProceedings: null,
+    paperFile: null, existingPaperFileName: null, includeInProceedings: null,
   };
 }
 
@@ -120,6 +120,7 @@ export const useSubmissionWizard = () => {
 
       if (isEditMode.value && paperId.value) {
         response = await updateConferencePaper(paperId.value, formData, currentUserId) as { code: number; message?: string };
+        console.log(response);
       }
       else {
         response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string };

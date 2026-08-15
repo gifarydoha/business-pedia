@@ -44,6 +44,7 @@ type ApiPaperResponse = {
     keywords?: string;
     is_has_permission_to_publish?: string;
     conference_track_id?: string;
+    paper_file_name?: string;
     authors?: Array<{
       id?: string;
       first_name?: string;
@@ -67,6 +68,7 @@ watch(paperData, (newVal) => {
     form.value.title = p.title || "";
     form.value.abstract = p.abstract || "";
     form.value.keywords = p.keywords || "";
+    form.value.existingPaperFileName = p.paper_file_name || null;
     form.value.includeInProceedings = p.is_has_permission_to_publish === "1";
 
     if (p.conference_track_id) {

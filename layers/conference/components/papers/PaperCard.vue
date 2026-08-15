@@ -15,7 +15,8 @@ const config = useRuntimeConfig();
 const confBase = String(config.public.confApiBase);
 
 // PDF path in the CodeIgniter fdrives directory
-const PDF_BASE_PATH = "fdrives/sid/sbacbackend/conference/2026";
+const PDF_BASE_PATH = "fdrives/sid/qawmiworld/conference/2026";
+// const PDF_BASE_PATH = "fdrives/sid/sbacbackend/conference/2026";
 
 const pdfUrl = computed(() =>
   props.paper.paper_file_name
