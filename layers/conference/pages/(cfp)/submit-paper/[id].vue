@@ -94,12 +94,19 @@ watch(paperData, (newVal) => {
       form.value.authors = [];
     }
 
-    if (route.query.action === "edit") {
-      currentStep.value = "track";
-    }
-    else {
+    if (route.query.action === "view") {
       currentStep.value = "preview";
     }
+    else {
+      currentStep.value = "track";
+    }
+
+    // if (route.query.action === "edit") {
+    //   currentStep.value = "track";
+    // }
+    // else {
+    //   currentStep.value = "preview";
+    // }
   }
 }, { immediate: true });
 

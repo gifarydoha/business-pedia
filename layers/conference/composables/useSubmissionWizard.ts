@@ -26,6 +26,10 @@ function emptyForm(): SubmissionFormData {
 
 export const useSubmissionWizard = () => {
   const route = useRoute();
+  const authStore = useAuthStore();
+  const { submitConferencePaper, updateConferencePaper } = useConferenceService();
+  const toast = useToast();
+
   const paperId = computed(() => route.params.id as string | undefined);
   const isEditMode = computed(() => !!paperId.value && paperId.value !== "draft");
 
@@ -70,10 +74,7 @@ export const useSubmissionWizard = () => {
   };
 
   const submitPaper = async () => {
-    const authStore = useAuthStore();
     const currentUserId = authStore.user?.id || "";
-    const { submitConferencePaper, updateConferencePaper } = useConferenceService();
-    const toast = useToast();
 
     const formData = new FormData();
 

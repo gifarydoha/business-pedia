@@ -115,7 +115,7 @@ const isAuthorsValid = computed(() => {
 
     <button
       type="button"
-      class="mb-8 rounded-full border border-cfp-yellow bg-cfp-yellow px-5 py-2 font-lora text-sm font-bold text-white"
+      class="mb-8 cursor-pointer rounded-full bg-cfp-olive-dark px-5 py-2 font-lora text-sm font-bold text-white"
       @click="addAuthor"
     >
       + Add Author
@@ -133,10 +133,10 @@ const isAuthorsValid = computed(() => {
         <button
           type="button"
           :disabled="!isAuthorsValid"
-          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          class="cursor-pointer rounded-full bg-cfp-yellow px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
           @click="submitPaper"
         >
-          Submit Form
+          Submit & Continue
         </button>
       </template>
       <template v-else>

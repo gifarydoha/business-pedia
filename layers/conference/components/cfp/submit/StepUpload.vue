@@ -125,7 +125,7 @@ const handleFile = (e: Event) => {
         class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
         @click="submitPaper"
       >
-        Submit Form
+        Submit Paper
       </button>
     </div>
   </div>

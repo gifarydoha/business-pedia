@@ -109,10 +109,10 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
     <div class="mt-8 flex justify-end gap-4">
       <button
         type="button"
-        class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+        class="cursor-pointer rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
         @click="skipSubmission"
       >
-        Close
+        My Papers
       </button>
     </div>
   </div>
