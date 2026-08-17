@@ -35,11 +35,11 @@ const stats = [
       <!-- Eyebrow -->
       <div class="mb-6 inline-flex items-center gap-2">
         <span
-          class="rounded-full bg-cfp-yellow px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase"
+          class="rounded-full bg-white px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase"
         >
           Call for Papers
         </span>
-        <span class="font-poppins text-xs text-white/50">· SBAC 2026</span>
+        <span class="font-poppins text-xs font-medium text-white">· SBAC 2026</span>
       </div>
 
       <h1 class="mb-4 max-w-6xl font-lora text-4xl leading-tight font-bold text-white md:text-5xl lg:text-6xl">
