@@ -32,7 +32,7 @@ export const useSettingsStore = defineStore("settings", () => {
   const sliderItems = computed(() => {
     const sliderMap = settings.value?.widgets.slider ?? {};
     return Object.values(sliderMap)
-      .filter((s) => s.status === "1")
+      .filter((s) => s.status === "3")
       .sort((a, b) => Number(a.sort_order) - Number(b.sort_order))
       .flatMap((s) => s.items);
   });
@@ -59,11 +59,6 @@ export const useSettingsStore = defineStore("settings", () => {
   const cfpNextSteps = computed(() => cfp.value.nextSteps ?? []);
 
   // ─── Actions ─────────────────────────────────────────────────────────────
-
-  /**
-   * Fetches settings directly from the external API.
-   * Runs on both client and server during SSR.
-   */
   async function loadSettings() {
     if (isLoaded.value || isLoading.value) return;
     isLoading.value = true;
@@ -71,15 +66,15 @@ export const useSettingsStore = defineStore("settings", () => {
 
     try {
       const config = useRuntimeConfig();
-      const raw = await $fetch<SettingsApiResponse>(
-        `${config.public.apiBase}/website/website_api/settings` as string, // <-- THIS IS THE API URL
+      const raw = (await $fetch(
+        `${config.public.apiBase}/website/website_api/settings` as string,
         {
           query: {
             access_key: config.public.apiAccessKey,
           },
           timeout: 8000,
         },
-      );
+      )) as SettingsApiResponse;
 
       const orgInfo = raw?.sid_site?.app_setting?.organization_information ?? null;
       settings.value = {

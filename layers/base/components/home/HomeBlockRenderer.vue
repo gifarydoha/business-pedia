@@ -6,8 +6,6 @@ const props = defineProps<{
   block: HomePageBlock;
 }>();
 
-// Map widget_element_path values to async components.
-// If the API returns a block path that doesn't exist here, it fails gracefully.
 const widgetComponentMap: Record<string, ReturnType<typeof defineAsyncComponent>> = {
   courses: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetCourses.vue")),
   topics: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetTopics.vue")),

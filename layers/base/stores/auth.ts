@@ -194,7 +194,7 @@ export const useAuthStore = defineStore("auth", {
           this.user = await authService.fetchUser();
           userCookie.value = JSON.stringify(this.user);
         }
-        catch (err: any) {
+        catch (err: unknown) {
           console.error("[Store] fetchUser FAILED:", err);
           this.user = null;
         }
