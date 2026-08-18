@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { useHtmlNormalizer } from "#layers/base/composables/useHtmlNormalizer";
 import type { ContentApiResponse } from "~~/layers/base/types/api";
+// import { useHtmlNormalizer } from "~~/layers/base/composables/useHtmlNormalizer";
 
 definePageMeta({ layout: "pages" });
 
 const route = useRoute();
 const slug = route.params.slug as string;
+
+const { normalize } = useHtmlNormalizer();
 
 const ALLOWED_SLUGS = ["about", "contact", "terms", "privacy"];
 if (!ALLOWED_SLUGS.includes(slug)) {
@@ -21,6 +25,7 @@ const { data, error, status } = await useFetch<ContentApiResponse>(
 );
 
 const page = computed(() => data.value?.content);
+const normalizedHtml = computed(() => normalize(page.value?.fulltext ?? ""));
 
 if (error.value || !page.value) {
   throw createError({ status: 404, statusText: "Page Not Found" });
@@ -77,7 +82,10 @@ useSeoMeta({
         :image="page.image_url"
       />
 
-      <SharedParsedPageContent :html-content="page.fulltext || ''" />
+      <div
+        class="cms-content"
+        v-html="normalizedHtml"
+      />
     </div>
   </div>
 </template>

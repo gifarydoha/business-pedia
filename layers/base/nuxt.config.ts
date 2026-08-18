@@ -5,7 +5,8 @@ const ENV_CONFIG = {
     apiBase: "http://localhost:9100",
   },
   prod: {
-    apiBase: "https://sbacbackend.autofybusiness.com",
+    // apiBase: "https://sbacbackend.autofybusiness.com",
+    apiBase: "http://localhost:9100",
   },
 } as const;
 

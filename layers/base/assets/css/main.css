@@ -386,19 +386,101 @@ html {
   }
 }
 
-/* Prose (HTML content from API fulltext field) */
-.prose img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
+/* ─── CMS Content / WYSIWYG HTML Normalization ───────────────────
+   Replaces <SharedParsedPageContent> across all layers.
+   
+   Usage: <div class="cms-content" v-html="normalizedHtml" />
+   
+   ALL styles use CSS variables → auto-adapts to every layer's
+   theme. Conference gets olive headings, LMS gets teal headings,
+   future clients get their color — zero code change needed.
+   ──────────────────────────────────────────────────────────────── */
+.cms-content {
+  font-family: var(--font-sans);
+  line-height: 1.75;
+  color: inherit;
 }
 
-.prose a {
+/* Headings use serif font + brand primary color */
+.cms-content h1,
+.cms-content h2 {
+  font-family: var(--font-serif);
+  color: var(--color-primary);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+.cms-content h3,
+.cms-content h4,
+.cms-content h5,
+.cms-content h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Links → brand color */
+.cms-content a {
   color: var(--color-primary);
   text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
+}
+.cms-content a:hover { opacity: 0.75; }
+
+/* Paragraphs & Lists */
+.cms-content p { margin-bottom: 1.25em; }
+.cms-content ul { list-style: disc; padding-left: 1.5em; margin-bottom: 1.25em; }
+.cms-content ol { list-style: decimal; padding-left: 1.5em; margin-bottom: 1.25em; }
+.cms-content li { margin-bottom: 0.375em; }
+
+/* Blockquote → left border in brand color */
+.cms-content blockquote {
+  border-left: 4px solid var(--color-primary);
+  margin-left: 0;
+  padding-left: 1rem;
+  color: var(--muted-foreground);
+  font-style: italic;
 }
 
+/* Images → responsive + layer's radius */
+.cms-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin-block: 1.5em;
+}
 
+/* Tables → branded header row */
+.cms-content table { width: 100%; border-collapse: collapse; margin-block: 1.5em; }
+.cms-content th {
+  background: var(--color-primary);
+  color: white;
+  padding: 0.625rem 1rem;
+  text-align: left;
+}
+.cms-content td { padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); }
+.cms-content tr:nth-child(even) td { background: var(--muted); }
+
+/* Inline code + code blocks */
+.cms-content code {
+  background: var(--muted);
+  border-radius: calc(var(--radius) * 0.5);
+  padding: 0.2em 0.4em;
+  font-size: 0.875em;
+}
+.cms-content pre {
+  background: var(--muted);
+  border-radius: var(--radius);
+  padding: 1.25em;
+  overflow-x: auto;
+  margin-block: 1.5em;
+}
+
+/* Divider */
+.cms-content hr { border: none; border-top: 1px solid var(--border); margin-block: 2em; }
 
 @layer components {
 

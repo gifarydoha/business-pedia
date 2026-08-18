@@ -14,10 +14,22 @@ export function useImageUrl() {
    */
   function buildImageUrl(path: string | null | undefined, fallback = "/images/placeholder.png"): string {
     if (!path) return fallback;
-    if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
+    const processedPath = path;
+
+    if (processedPath.startsWith("http://") || processedPath.startsWith("https://")) {
+      // Fix malformed absolute URLs where the slash is missing before 'fdrives'
+      // (e.g., https://domain.comfdrives/... -> https://domain.com/fdrives/...)
+      return processedPath.replace(/(\.com|\.net|\.org|\.io|[0-9])fdrives\//i, "$1/fdrives/");
+    }
+
     // Strip leading slash if present to avoid double slashes
-    const cleanPath = path.startsWith("/") ? path.slice(1) : path;
-    return `${imageBase}/${cleanPath}`;
+    const cleanPath = processedPath.startsWith("/") ? processedPath.slice(1) : processedPath;
+
+    // Strip trailing slash from imageBase if present
+    const base = imageBase.endsWith("/") ? imageBase.slice(0, -1) : imageBase;
+
+    return `${base}/${cleanPath}`;
   }
 
   return { buildImageUrl };

@@ -2,19 +2,16 @@
 <script setup lang="ts">
 import type { HomePageBlock } from "~~/layers/base/types/api";
 
+import { useWidgetRegistry } from "~~/layers/base/composables/useWidgetRegistry";
+
 const props = defineProps<{
   block: HomePageBlock;
 }>();
 
-const widgetComponentMap: Record<string, ReturnType<typeof defineAsyncComponent>> = {
-  courses: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetCourses.vue")),
-  topics: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetTopics.vue")),
-  questions: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetQuestions.vue")),
-  call_actions: defineAsyncComponent(() => import("~~/layers/base/components/widgets/WidgetCallActions.vue")),
-};
+const { resolve } = useWidgetRegistry();
 
 const resolvedComponent = computed(() => {
-  return widgetComponentMap[props.block.widget_element_path] ?? null;
+  return resolve(props.block.widget_element_path);
 });
 // console.log("Rendering HomeBlockRenderer for:", props.block?.widget_element_path);
 </script>
