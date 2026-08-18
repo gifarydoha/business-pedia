@@ -13,5 +13,9 @@ export interface AppSettings {
   widgets: Widgets;
   homeSeoMeta: SeoMeta;
   homePageContent: PageContent;
+  radiusBase: string | null;
+  shadowStyle: string | null;
+  colorMode: "light" | "dark";
+  spacing: string | null;
   cfpSettings?: import("./api").CfpSettings;
 }

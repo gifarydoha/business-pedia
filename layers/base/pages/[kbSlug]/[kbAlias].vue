@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
-
-definePageMeta({
-  path: "/topics/:category()/:alias()"
-});
-
 import { useRoute } from "vue-router";
-import { useKnowledgebase } from "~~/layers/lms/composables/useKnowledgebase";
+import { useKnowledgebase } from "~~/layers/base/composables/useKnowledgebase";
 
 const route = useRoute();
-const alias = route.params.alias as string;
-const categorySlug = route.params.category as string;
+const alias = route.params.kbAlias as string;
+const categorySlug = route.params.kbSlug as string;
+const config = useRuntimeConfig();
 
 const { getKbDetail } = useKnowledgebase();
 const { data, status, error } = await getKbDetail(alias);
@@ -34,7 +30,7 @@ const formattedDetails = computed(() => {
   // Replace [#FEATURED_MEDIA#] if present
   if (html.includes("[#FEATURED_MEDIA#]")) {
     if (article.value.featured_image) {
-      const mediaHtml = `<img src="https://autofymind.com/fdrives/skb/${article.value.featured_image}" alt="${article.value.title}" class="w-full rounded-xl object-cover my-8 aspect-video shadow-md" />`;
+      const mediaHtml = `<img src="${config.public.apiBase}/fdrives/skb/${article.value.featured_image}" alt="${article.value.title}" class="w-full rounded-xl object-cover my-8 aspect-video shadow-md" />`;
       html = html.replace("[#FEATURED_MEDIA#]", mediaHtml);
     }
     else {
@@ -72,7 +68,7 @@ const formattedDetails = computed(() => {
           {{ error ? 'Failed to load article.' : 'Article not found.' }}
         </p>
         <UButton
-          :to="`/topics/${categorySlug}`"
+          :to="`/${categorySlug}`"
           color="neutral"
           variant="solid"
           size="lg"
@@ -91,7 +87,7 @@ const formattedDetails = computed(() => {
       <header class="mx-auto mb-12 max-w-3xl text-center">
         <div class="mb-6 flex items-center justify-center gap-2">
           <UButton
-            :to="`/topics/${categorySlug}`"
+            :to="`/${categorySlug}`"
             color="neutral"
             variant="ghost"
             icon="i-heroicons-arrow-left"
@@ -144,7 +140,7 @@ const formattedDetails = computed(() => {
         class="mx-auto mb-12 max-w-4xl"
       >
         <img
-          :src="`https://autofymind.com/fdrives/skb/${article.featured_image}`"
+          :src="`${config.public.apiBase}/fdrives/skb/${article.featured_image}`"
           :alt="article.title"
           class="aspect-video w-full rounded-2xl object-cover shadow-lg"
         >

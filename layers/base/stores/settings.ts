@@ -28,6 +28,11 @@ export const useSettingsStore = defineStore("settings", () => {
   const aboutContent = computed(() => settings.value?.aboutContent ?? "");
   const socialMedia = computed(() => settings.value?.socialMedia ?? {});
 
+  const radiusBase = computed(() => settings.value?.radiusBase ?? null);
+  const shadowStyle = computed(() => settings.value?.shadowStyle ?? null);
+  const colorMode = computed(() => settings.value?.colorMode ?? "light");
+  const spacing = computed(() => settings.value?.spacing ?? null);
+
   /** All slider items across all slider blocks, ordered by sort_order */
   const sliderItems = computed(() => {
     const sliderMap = settings.value?.widgets.slider ?? {};
@@ -88,6 +93,10 @@ export const useSettingsStore = defineStore("settings", () => {
         widgets: raw?.widgets ?? {},
         homeSeoMeta: raw?.seo_meta ?? null,
         homePageContent: raw?.page_content ?? null,
+        radiusBase: raw?.sid_site?.layout_radius ?? "0.625rem",
+        shadowStyle: raw?.sid_site?.layout_shadow_style ?? "md",
+        colorMode: raw?.sid_site?.layout_color_mode ?? "light",
+        spacing: raw?.sid_site?.layout_spacing ?? "normal",
       };
 
       isLoaded.value = true;
@@ -128,6 +137,10 @@ export const useSettingsStore = defineStore("settings", () => {
     sliderItems,
     homePageBlocks,
     homeSeoMeta,
+    radiusBase,
+    shadowStyle,
+    colorMode,
+    spacing,
     cfpHero,
     cfpDates,
     cfpTracks,

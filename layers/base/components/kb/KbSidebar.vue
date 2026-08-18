@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { KbCategory, KbListItem } from "~~/layers/lms/types/kb";
+import type { KbCategory, KbListItem } from "~~/layers/base/types/kb";
 import TagCloud from "./TagCloud.vue";
 
 const props = defineProps<{
@@ -24,7 +24,7 @@ const categoryList = computed(() => Array.from(props.categories.values()));
           :key="category.slug"
         >
           <NuxtLink
-            :to="`/topics/${category.slug}`"
+            :to="`/${category.slug}`"
             class="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors"
             :class="[
               currentCategorySlug === category.slug

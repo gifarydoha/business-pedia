@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import KbSidebar from "~~/layers/lms/components/kb/KbSidebar.vue";
-import { useKnowledgebase } from "~~/layers/lms/composables/useKnowledgebase";
-
-definePageMeta({
-  path: "/topics/:category()",
-});
+import KbSidebar from "~~/layers/base/components/kb/KbSidebar.vue";
+import { useKnowledgebase } from "~~/layers/base/composables/useKnowledgebase";
 
 const route = useRoute();
-const categorySlug = route.params.category as string;
+const categorySlug = route.params.kbSlug as string;
 
 const { getKbList, getCategoryMap } = useKnowledgebase();
 const { data, status, error } = await getKbList();
@@ -37,6 +33,8 @@ useSeoMeta({
   title: computed(() => category.value ? `${category.value.name} Topics` : "Category Not Found"),
   description: computed(() => `Browse articles related to ${category.value?.name || "this category"}.`),
 });
+
+const config = useRuntimeConfig();
 </script>
 
 <template>
@@ -113,7 +111,7 @@ useSeoMeta({
             <NuxtLink
               v-for="article in categoryArticles"
               :key="article.id"
-              :to="`/topics/${categorySlug}/${article.alias}`"
+              :to="`/${categorySlug}/${article.alias}`"
               class="group block"
             >
               <UCard
@@ -125,7 +123,7 @@ useSeoMeta({
                     class="shrink-0 md:w-1/3"
                   >
                     <img
-                      :src="`https://autofymind.com/fdrives/skb/${article.featured_image}`"
+                      :src="`${config.public.apiBase}/fdrives/skb/${article.featured_image}`"
                       :alt="article.title"
                       class="aspect-video w-full rounded-lg object-cover"
                     >

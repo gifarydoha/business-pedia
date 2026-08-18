@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { KbCategory } from "~~/layers/lms/types/kb";
+import type { KbCategory } from "~~/layers/base/types/kb";
 
 defineProps<{
   category: KbCategory;
@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <NuxtLink
-    :to="`/topics/${category.slug}`"
+    :to="`/${category.slug}`"
     class="group block h-full"
   >
     <UCard

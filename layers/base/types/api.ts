@@ -192,6 +192,10 @@ export interface SidSite {
   "theme_alias": string;
   "theme_type": string;
   "has_website": string;
+  "layout_radius"?: string;
+  "layout_shadow_style"?: string;
+  "layout_color_mode"?: "light" | "dark";
+  "layout_spacing"?: string;
   "urls": {
     logo_url: string;
     cover_image_url: string;
