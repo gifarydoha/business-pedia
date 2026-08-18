@@ -4,10 +4,10 @@
   "type": "module",
   "main": "./nuxt.config.ts",
   "scripts": {
-    "dev": "nuxt dev --dotenv ../../.env",
-    "build": "nuxt build --dotenv ../../.env",
-    "generate": "nuxt generate --dotenv ../../.env",
-    "preview": "nuxt preview --dotenv ../../.env",
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
     "static": "npx serve .output/public"
   },
   "dependencies": {

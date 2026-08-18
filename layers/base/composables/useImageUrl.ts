@@ -5,7 +5,7 @@
 
 export function useImageUrl() {
   const config = useRuntimeConfig();
-  const imageBase = config.public.imageBase as string;
+  const imageBase = config.public.apiBase as string;
 
   /**
    * Converts a relative image path from the API to a full URL.

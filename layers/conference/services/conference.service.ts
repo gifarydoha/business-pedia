@@ -1,6 +1,6 @@
 export function useConferenceService() {
   const config = useRuntimeConfig();
-  const confBase = String(config.public.confApiBase);
+  const confBase = String(config.public.apiBase);
 
   async function submitConferencePaper(formData: FormData, userId: string | number) {
     // We pass conference_id, is_my_paper, and access_key as query parameters

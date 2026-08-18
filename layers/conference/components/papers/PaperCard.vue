@@ -12,7 +12,7 @@ defineEmits<{
 }>();
 
 const config = useRuntimeConfig();
-const confBase = String(config.public.confApiBase);
+const confBase = String(config.public.apiBase);
 
 // PDF path in the CodeIgniter fdrives directory
 const PDF_BASE_PATH = "fdrives/sid/qawmiworld/conference/2026";

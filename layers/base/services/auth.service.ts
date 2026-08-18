@@ -51,7 +51,7 @@ function mapCIUser(raw: CIAuthResponse["data"]["user"]): User {
 export function useAuthService() {
   const { $api } = useNuxtApp();
   const config = useRuntimeConfig();
-  const base = config.public.authBase as string;
+  const base = config.public.apiBase as string;
   // console.log(base);
 
   async function register(payload: RegisterPayload): Promise<CISimpleResponse> {

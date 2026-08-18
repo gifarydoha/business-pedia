@@ -3,7 +3,7 @@ import type { KbListResponse, KbDetailResponse, KbCategory, KbListItem } from "~
 
 export const useKnowledgebase = () => {
   const config = useRuntimeConfig();
-  const kbApiBase = config.public.kbApiBase;
+  const kbApiBase = config.public.apiBase;
   const apiAccessKey = config.public.apiAccessKey;
 
   /**
@@ -12,7 +12,7 @@ export const useKnowledgebase = () => {
    */
   const getKbList = () => {
     return useAsyncData<KbListResponse>("kb-list", () =>
-      $fetch<KbListResponse>(`${kbApiBase}/kbs`, {
+      $fetch<KbListResponse>(`${kbApiBase}/skb/kb_api/kbs`, {
         query: { access_key: apiAccessKey },
       }),
     );
@@ -26,13 +26,13 @@ export const useKnowledgebase = () => {
   const getKbDetail = (alias: string) => {
     return useAsyncData<KbDetailResponse>(`kb-detail-${alias}`, async () => {
       // Resolve alias → numeric id from the list (cached via useAsyncData key)
-      const listData = await $fetch<KbListResponse>(`${kbApiBase}/kbs`, {
+      const listData = await $fetch<KbListResponse>(`${kbApiBase}/skb/kb_api/kbs`, {
         query: { access_key: apiAccessKey },
       });
       const match = listData.kb_titles.find((item) => item.alias === alias);
       if (!match) throw new Error(`Article not found for alias: ${alias}`);
 
-      return $fetch<KbDetailResponse>(`${kbApiBase}/kb/article-${match.id}`, {
+      return $fetch<KbDetailResponse>(`${kbApiBase}/skb/kb_api/kb/article-${match.id}`, {
         query: { access_key: apiAccessKey },
       });
     });

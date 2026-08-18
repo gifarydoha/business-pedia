@@ -13,6 +13,12 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@vee-validate/nuxt",
   ],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://sbacbackend.autofybusiness.com",
+      appName: process.env.NUXT_PUBLIC_APP_NAME ?? "SBAC Conference",
+    },
+  },
   srcDir: ".",
   alias: {
     "~~": rootDir,

@@ -3,16 +3,9 @@
 const ENV_CONFIG = {
   dev: {
     apiBase: "http://localhost:9100",
-    authBase: "http://localhost:9100",
-    ciBase: "http://localhost:9100",
-    imageBase: "http://localhost:9100",
   },
   prod: {
     apiBase: "https://sbacbackend.autofybusiness.com",
-    authBase: "https://sbacbackend.autofybusiness.com",
-    // authBase: "http://localhost:9100",
-    ciBase: "https://sbacbackend.autofybusiness.com",
-    imageBase: "https://sbacbackend.autofybusiness.com",
   },
 } as const;
 
@@ -26,11 +19,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY,
-      apiBase: env.apiBase,
-      authBase: env.authBase,
-      kbApiBase: process.env.NUXT_PUBLIC_KB_API_BASE ?? "https://autofymind.com/skb/kb_api",
-      confApiBase: env.ciBase,
-      imageBase: env.imageBase,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? env.apiBase,
       appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy-Frontend",
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
     },
