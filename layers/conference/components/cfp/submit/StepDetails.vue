@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
+import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
 const { form, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
+
+const getTrackName = (trackId: number | "") => {
+  if (!trackId) return "";
+  const track = CONFERENCE_TRACKS.find((t) => t.id === trackId);
+  return track ? track.name : "";
+};
 </script>
 
 <template>
@@ -11,7 +18,7 @@ const { form, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = us
         Selected Track
       </p>
       <p class="font-poppins text-2xl font-semibold text-cfp-olive">
-        {{ form.track }}
+        {{ getTrackName(form.track) }}
       </p>
     </div>
 

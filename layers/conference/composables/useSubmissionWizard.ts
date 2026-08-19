@@ -124,7 +124,7 @@ export const useSubmissionWizard = () => {
 
       if (isEditMode.value && paperId.value) {
         response = await updateConferencePaper(paperId.value, formData, currentUserId) as { code: number; message?: string };
-        console.log(response);
+        // console.log(response);
       }
       else {
         response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string };
