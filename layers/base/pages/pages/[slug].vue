@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { useHtmlNormalizer } from "#layers/base/composables/useHtmlNormalizer";
+// import { useHtmlNormalizer } from "#layers/base/composables/useHtmlNormalizer";
 import type { ContentApiResponse } from "~~/layers/base/types/api";
-// import { useHtmlNormalizer } from "~~/layers/base/composables/useHtmlNormalizer";
 
 definePageMeta({ layout: "pages" });
 
 const route = useRoute();
 const slug = route.params.slug as string;
 
-const { normalize } = useHtmlNormalizer();
+// const { normalize } = useHtmlNormalizer();
 
 const ALLOWED_SLUGS = ["about", "contact", "terms", "privacy"];
 if (!ALLOWED_SLUGS.includes(slug)) {
@@ -25,7 +24,7 @@ const { data, error, status } = await useFetch<ContentApiResponse>(
 );
 
 const page = computed(() => data.value?.content);
-const normalizedHtml = computed(() => normalize(page.value?.fulltext ?? ""));
+// const normalizedHtml = computed(() => normalize(page.value?.fulltext ?? ""));
 
 if (error.value || !page.value) {
   throw createError({ status: 404, statusText: "Page Not Found" });
@@ -77,14 +76,15 @@ useSeoMeta({
       v-else-if="page"
       class="container mx-auto px-4 py-8"
     >
-      <SharedPageBanner
+      <!-- <SharedPageBanner
         :title="page.title || page.meta_title || ''"
         :image="page.image_url"
-      />
+      /> -->
 
+      <!--  v-html="normalizedHtml" -->
       <div
         class="cms-content"
-        v-html="normalizedHtml"
+        v-html="page.fulltext"
       />
     </div>
   </div>

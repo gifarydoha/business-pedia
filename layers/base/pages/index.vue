@@ -4,7 +4,7 @@ definePageMeta({ layout: "default" });
 const settingsStore = useSettingsStore();
 
 const homeBlocks = computed(() => settingsStore.homePageBlocks);
-const sliders = computed(() => settingsStore.sliderItems);
+// const sliders = computed(() => settingsStore.sliderItems);
 const seo = computed(() => settingsStore.homeSeoMeta);
 const org = computed(() => settingsStore.org);
 
@@ -18,7 +18,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <HomeHeroSlider :slides="sliders" />
+    <!-- <HomeHeroSlider :slides="sliders" /> -->
 
     <HomeBlockRenderer
       v-for="block in homeBlocks"
