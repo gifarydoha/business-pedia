@@ -12,17 +12,17 @@ const handleFile = (e: Event) => {
 <template>
   <div>
     <h2 class="mb-5 font-lora text-lg font-bold text-cfp-olive">
-      Upload Paper (PDF File)
+      Upload Paper (PDF, DOC, DOCX)
     </h2>
     <p class="mb-5 font-poppins text-sm text-gray-500">
       You can now upload or update your review manuscript for
-      <strong>{{ form.title }}</strong>. Only PDF files are accepted.
+      <strong>{{ form.title }}</strong>. PDF and Word files are accepted.
     </p>
 
     <div class="relative mb-6 flex w-full max-w-md flex-col items-center justify-center rounded-2xl border-2 border-dashed border-cfp-olive/30 bg-cfp-olive-pale p-8 text-center transition-colors hover:border-cfp-olive hover:bg-cfp-olive-pale/80">
       <input
         type="file"
-        accept=".pdf"
+        accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         class="absolute inset-0 size-full cursor-pointer opacity-0"
         @change="handleFile"
       >
@@ -49,7 +49,7 @@ const handleFile = (e: Event) => {
           <span class="font-bold text-cfp-olive">Click to upload</span> or drag and drop
         </p>
         <p class="font-poppins text-xs text-gray-500">
-          PDF (Max. 10MB)
+          PDF, DOC, DOCX (Max. 10MB)
         </p>
       </div>
       <div

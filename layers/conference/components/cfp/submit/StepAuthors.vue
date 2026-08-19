@@ -37,7 +37,7 @@ const isAuthorsValid = computed(() => {
       <div class="mb-3 grid grid-cols-2 gap-3">
         <input
           v-model="author.lastName"
-          placeholder="Name"
+          placeholder="Last Name"
           class="rounded-lg border border-cfp-olive/20 bg-white px-3 py-2 font-poppins text-sm text-gray-900 placeholder-gray-500"
         >
         <input

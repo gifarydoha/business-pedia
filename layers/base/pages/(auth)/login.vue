@@ -4,7 +4,18 @@ import { LoginSchema } from "~~/layers/base/schemas/auth.schemas";
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 // zodSchema auto-imported from utils/zodSchema.ts
 
-definePageMeta({ layout: false, middleware: "guest", path: "/login" });
+definePageMeta({ layout: "conference", middleware: "guest", path: "/login" });
+
+// const config = useRuntimeConfig();
+
+// if (import.meta.client) {
+//   if (config.public.appName === "SBAC Conference") {
+//     setPageLayout("conference");
+//   }
+//   else {
+//     setPageLayout("default");
+//   }
+// }
 
 const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();

@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div class="rounded-2xl border border-cfp-olive/15 bg-white p-5 shadow-sm">
     <div class="mb-1 flex items-start justify-between gap-3">
-      <h4 class="font-lora text-sm leading-snug font-semibold text-cfp-olive">
+      <h4 class="font-lora text-base leading-snug font-semibold text-cfp-olive">
         {{ member.name }}
       </h4>
       <span
@@ -22,12 +22,12 @@ defineProps<{
     <p class="mb-2 font-poppins text-xs leading-relaxed text-gray-600">
       {{ member.title }}
     </p>
-    <a
+    <!-- <a
       v-if="member.email"
       :href="`mailto:${member.email}`"
       class="font-poppins text-xs font-medium text-cfp-red hover:underline"
     >
       {{ member.email }}
-    </a>
+    </a> -->
   </div>
 </template>

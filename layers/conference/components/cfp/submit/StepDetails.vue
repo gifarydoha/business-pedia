@@ -7,10 +7,10 @@ const { form, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = us
 <template>
   <div>
     <div class="mb-6">
-      <p class="mb-1 font-poppins text-xs font-semibold text-gray-500 uppercase">
+      <p class="mb-1 font-poppins text-base font-semibold text-gray-500 uppercase">
         Selected Track
       </p>
-      <p class="font-poppins text-sm font-medium text-cfp-olive">
+      <p class="font-poppins text-2xl font-semibold text-cfp-olive">
         {{ form.track }}
       </p>
     </div>

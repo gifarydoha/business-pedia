@@ -69,7 +69,7 @@ const groups = computed(() => committeeData.value?.groups ?? []);
           </h2>
           <div class="space-y-12">
             <div v-for="g in groups" :key="g.trackName">
-              <h3 class="mb-4 font-lora text-lg font-semibold text-cfp-olive">
+              <h3 class="mb-4 font-lora text-xl font-semibold text-cfp-olive">
                 {{ g.trackName }}
               </h3>
               <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
