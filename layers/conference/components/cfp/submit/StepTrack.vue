@@ -16,18 +16,18 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
 
     <div class="mb-8 space-y-3">
       <label
-        v-for="t in CONFERENCE_TRACKS"
-        :key="t"
+        v-for="track in CONFERENCE_TRACKS"
+        :key="track.id"
         class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-colors"
-        :class="form.track === t ? 'border-cfp-olive bg-cfp-olive-pale' : 'border-cfp-olive/20 hover:border-cfp-olive/40'"
+        :class="form.track === track.id ? 'border-cfp-olive bg-cfp-olive-pale' : 'border-cfp-olive/20 hover:border-cfp-olive/40'"
       >
         <input
           v-model="form.track"
           type="radio"
-          :value="t"
+          :value="track.id"
           class="accent-cfp-olive"
         >
-        <span class="font-poppins text-sm text-gray-700">{{ t }}</span>
+        <span class="font-poppins text-sm text-gray-700">{{ track.name }}</span>
       </label>
     </div>
 

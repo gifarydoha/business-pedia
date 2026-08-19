@@ -1,5 +1,6 @@
-import type { SubmissionFormData, SubmissionAuthor, PresentationTrack } from "~~/layers/conference/types/submission";
-import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
+import type { SubmissionFormData, SubmissionAuthor } from "~~/layers/conference/types/submission";
+// import type { SubmissionFormData, SubmissionAuthor, PresentationTrack } from "~~/layers/conference/types/submission";
+// import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 import { useConferenceService } from "#layers/conference/services/conference.service";
 
 const STEPS = ["track", "details", "authors", "upload", "preview"] as const;
@@ -101,9 +102,12 @@ export const useSubmissionWizard = () => {
     formData.append("is_has_permission_to_publish", form.value.includeInProceedings ? "1" : "0");
     formData.append("email_notification_to_author", "1");
 
-    const trackIndex = CONFERENCE_TRACKS.indexOf(form.value.track as PresentationTrack);
-    if (trackIndex !== -1) {
-      formData.append("conference_track_id", (trackIndex + 1).toString());
+    // const trackIndex = CONFERENCE_TRACKS.indexOf(form.value.track as PresentationTrack);
+    // if (trackIndex !== -1) {
+    //   formData.append("conference_track_id", (trackIndex + 1).toString());
+    // }
+    if (form.value.track) {
+      formData.append("conference_track_id", form.value.track.toString());
     }
 
     formData.append("authors", JSON.stringify(authors));

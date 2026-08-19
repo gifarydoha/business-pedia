@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-import { COUNTRIES } from "~~/layers/conference/types/submission";
+import { COUNTRIES, CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
 const getCountryName = (countryId: number | "") => {
   if (!countryId) return "";
   const country = COUNTRIES.find((c) => c.id === countryId);
   return country ? country.name : "";
+};
+
+const getTrackName = (trackId: number | "") => {
+  if (!trackId) return "";
+  const track = CONFERENCE_TRACKS.find((t) => t.id === trackId);
+  return track ? track.name : "";
 };
 
 const { form, goToStep, skipSubmission } = useSubmissionWizard();
@@ -55,8 +61,9 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
           Edit
         </button>
       </div>
+      <!-- {{ form }} -->
       <p class="font-poppins text-sm text-black">
-        {{ form.track }}
+        {{ getTrackName(form.track) }}
       </p>
     </section>
 

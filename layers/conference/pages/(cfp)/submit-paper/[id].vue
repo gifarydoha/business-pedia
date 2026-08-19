@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useConferenceService } from "~~/layers/conference/services/conference.service";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
+// import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
@@ -72,11 +72,14 @@ watch(paperData, (newVal) => {
     form.value.includeInProceedings = p.is_has_permission_to_publish === "1";
 
     if (p.conference_track_id) {
-      const trackIndex = parseInt(p.conference_track_id) - 1;
-      if (trackIndex >= 0 && trackIndex < CONFERENCE_TRACKS.length) {
-        form.value.track = CONFERENCE_TRACKS[trackIndex] || "";
-      }
+      form.value.track = parseInt(p.conference_track_id);
     }
+    // if (p.conference_track_id) {
+    //   const trackIndex = parseInt(p.conference_track_id) - 1;
+    //   if (trackIndex >= 0 && trackIndex < CONFERENCE_TRACKS.length) {
+    //     form.value.track = CONFERENCE_TRACKS[trackIndex] || "";
+    //   }
+    // }
 
     if (p.authors && Array.isArray(p.authors)) {
       form.value.authors = p.authors.map((a, idx: number) => ({

@@ -1,13 +1,18 @@
-export type PresentationTrack
-  = | "Health & Sport"
-    | "Education"
-    | "Technology and Artificial Intelligence"
-    | "Finance and the SDGs"
-    | "Marketing and Entrepreneurship"
-    | "Environment, Disaster Management and Pollution Control"
-    | "Wealth Creation"
-    | "Peace and Justice"
-    | "Food Security";
+// export type PresentationTrack
+//   = | "Health & Sport"
+//     | "Education"
+//     | "Technology and Artificial Intelligence"
+//     | "Finance and the SDGs"
+//     | "Marketing and Entrepreneurship"
+//     | "Environment, Disaster Management and Pollution Control"
+//     | "Wealth Creation"
+//     | "Peace and Justice"
+//     | "Food Security";
+
+export interface ConferenceTrack {
+  id: number;
+  name: string;
+}
 
 export interface SubmissionAuthor {
   id: string;
@@ -23,7 +28,8 @@ export interface SubmissionAuthor {
 }
 
 export interface SubmissionFormData {
-  track: PresentationTrack | "";
+  track: number | "";
+  // track: PresentationTrack | "";
   title: string;
   abstract: string;
   keywords: string;
@@ -33,16 +39,16 @@ export interface SubmissionFormData {
   includeInProceedings: boolean | null;
 }
 
-export const CONFERENCE_TRACKS: PresentationTrack[] = [
-  "Health & Sport",
-  "Education",
-  "Technology and Artificial Intelligence",
-  "Finance and the SDGs",
-  "Marketing and Entrepreneurship",
-  "Environment, Disaster Management and Pollution Control",
-  "Wealth Creation",
-  "Peace and Justice",
-  "Food Security",
+export const CONFERENCE_TRACKS: ConferenceTrack[] = [
+  { id: 80, name: "Wealth Creation" },
+  { id: 81, name: "Environment, Disaster Management and Pollution Control" },
+  { id: 82, name: "Marketing and Entrepreneurship" },
+  { id: 83, name: "Finance and the SDGs" },
+  { id: 84, name: "Technology and Artificial Intelligence" },
+  { id: 85, name: "Education" },
+  { id: 86, name: "Health & Sport" },
+  { id: 87, name: "Peace and Justice" },
+  { id: 88, name: "Food Security" },
 ];
 
 // Trim/extend as you like — static per your answer
