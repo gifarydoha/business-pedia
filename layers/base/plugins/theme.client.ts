@@ -11,8 +11,9 @@ export default defineNuxtPlugin(() => {
   // Apply theme colors immediately if already loaded (SSR hydrated)
   function applyTheme() {
     const root = document.documentElement;
-    root.style.setProperty("--color-primary", settingsStore.primaryColor);
-    root.style.setProperty("--color-secondary", settingsStore.secondaryColor);
+    // ------------------ future implementation for dynamic colors ----------------------------
+    // root.style.setProperty("--color-primary", settingsStore.primaryColor);
+    // root.style.setProperty("--color-secondary", settingsStore.secondaryColor);
 
     if (settingsStore.radiusBase) {
       root.style.setProperty("--radius", settingsStore.radiusBase);

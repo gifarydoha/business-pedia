@@ -6,8 +6,8 @@ export interface AppSettings {
   sid: string;
   org: OrganizationInfo;
   socialMedia: SocialMedia;
-  primaryColor: string;
-  secondaryColor: string;
+  // primaryColor: string;
+  // secondaryColor: string;
   defaultLanguage: string;
   aboutContent: string;
   widgets: Widgets;

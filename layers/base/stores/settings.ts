@@ -16,12 +16,13 @@ export const useSettingsStore = defineStore("settings", () => {
 
   // ─── Getters ─────────────────────────────────────────────────────────────
   const org = computed(() => settings.value?.org ?? null);
-  const primaryColor = computed(
-    () => settings.value?.primaryColor ?? "#266B88",
-  );
-  const secondaryColor = computed(
-    () => settings.value?.secondaryColor ?? "#F7700B",
-  );
+  // ------------------ future implementation for dynamic colors ----------------------------
+  // const primaryColor = computed(
+  //   () => settings.value?.primaryColor ?? "#266B88",
+  // );
+  // const secondaryColor = computed(
+  //   () => settings.value?.secondaryColor ?? "#F7700B",
+  // );
   const mainMenu = computed(
     () => settings.value?.widgets.menu?.main_menu ?? [],
   );
@@ -82,12 +83,12 @@ export const useSettingsStore = defineStore("settings", () => {
       )) as SettingsApiResponse;
 
       const orgInfo = raw?.sid_site?.app_setting?.organization_information ?? null;
+      // primaryColor: raw?.sid_site?.layout_primary_color ?? "#266B88",
+      // secondaryColor: raw?.sid_site?.layout_secondary_color ?? "#F7700B",
       settings.value = {
         sid: raw?.sid ?? null,
         org: orgInfo,
         socialMedia: raw?.sid_site?.app_setting?.social_media ?? {},
-        primaryColor: raw?.sid_site?.layout_primary_color ?? "#266B88",
-        secondaryColor: raw?.sid_site?.layout_secondary_color ?? "#F7700B",
         defaultLanguage: raw?.sid_site?.default_language_code ?? "en",
         aboutContent: raw?.sid_site?.about_content ?? "",
         widgets: raw?.widgets ?? {},
@@ -121,6 +122,8 @@ export const useSettingsStore = defineStore("settings", () => {
     error.value = null;
   }
 
+  // primaryColor,
+  // secondaryColor,
   return {
     // State
     settings,
@@ -129,8 +132,6 @@ export const useSettingsStore = defineStore("settings", () => {
     error,
     // Getters
     org,
-    primaryColor,
-    secondaryColor,
     mainMenu,
     aboutContent,
     socialMedia,
