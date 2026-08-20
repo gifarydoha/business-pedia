@@ -147,7 +147,7 @@
 }
 
 :root {
-  --brand-primary: #266b88;
+  /* --brand-primary: #266b88;
   --brand-primary-foreground: #ffffff;
   --brand-primary-light: color-mix(in srgb, var(--brand-primary) 15%, white);
   --brand-primary-dark: color-mix(in srgb, var(--brand-primary) 80%, black);
@@ -156,7 +156,7 @@
   --brand-accent: #e6f4f8;
   --brand-accent-foreground: #173b4a;
   --brand-surface: #f0f7f5;
-  --brand-footer: #080f0d;
+  --brand-footer: #080f0d; */
 
 
   --background: #f8fbfc;
