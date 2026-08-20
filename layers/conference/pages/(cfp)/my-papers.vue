@@ -162,20 +162,20 @@ const pdfPreviewUrl = ref<string | null>(null);
     <div
       class="mx-auto mt-8 flex max-w-7xl flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5"
     >
-      <h1 class="mb-6 font-lora text-2xl font-bold text-cfp-olive md:text-3xl">
+      <h1 class="mb-6 font-lora text-2xl font-bold text-brand-primary md:text-3xl">
         Social Business Academia Conference
       </h1>
 
       <div class="flex flex-wrap items-center gap-5">
         <NuxtLink
           to="/my-papers"
-          class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-cfp-olive"
+          class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-brand-primary"
         >
           My Papers
         </NuxtLink>
         <NuxtLink
           :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
-          class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+          class="rounded-full bg-destructive px-6 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
           {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Paper' }}
         </NuxtLink>
@@ -192,15 +192,15 @@ const pdfPreviewUrl = ref<string | null>(null);
             class="rounded-full border px-4 py-1.5 font-poppins text-sm transition-colors"
             :class="[
               activeFilter === tab
-                ? 'border-cfp-olive bg-cfp-olive text-white'
-                : 'border-cfp-olive/20 bg-white text-gray-600 hover:border-cfp-olive/40',
+                ? 'border-brand-primary bg-brand-primary text-white'
+                : 'border-brand-primary/20 bg-white text-gray-600 hover:border-brand-primary/40',
             ]"
             @click="activeFilter = tab"
           >
             {{ tab }}
             <span
               class="ml-1.5 text-xs font-semibold"
-              :class="activeFilter === tab ? 'text-cfp-yellow' : 'text-gray-400'"
+              :class="activeFilter === tab ? 'text-brand-secondary' : 'text-gray-400'"
             >
               {{ counts[tab] }}
             </span>
@@ -215,9 +215,9 @@ const pdfPreviewUrl = ref<string | null>(null);
       <!-- Loading state -->
       <div
         v-if="status === 'pending' || status === 'idle'"
-        class="flex flex-col items-center justify-center rounded-2xl border border-cfp-olive/15 bg-white p-16 shadow-lg"
+        class="flex flex-col items-center justify-center rounded-2xl border border-brand-primary/15 bg-white p-16 shadow-lg"
       >
-        <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+        <div class="size-10 animate-spin rounded-full border-4 border-brand-primary border-t-transparent" />
         <p class="mt-4 font-poppins text-sm text-gray-500">
           Loading your papers...
         </p>
@@ -226,11 +226,11 @@ const pdfPreviewUrl = ref<string | null>(null);
       <!-- Empty state -->
       <div
         v-else-if="filtered.length === 0"
-        class="rounded-2xl border border-cfp-olive/15 bg-white p-16 text-center shadow-lg"
+        class="rounded-2xl border border-brand-primary/15 bg-white p-16 text-center shadow-lg"
       >
-        <div class="mx-auto mb-5 flex size-16 items-center justify-center rounded-full bg-cfp-olive-pale">
+        <div class="mx-auto mb-5 flex size-16 items-center justify-center rounded-full bg-brand-primary-light">
           <svg
-            class="size-7 text-cfp-olive/50"
+            class="size-7 text-brand-primary/50"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -243,7 +243,7 @@ const pdfPreviewUrl = ref<string | null>(null);
             />
           </svg>
         </div>
-        <h3 class="mb-2 font-lora text-xl font-bold text-cfp-olive">
+        <h3 class="mb-2 font-lora text-xl font-bold text-brand-primary">
           {{ activeFilter === 'All' ? 'No papers submitted yet' : `No ${activeFilter} papers` }}
         </h3>
         <p class="mx-auto mb-6 max-w-sm font-poppins text-sm text-gray-500">
@@ -253,7 +253,7 @@ const pdfPreviewUrl = ref<string | null>(null);
         </p>
         <NuxtLink
           :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
-          class="inline-block rounded-full bg-cfp-red px-8 py-3 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+          class="inline-block rounded-full bg-destructive px-8 py-3 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
           {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your First Paper' }}
         </NuxtLink>
@@ -276,19 +276,19 @@ const pdfPreviewUrl = ref<string | null>(null);
       <!-- Bottom CTA -->
       <!-- <div
         v-if="papers.length === 0"
-        class="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 sm:flex-row sm:items-center"
+        class="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-primary/15 bg-brand-primary-light p-6 sm:flex-row sm:items-center"
       >
         <div>
-          <p class="font-lora text-base font-semibold text-cfp-olive">
+          <p class="font-lora text-base font-semibold text-brand-primary">
             Submit another paper before the deadline
           </p>
           <p class="mt-0.5 font-poppins text-sm text-gray-500">
-            Deadline: <span class="font-semibold text-cfp-red">31 January 2024</span>
+            Deadline: <span class="font-semibold text-destructive">31 January 2024</span>
           </p>
         </div>
         <NuxtLink
           to="/submit-paper"
-          class="shrink-0 rounded-full bg-cfp-red px-7 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
+          class="shrink-0 rounded-full bg-destructive px-7 py-2.5 font-lora text-sm font-bold text-white transition-opacity hover:opacity-90"
         >
           Submit a Paper
         </NuxtLink>

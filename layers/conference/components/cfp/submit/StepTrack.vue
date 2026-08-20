@@ -7,7 +7,7 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
 
 <template>
   <div>
-    <h2 class="mb-1 font-lora text-lg font-bold text-cfp-olive">
+    <h2 class="mb-1 font-lora text-lg font-bold text-brand-primary">
       Conference Track Selection
     </h2>
     <p class="mb-5 font-poppins text-sm text-gray-500">
@@ -19,13 +19,13 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
         v-for="track in CONFERENCE_TRACKS"
         :key="track.id"
         class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-colors"
-        :class="form.track === track.id ? 'border-cfp-olive bg-cfp-olive-pale' : 'border-cfp-olive/20 hover:border-cfp-olive/40'"
+        :class="form.track === track.id ? 'border-brand-primary bg-brand-primary-light' : 'border-brand-primary/20 hover:border-brand-primary/40'"
       >
         <input
           v-model="form.track"
           type="radio"
           :value="track.id"
-          class="accent-cfp-olive"
+          class="accent-brand-primary"
         >
         <span class="font-poppins text-sm text-gray-700">{{ track.name }}</span>
       </label>
@@ -35,7 +35,7 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
       <template v-if="isEditMode">
         <button
           type="button"
-          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          class="rounded-full border border-brand-primary px-6 py-2.5 font-lora text-sm font-bold text-brand-primary"
           @click="skipSubmission"
         >
           Skip
@@ -43,7 +43,7 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
         <button
           type="button"
           :disabled="!form.track"
-          class="cursor-pointer rounded-full bg-cfp-yellow px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          class="cursor-pointer rounded-full bg-brand-secondary px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
           @click="submitPaper"
         >
           Submit & Continue
@@ -53,7 +53,7 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
         <button
           type="button"
           :disabled="!form.track"
-          class="rounded-full bg-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+          class="rounded-full bg-brand-primary px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
           @click="nextStep"
         >
           Continue &gt;&gt;

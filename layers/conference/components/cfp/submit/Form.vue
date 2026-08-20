@@ -71,8 +71,8 @@ const clearError = (field: string) => {
 
 const inputClass = (hasError: boolean) =>
   `w-full rounded-xl border font-poppins text-sm text-gray-800 bg-white px-4 py-3 outline-none transition-colors ${hasError
-    ? "border-cfp-red focus:border-cfp-red focus:ring-1 focus:ring-cfp-red"
-    : "border-cfp-olive/25 focus:border-cfp-olive focus:ring-1 focus:ring-cfp-olive"
+    ? "border-destructive focus:border-destructive focus:ring-1 focus:ring-destructive"
+    : "border-brand-primary/25 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
   }`;
 </script>
 
@@ -82,17 +82,17 @@ const inputClass = (hasError: boolean) =>
     class="space-y-7"
     @submit="handleSubmit"
   >
-    <div class="space-y-6 rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
-      <h2 class="border-b border-cfp-olive/10 pb-3 font-lora text-xl font-bold text-cfp-olive">
+    <div class="space-y-6 rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+      <h2 class="border-b border-brand-primary/10 pb-3 font-lora text-xl font-bold text-brand-primary">
         Paper Details
       </h2>
 
       <div>
         <label
           for="title"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
-          Paper Title <span class="text-cfp-red">*</span>
+          Paper Title <span class="text-destructive">*</span>
         </label>
         <input
           id="title"
@@ -104,7 +104,7 @@ const inputClass = (hasError: boolean) =>
         >
         <p
           v-if="errors.title"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.title }}
         </p>
@@ -113,9 +113,9 @@ const inputClass = (hasError: boolean) =>
       <div>
         <label
           for="authors"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
-          Author(s) <span class="text-cfp-red">*</span>
+          Author(s) <span class="text-destructive">*</span>
         </label>
         <input
           id="authors"
@@ -130,7 +130,7 @@ const inputClass = (hasError: boolean) =>
         </p>
         <p
           v-if="errors.authors"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.authors }}
         </p>
@@ -139,9 +139,9 @@ const inputClass = (hasError: boolean) =>
       <div>
         <label
           for="affiliation"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
-          Institutional Affiliation <span class="text-cfp-red">*</span>
+          Institutional Affiliation <span class="text-destructive">*</span>
         </label>
         <input
           id="affiliation"
@@ -153,7 +153,7 @@ const inputClass = (hasError: boolean) =>
         >
         <p
           v-if="errors.affiliation"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.affiliation }}
         </p>
@@ -162,9 +162,9 @@ const inputClass = (hasError: boolean) =>
       <div>
         <label
           for="track"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
-          Conference Track <span class="text-cfp-red">*</span>
+          Conference Track <span class="text-destructive">*</span>
         </label>
         <div class="relative">
           <select
@@ -186,7 +186,7 @@ const inputClass = (hasError: boolean) =>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
             <svg
-              class="size-4 text-cfp-olive/50"
+              class="size-4 text-brand-primary/50"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -202,24 +202,24 @@ const inputClass = (hasError: boolean) =>
         </div>
         <p
           v-if="errors.track"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.track }}
         </p>
       </div>
     </div>
 
-    <div class="space-y-6 rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
-      <h2 class="border-b border-cfp-olive/10 pb-3 font-lora text-xl font-bold text-cfp-olive">
+    <div class="space-y-6 rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+      <h2 class="border-b border-brand-primary/10 pb-3 font-lora text-xl font-bold text-brand-primary">
         Abstract &amp; Upload
       </h2>
 
       <div>
         <label
           for="abstract"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
-          Abstract <span class="text-cfp-red">*</span>
+          Abstract <span class="text-destructive">*</span>
         </label>
         <textarea
           id="abstract"
@@ -234,7 +234,7 @@ const inputClass = (hasError: boolean) =>
         </p>
         <p
           v-if="errors.abstract"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.abstract }}
         </p>
@@ -243,14 +243,14 @@ const inputClass = (hasError: boolean) =>
       <div>
         <label
           for="file"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
           Full Paper or Abstract File
         </label>
         <div
           :class="[
             'rounded-xl border-2 border-dashed p-6 text-center transition-colors',
-            errors.file ? 'border-cfp-red' : 'border-cfp-olive/25 hover:border-cfp-olive/50',
+            errors.file ? 'border-destructive' : 'border-brand-primary/25 hover:border-brand-primary/50',
           ]"
         >
           <input
@@ -265,7 +265,7 @@ const inputClass = (hasError: boolean) =>
             class="block cursor-pointer"
           >
             <svg
-              class="mx-auto mb-3 size-8 text-cfp-olive/40"
+              class="mx-auto mb-3 size-8 text-brand-primary/40"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -278,10 +278,10 @@ const inputClass = (hasError: boolean) =>
               />
             </svg>
             <template v-if="form.file">
-              <span class="font-poppins text-sm font-medium text-cfp-olive">{{ form.file.name }}</span>
+              <span class="font-poppins text-sm font-medium text-brand-primary">{{ form.file.name }}</span>
             </template>
             <template v-else>
-              <span class="font-poppins text-sm font-medium text-cfp-olive">
+              <span class="font-poppins text-sm font-medium text-brand-primary">
                 Click to upload
               </span>
               <span class="font-poppins text-sm text-gray-400"> or drag and drop</span>
@@ -291,21 +291,21 @@ const inputClass = (hasError: boolean) =>
         </div>
         <p
           v-if="errors.file"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.file }}
         </p>
       </div>
     </div>
 
-    <div class="space-y-6 rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
-      <h2 class="border-b border-cfp-olive/10 pb-3 font-lora text-xl font-bold text-cfp-olive">
+    <div class="space-y-6 rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+      <h2 class="border-b border-brand-primary/10 pb-3 font-lora text-xl font-bold text-brand-primary">
         Presentation &amp; Contact
       </h2>
 
       <div>
-        <label class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive">
-          Presentation Type <span class="text-cfp-red">*</span>
+        <label class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary">
+          Presentation Type <span class="text-destructive">*</span>
         </label>
         <div class="space-y-3">
           <label
@@ -317,26 +317,26 @@ const inputClass = (hasError: boolean) =>
             :class="[
               'flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors',
               form.presentationType === opt.val
-                ? 'border-cfp-olive bg-cfp-olive-pale'
-                : 'border-cfp-olive/20 hover:border-cfp-olive/40',
+                ? 'border-brand-primary bg-brand-primary-light'
+                : 'border-brand-primary/20 hover:border-brand-primary/40',
             ]"
           >
             <input
               v-model="form.presentationType"
               type="radio"
               :value="opt.val"
-              class="mt-0.5 accent-cfp-olive"
+              class="mt-0.5 accent-brand-primary"
               @change="clearError('presentationType')"
             >
             <div>
-              <div class="font-poppins text-sm font-semibold text-cfp-olive">{{ opt.label }}</div>
+              <div class="font-poppins text-sm font-semibold text-brand-primary">{{ opt.label }}</div>
               <div class="font-poppins text-xs text-gray-500">{{ opt.desc }}</div>
             </div>
           </label>
         </div>
         <p
           v-if="errors.presentationType"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.presentationType }}
         </p>
@@ -345,9 +345,9 @@ const inputClass = (hasError: boolean) =>
       <div>
         <label
           for="email"
-          class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+          class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
         >
-          Contact Email Address <span class="text-cfp-red">*</span>
+          Contact Email Address <span class="text-destructive">*</span>
         </label>
         <input
           id="email"
@@ -359,14 +359,14 @@ const inputClass = (hasError: boolean) =>
         >
         <p
           v-if="errors.email"
-          class="mt-1 font-poppins text-xs text-cfp-red"
+          class="mt-1 font-poppins text-xs text-destructive"
         >
           {{ errors.email }}
         </p>
       </div>
     </div>
 
-    <div class="rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-5 shadow-lg">
+    <div class="rounded-2xl border border-brand-primary/15 bg-brand-primary-light p-5 shadow-lg">
       <p class="font-poppins text-xs leading-relaxed text-gray-600">
         By submitting, you confirm that this work is original, not under review elsewhere,
         and that all named authors have consented to submission. You agree to SBAC's
@@ -377,7 +377,7 @@ const inputClass = (hasError: boolean) =>
 
     <button
       type="submit"
-      class="w-full rounded-full bg-cfp-red px-8 py-4 font-lora text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
+      class="w-full rounded-full bg-destructive px-8 py-4 font-lora text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
     >
       Submit Paper for Review
     </button>

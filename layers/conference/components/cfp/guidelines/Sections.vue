@@ -48,29 +48,29 @@ const sections = [
     <div
       v-for="sec in sections"
       :key="sec.title"
-      class="overflow-hidden rounded-2xl border border-cfp-olive/15 bg-white shadow-lg"
+      class="overflow-hidden rounded-2xl border border-brand-primary/15 bg-white shadow-lg"
     >
       <!-- Card header row -->
-      <div class="flex items-center gap-4 border-b border-cfp-olive/10 bg-cfp-olive-pale px-6 py-5">
+      <div class="flex items-center gap-4 border-b border-brand-primary/10 bg-brand-primary-light px-6 py-5">
         <div
-          class="flex size-10 shrink-0 items-center justify-center rounded-full bg-cfp-olive text-white"
+          class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-primary text-white"
           v-html="sec.icon"
         />
-        <h2 class="font-lora text-xl font-bold text-cfp-olive">
+        <h2 class="font-lora text-xl font-bold text-brand-primary">
           {{ sec.title }}
         </h2>
       </div>
 
       <!-- Items -->
-      <div class="divide-y divide-cfp-olive/8">
+      <div class="divide-y divide-brand-primary/8">
         <div
           v-for="(item, i) in sec.items"
           :key="i"
-          class="flex items-start gap-4 px-6 py-5 transition-colors hover:bg-cfp-cream/50"
+          class="flex items-start gap-4 px-6 py-5 transition-colors hover:bg-section-bg-light/50"
         >
-          <span class="mt-1 size-2 shrink-0 rounded-full bg-cfp-yellow" />
+          <span class="mt-1 size-2 shrink-0 rounded-full bg-brand-secondary" />
           <div>
-            <span class="font-poppins text-sm font-semibold text-cfp-olive">
+            <span class="font-poppins text-sm font-semibold text-brand-primary">
               {{ item.label }}
             </span>
             <span class="font-poppins text-sm text-gray-600"> — {{ item.detail }}</span>

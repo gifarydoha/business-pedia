@@ -15,17 +15,17 @@ const groups = computed(() => props.committeeData.groups ?? []);
   <section class="py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-14">
-        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+        <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
           SBAC 2026
         </span>
-        <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
+        <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-brand-primary md:text-4xl">
           Scientific Committee
         </h2>
       </div>
 
       <!-- Co-Chairs -->
       <div class="mb-16">
-        <h3 class="mb-6 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+        <h3 class="mb-6 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
           Co-Chairs
         </h3>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -35,12 +35,12 @@ const groups = computed(() => props.committeeData.groups ?? []);
 
       <!-- Track Groups -->
       <div>
-        <h3 class="mb-8 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+        <h3 class="mb-8 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
           Members (including Track Chairs)
         </h3>
         <div class="space-y-12">
           <div v-for="g in groups" :key="g.trackName">
-            <h4 class="mb-4 font-lora text-lg font-semibold text-cfp-olive">
+            <h4 class="mb-4 font-lora text-lg font-semibold text-brand-primary">
               {{ g.trackName }}
             </h4>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">

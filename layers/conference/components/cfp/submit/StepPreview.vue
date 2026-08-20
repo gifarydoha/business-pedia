@@ -19,17 +19,17 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
 
 <template>
   <div>
-    <h2 class="mb-6 font-lora text-3xl font-bold text-cfp-olive">
+    <h2 class="mb-6 font-lora text-3xl font-bold text-brand-primary">
       Paper Detail
     </h2>
 
-    <section class="mb-6 border-b border-cfp-olive/10 pb-5">
+    <section class="mb-6 border-b border-brand-primary/10 pb-5">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-brand-primary">
           Title
         </h3>
         <button
-          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
+          class="rounded-full bg-brand-secondary px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('details')"
         >
           Edit
@@ -38,7 +38,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
       <p class="mb-2 font-poppins text-lg  font-medium text-black">
         {{ form.title }}
       </p>
-      <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+      <h3 class="font-poppins text-lg font-semibold text-brand-primary">
         Abstract
       </h3>
       <p class="font-poppins text-sm leading-relaxed text-black">
@@ -49,13 +49,13 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
       </p>
     </section>
 
-    <section class="mb-6 border-b border-cfp-olive/10 pb-5">
+    <section class="mb-6 border-b border-brand-primary/10 pb-5">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-brand-primary">
           Paper Track
         </h3>
         <button
-          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
+          class="rounded-full bg-brand-secondary px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('track')"
         >
           Edit
@@ -67,13 +67,13 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
       </p>
     </section>
 
-    <section class="mb-6 border-b border-cfp-olive/10 pb-5">
+    <section class="mb-6 border-b border-brand-primary/10 pb-5">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-brand-primary">
           Author Information
         </h3>
         <button
-          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
+          class="rounded-full bg-brand-secondary px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('authors')"
         >
           Edit
@@ -95,11 +95,11 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
 
     <section class="mb-6">
       <div class="mb-2 flex items-center justify-between">
-        <h3 class="font-poppins text-lg font-semibold text-cfp-olive">
+        <h3 class="font-poppins text-lg font-semibold text-brand-primary">
           Paper File
         </h3>
         <button
-          class="rounded-full bg-cfp-yellow px-4 py-2 font-poppins text-sm font-medium text-white"
+          class="rounded-full bg-brand-secondary px-4 py-2 font-poppins text-sm font-medium text-white"
           @click="goToStep('upload')"
         >
           Edit
@@ -116,7 +116,7 @@ const { form, goToStep, skipSubmission } = useSubmissionWizard();
     <div class="mt-8 flex justify-start gap-4">
       <button
         type="button"
-        class="cursor-pointer rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+        class="cursor-pointer rounded-full border border-brand-primary px-6 py-2.5 font-lora text-sm font-bold text-brand-primary"
         @click="skipSubmission"
       >
         Back to My Papers

@@ -9,14 +9,14 @@ defineProps<{
 <template>
   <section
     id="dates"
-    class="bg-cfp-cream py-20 md:py-28"
+    class="bg-section-bg-light py-20 md:py-28"
   >
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-14">
-        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+        <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
           Schedule
         </span>
-        <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
+        <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-brand-primary md:text-4xl">
           Important Dates
         </h2>
         <p class="font-poppins text-sm text-gray-500">
@@ -27,7 +27,7 @@ defineProps<{
       <!-- Desktop: horizontal -->
       <div class="relative hidden md:block">
         <!-- Connector line -->
-        <div class="absolute inset-x-0 top-5 h-0.5 bg-cfp-olive/20" />
+        <div class="absolute inset-x-0 top-5 h-0.5 bg-brand-primary/20" />
         <div class="relative grid grid-cols-5 gap-4">
           <div
             v-for="(d, i) in dates"
@@ -39,8 +39,8 @@ defineProps<{
               :class="[
                 'z-10 mb-4 flex size-10 items-center justify-center rounded-full border-2 font-lora text-sm font-bold',
                 d.urgent
-                  ? 'border-cfp-red bg-cfp-red text-white shadow-lg'
-                  : 'border-cfp-olive bg-white text-cfp-olive',
+                  ? 'border-destructive bg-destructive text-white shadow-lg'
+                  : 'border-brand-primary bg-white text-brand-primary',
               ]"
             >
               {{ i + 1 }}
@@ -48,7 +48,7 @@ defineProps<{
             <div
               :class="[
                 'mb-1 font-lora text-sm font-bold',
-                d.urgent ? 'text-cfp-red' : 'text-cfp-olive',
+                d.urgent ? 'text-destructive' : 'text-brand-primary',
               ]"
             >
               {{ d.date }}
@@ -58,7 +58,7 @@ defineProps<{
             </div>
             <span
               v-if="d.urgent"
-              class="mt-2 rounded-full bg-cfp-red/10 px-2 py-0.5 font-poppins text-xs font-semibold text-cfp-red"
+              class="mt-2 rounded-full bg-destructive/10 px-2 py-0.5 font-poppins text-xs font-semibold text-destructive"
             >
               Deadline
             </span>
@@ -68,7 +68,7 @@ defineProps<{
 
       <!-- Mobile: vertical -->
       <div class="relative pl-8 md:hidden">
-        <div class="absolute inset-y-0 left-3 w-0.5 bg-cfp-olive/20" />
+        <div class="absolute inset-y-0 left-3 w-0.5 bg-brand-primary/20" />
         <div class="flex flex-col gap-8">
           <div
             v-for="(d, i) in dates"
@@ -80,8 +80,8 @@ defineProps<{
               :class="[
                 'absolute -left-8 flex size-8 items-center justify-center rounded-full border-2 font-lora text-xs font-bold',
                 d.urgent
-                  ? 'border-cfp-red bg-cfp-red text-white'
-                  : 'border-cfp-olive bg-white text-cfp-olive',
+                  ? 'border-destructive bg-destructive text-white'
+                  : 'border-brand-primary bg-white text-brand-primary',
               ]"
             >
               {{ i + 1 }}
@@ -90,7 +90,7 @@ defineProps<{
               <div
                 :class="[
                   'font-lora text-base font-bold',
-                  d.urgent ? 'text-cfp-red' : 'text-cfp-olive',
+                  d.urgent ? 'text-destructive' : 'text-brand-primary',
                 ]"
               >
                 {{ d.date }}
@@ -100,7 +100,7 @@ defineProps<{
               </div>
               <span
                 v-if="d.urgent"
-                class="mt-1 inline-block rounded-full bg-cfp-red/10 px-2 py-0.5 font-poppins text-xs font-semibold text-cfp-red"
+                class="mt-1 inline-block rounded-full bg-destructive/10 px-2 py-0.5 font-poppins text-xs font-semibold text-destructive"
               >
                 Deadline
               </span>

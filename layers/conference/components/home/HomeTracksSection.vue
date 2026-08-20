@@ -8,13 +8,13 @@ defineProps<{
 </script>
 
 <template>
-  <section id="tracks" class="bg-cfp-olive-pale py-20 md:py-28">
+  <section id="tracks" class="bg-brand-primary-light py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
-        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+        <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
           Scientific Committee
         </span>
-        <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
+        <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-brand-primary md:text-4xl">
           Conference Tracks
         </h2>
         <p class="max-w-2xl font-poppins leading-relaxed text-gray-600">

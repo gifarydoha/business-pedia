@@ -32,19 +32,19 @@ export const mockPapers: Paper[] = [
 
 export const statusConfig: Record<PaperStatus, { bg: string; text: string; dot: string }> = {
   "Accepted": {
-    bg: "bg-cfp-olive/10",
-    text: "text-cfp-olive",
-    dot: "bg-cfp-olive",
+    bg: "bg-brand-primary/10",
+    text: "text-brand-primary",
+    dot: "bg-brand-primary",
   },
   "Under Review": {
-    bg: "bg-cfp-yellow/15",
+    bg: "bg-brand-secondary/15",
     text: "text-amber-700",
-    dot: "bg-cfp-yellow",
+    dot: "bg-brand-secondary",
   },
   "Rejected": {
-    bg: "bg-cfp-red/10",
-    text: "text-cfp-red",
-    dot: "bg-cfp-red",
+    bg: "bg-destructive/10",
+    text: "text-destructive",
+    dot: "bg-destructive",
   },
   "Draft": {
     bg: "bg-gray-100",

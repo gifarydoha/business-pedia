@@ -38,8 +38,8 @@ const handleSave = async (e: Event) => {
   setTimeout(() => router.push("/profile"), 800);
 };
 
-const inputClass = "w-full rounded-xl border border-cfp-olive/25 bg-white px-4 py-3 font-poppins text-sm text-gray-800 outline-none transition-colors focus:border-cfp-olive focus:ring-1 focus:ring-cfp-olive";
-const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-olive/10 bg-cfp-cream px-4 py-3 font-poppins text-sm text-gray-400 outline-none";
+const inputClass = "w-full rounded-xl border border-brand-primary/25 bg-white px-4 py-3 font-poppins text-sm text-gray-800 outline-none transition-colors focus:border-brand-primary focus:ring-1 focus:ring-brand-primary";
+const disabledClass = "w-full cursor-not-allowed rounded-xl border border-brand-primary/10 bg-section-bg-light px-4 py-3 font-poppins text-sm text-gray-400 outline-none";
 </script>
 
 <template>
@@ -49,30 +49,30 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
   >
     <div class="mx-auto max-w-4xl space-y-8 px-4 py-12 md:px-0 md:pt-0 md:pb-16">
       <!-- Avatar card -->
-      <div class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
-        <h2 class="mb-6 border-b border-cfp-olive/10 pb-3 font-lora text-lg font-bold text-cfp-olive">
+      <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+        <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
           Profile Photo
         </h2>
         <div class="flex items-center gap-6">
           <!-- Avatar with hover overlay -->
           <button
             type="button"
-            class="relative size-20 shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cfp-olive"
+            class="relative size-20 shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
             aria-label="Change profile photo"
             @mouseenter="avatarHover = true"
             @mouseleave="avatarHover = false"
             @click="fileRef?.click()"
           >
             <div
-              class="flex size-20 items-center justify-center rounded-full border-4 border-cfp-olive-pale bg-cfp-yellow"
+              class="flex size-20 items-center justify-center rounded-full border-4 border-brand-primary-light bg-brand-secondary"
             >
-              <span class="font-lora text-2xl font-bold text-cfp-olive">
+              <span class="font-lora text-2xl font-bold text-brand-primary">
                 {{ avatarInitials }}
               </span>
             </div>
             <!-- Upload overlay -->
             <div
-              class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-full bg-cfp-olive/70 transition-opacity"
+              class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-full bg-brand-primary/70 transition-opacity"
               :class="avatarHover ? 'opacity-100' : 'opacity-0'"
             >
               <svg
@@ -115,7 +115,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
             </p>
             <button
               type="button"
-              class="mt-3 rounded-full border border-cfp-olive/30 px-4 py-1.5 font-poppins text-xs font-semibold text-cfp-olive transition-colors hover:bg-cfp-olive-pale"
+              class="mt-3 rounded-full border border-brand-primary/30 px-4 py-1.5 font-poppins text-xs font-semibold text-brand-primary transition-colors hover:bg-brand-primary-light"
               @click="fileRef?.click()"
             >
               Browse files
@@ -125,8 +125,8 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
       </div>
 
       <!-- Core fields card -->
-      <div class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
-        <h2 class="mb-6 border-b border-cfp-olive/10 pb-3 font-lora text-lg font-bold text-cfp-olive">
+      <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+        <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
           Personal Information
         </h2>
 
@@ -134,9 +134,9 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           <div class="md:col-span-2">
             <label
               for="name"
-              class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+              class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
             >
-              Full Name <span class="text-cfp-red">*</span>
+              Full Name <span class="text-destructive">*</span>
             </label>
             <input
               id="name"
@@ -152,9 +152,9 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           <div>
             <label
               for="email"
-              class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+              class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
             >
-              Email Address <span class="text-cfp-red">*</span>
+              Email Address <span class="text-destructive">*</span>
             </label>
             <input
               id="email"
@@ -173,7 +173,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
               class="mb-1.5 block font-poppins text-sm font-medium text-gray-400"
             >
               User ID
-              <span class="ml-2 rounded-full bg-cfp-olive-pale px-2 py-0.5 text-xs font-normal text-cfp-olive/60">
+              <span class="ml-2 rounded-full bg-brand-primary-light px-2 py-0.5 text-xs font-normal text-brand-primary/60">
                 read-only
               </span>
             </label>
@@ -190,7 +190,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           <div>
             <label
               for="affiliation"
-              class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+              class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
             >
               Institutional Affiliation
             </label>
@@ -208,7 +208,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           <div>
             <label
               for="country"
-              class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+              class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
             >
               Country
             </label>
@@ -233,7 +233,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                 <svg
-                  class="size-4 text-cfp-olive/40"
+                  class="size-4 text-brand-primary/40"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -252,7 +252,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
           <div class="md:col-span-2">
             <label
               for="bio"
-              class="mb-1.5 block font-poppins text-sm font-medium text-cfp-olive"
+              class="mb-1.5 block font-poppins text-sm font-medium text-brand-primary"
             >
               Bio
             </label>
@@ -273,9 +273,9 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
       </div>
 
       <!-- Custom fields card -->
-      <!-- <div class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg md:p-8">
-        <div class="mb-6 flex items-center justify-between border-b border-cfp-olive/10 pb-3">
-          <h2 class="font-lora text-lg font-bold text-cfp-olive">
+      <!-- <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+        <div class="mb-6 flex items-center justify-between border-b border-brand-primary/10 pb-3">
+          <h2 class="font-lora text-lg font-bold text-brand-primary">
             Additional Fields
           </h2>
           <span class="font-poppins text-xs text-gray-400">
@@ -314,7 +314,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
             </div>
             <button
               type="button"
-              class="mt-3 flex size-8 shrink-0 items-center justify-center rounded-full border border-cfp-red/30 text-cfp-red/60 transition-colors hover:border-cfp-red hover:bg-cfp-red/5 hover:text-cfp-red"
+              class="mt-3 flex size-8 shrink-0 items-center justify-center rounded-full border border-destructive/30 text-destructive/60 transition-colors hover:border-destructive hover:bg-destructive/5 hover:text-destructive"
               aria-label="Remove field"
               @click="removeCustomField(f.id)"
             >
@@ -337,7 +337,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
 
         <button
           type="button"
-          class="flex w-full justify-center gap-2 rounded-xl border-2 border-dashed border-cfp-olive/25 px-5 py-3 font-poppins text-sm font-medium text-cfp-olive/60 transition-colors hover:border-cfp-olive/50 hover:text-cfp-olive"
+          class="flex w-full justify-center gap-2 rounded-xl border-2 border-dashed border-brand-primary/25 px-5 py-3 font-poppins text-sm font-medium text-brand-primary/60 transition-colors hover:border-brand-primary/50 hover:text-brand-primary"
           @click="addCustomField"
         >
           <svg
@@ -359,15 +359,15 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
 
       <!-- Action buttons — sticky on mobile -->
       <div
-        class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-cfp-olive/10 bg-cfp-cream/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none"
+        class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-brand-primary/10 bg-section-bg-light/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none"
       >
         <button
           type="submit"
           :disabled="saving || saved"
-          class="flex-1 rounded-full bg-cfp-olive px-8 py-3 font-lora text-sm font-bold text-white transition-all md:flex-none"
+          class="flex-1 rounded-full bg-brand-primary px-8 py-3 font-lora text-sm font-bold text-white transition-all md:flex-none"
           :class="[
             saved
-              ? 'bg-cfp-olive opacity-70'
+              ? 'bg-brand-primary opacity-70'
               : saving
                 ? 'cursor-wait opacity-70'
                 : 'hover:opacity-90',
@@ -377,7 +377,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-cfp-ol
         </button>
         <NuxtLink
           to="/profile"
-          class="flex-1 rounded-full border-2 border-cfp-olive px-8 py-3 text-center font-lora text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive/5 md:flex-none"
+          class="flex-1 rounded-full border-2 border-brand-primary px-8 py-3 text-center font-lora text-sm font-bold text-brand-primary transition-colors hover:bg-brand-primary/5 md:flex-none"
         >
           Cancel
         </NuxtLink>

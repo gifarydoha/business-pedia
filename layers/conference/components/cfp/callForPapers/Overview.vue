@@ -9,7 +9,7 @@ defineProps<{
     id="overview"
     class="mb-12 scroll-mt-24"
   >
-    <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+    <h2 class="mb-5 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
       Overview
     </h2>
     <div class="space-y-4 font-poppins leading-relaxed text-gray-700">

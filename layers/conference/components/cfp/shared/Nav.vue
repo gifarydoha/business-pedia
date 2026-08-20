@@ -133,12 +133,12 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
           />
           <div class="flex min-w-0 flex-col justify-center">
             <span
-              class="truncate font-lora text-sm font-medium text-cfp-olive transition-colors group-hover:text-cfp-olive/80 sm:text-base md:text-xl"
+              class="truncate font-lora text-sm font-medium text-brand-primary transition-colors group-hover:text-brand-primary/80 sm:text-base md:text-xl"
             >
               {{ orgName }}
             </span>
             <div
-              class="mt-0.5 flex flex-wrap items-center gap-1 font-poppins text-[10px] text-cfp-olive/80 sm:mt-1 sm:gap-1.5 sm:text-xs md:text-sm"
+              class="mt-0.5 flex flex-wrap items-center gap-1 font-poppins text-[10px] text-brand-primary/80 sm:mt-1 sm:gap-1.5 sm:text-xs md:text-sm"
             >
               <span class="truncate">{{ conferenceDate }}</span>
               <Icon
@@ -150,19 +150,19 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
           </div>
         </NuxtLink>
 
-        <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-cfp-olive md:flex">
+        <div class="hidden items-center gap-6 font-poppins text-sm font-medium text-brand-primary md:flex">
           <!-- <NuxtLink
             to="#"
-            class="transition-colors hover:text-cfp-red"
+            class="transition-colors hover:text-destructive"
           >FAQ</NuxtLink>
           <NuxtLink
             to="/pages/contact"
-            class="transition-colors hover:text-cfp-red"
+            class="transition-colors hover:text-destructive"
           >Contact</NuxtLink> -->
         </div>
 
         <button
-          class="shrink-0 text-cfp-olive md:hidden"
+          class="shrink-0 text-brand-primary md:hidden"
           aria-label="Toggle menu"
           @click="open = !open"
         >
@@ -191,15 +191,15 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
       </div>
     </div>
 
-    <div class="hidden bg-cfp-yellow md:block">
+    <div class="hidden bg-brand-secondary md:block">
       <div class="mx-auto flex max-w-7xl items-center justify-between pl-6">
         <div class="flex items-center gap-6 overflow-x-auto">
           <NuxtLink
             v-for="l in navLinks"
             :key="l.label"
             :to="l.href"
-            class="py-4 font-poppins text-sm font-medium tracking-wide whitespace-nowrap uppercase transition-colors hover:text-cfp-olive"
-            :class="isActive(l.href) ? 'text-cfp-olive' : 'text-white'"
+            class="py-4 font-poppins text-sm font-medium tracking-wide whitespace-nowrap uppercase transition-colors hover:text-brand-primary"
+            :class="isActive(l.href) ? 'text-brand-primary' : 'text-white'"
           >
             {{ l.label }}
           </NuxtLink>
@@ -212,11 +212,11 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
             class="relative self-stretch"
           >
             <button
-              class="inline-flex h-full items-center gap-2.5 self-stretch bg-white px-5 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors"
+              class="inline-flex h-full items-center gap-2.5 self-stretch bg-white px-5 py-4 font-poppins text-sm font-bold text-brand-primary transition-colors"
               @click.stop="userDropdownOpen = !userDropdownOpen"
             >
               <span
-                class="relative inline-flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-cfp-olive/10 ring-1 ring-cfp-olive/20"
+                class="relative inline-flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-primary/10 ring-1 ring-brand-primary/20"
               >
                 <img
                   v-if="avatarUrl"
@@ -226,7 +226,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
                 >
                 <span
                   v-else
-                  class="text-xs font-bold text-cfp-olive"
+                  class="text-xs font-bold text-brand-primary"
                 >{{ userInitials }}</span>
               </span>
               <span class="max-w-30 truncate">{{ authUser?.name }}</span>
@@ -250,7 +250,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
                 class="absolute top-full right-0 z-50 min-w-48 overflow-hidden rounded-b-xl bg-white shadow-lg ring-1 ring-black/5"
               >
                 <div class="border-b border-gray-100 px-4 py-3">
-                  <p class="truncate font-poppins text-xs font-semibold text-cfp-olive">
+                  <p class="truncate font-poppins text-xs font-semibold text-brand-primary">
                     {{ authUser?.name }}
                   </p>
                   <p class="truncate font-poppins text-xs text-gray-400">
@@ -262,19 +262,19 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
                     v-for="item in USER_MENU_ITEMS"
                     :key="item.href"
                     :to="item.href"
-                    class="flex items-center gap-3 px-4 py-2.5 font-poppins text-sm text-gray-700 transition-colors hover:bg-cfp-yellow/20 hover:text-cfp-olive"
+                    class="flex items-center gap-3 px-4 py-2.5 font-poppins text-sm text-gray-700 transition-colors hover:bg-brand-secondary/20 hover:text-brand-primary"
                     @click="userDropdownOpen = false"
                   >
                     <Icon
                       :name="item.icon"
-                      class="size-4 shrink-0 text-cfp-olive/70"
+                      class="size-4 shrink-0 text-brand-primary/70"
                     />
                     {{ item.label }}
                   </NuxtLink>
                 </nav>
                 <div class="border-t border-gray-100 py-1">
                   <button
-                    class="flex w-full items-center gap-3 px-4 py-2.5 font-poppins text-sm text-cfp-red transition-colors hover:bg-red-50"
+                    class="flex w-full items-center gap-3 px-4 py-2.5 font-poppins text-sm text-destructive transition-colors hover:bg-red-50"
                     @click="handleLogout"
                   >
                     <Icon
@@ -291,7 +291,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
           <NuxtLink
             v-else
             to="/login"
-            class="inline-flex h-full items-center self-stretch bg-white px-8 py-4 font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+            class="inline-flex h-full items-center self-stretch bg-white px-8 py-4 font-poppins text-sm font-bold text-brand-primary transition-colors hover:bg-brand-primary hover:text-white"
           >
             Login
           </NuxtLink>
@@ -305,14 +305,14 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
 
     <div
       v-show="open"
-      class="flex flex-col gap-3 bg-cfp-yellow px-6 pt-2 pb-4 md:hidden"
+      class="flex flex-col gap-3 bg-brand-secondary px-6 pt-2 pb-4 md:hidden"
     >
       <NuxtLink
         v-for="l in navLinks"
         :key="l.label"
         :to="l.href"
-        class="py-2 font-poppins text-sm tracking-wide uppercase transition-colors hover:text-cfp-olive"
-        :class="isActive(l.href) ? 'text-cfp-olive font-semibold' : 'text-white'"
+        class="py-2 font-poppins text-sm tracking-wide uppercase transition-colors hover:text-brand-primary"
+        :class="isActive(l.href) ? 'text-brand-primary font-semibold' : 'text-white'"
         @click="open = false"
       >
         {{ l.label }}
@@ -320,12 +320,12 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
       <!-- <div class="my-2 h-px w-full bg-white/30" /> -->
       <!-- <NuxtLink
         to="#"
-        class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
+        class="py-1 font-poppins text-sm text-white hover:text-brand-primary"
         @click="open = false"
       >FAQ</NuxtLink>
       <NuxtLink
         to="/pages/contact"
-        class="py-1 font-poppins text-sm text-white hover:text-cfp-olive"
+        class="py-1 font-poppins text-sm text-white hover:text-brand-primary"
         @click="open = false"
       >Contact</NuxtLink> -->
 
@@ -404,7 +404,7 @@ onUnmounted(() => document.removeEventListener("click", onClickOutside));
         <NuxtLink
           v-else
           to="/login"
-          class="mt-2 rounded bg-white px-5 py-2 text-center font-poppins text-sm font-bold text-cfp-olive transition-colors hover:bg-cfp-olive hover:text-white"
+          class="mt-2 rounded bg-white px-5 py-2 text-center font-poppins text-sm font-bold text-brand-primary transition-colors hover:bg-brand-primary hover:text-white"
           @click="open = false"
         >
           Login

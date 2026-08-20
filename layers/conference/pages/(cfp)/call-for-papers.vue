@@ -37,7 +37,7 @@ watch(error, (err) => {
       v-if="pending || error || !cfpData"
       class="flex min-h-[60vh] flex-col items-center justify-center gap-4"
     >
-      <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+      <div class="size-10 animate-spin rounded-full border-4 border-brand-primary border-t-transparent" />
       <p class="font-poppins text-sm text-gray-400">
         Loading content…
       </p>

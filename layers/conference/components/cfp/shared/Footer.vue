@@ -32,7 +32,7 @@ const settingsStore = useSettingsStore();
 </script>
 
 <template>
-  <footer class="bg-cfp-olive-dark text-white/75">
+  <footer class="bg-brand-primary-dark text-white/75">
     <!-- <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-3">
       <div>
         <div class="mb-4 flex items-center gap-3">
@@ -65,7 +65,7 @@ const settingsStore = useSettingsStore();
           >
             <NuxtLink
               :to="l.href"
-              class="transition-colors hover:text-cfp-yellow"
+              class="transition-colors hover:text-brand-secondary"
             >
               {{ l.label }}
             </NuxtLink>
@@ -82,7 +82,7 @@ const settingsStore = useSettingsStore();
         </p>
         <a
           :href="'mailto:' + settingsStore.cfpContacts[0]?.email"
-          class="font-poppins text-sm text-cfp-yellow hover:underline"
+          class="font-poppins text-sm text-brand-secondary hover:underline"
         >
           {{ settingsStore.cfpContacts[0]?.email }}
         </a>
@@ -93,7 +93,7 @@ const settingsStore = useSettingsStore();
           :href="settingsStore.cfpHero.portalUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="font-poppins text-sm break-all text-cfp-yellow hover:underline"
+          class="font-poppins text-sm break-all text-brand-secondary hover:underline"
         >
           {{ settingsStore.cfpHero.portalUrl.replace(/^https?:\/\//, '') }}
         </a>

@@ -35,7 +35,7 @@ const stats = [
       <!-- Eyebrow -->
       <div class="mb-6 inline-flex items-center gap-2">
         <span
-          class="rounded-full bg-white px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase"
+          class="rounded-full bg-white px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-brand-primary uppercase"
         >
           Call for Papers
         </span>
@@ -46,7 +46,7 @@ const stats = [
         {{ title }}
       </h1>
 
-      <p class="mb-8 font-lora text-xl text-cfp-yellow italic md:text-2xl">
+      <p class="mb-8 font-lora text-xl text-brand-secondary italic md:text-2xl">
         {{ tagline }}
       </p>
 
@@ -57,7 +57,7 @@ const stats = [
       <div class="flex flex-wrap gap-4">
         <NuxtLink
           :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
-          class="rounded-full bg-cfp-red px-8 py-3 font-lora text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
+          class="rounded-full bg-destructive px-8 py-3 font-lora text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
         >
           {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your Paper' }}
         </NuxtLink>
@@ -75,7 +75,7 @@ const stats = [
           v-for="s in stats"
           :key="s.label"
         >
-          <div class="font-lora text-3xl font-bold text-cfp-yellow">
+          <div class="font-lora text-3xl font-bold text-brand-secondary">
             {{ s.val }}
           </div>
           <div class="mt-1 font-poppins text-sm text-white/70">

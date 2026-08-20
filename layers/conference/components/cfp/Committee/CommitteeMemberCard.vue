@@ -7,14 +7,14 @@ defineProps<{
 </script>
 
 <template>
-  <div class="rounded-2xl border border-cfp-olive/15 bg-white p-5 shadow-sm">
+  <div class="rounded-2xl border border-brand-primary/15 bg-white p-5 shadow-sm">
     <div class="mb-1 flex items-start justify-between gap-3">
-      <h4 class="font-lora text-base leading-snug font-semibold text-cfp-olive">
+      <h4 class="font-lora text-base leading-snug font-semibold text-brand-primary">
         {{ member.name }}
       </h4>
       <span
         v-if="member.isTrackChair"
-        class="shrink-0 rounded-full bg-cfp-yellow/20 px-2 py-0.5 font-poppins text-[10px] font-semibold tracking-wide text-cfp-olive uppercase"
+        class="shrink-0 rounded-full bg-brand-secondary/20 px-2 py-0.5 font-poppins text-[10px] font-semibold tracking-wide text-brand-primary uppercase"
       >
         Track Chair
       </span>
@@ -25,7 +25,7 @@ defineProps<{
     <!-- <a
       v-if="member.email"
       :href="`mailto:${member.email}`"
-      class="font-poppins text-xs font-medium text-cfp-red hover:underline"
+      class="font-poppins text-xs font-medium text-destructive hover:underline"
     >
       {{ member.email }}
     </a> -->

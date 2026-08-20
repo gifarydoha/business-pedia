@@ -19,7 +19,7 @@ const emit = defineEmits<{
     >
       <!-- Header -->
       <div class="flex shrink-0 items-center justify-between border-b border-gray-100 bg-gray-50 px-6 py-4">
-        <h2 class="font-lora text-lg font-bold text-cfp-olive">
+        <h2 class="font-lora text-lg font-bold text-brand-primary">
           PDF Preview
         </h2>
         <button

@@ -56,14 +56,14 @@ const tracks = [
     <!-- Header -->
     <div class="mb-10">
       <span
-        class="mb-4 inline-block rounded-full bg-cfp-yellow/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase"
+        class="mb-4 inline-block rounded-full bg-brand-secondary/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-brand-primary uppercase"
       >
         Call for Papers
       </span>
-      <h1 class="mb-3 font-lora text-3xl leading-tight font-bold text-cfp-olive md:text-4xl lg:text-5xl">
+      <h1 class="mb-3 font-lora text-3xl leading-tight font-bold text-brand-primary md:text-4xl lg:text-5xl">
         13th Social Business Academia Conference 2026
       </h1>
-      <p class="font-lora text-lg text-cfp-yellow italic md:text-xl">
+      <p class="font-lora text-lg text-brand-secondary italic md:text-xl">
         November 2026 · Bangkok
       </p>
     </div>
@@ -73,7 +73,7 @@ const tracks = [
       id="overview"
       class="mb-12 scroll-mt-24"
     >
-      <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+      <h2 class="mb-5 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
         Overview
       </h2>
       <div class="space-y-4 font-poppins leading-relaxed text-gray-700">
@@ -110,7 +110,7 @@ const tracks = [
       id="tracks"
       class="mb-12 scroll-mt-24"
     >
-      <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+      <h2 class="mb-5 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
         General Subjects for Conference Papers
       </h2>
       <p class="mb-6 font-poppins leading-relaxed text-gray-700">
@@ -124,7 +124,7 @@ const tracks = [
           class="flex items-start gap-3"
         >
           <span
-            class="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-cfp-olive font-lora text-xs font-bold text-white"
+            class="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-primary font-lora text-xs font-bold text-white"
           >
             {{ i + 1 }}
           </span>
@@ -138,14 +138,14 @@ const tracks = [
       id="principles"
       class="mb-12 scroll-mt-24"
     >
-      <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+      <h2 class="mb-5 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
         7 Principles of Social Business
       </h2>
-      <div class="mb-6 rounded-2xl border border-cfp-olive/15 bg-cfp-olive-pale p-6 shadow-lg">
+      <div class="mb-6 rounded-2xl border border-brand-primary/15 bg-brand-primary-light p-6 shadow-lg">
         <p class="font-poppins text-sm leading-relaxed text-gray-700 italic">
           Also, when using the term "social business", submissions should focus on
           Professor Muhammad Yunus' definitions of such: a
-          <strong class="font-semibold text-cfp-olive not-italic">
+          <strong class="font-semibold text-brand-primary not-italic">
             non-dividend company to solve human problems
           </strong>
           . The seven principles of social business are as follows:
@@ -158,7 +158,7 @@ const tracks = [
           class="flex items-start gap-4"
         >
           <span
-            class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-cfp-olive font-lora text-sm font-bold text-white"
+            class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-primary font-lora text-sm font-bold text-white"
           >
             {{ i + 1 }}
           </span>
@@ -172,7 +172,7 @@ const tracks = [
       id="themes"
       class="mb-12 scroll-mt-24"
     >
-      <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+      <h2 class="mb-5 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
         Paper Themes
       </h2>
       <p class="mb-6 font-poppins leading-relaxed text-gray-700">
@@ -184,11 +184,11 @@ const tracks = [
           :key="i"
           class="flex items-start gap-2.5"
         >
-          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-cfp-yellow" />
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-brand-secondary" />
           <span class="font-poppins text-sm leading-relaxed text-gray-700">{{ th }}</span>
         </div>
       </div>
-      <p class="mt-6 font-poppins text-sm text-cfp-olive/60 italic">
+      <p class="mt-6 font-poppins text-sm text-brand-primary/60 italic">
         …and more.
       </p>
     </section>
@@ -198,7 +198,7 @@ const tracks = [
       id="submission"
       class="mb-12 scroll-mt-24"
     >
-      <h2 class="mb-5 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+      <h2 class="mb-5 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
         Submission Details
       </h2>
       <div class="space-y-4 font-poppins leading-relaxed text-gray-700">
@@ -224,13 +224,13 @@ const tracks = [
       <div class="mt-8 flex flex-wrap gap-4">
         <NuxtLink
           :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
-          class="rounded-full bg-cfp-red px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
+          class="rounded-full bg-destructive px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
         >
           {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your Paper' }}
         </NuxtLink>
         <NuxtLink
           to="/guidelines"
-          class="rounded-full border-2 border-cfp-olive px-8 py-3 font-lora font-bold text-cfp-olive transition-colors hover:bg-cfp-olive/5"
+          class="rounded-full border-2 border-brand-primary px-8 py-3 font-lora font-bold text-brand-primary transition-colors hover:bg-brand-primary/5"
         >
           Author Guidelines
         </NuxtLink>

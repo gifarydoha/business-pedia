@@ -26,13 +26,13 @@ watch(error, (err) => {
 </script>
 
 <template>
-  <section class="bg-cfp-olive-pale py-20 md:py-28">
+  <section class="bg-brand-primary-light py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
-        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+        <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
           SBAC 2026
         </span>
-        <h1 class="mt-2 mb-4 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
+        <h1 class="mt-2 mb-4 font-lora text-3xl font-bold text-brand-primary md:text-4xl">
           Conference Tracks
         </h1>
         <p class="max-w-2xl font-poppins leading-relaxed text-gray-600">
@@ -45,7 +45,7 @@ watch(error, (err) => {
         v-if="loading || error || !tracks"
         class="flex min-h-[40vh] flex-col items-center justify-center gap-4"
       >
-        <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+        <div class="size-10 animate-spin rounded-full border-4 border-brand-primary border-t-transparent" />
         <p class="font-poppins text-sm text-gray-400">
           Loading content…
         </p>

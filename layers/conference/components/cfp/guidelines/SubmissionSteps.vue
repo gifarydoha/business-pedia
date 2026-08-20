@@ -11,22 +11,22 @@ const steps = [
 
 <template>
   <div class="mb-16">
-    <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+    <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
       Step by step
     </span>
-    <h2 class="mt-2 mb-10 font-lora text-3xl font-bold text-cfp-olive">
+    <h2 class="mt-2 mb-10 font-lora text-3xl font-bold text-brand-primary">
       The Submission Process
     </h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <div
         v-for="s in steps"
         :key="s.n"
-        class="rounded-2xl border border-cfp-olive/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+        class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
       >
-        <div class="mb-3 font-lora text-3xl font-bold text-cfp-yellow">
+        <div class="mb-3 font-lora text-3xl font-bold text-brand-secondary">
           {{ s.n }}
         </div>
-        <div class="mb-2 font-lora text-base font-semibold text-cfp-olive">
+        <div class="mb-2 font-lora text-base font-semibold text-brand-primary">
           {{ s.label }}
         </div>
         <p class="font-poppins text-sm leading-relaxed text-gray-600">

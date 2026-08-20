@@ -9,14 +9,14 @@ defineProps<{
 <template>
   <div class="mb-10">
     <span
-      class="mb-4 inline-block rounded-full bg-cfp-yellow/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-cfp-olive uppercase"
+      class="mb-4 inline-block rounded-full bg-brand-secondary/20 px-4 py-1 font-poppins text-xs font-semibold tracking-widest text-brand-primary uppercase"
     >
       Call for Papers
     </span>
-    <h1 class="mb-3 font-lora text-3xl leading-tight font-bold text-cfp-olive md:text-4xl lg:text-5xl">
+    <h1 class="mb-3 font-lora text-3xl leading-tight font-bold text-brand-primary md:text-4xl lg:text-5xl">
       {{ header.title }}
     </h1>
-    <p class="font-lora text-lg text-cfp-yellow italic md:text-xl">
+    <p class="font-lora text-lg text-brand-secondary italic md:text-xl">
       {{ header.subtitle }}
     </p>
   </div>

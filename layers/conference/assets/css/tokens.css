@@ -21,4 +21,6 @@
   --border: #dbe0d0;
   --input: #dbe0d0;
   --ring: var(--brand-primary);
+  --destructive: #ca493a;
+  --destructive-foreground: #ffffff;
 }

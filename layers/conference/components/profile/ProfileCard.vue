@@ -24,7 +24,7 @@ const fields = computed(() => [
         :key="s.label"
         class="rounded-2xl border border-gray-100 bg-white p-4 text-center"
       >
-        <div class="mb-0.5 font-lora text-2xl font-bold text-cfp-olive">
+        <div class="mb-0.5 font-lora text-2xl font-bold text-brand-primary">
           {{ s.val }}
         </div>
         <div class="font-poppins text-xs text-gray-400">
@@ -38,13 +38,13 @@ const fields = computed(() => [
       <!-- Avatar + identity -->
       <div class="mb-6 flex items-start justify-between gap-4">
         <div class="flex items-center gap-4">
-          <div class="flex size-16 shrink-0 items-center justify-center rounded-full bg-cfp-olive/10">
-            <span class="font-lora text-lg font-bold text-cfp-olive">
+          <div class="flex size-16 shrink-0 items-center justify-center rounded-full bg-brand-primary/10">
+            <span class="font-lora text-lg font-bold text-brand-primary">
               {{ avatarInitials }}
             </span>
           </div>
           <div>
-            <h2 class="font-lora text-xl font-bold text-cfp-olive md:text-2xl">
+            <h2 class="font-lora text-xl font-bold text-brand-primary md:text-2xl">
               {{ name }}
             </h2>
             <p class="font-poppins text-sm text-gray-500">
@@ -55,7 +55,7 @@ const fields = computed(() => [
 
         <!-- <NuxtLink
           to="/profile/edit"
-          class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cfp-olive/25 px-4 py-1.5 font-poppins text-sm font-medium text-cfp-olive transition-colors hover:bg-cfp-olive/5"
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-brand-primary/25 px-4 py-1.5 font-poppins text-sm font-medium text-brand-primary transition-colors hover:bg-brand-primary/5"
         >
           <svg
             class="size-3.5"

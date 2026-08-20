@@ -6,20 +6,20 @@ const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 
 <template>
   <div
-    class="flex flex-col items-start justify-between gap-6 rounded-2xl bg-cfp-olive p-8 shadow-lg md:flex-row md:items-center md:p-10"
+    class="flex flex-col items-start justify-between gap-6 rounded-2xl bg-brand-primary p-8 shadow-lg md:flex-row md:items-center md:p-10"
   >
     <div>
       <h3 class="mb-2 font-lora text-2xl font-bold text-white">
         Ready to submit your paper?
       </h3>
       <p class="font-poppins text-sm text-white/70">
-        Deadline: <span class="font-semibold text-cfp-yellow">31 January 2027</span> · Bangladesh Standard Time
+        Deadline: <span class="font-semibold text-brand-secondary">31 January 2027</span> · Bangladesh Standard Time
       </p>
     </div>
     <div class="flex shrink-0 flex-wrap gap-4">
       <NuxtLink
         :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
-        class="rounded-full bg-cfp-red px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
+        class="rounded-full bg-destructive px-8 py-3 font-lora font-bold text-white transition-opacity hover:opacity-90"
       >
         {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Your Paper' }}
       </NuxtLink>

@@ -11,7 +11,7 @@ const handleFile = (e: Event) => {
 
 <template>
   <div>
-    <h2 class="mb-5 font-lora text-lg font-bold text-cfp-olive">
+    <h2 class="mb-5 font-lora text-lg font-bold text-brand-primary">
       Upload Paper (PDF, DOC, DOCX)
     </h2>
     <p class="mb-5 font-poppins text-sm text-gray-500">
@@ -19,7 +19,7 @@ const handleFile = (e: Event) => {
       <strong>{{ form.title }}</strong>. PDF and Word files are accepted.
     </p>
 
-    <div class="relative mb-6 flex w-full max-w-md flex-col items-center justify-center rounded-2xl border-2 border-dashed border-cfp-olive/30 bg-cfp-olive-pale p-8 text-center transition-colors hover:border-cfp-olive hover:bg-cfp-olive-pale/80">
+    <div class="relative mb-6 flex w-full max-w-md flex-col items-center justify-center rounded-2xl border-2 border-dashed border-brand-primary/30 bg-brand-primary-light p-8 text-center transition-colors hover:border-brand-primary hover:bg-brand-primary-light/80">
       <input
         type="file"
         accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -32,7 +32,7 @@ const handleFile = (e: Event) => {
       >
         <div class="rounded-full bg-white p-4 shadow-sm">
           <svg
-            class="size-8 text-cfp-olive"
+            class="size-8 text-brand-primary"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -46,7 +46,7 @@ const handleFile = (e: Event) => {
           </svg>
         </div>
         <p class="font-poppins text-sm font-medium text-gray-700">
-          <span class="font-bold text-cfp-olive">Click to upload</span> or drag and drop
+          <span class="font-bold text-brand-primary">Click to upload</span> or drag and drop
         </p>
         <p class="font-poppins text-xs text-gray-500">
           PDF, DOC, DOCX (Max. 10MB)
@@ -56,9 +56,9 @@ const handleFile = (e: Event) => {
         v-else-if="!form.paperFile && form.existingPaperFileName"
         class="flex flex-col items-center justify-center space-y-3"
       >
-        <div class="rounded-full bg-cfp-olive/10 p-4 shadow-sm">
+        <div class="rounded-full bg-brand-primary/10 p-4 shadow-sm">
           <svg
-            class="size-8 text-cfp-olive"
+            class="size-8 text-brand-primary"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -71,7 +71,7 @@ const handleFile = (e: Event) => {
             />
           </svg>
         </div>
-        <p class="px-4 text-center font-poppins text-sm font-semibold  break-all text-cfp-olive">
+        <p class="px-4 text-center font-poppins text-sm font-semibold  break-all text-brand-primary">
           {{ form.existingPaperFileName }}
         </p>
         <p class="font-poppins text-xs text-gray-500">
@@ -82,9 +82,9 @@ const handleFile = (e: Event) => {
         v-else
         class="flex flex-col items-center justify-center space-y-3"
       >
-        <div class="rounded-full bg-cfp-olive/10 p-4 shadow-sm">
+        <div class="rounded-full bg-brand-primary/10 p-4 shadow-sm">
           <svg
-            class="size-8 text-cfp-olive"
+            class="size-8 text-brand-primary"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -97,7 +97,7 @@ const handleFile = (e: Event) => {
             />
           </svg>
         </div>
-        <p class="font-poppins text-sm font-semibold text-cfp-olive">
+        <p class="font-poppins text-sm font-semibold text-brand-primary">
           {{ form.paperFile?.name }}
         </p>
         <p class="font-poppins text-xs text-gray-500">
@@ -106,7 +106,7 @@ const handleFile = (e: Event) => {
       </div>
     </div>
 
-    <p class="mb-2 font-poppins text-sm font-medium text-cfp-olive">
+    <p class="mb-2 font-poppins text-sm font-medium text-brand-primary">
       Would you like your paper to be included in the conference proceedings if published?
     </p>
     <div class="mb-8 flex gap-6">
@@ -130,7 +130,7 @@ const handleFile = (e: Event) => {
       <template v-if="isEditMode">
         <button
           type="button"
-          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          class="rounded-full border border-brand-primary px-6 py-2.5 font-lora text-sm font-bold text-brand-primary"
           @click="skipSubmission"
         >
           Skip
@@ -139,7 +139,7 @@ const handleFile = (e: Event) => {
       <template v-else>
         <button
           type="button"
-          class="rounded-full border border-cfp-olive px-6 py-2.5 font-lora text-sm font-bold text-cfp-olive"
+          class="rounded-full border border-brand-primary px-6 py-2.5 font-lora text-sm font-bold text-brand-primary"
           @click="prevStep"
         >
           &lt;&lt; Author Information
@@ -148,7 +148,7 @@ const handleFile = (e: Event) => {
       <button
         type="button"
         :disabled="!isEditMode && !form.paperFile"
-        class="rounded-full bg-cfp-red px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
+        class="rounded-full bg-destructive px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
         @click="submitPaper"
       >
         Submit Paper

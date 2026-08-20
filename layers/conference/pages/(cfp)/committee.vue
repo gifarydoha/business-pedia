@@ -32,10 +32,10 @@ const groups = computed(() => committeeData.value?.groups ?? []);
   <section class="py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-14">
-        <span class="font-poppins text-xs font-semibold tracking-widest text-cfp-yellow uppercase">
+        <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
           SBAC 2026
         </span>
-        <h1 class="mt-2 mb-4 font-lora text-3xl font-bold text-cfp-olive md:text-4xl">
+        <h1 class="mt-2 mb-4 font-lora text-3xl font-bold text-brand-primary md:text-4xl">
           Scientific Committee
         </h1>
       </div>
@@ -45,7 +45,7 @@ const groups = computed(() => committeeData.value?.groups ?? []);
         v-if="loading || error || !committeeData"
         class="flex min-h-[40vh] flex-col items-center justify-center gap-4"
       >
-        <div class="size-10 animate-spin rounded-full border-4 border-cfp-olive border-t-transparent" />
+        <div class="size-10 animate-spin rounded-full border-4 border-brand-primary border-t-transparent" />
         <p class="font-poppins text-sm text-gray-400">
           Loading content…
         </p>
@@ -54,7 +54,7 @@ const groups = computed(() => committeeData.value?.groups ?? []);
       <template v-else>
         <!-- Co-Chairs -->
         <div class="mb-16">
-          <h2 class="mb-6 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+          <h2 class="mb-6 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
             Co-Chairs
           </h2>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -64,12 +64,12 @@ const groups = computed(() => committeeData.value?.groups ?? []);
 
         <!-- Track Groups -->
         <div>
-          <h2 class="mb-8 border-b border-cfp-olive/15 pb-2 font-lora text-2xl font-bold text-cfp-olive">
+          <h2 class="mb-8 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
             Members (including Track Chairs)
           </h2>
           <div class="space-y-12">
             <div v-for="g in groups" :key="g.trackName">
-              <h3 class="mb-4 font-lora text-xl font-semibold text-cfp-olive">
+              <h3 class="mb-4 font-lora text-xl font-semibold text-brand-primary">
                 {{ g.trackName }}
               </h3>
               <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
