@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxtjs/color-mode",
     "@vee-validate/nuxt",
+    "shadcn-nuxt",
   ],
 
   $development: {

@@ -16,6 +16,12 @@ const env = ENV_CONFIG[ciEnv] ?? ENV_CONFIG.prod;
 
 export default defineNuxtConfig({
   modules: ["@pinia/nuxt"],
+  components: [
+    {
+      path: "./components",
+      extensions: [".vue"],
+    },
+  ],
   css: ["~~/layers/base/assets/css/main.css"],
   runtimeConfig: {
     public: {
@@ -40,5 +46,4 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["./stores/**"],
   },
-
 });

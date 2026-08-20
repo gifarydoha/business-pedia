@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 @import "@nuxt/ui";
 
@@ -101,8 +104,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --font-heading: var(--font-serif);
 }
-
 
 /* ─────────────────────────────────────────────────────────────
    Dynamic Brand Colors
@@ -115,7 +118,6 @@
 }
 
 @layer utilities {
-
 
   /* Brand color utility classes */
   .text-brand-primary {
@@ -164,7 +166,6 @@
   }
 }
 
-
 /* ─────────────────────────────────────────────────────────────
    Global Typography & Layout
    ───────────────────────────────────────────────────────────── */
@@ -194,9 +195,9 @@ html {
 
 /* ─── CMS Content / WYSIWYG HTML Normalization ───────────────────
    Replaces <SharedParsedPageContent> across all layers.
-   
+
    Usage: <div class="cms-content" v-html="normalizedHtml" />
-   
+
    ALL styles use CSS variables → auto-adapts to every layer's
    theme. Conference gets olive headings, LMS gets teal headings,
    future clients get their color — zero code change needed.
@@ -344,5 +345,13 @@ html {
     @apply shadow-fy-teal-300/15 animate-in fade-in slide-in-from-bottom-4 absolute flex items-center gap-3 rounded-2xl bg-white p-4 shadow-xl duration-700;
   }
 
+}
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

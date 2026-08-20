@@ -129,6 +129,8 @@ onUnmounted(() => {
           v-else
           class="space-y-8"
         >
+          <SharedGlobalFilterBar />
+
           <article
             v-for="item in allContents"
             :key="item.id"
