@@ -11,6 +11,60 @@ const keyword = ref("");
 const isFetching = ref(false);
 const hasMore = ref(true);
 
+watch(keyword, async (newVal) => {
+  page.value = 1;
+  hasMore.value = true;
+  isFetching.value = true;
+
+  try {
+    const res = await contentService.fetchContents<PaginatedContentsResponse>("help", 1, newVal);
+    allContents.value = res.contents || [];
+    if (page.value >= (res.paging?.pages || 1)) {
+      hasMore.value = false;
+    }
+  }
+  catch (e) {
+    console.error(e);
+  }
+  finally {
+    isFetching.value = false;
+  }
+});
+
+interface FilterState {
+  keyword: string;
+  featured: boolean;
+  minViews: number;
+}
+
+const activeFilters = ref<FilterState>({
+  keyword: "",
+  featured: false,
+  minViews: 0
+});
+
+const applyFilters = (filters: unknown) => {
+  activeFilters.value = { ...(filters as FilterState) };
+};
+
+const displayedContents = computed(() => {
+  return allContents.value.filter((item) => {
+    if (activeFilters.value.keyword && !item.meta_keywords?.includes(activeFilters.value.keyword)) {
+      return false;
+    }
+    if (activeFilters.value.featured && !item.is_featured_image) {
+      return false;
+    }
+    if (activeFilters.value.minViews > 0) {
+      const views = parseInt(String(item.total_view)) || 0;
+      if (views < activeFilters.value.minViews) {
+        return false;
+      }
+    }
+    return true;
+  });
+});
+
 // 1. Initial SSR fetch using useAsyncData
 const { data, error } = await useAsyncData<PaginatedContentsResponse>(
   "cagob-help-contents",
@@ -80,6 +134,15 @@ onUnmounted(() => {
   <div class="min-h-screen bg-[#f8f9fa] pb-20">
     <!-- Feed -->
     <main class="mx-auto w-full max-w-3xl px-4 sm:px-6">
+      <!-- Search & Filter -->
+      <div class="pt-8">
+        <SharedGlobalFilterBar
+          v-model:search="keyword"
+          :contents="allContents"
+          @filter="applyFilters"
+        />
+      </div>
+
       <!-- Top spacing -->
       <div class="pt-6 sm:pt-10">
         <!-- Error State -->
@@ -103,7 +166,7 @@ onUnmounted(() => {
 
         <!-- Empty State -->
         <div
-          v-else-if="allContents.length === 0"
+          v-else-if="displayedContents.length === 0"
           class="flex min-h-[50vh] flex-col items-center justify-center text-center"
         >
           <div
@@ -129,12 +192,10 @@ onUnmounted(() => {
           v-else
           class="space-y-8"
         >
-          <SharedGlobalFilterBar />
-
           <article
-            v-for="item in allContents"
+            v-for="item in displayedContents"
             :key="item.id"
-            class="group rounded-md border-b border-gray-200/80 bg-white p-8 first:pt-2 sm:py-9"
+            class="group rounded-md border-b border-gray-200/80 bg-white p-8 sm:py-9"
           >
             <NuxtLink
               :to="`/${item.alias}`"

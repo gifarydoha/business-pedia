@@ -1,33 +1,76 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { Search, Settings2 } from "@lucide/vue";
+import type { PageContent } from "../../types/api";
 
-// 1. Import Input
+// 1. Imports
 import { Input } from "../ui/input";
-// 2. Import Button
 import { Button } from "../ui/button";
-// 3. Import all Sheet related components
 import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetClose,
-} from "../ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "../ui/dialog";
 
-// The state for your search preview
-const searchQuery = ref("");
+// 2. Props & Emits
+const props = defineProps<{
+  contents: PageContent[];
+  search?: string;
+}>();
+
+const emit = defineEmits<{
+  (e: "update:search", value: string): void;
+  (e: "filter", filters: unknown): void;
+}>();
+
+const isFocused = ref(false);
+
+// Sync search query with parent (index.vue)
+const searchQuery = computed({
+  get: () => props.search || "",
+  set: (val) => emit("update:search", val),
+});
+
+// 3. Search Suggestions Logic (Filter by alias and title)
+const searchSuggestions = computed(() => {
+  if (!searchQuery.value) return [];
+  const query = searchQuery.value.toLowerCase();
+
+  return props.contents.filter((item) =>
+    item.title?.toLowerCase().includes(query)
+    || item.alias?.toLowerCase().includes(query),
+  ).slice(0, 8); // Limit to top 8 suggestions
+});
+
+// 4. Dynamic Filter Options (Extracted from API data)
+const availableKeywords = computed(() => {
+  const keywords = new Set<string>();
+  props.contents.forEach((item) => {
+    if (item.meta_keywords) {
+      item.meta_keywords.split(",").forEach((k) => keywords.add(k.trim()));
+    }
+  });
+  return Array.from(keywords).filter(Boolean);
+});
+
+// Store selected filters
+const selectedFilters = ref({
+  keyword: "",
+  featured: false,
+  minViews: 0,
+});
+
+const applyFilters = () => {
+  emit("filter", selectedFilters.value);
+};
 </script>
 
 <template>
-  <!-- Main Glassmorphic Wrapper -->
-  <div
-    class="sticky top-4 z-40 mx-auto flex w-full max-w-3xl items-center gap-2 rounded-full border border-border/40 bg-background/70 p-1.5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:shadow-md"
-  >
-    <!-- 1. Left Side: Search Input with Icon Preview -->
+  <div class="sticky top-4 z-40 mx-auto flex w-full max-w-3xl items-center gap-2 rounded-full border border-border/40 bg-background/70 p-1.5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:shadow-md">
+    <!-- Left Side: Search Input with Suggestions Dropdown -->
     <div class="group relative flex-1">
       <div class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted-foreground transition-colors group-focus-within:text-primary">
         <Search class="size-5" />
@@ -38,12 +81,33 @@ const searchQuery = ref("");
         type="text"
         placeholder="Search anything..."
         class="h-11 w-full rounded-full border-none bg-transparent pr-4 pl-12 text-base shadow-none placeholder:text-muted-foreground/70 focus-visible:ring-0"
+        @focus="isFocused = true"
+        @blur="setTimeout(() => isFocused = false, 200)"
       />
+
+      <!-- Search Suggestions Dropdown (YouTube style) -->
+      <div
+        v-if="isFocused && searchSuggestions.length > 0"
+        class="absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-xl border border-border bg-background py-2 shadow-lg"
+      >
+        <NuxtLink
+          v-for="item in searchSuggestions"
+          :key="item.id"
+          class="flex cursor-pointer items-center gap-3 px-4 py-2 transition-colors hover:bg-muted"
+          :to="`/${item.alias}`"
+        >
+          <Search class="size-4 text-muted-foreground" />
+          <div class="flex flex-col">
+            <span class="text-sm font-medium">{{ item.title }}</span>
+            <span class="text-xs text-muted-foreground">{{ item.category_title }}</span>
+          </div>
+        </NuxtLink>
+      </div>
     </div>
 
-    <!-- 2. Right Side: Settings Icon & Filter Drawer -->
-    <Sheet>
-      <SheetTrigger as-child>
+    <!-- Right Side: Filter Dialog (YouTube style Modal) -->
+    <Dialog>
+      <DialogTrigger as-child>
         <Button
           variant="ghost"
           size="icon"
@@ -52,62 +116,97 @@ const searchQuery = ref("");
           <Settings2 class="size-5" />
           <span class="sr-only">Open filters</span>
         </Button>
-      </SheetTrigger>
+      </DialogTrigger>
 
-      <SheetContent class="w-full border-l-border/50 bg-background/95 backdrop-blur-xl sm:max-w-md">
-        <SheetHeader class="space-y-1">
-          <SheetTitle class="text-2xl font-semibold tracking-tight">
-            Filters
-          </SheetTitle>
-          <SheetDescription>
-            Refine your view and discover exactly what you need.
-          </SheetDescription>
-        </SheetHeader>
+      <DialogContent class="overflow-hidden border-border bg-background p-0 sm:max-w-175">
+        <!-- Header -->
+        <DialogHeader class="flex flex-row items-center justify-between border-b border-border px-6 py-4">
+          <DialogTitle class="text-xl font-normal">
+            Search filters
+          </DialogTitle>
+          <!-- <DialogClose as-child>
+            <Button
+              variant="ghost"
+              size="icon"
+              class="bg-red-500 size-8 rounded-full"
+            >
+              <X class="size-4" />
+            </Button>
+          </DialogClose> -->
+        </DialogHeader>
 
-        <!-- Filter Contents Wrapper -->
-        <div class="mt-8 flex flex-col gap-8 pb-20">
-          <!-- Example Filter Group -->
+        <!-- YouTube Style Filter Columns -->
+        <div class="grid max-h-[60vh] grid-cols-1 gap-8 overflow-y-auto p-6 sm:grid-cols-3">
+          <!-- Column 1: Keywords -->
           <div class="space-y-4">
-            <h4 class="text-sm leading-none font-medium text-foreground">
-              Sort By
+            <h4 class="border-b border-border/50 pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              Keywords
             </h4>
-            <div class="flex flex-wrap gap-2">
-              <Button
-                variant="secondary"
-                size="sm"
-                class="rounded-full"
+            <div class="flex flex-col space-y-3">
+              <button
+                v-for="kw in availableKeywords"
+                :key="kw"
+                class="text-left text-sm text-foreground/80 transition-colors hover:text-foreground"
+                :class="{ 'font-semibold text-primary': selectedFilters.keyword === kw }"
+                @click="selectedFilters.keyword = selectedFilters.keyword === kw ? '' : kw"
               >
-                Latest
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                class="rounded-full"
-              >
-                Popular
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                class="rounded-full"
-              >
-                Trending
-              </Button>
+                {{ kw }}
+              </button>
             </div>
           </div>
 
-          <!-- Add more filter options (Checkboxes, Selects, Sliders) here later! -->
+          <!-- Column 2: Status / Featured -->
+          <div class="space-y-4">
+            <h4 class="border-b border-border/50 pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              Features
+            </h4>
+            <div class="flex flex-col space-y-3">
+              <button
+                class="text-left text-sm text-foreground/80 transition-colors hover:text-foreground"
+                :class="{ 'font-semibold text-primary': selectedFilters.featured }"
+                @click="selectedFilters.featured = !selectedFilters.featured"
+              >
+                Featured Image Only
+              </button>
+            </div>
+          </div>
+
+          <!-- Column 3: Views (Prioritize) -->
+          <div class="space-y-4">
+            <h4 class="border-b border-border/50 pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              Prioritize
+            </h4>
+            <div class="flex flex-col space-y-3">
+              <button
+                class="text-left text-sm text-foreground/80 transition-colors hover:text-foreground"
+                :class="{ 'font-semibold text-primary': selectedFilters.minViews === 100 }"
+                @click="selectedFilters.minViews = 100"
+              >
+                Popular (100+ views)
+              </button>
+              <button
+                class="text-left text-sm text-foreground/80 transition-colors hover:text-foreground"
+                :class="{ 'font-semibold text-primary': selectedFilters.minViews === 0 }"
+                @click="selectedFilters.minViews = 0"
+              >
+                Any Views
+              </button>
+            </div>
+          </div>
         </div>
 
-        <!-- Sticky Footer for Apply Button -->
-        <SheetFooter class="absolute inset-x-0 bottom-0 border-t border-border/50 bg-background/80 p-6 backdrop-blur-sm">
-          <SheetClose as-child>
-            <Button class="active:scale-0.95 h-12 w-full rounded-full text-base font-medium shadow-lg transition-transform">
-              Show Results
+        <!-- Apply Button Footer -->
+        <div class="flex justify-end border-t border-border bg-muted/30 p-4">
+          <DialogClose as-child>
+            <Button
+              class="rounded-full px-6"
+              @click="applyFilters"
+            >
+              Apply Filters
             </Button>
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+          </DialogClose>
+        </div>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
