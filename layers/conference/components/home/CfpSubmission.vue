@@ -4,7 +4,10 @@ const contacts = computed(() => settingsStore.cfpContacts);
 </script>
 
 <template>
-  <section id="submit" class="bg-brand-primary-light py-20 md:py-28">
+  <section
+    id="submit"
+    class="bg-brand-primary-light py-20 md:py-28"
+  >
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
@@ -49,8 +52,11 @@ const contacts = computed(() => settingsStore.cfpContacts);
         Contact Persons
       </h3> -->
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div v-for="c in contacts" :key="c.email"
-          class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl">
+        <div
+          v-for="c in contacts"
+          :key="c.email"
+          class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+        >
           <div class="mb-3 flex items-start gap-3">
             <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-primary-light">
               <span class="font-lora text-sm font-bold text-brand-primary">
@@ -69,8 +75,10 @@ const contacts = computed(() => settingsStore.cfpContacts);
           <div class="mb-2 font-poppins text-sm text-gray-500">
             {{ c.affiliation }}
           </div>
-          <a :href="'mailto:' + c.email"
-            class="font-poppins text-sm text-brand-primary underline underline-offset-2 transition-colors hover:text-destructive">
+          <a
+            :href="'mailto:' + c.email"
+            class="font-poppins text-sm text-brand-primary underline underline-offset-2 transition-colors hover:text-destructive"
+          >
             {{ c.email }}
           </a>
         </div>

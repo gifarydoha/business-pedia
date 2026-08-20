@@ -20,18 +20,18 @@ export const useUserPaper = () => {
   const papers = computed(() => {
     if (!rawPapers.value) return [];
 
-    const response = rawPapers.value as any;
-    let items: any[] = [];
+    const response = rawPapers.value as Record<string, unknown> | unknown[];
+    let items: Record<string, unknown>[] = [];
 
     if (Array.isArray(response)) {
-      items = response;
+      items = response as Record<string, unknown>[];
     }
     else if (response && typeof response === "object") {
-      if (Array.isArray(response.conference_papers)) {
-        items = response.conference_papers;
+      if (Array.isArray((response as Record<string, unknown>).conference_papers)) {
+        items = (response as Record<string, unknown>).conference_papers as Record<string, unknown>[];
       }
-      else if (Array.isArray(response.data)) {
-        items = response.data;
+      else if (Array.isArray((response as Record<string, unknown>).data)) {
+        items = (response as Record<string, unknown>).data as Record<string, unknown>[];
       }
     }
 

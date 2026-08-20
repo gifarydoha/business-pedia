@@ -139,11 +139,11 @@ onUnmounted(() => {
     <!-- Feed -->
     <main class="mx-auto w-full max-w-3xl px-4 sm:px-6">
       <!-- Search & Filter -->
-      <SharedGlobalFilterBar
+      <!-- <SharedGlobalFilterBar
         v-model:search="keyword"
         :contents="allContents"
         @filter="applyFilters"
-      />
+      /> -->
 
       <!-- Top spacing -->
       <div class="pt-6 sm:pt-10">
@@ -201,7 +201,7 @@ onUnmounted(() => {
           >
             <NuxtLink
               :to="`/${item.alias}`"
-              class="focus-visible:ring-ring block rounded-2xl transition outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
+              class="block rounded-2xl transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4"
             >
               <!-- Post Header -->
               <div class="flex items-start gap-3">
@@ -264,7 +264,7 @@ onUnmounted(() => {
               <div class="mt-4 pl-0 sm:pl-14">
                 <!-- Title -->
                 <h2
-                  class="group-hover:text-primary font-lora text-xl leading-tight font-bold tracking-[-0.015em] text-foreground transition-colors sm:text-2xl sm:leading-tight"
+                  class="font-lora text-xl leading-tight font-bold tracking-[-0.015em] text-foreground transition-colors group-hover:text-primary sm:text-2xl sm:leading-tight"
                 >
                   {{ item.title }}
                 </h2>
@@ -293,7 +293,7 @@ onUnmounted(() => {
                     :src="item.image_url"
                     :alt="item.title"
                     loading="lazy"
-                    class="group-hover:scale-1.015 block aspect-video w-full object-cover transition duration-500 ease-out"
+                    class=" block aspect-video w-full object-cover transition duration-500 ease-out"
                   >
                 </div>
 
@@ -319,7 +319,7 @@ onUnmounted(() => {
 
                     <!-- Read -->
                     <span
-                      class="group-hover:text-primary flex items-center gap-1.5 text-sm transition-colors"
+                      class="flex items-center gap-1.5 text-sm transition-colors group-hover:text-primary"
                     >
                       <UIcon
                         name="i-heroicons-arrow-up-right"
@@ -362,7 +362,7 @@ onUnmounted(() => {
             >
               <UIcon
                 name="i-heroicons-arrow-path"
-                class="text-primary size-5 animate-spin"
+                class="size-5 animate-spin text-primary"
               />
 
               <span>

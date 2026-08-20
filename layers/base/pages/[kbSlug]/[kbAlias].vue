@@ -50,7 +50,7 @@ const formattedDetails = computed(() => {
     >
       <UIcon
         name="i-heroicons-arrow-path"
-        class="text-brand-primary size-8 animate-spin"
+        class="size-8 animate-spin text-brand-primary"
       />
     </div>
 
@@ -150,7 +150,7 @@ const formattedDetails = computed(() => {
         <!-- Main Content -->
         <div class="lg:col-span-8 xl:col-span-9">
           <article
-            class="prose-a:text-brand-primary prose prose-lg max-w-none prose-gray prose-headings:font-lora"
+            class="prose prose-lg max-w-none prose-gray prose-headings:font-lora prose-a:text-brand-primary"
             v-html="formattedDetails"
           />
 
@@ -191,7 +191,7 @@ const formattedDetails = computed(() => {
               >
                 <a
                   :href="`#${entry.h_id}`"
-                  class="hover:text-brand-primary block leading-tight text-gray-600 transition-colors"
+                  class="block leading-tight text-gray-600 transition-colors hover:text-brand-primary"
                 >
                   {{ entry.text }}
                 </a>

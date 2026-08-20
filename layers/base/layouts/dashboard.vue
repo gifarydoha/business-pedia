@@ -14,7 +14,7 @@ const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
       <div class="border-b border-gray-100 p-6">
         <NuxtLink
           to="/"
-          class="text-brand-primary text-xl font-bold"
+          class="text-xl font-bold text-brand-primary"
         >
           Business-Pedia
         </NuxtLink>
@@ -23,14 +23,14 @@ const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
       <nav class="flex-1 space-y-1 p-4">
         <NuxtLink
           to="/dashboard"
-          class="hover:text-brand-primary block rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50"
+          class="block rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:text-brand-primary"
           active-class="bg-brand-primary-light text-brand-primary"
         >
           Dashboard Overview
         </NuxtLink>
         <NuxtLink
           :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
-          class="hover:text-brand-primary block rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50"
+          class="block rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:text-brand-primary"
           active-class="bg-brand-primary-light text-brand-primary"
         >
           {{ hasSubmittedPaper ? 'Edit Your Paper' : 'Submit Paper' }}

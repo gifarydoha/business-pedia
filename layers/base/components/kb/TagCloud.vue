@@ -35,7 +35,7 @@ const uniqueTags = computed(() => {
         :key="tag"
         color="warning"
         variant="soft"
-        class="cursor-pointer transition-colors hover:bg-primary-orange/50 hover:text-white"
+        class="cursor-pointer transition-colors hover:bg-brand-secondary/50 hover:text-white"
       >
         {{ tag }}
       </UBadge>

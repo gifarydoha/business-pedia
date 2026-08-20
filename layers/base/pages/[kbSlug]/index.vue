@@ -59,7 +59,7 @@ const config = useRuntimeConfig();
       >
         <UIcon
           name="i-heroicons-arrow-path"
-          class="text-brand-primary size-8 animate-spin"
+          class="size-8 animate-spin text-brand-primary"
         />
       </div>
 
@@ -115,7 +115,7 @@ const config = useRuntimeConfig();
               class="group block"
             >
               <UCard
-                class="group-hover:ring-brand-primary group-hover:shadow-brand-primary/10 bg-white transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg"
+                class="bg-white transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:shadow-brand-primary/10 group-hover:ring-brand-primary"
               >
                 <div class="flex flex-col gap-6 md:flex-row">
                   <div
@@ -142,7 +142,7 @@ const config = useRuntimeConfig();
                         /> {{ article.total_view }} views
                       </span>
                     </div>
-                    <h3 class="group-hover:text-brand-primary font-lora text-xl font-bold text-gray-900 transition-colors">
+                    <h3 class="font-lora text-xl font-bold text-gray-900 transition-colors group-hover:text-brand-primary">
                       {{ article.title }}
                     </h3>
                     <p class="line-clamp-2 text-gray-600">

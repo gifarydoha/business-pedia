@@ -42,6 +42,7 @@ export default withNuxt(
           "page-.*",
           "rich-.*",
           "cfp-.*",
+          "cms-.*",
         ],
       }],
     },

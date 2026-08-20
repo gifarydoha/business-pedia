@@ -8,7 +8,10 @@ defineProps<{
 </script>
 
 <template>
-  <section id="tracks" class="bg-brand-primary-light py-20 md:py-28">
+  <section
+    id="tracks"
+    class="bg-brand-primary-light py-20 md:py-28"
+  >
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
@@ -24,7 +27,13 @@ defineProps<{
       </div>
 
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <TrackCard v-for="(t, i) in tracks" :key="t.name" :index="i + 1" :name="t.name" :description="t.description" />
+        <TrackCard
+          v-for="(t, i) in tracks"
+          :key="t.name"
+          :index="i + 1"
+          :name="t.name"
+          :description="t.description"
+        />
       </div>
     </div>
   </section>

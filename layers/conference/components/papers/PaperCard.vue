@@ -81,7 +81,7 @@ const pdfUrl = computed(() =>
           </button> -->
           <NuxtLink
             :to="`/submit-paper/${paper.id}?action=view`"
-            class="flex-1 rounded-lg bg-primary-orange px-3 py-2 text-center font-lora text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+            class="flex-1 rounded-lg bg-brand-secondary px-3 py-2 text-center font-lora text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             View Paper
           </NuxtLink>

@@ -47,7 +47,7 @@ useSeoMeta({
     >
       <UIcon
         name="i-heroicons-arrow-path"
-        class="text-brand-primary size-8 animate-spin"
+        class="size-8 animate-spin text-brand-primary"
       />
     </div>
 
@@ -82,6 +82,7 @@ useSeoMeta({
       /> -->
 
       <!--  v-html="normalizedHtml" -->
+      <!-- eslint-disable-next-line tailwindcss/no-custom-classname -->
       <div
         class="cms-content"
         v-html="page.fulltext"

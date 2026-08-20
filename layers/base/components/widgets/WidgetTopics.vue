@@ -18,7 +18,7 @@ defineProps<{
         v-for="item in items"
         :key="item.id"
         :to="`/${item.url || item.link}`"
-        class="hover:border-brand-primary hover:text-brand-primary hover:bg-brand-primary-light rounded-full border border-gray-200 bg-white px-6 py-3 font-medium text-gray-700 shadow-sm transition-colors hover:shadow"
+        class="rounded-full border border-gray-200 bg-white px-6 py-3 font-medium text-gray-700 shadow-sm transition-colors hover:border-brand-primary hover:bg-brand-primary-light hover:text-brand-primary hover:shadow"
       >
         {{ item.label }}
       </NuxtLink>

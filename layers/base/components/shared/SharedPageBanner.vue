@@ -10,7 +10,7 @@ const bgImage = computed(() => props.image ? buildImageUrl(props.image) : null);
 </script>
 
 <template>
-  <div class="bg-brand-primary relative mb-8 overflow-hidden rounded-xl py-16 text-white md:py-24">
+  <div class="relative mb-8 overflow-hidden rounded-xl bg-brand-primary py-16 text-white md:py-24">
     <!-- Background Image / Placeholder -->
     <div class="absolute inset-0 z-0 opacity-20">
       <NuxtImg

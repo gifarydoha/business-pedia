@@ -38,7 +38,7 @@ const accordionItems = computed(() => {
           >
             <NuxtLink
               :to="`/${item.url}`"
-              class="text-brand-primary flex items-center gap-1 font-medium hover:underline"
+              class="flex items-center gap-1 font-medium text-brand-primary hover:underline"
             >
               Read more <UIcon
                 name="i-heroicons-arrow-right"

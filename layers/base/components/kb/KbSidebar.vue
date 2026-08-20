@@ -28,8 +28,8 @@ const categoryList = computed(() => Array.from(props.categories.values()));
             class="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors"
             :class="[
               currentCategorySlug === category.slug
-                ? 'bg-brand-primary/10 text-brand-primary font-medium'
-                : 'hover:text-brand-primary text-gray-600 hover:bg-gray-50',
+                ? 'bg-brand-primary/10 font-medium text-brand-primary'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-brand-primary',
             ]"
           >
             <span class="flex items-center gap-2">
@@ -41,7 +41,7 @@ const categoryList = computed(() => Array.from(props.categories.values()));
               {{ category.name }}
             </span>
             <span
-              class="group-hover:bg-brand-primary/10 group-hover:text-brand-primary rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 transition-colors"
+              class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 transition-colors group-hover:bg-brand-primary/10 group-hover:text-brand-primary"
               :class="currentCategorySlug === category.slug ? 'bg-brand-primary/10 text-brand-primary' : ''"
             >
               {{ category.count }}

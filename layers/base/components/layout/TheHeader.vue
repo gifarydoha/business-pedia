@@ -61,7 +61,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               {{ item.label }}
               <UIcon
                 name="i-heroicons-chevron-down"
-                class="group-hover:text-primary size-4 text-muted-foreground transition-colors"
+                class="size-4 text-muted-foreground transition-colors group-hover:text-primary"
               />
             </button>
             <ul
@@ -75,7 +75,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                 <NuxtLink
                   :to="getHref(child)"
                   :prefetch="false"
-                  class="hover:text-primary block px-4 py-2 text-sm text-foreground hover:bg-muted"
+                  class="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-primary"
                 >
                   {{ child.label }}
                 </NuxtLink>
@@ -99,7 +99,7 @@ const getHref = (item: { url?: string; link?: string }) => {
         <template v-if="authStore.isLoggedIn">
           <NuxtLink
             to="/profile"
-            class="hover:text-primary text-sm font-medium text-foreground"
+            class="text-sm font-medium text-foreground hover:text-primary"
           >
             {{ authStore.user?.name }}
           </NuxtLink>
@@ -212,7 +212,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                   :key="child.id"
                   :to="getHref(child)"
                   :prefetch="false"
-                  class="hover:text-primary block py-1 text-sm text-muted-foreground transition-colors"
+                  class="block py-1 text-sm text-muted-foreground transition-colors hover:text-primary"
                   @click="isMobileMenuOpen = false"
                 >
                   {{ child.label }}
@@ -225,7 +225,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               v-else
               :to="getHref(item)"
               :prefetch="false"
-              class="hover:text-primary block py-4 font-medium text-foreground"
+              class="block py-4 font-medium text-foreground hover:text-primary"
               @click="isMobileMenuOpen = false"
             >
               {{ item.label }}

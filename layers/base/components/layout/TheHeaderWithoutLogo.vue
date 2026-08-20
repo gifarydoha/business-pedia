@@ -39,7 +39,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               {{ item.label }}
               <UIcon
                 name="i-heroicons-chevron-down"
-                class="group-hover:text-primary size-4 text-muted-foreground transition-colors"
+                class="size-4 text-muted-foreground transition-colors group-hover:text-primary"
               />
             </button>
             <ul
@@ -54,7 +54,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                   :to="getHref(child)"
                   :prefetch="false"
                   active-class="text-primary font-semibold bg-muted"
-                  class="hover:text-primary block px-4 py-2 text-center text-sm text-foreground transition-colors hover:bg-muted"
+                  class="block px-4 py-2 text-center text-sm text-foreground transition-colors hover:bg-muted hover:text-primary"
                 >
                   {{ child.label }}
                 </NuxtLink>
@@ -67,7 +67,7 @@ const getHref = (item: { url?: string; link?: string }) => {
             :to="getHref(item)"
             :prefetch="false"
             active-class="text-primary font-semibold"
-            class="nav-link hover:text-primary font-medium text-foreground transition-colors"
+            class="nav-link font-medium text-foreground transition-colors hover:text-primary"
           >
             {{ item.label }}
           </NuxtLink>

@@ -38,7 +38,7 @@ useSeoMeta({
       >
         <UIcon
           name="i-heroicons-arrow-path"
-          class="text-brand-primary size-8 animate-spin"
+          class="size-8 animate-spin text-brand-primary"
         />
       </div>
 

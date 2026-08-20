@@ -53,7 +53,7 @@ export function useCfpService() {
           timeout: 10000,
         });
 
-        let data: any = response;
+        let data: unknown = response;
         if (typeof data === "string") {
           try {
             data = JSON.parse(data);
@@ -63,7 +63,8 @@ export function useCfpService() {
           }
         }
 
-        const html = data?.content?.fulltext ?? "";
+        const parsedData = data as RawContentResponse;
+        const html = parsedData?.content?.fulltext ?? "";
 
         if (html) {
           // Got valid content — return immediately.
@@ -81,7 +82,7 @@ export function useCfpService() {
 
       if (attempt < MAX_ATTEMPTS) {
         // Linear backoff: 600 ms, 1200 ms
-        await new Promise(resolve => setTimeout(resolve, BASE_DELAY_MS * attempt));
+        await new Promise((resolve) => setTimeout(resolve, BASE_DELAY_MS * attempt));
       }
     }
 

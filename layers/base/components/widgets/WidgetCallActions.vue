@@ -34,7 +34,7 @@ defineProps<{
             size="xl"
             color="neutral"
             variant="solid"
-            class="text-brand-primary font-bold"
+            class="font-bold text-brand-primary"
           >
             {{ item.label }}
           </UButton>
@@ -50,7 +50,7 @@ defineProps<{
             size="xl"
             color="neutral"
             variant="solid"
-            class="text-brand-primary font-bold"
+            class="font-bold text-brand-primary"
           >
             Get Started
           </UButton>

@@ -146,7 +146,7 @@
   --color-fy-stone-900: #131111;
 }
 
-:root {
+/* :root { */
   /* --brand-primary: #266b88;
   --brand-primary-foreground: #ffffff;
   --brand-primary-light: color-mix(in srgb, var(--brand-primary) 15%, white);
@@ -159,7 +159,7 @@
   --brand-footer: #080f0d; */
 
 
-  --background: #f8fbfc;
+  /* --background: #f8fbfc;
   --foreground: #172b35;
   --card: #ffffff;
   --card-foreground: #172b35;
@@ -184,5 +184,5 @@
   --sidebar-accent: oklch(0.96 0.002 17.2);
   --sidebar-accent-foreground: oklch(0.214 0.009 43.1);
   --sidebar-border: oklch(0.922 0.005 34.3);
-  --sidebar-ring: oklch(0.714 0.014 41.2);
-}
+  --sidebar-ring: oklch(0.714 0.014 41.2); */
+/* } */
