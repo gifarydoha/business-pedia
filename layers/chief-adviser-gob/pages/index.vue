@@ -138,22 +138,12 @@ onUnmounted(() => {
   <div class="min-h-screen bg-[#f8f9fa] pt-8 pb-20">
     <!-- Feed -->
     <main class="mx-auto w-full max-w-3xl px-4 sm:px-6">
-      <!-- Page Header -->
-      <header class="mb-6 text-center sm:mb-12">
-        <h1 class="font-lora text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-          Help & Information
-        </h1>
-        <p class="mt-4 font-poppins text-base leading-relaxed text-gray-500 sm:text-lg">
-          Explore our knowledge base, find answers to common questions, and access comprehensive guidelines and support resources.
-        </p>
-      </header>
-
       <!-- Search & Filter -->
-      <SharedGlobalFilterBar
+      <!-- <SharedGlobalFilterBar
         v-model:search="keyword"
         :contents="allContents"
         @filter="applyFilters"
-      />
+      /> -->
 
       <!-- Top spacing -->
       <div class="pt-6 sm:pt-10">
@@ -228,7 +218,7 @@ onUnmounted(() => {
                   <!-- Author + Date -->
                   <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                     <span class="font-semibold text-gray-950">
-                      Help
+                      Post
                     </span>
 
                     <span class="text-gray-400">
