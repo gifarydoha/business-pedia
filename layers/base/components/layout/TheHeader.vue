@@ -4,11 +4,19 @@ const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
 const { buildImageUrl } = useImageUrl();
 
-const FALLBACK_MAIN_MENU = [
+interface MenuItem {
+  id: string | number;
+  label: string;
+  url?: string;
+  link?: string;
+  children?: MenuItem[];
+}
+
+const FALLBACK_MAIN_MENU: MenuItem[] = [
   { id: "fallback-1", label: "Post", url: "/" },
   { id: "fallback-2", label: "About", url: "/about" },
   { id: "fallback-3", label: "Videos", url: "/videos" },
-  { id: "fallback-3", label: "Images", url: "/images" },
+  { id: "fallback-4", label: "Images", url: "/images" },
 ];
 
 const mainMenu = computed(() => {

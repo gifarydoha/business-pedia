@@ -82,7 +82,7 @@ useSeoMeta({
       /> -->
 
       <!--  v-html="normalizedHtml" -->
-      <!-- eslint-disable-next-line tailwindcss/no-custom-classname -->
+
       <div
         class="cms-content"
         v-html="page.fulltext"

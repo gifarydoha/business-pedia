@@ -43,7 +43,7 @@ export const useUserPaper = () => {
   const submittedPaperId = computed(() => {
     if (papers.value.length > 0) {
       const p = papers.value[0];
-      return String(p.id || p.paper_id || p.paper_uid || "");
+      return String(p?.id || p?.paper_id || p?.paper_uid || "");
     }
     return "";
   });

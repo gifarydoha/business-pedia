@@ -48,7 +48,7 @@ export function useCfpService() {
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
-        const response = await $fetch<RawContentResponse>(`${CONTENT_BASE_URL}/${slug}` as string, {
+        const response = await $fetch(`${CONTENT_BASE_URL}/${slug}` as string, {
           params: { access_key: config.public.apiAccessKey },
           timeout: 10000,
         });

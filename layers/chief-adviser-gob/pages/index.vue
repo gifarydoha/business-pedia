@@ -47,6 +47,7 @@ const activeFilters = ref<FilterState>({
   minViews: 0,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const applyFilters = (filters: unknown) => {
   activeFilters.value = { ...(filters as FilterState) };
 };
