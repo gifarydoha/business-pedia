@@ -1,0 +1,194 @@
+/* Base default colors (Fallback for all layers) */
+@theme {
+  /* Black Color Scale */
+  --color-fy-black-50: #e7e7e7;
+  --color-fy-black-100: #b4b4b4;
+  --color-fy-black-200: #909090;
+  --color-fy-black-300: #5d5d5d;
+  --color-fy-black-400: #3d3d3d;
+  --color-fy-black-500: #0d0d0d;
+  --color-fy-black-600: #0c0c0c;
+  --color-fy-black-700: #090909;
+  --color-fy-black-800: #070707;
+  --color-fy-black-900: #050505;
+
+  /* White Color Scale */
+  --color-fy-white-50: #ffffff;
+  --color-fy-white-100: #fefefe;
+  --color-fy-white-200: #fefefe;
+  --color-fy-white-300: #fdfdfd;
+  --color-fy-white-400: #fdfdfd;
+  --color-fy-white-500: #fcfcfc;
+  --color-fy-white-600: #e5e5e5;
+  --color-fy-white-700: #b3b3b3;
+  --color-fy-white-800: #8b8b8b;
+  --color-fy-white-900: #6a6a6a;
+
+  /* Blue Color Scale */
+  --color-fy-blue-50: #edf2f9;
+  --color-fy-blue-100: #c6d5ed;
+  --color-fy-blue-200: #aac1e4;
+  --color-fy-blue-300: #84a5d7;
+  --color-fy-blue-400: #6c94d0;
+  --color-fy-blue-500: #4779c4;
+  --color-fy-blue-600: #416eb2;
+  --color-fy-blue-700: #32568b;
+  --color-fy-blue-800: #27436c;
+  --color-fy-blue-900: #1e3352;
+
+  /* Slate Color Scale */
+  --color-fy-slate-50: #eceef0;
+  --color-fy-slate-100: #c5cad1;
+  --color-fy-slate-200: #a9b1bb;
+  --color-fy-slate-300: #828d9d;
+  --color-fy-slate-400: #6a7786;
+  --color-fy-slate-500: #45556c;
+  --color-fy-slate-600: #3f4d62;
+  --color-fy-slate-700: #313c4d;
+  --color-fy-slate-800: #262f3b;
+  --color-fy-slate-900: #1d242d;
+
+  /* Green Color Scale */
+  --color-fy-green-50: #e9f9f1;
+  --color-fy-green-100: #def6eb;
+  --color-fy-green-200: #bbebd5;
+  --color-fy-green-300: #25c077;
+  --color-fy-green-400: #21ad6b;
+  --color-fy-green-500: #1e9a5f;
+  --color-fy-green-600: #1c9059;
+  --color-fy-green-700: #167347;
+  --color-fy-green-800: #115636;
+  --color-fy-green-900: #0d432a;
+
+  /* Red Color Scale */
+  --color-fy-red-50: #f6e7e6;
+  --color-fy-red-100: #e3b6b2;
+  --color-fy-red-200: #d5928d;
+  --color-fy-red-300: #c2615a;
+  --color-fy-red-400: #b64239;
+  --color-fy-red-500: #a41308;
+  --color-fy-red-600: #951107;
+  --color-fy-red-700: #740d06;
+  --color-fy-red-800: #5a0a04;
+  --color-fy-red-900: #450803;
+
+  /* Orange Color Scale */
+  --color-fy-orange-50: #feded7;
+  --color-fy-orange-100: #fda98f;
+  --color-fy-orange-200: #f88c55;
+  --color-fy-orange-300: #F4701B;
+  --color-fy-orange-400: #bb5412;
+  --color-fy-orange-500: #843a09;
+  --color-fy-orange-600: #6b2d06;
+  --color-fy-orange-700: #522103;
+  --color-fy-orange-800: #3a1502;
+  --color-fy-orange-900: #230a01;
+
+  /* Teal Color Scale */
+  --color-fy-teal-50: #f0f7f5;
+  --color-fy-teal-100: #19e2b7;
+  --color-fy-teal-200: #15cca5;
+  --color-fy-teal-300: #12B793;
+  --color-fy-teal-400: #0b8d71;
+  --color-fy-teal-500: #066651;
+  --color-fy-teal-600: #045341;
+  --color-fy-teal-700: #024132;
+  --color-fy-teal-800: #013024;
+  --color-fy-teal-900: #011f17;
+
+  /* Sky Color Scale */
+  --color-fy-sky-50: #e2f3fd;
+  --color-fy-sky-100: #a4defa;
+  --color-fy-sky-200: #73cdef;
+  --color-fy-sky-300: #42bce5;
+  --color-fy-sky-400: #3293b4;
+  --color-fy-sky-500: #236D86;
+  --color-fy-sky-600: #1c5b70;
+  --color-fy-sky-700: #15495a;
+  --color-fy-sky-800: #0e3846;
+  --color-fy-sky-900: #082832;
+
+  /* Gray Color Scale */
+  --color-fy-gray-50: #d6d6d6;
+  --color-fy-gray-100: #afafaf;
+  --color-fy-gray-200: #9c9c9c;
+  --color-fy-gray-300: #898989;
+  --color-fy-gray-400: #656565;
+  --color-fy-gray-500: #434343;
+  --color-fy-gray-600: #333333;
+  --color-fy-gray-700: #242424;
+  --color-fy-gray-800: #121212;
+  --color-fy-gray-900: #000000;
+
+  /* Sage Color Scale */
+  --color-fy-sage-50: #b3e6d7;
+  --color-fy-sage-100: #92bcb0;
+  --color-fy-sage-200: #82a89d;
+  --color-fy-sage-300: #73958b;
+  --color-fy-sage-400: #556f67;
+  --color-fy-sage-500: #394b46;
+  --color-fy-sage-600: #2c3a36;
+  --color-fy-sage-700: #1f2a27;
+  --color-fy-sage-800: #111816;
+  --color-fy-sage-900: #040706;
+  --color-fy-sage-950: #080f0d;
+
+  /* Stone Color Scale */
+  --color-fy-stone-50: #e6e5e4;
+  --color-fy-stone-100: #c1bcbb;
+  --color-fy-stone-200: #afa8a7;
+  --color-fy-stone-300: #9e9593;
+  --color-fy-stone-400: #78716f;
+  --color-fy-stone-500: #544e4d;
+  --color-fy-stone-600: #433e3d;
+  --color-fy-stone-700: #322f2e;
+  --color-fy-stone-800: #22201f;
+  --color-fy-stone-900: #131111;
+}
+
+:root {
+  --color-primary: #266B88;
+  --color-secondary: #F7700B;
+  --color-primary-orange: #f4701b;
+  --color-primary-teal: #12b793;
+  --color-primary-sky: #236d86;
+  --color-primary-grey: #040706;
+  --color-section-bg-light: #f0f7f5;
+  --color-footer-bg: #080f0d;
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 15%, white);
+  --color-primary-dark: color-mix(in srgb, var(--color-primary) 80%, black);
+  --color-secondary-light: color-mix(in srgb, var(--color-secondary) 15%, white);
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.147 0.004 49.3);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.147 0.004 49.3);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.147 0.004 49.3);
+  --primary: oklch(0.214 0.009 43.1);
+  --primary-foreground: oklch(0.986 0.002 67.8);
+  --secondary: oklch(0.96 0.002 17.2);
+  --secondary-foreground: oklch(0.214 0.009 43.1);
+  --muted: oklch(0.96 0.002 17.2);
+  --muted-foreground: oklch(0.547 0.021 43.1);
+  --accent: oklch(0.96 0.002 17.2);
+  --accent-foreground: oklch(0.214 0.009 43.1);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0.005 34.3);
+  --input: oklch(0.922 0.005 34.3);
+  --ring: oklch(0.714 0.014 41.2);
+  --chart-1: oklch(0.868 0.007 39.5);
+  --chart-2: oklch(0.547 0.021 43.1);
+  --chart-3: oklch(0.438 0.017 39.3);
+  --chart-4: oklch(0.367 0.016 35.7);
+  --chart-5: oklch(0.268 0.011 36.5);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.986 0.002 67.8);
+  --sidebar-foreground: oklch(0.147 0.004 49.3);
+  --sidebar-primary: oklch(0.214 0.009 43.1);
+  --sidebar-primary-foreground: oklch(0.986 0.002 67.8);
+  --sidebar-accent: oklch(0.96 0.002 17.2);
+  --sidebar-accent-foreground: oklch(0.214 0.009 43.1);
+  --sidebar-border: oklch(0.922 0.005 34.3);
+  --sidebar-ring: oklch(0.714 0.014 41.2);
+}

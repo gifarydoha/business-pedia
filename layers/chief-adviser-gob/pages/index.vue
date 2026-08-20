@@ -4,7 +4,7 @@ import { contentService } from "~~/layers/base/services/content.service";
 import type { PaginatedContentsResponse } from "~~/layers/chief-adviser-gob/types/paginatedContents";
 import type { PageContent } from "~~/layers/base/types/api";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "chief-adviser-gob" });
 
 const page = ref(1);
 const keyword = ref("");
@@ -12,7 +12,7 @@ const isFetching = ref(false);
 const hasMore = ref(true);
 
 // 1. Initial SSR fetch using useAsyncData
-const { data, status, error } = await useAsyncData<PaginatedContentsResponse>(
+const { data, error } = await useAsyncData<PaginatedContentsResponse>(
   "cagob-help-contents",
   () => contentService.fetchContents<PaginatedContentsResponse>("help", 1, keyword.value),
 );
@@ -61,7 +61,7 @@ onMounted(() => {
   }
 
   observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
+    if (entries[0]?.isIntersecting) {
       loadMore();
     }
   }, { rootMargin: "200px" }); // Trigger slightly before hitting the bottom
@@ -77,103 +77,250 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50/50 pb-20">
-    <div class="container mx-auto px-4 py-12">
-      <!-- Error State -->
-      <div
-        v-if="error"
-        class="mx-auto max-w-2xl rounded-2xl border border-red-100 bg-red-50 p-6 text-center text-red-600"
-      >
-        <UIcon
-          name="i-heroicons-exclamation-triangle"
-          class="mx-auto mb-2 size-8"
-        />
-        <p class="font-medium">
-          Failed to load content.
-        </p>
-      </div>
+  <div class="min-h-screen bg-[#f8f9fa] pb-20">
+    <!-- Feed -->
+    <main class="mx-auto w-full max-w-3xl px-4 sm:px-6">
+      <!-- Top spacing -->
+      <div class="pt-6 sm:pt-10">
+        <!-- Error State -->
+        <div
+          v-if="error"
+          class="rounded-2xl border border-red-200 bg-red-50 p-6 text-center text-red-600"
+        >
+          <UIcon
+            name="i-heroicons-exclamation-triangle"
+            class="mx-auto mb-3 size-8"
+          />
 
-      <!-- Empty State -->
-      <div
-        v-else-if="allContents.length === 0"
-        class="py-20 text-center text-gray-500"
-      >
-        <UIcon
-          name="i-heroicons-inbox"
-          class="mx-auto mb-4 size-12 text-gray-300"
-        />
-        <p class="text-lg">
-          No contents found.
-        </p>
-      </div>
+          <p class="font-medium">
+            Failed to load content.
+          </p>
 
-      <!-- Content Grid -->
-      <div
-        v-else
-        class="mx-auto max-w-5xl"
-      >
-        <div class="grid grid-cols-1 gap-6">
-          <NuxtLink
+          <p class="mt-1 text-sm text-red-500">
+            Please try again later.
+          </p>
+        </div>
+
+        <!-- Empty State -->
+        <div
+          v-else-if="allContents.length === 0"
+          class="flex min-h-[50vh] flex-col items-center justify-center text-center"
+        >
+          <div
+            class="mb-5 flex size-16 items-center justify-center rounded-full bg-gray-100"
+          >
+            <UIcon
+              name="i-heroicons-inbox"
+              class="size-8 text-gray-400"
+            />
+          </div>
+
+          <h2 class="text-lg font-semibold text-gray-900">
+            No contents found
+          </h2>
+
+          <p class="mt-1 text-sm text-gray-500">
+            There isn't anything to show here yet.
+          </p>
+        </div>
+
+        <!-- Social Feed -->
+        <div
+          v-else
+          class="space-y-8"
+        >
+          <article
             v-for="item in allContents"
             :key="item.id"
-            :to="`/${item.alias}`"
-            class="group block"
+            class="group rounded-md border-b border-gray-200/80 bg-white p-8 first:pt-2 sm:py-9"
           >
-            <!-- Notice we use NuxtUI's UCard and our token classes: group-hover:ring-brand-primary -->
-            <UCard class="group-hover:ring-brand-primary group-hover:shadow-brand-primary/10 bg-white transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
-              <div class="flex flex-col gap-6 md:flex-row">
+            <NuxtLink
+              :to="`/${item.alias}`"
+              class="focus-visible:ring-brand-primary block rounded-2xl transition outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
+            >
+              <!-- Post Header -->
+              <div class="flex items-start gap-3">
+                <!-- Brand / Content Avatar -->
+                <div
+                  class="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-900 text-white shadow-sm sm:size-11"
+                >
+                  <span class="text-sm font-bold sm:text-base">
+                    {{ item.title?.charAt(0)?.toUpperCase() || "C" }}
+                  </span>
+                </div>
+
+                <div class="min-w-0 flex-1">
+                  <!-- Author + Date -->
+                  <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                    <span class="font-semibold text-gray-950">
+                      Help
+                    </span>
+
+                    <span class="text-gray-400">
+                      ·
+                    </span>
+
+                    <time
+                      v-if="item.created"
+                      class="text-sm text-gray-500"
+                      :datetime="item.created"
+                    >
+                      {{
+                        new Date(item.created).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                      }}
+                    </time>
+                  </div>
+
+                  <!-- Category -->
+                  <p class="mt-0.5 text-xs text-gray-400">
+                    {{ item.category_title || "Help & Information" }}
+                  </p>
+                </div>
+
+                <!-- More Icon -->
+                <button
+                  type="button"
+                  class="flex size-9 shrink-0 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                  aria-label="More options"
+                  @click.prevent
+                >
+                  <UIcon
+                    name="i-heroicons-ellipsis-horizontal"
+                    class="size-5"
+                  />
+                </button>
+              </div>
+
+              <!-- Post Content -->
+              <div class="mt-4 pl-0 sm:pl-14">
+                <!-- Title -->
+                <h2
+                  class="group-hover:text-brand-primary font-lora text-xl leading-tight font-bold tracking-[-0.015em] text-gray-950 transition-colors sm:text-2xl sm:leading-tight"
+                >
+                  {{ item.title }}
+                </h2>
+
+                <!-- Subtitle -->
+                <p
+                  v-if="item.sub_title"
+                  class="mt-2 text-[15px] leading-6 font-medium text-gray-700 sm:text-base"
+                >
+                  {{ item.sub_title }}
+                </p>
+
+                <!-- Content Preview -->
+                <div
+                  v-if="item.fulltext"
+                  class="mt-2 line-clamp-3 text-[15px] leading-6 text-gray-600 sm:text-base"
+                  v-html="item.fulltext"
+                />
+
+                <!-- Image -->
                 <div
                   v-if="item.image_url"
-                  class="shrink-0 md:w-1/4"
+                  class="mt-5 overflow-hidden rounded-2xl border border-gray-200 bg-gray-100"
                 >
                   <img
                     :src="item.image_url"
                     :alt="item.title"
-                    class="aspect-video w-full rounded-lg object-cover"
+                    loading="lazy"
+                    class="group-hover:scale-1.015 block aspect-video w-full object-cover transition duration-500 ease-out"
                   >
                 </div>
-                <div class="flex grow flex-col justify-center space-y-2">
-                  <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <span v-if="item.created">{{ new Date(item.created).toLocaleDateString() }}</span>
-                    <span v-if="item.total_view">&bull;</span>
+
+                <!-- Post Meta -->
+                <div
+                  class="mt-4 flex items-center justify-between text-gray-500"
+                >
+                  <div class="flex items-center gap-5">
+                    <!-- View Count -->
                     <span
                       v-if="item.total_view"
-                      class="flex items-center gap-1"
+                      class="flex items-center gap-1.5 text-sm"
                     >
                       <UIcon
                         name="i-heroicons-eye"
-                        class="size-4"
-                      /> {{ item.total_view }} views
+                        class="size-[18px]"
+                      />
+
+                      <span>
+                        {{ item.total_view }}
+                      </span>
+                    </span>
+
+                    <!-- Read -->
+                    <span
+                      class="group-hover:text-brand-primary flex items-center gap-1.5 text-sm transition-colors"
+                    >
+                      <UIcon
+                        name="i-heroicons-arrow-up-right"
+                        class="size-[18px]"
+                      />
+
+                      <span class="hidden sm:inline">
+                        Read article
+                      </span>
+
+                      <span class="sm:hidden">
+                        Read
+                      </span>
                     </span>
                   </div>
-                  <!-- Use text-brand-primary for hover -->
-                  <h3 class="group-hover:text-brand-primary font-lora text-xl font-bold text-gray-900 transition-colors">
-                    {{ item.title }}
-                  </h3>
+
+                  <!-- Share-like visual affordance -->
+                  <span
+                    class="flex size-9 items-center justify-center rounded-full transition-colors group-hover:bg-gray-100"
+                  >
+                    <UIcon
+                      name="i-heroicons-paper-airplane"
+                      class="size-[18px]"
+                    />
+                  </span>
                 </div>
               </div>
-            </UCard>
-          </NuxtLink>
-        </div>
+            </NuxtLink>
+          </article>
 
-        <!-- Intersection Observer Target Element -->
-        <div
-          ref="observerTarget"
-          class="mt-8 flex justify-center py-4"
-        >
-          <UIcon
-            v-if="isFetching"
-            name="i-heroicons-arrow-path"
-            class="text-brand-primary size-8 animate-spin"
-          />
-          <p
-            v-else-if="!hasMore"
-            class="text-sm text-gray-500"
+          <!-- Infinite Scroll -->
+          <div
+            ref="observerTarget"
+            class="flex min-h-24 items-center justify-center py-8"
           >
-            You have reached the end.
-          </p>
+            <!-- Loading -->
+            <div
+              v-if="isFetching"
+              class="flex items-center gap-3 text-sm text-gray-500"
+            >
+              <UIcon
+                name="i-heroicons-arrow-path"
+                class="text-brand-primary size-5 animate-spin"
+              />
+
+              <span>
+                Loading more...
+              </span>
+            </div>
+
+            <!-- End -->
+            <div
+              v-else-if="!hasMore"
+              class="flex items-center gap-2 text-sm text-gray-400"
+            >
+              <span class="h-px w-8 bg-gray-200" />
+
+              <span>
+                You're all caught up
+              </span>
+
+              <span class="h-px w-8 bg-gray-200" />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>

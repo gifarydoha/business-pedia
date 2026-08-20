@@ -45,6 +45,7 @@ export interface PageContent {
   main_category_id: string;
   category_title: string;
   page_setting: Record<string, unknown>;
+  total_view?: string | number;
   name?: string; // Author name
   profile_photo?: string | null;
 }

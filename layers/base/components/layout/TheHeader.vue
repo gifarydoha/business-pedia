@@ -4,7 +4,19 @@ const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
 const { buildImageUrl } = useImageUrl();
 
-const mainMenu = computed(() => settingsStore.mainMenu);
+const FALLBACK_MAIN_MENU = [
+  { id: "fallback-1", label: "Post", url: "/" },
+  { id: "fallback-2", label: "About", url: "/about" },
+  { id: "fallback-3", label: "Videos", url: "/videos" },
+  { id: "fallback-3", label: "Images", url: "/images" },
+];
+
+const mainMenu = computed(() => {
+  if (settingsStore.mainMenu && settingsStore.mainMenu.length > 0) {
+    return settingsStore.mainMenu;
+  }
+  return FALLBACK_MAIN_MENU;
+});
 const logo = computed(() => buildImageUrl(settingsStore.org?.logo));
 const orgName = computed(() => settingsStore.org?.name ?? "Business-Pedia");
 const isMobileMenuOpen = ref(false);

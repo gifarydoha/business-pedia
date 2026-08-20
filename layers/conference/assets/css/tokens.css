@@ -1,7 +1,16 @@
 /* Conference Client — SBAC Identity (olive + golden) */
+@theme {
+  --color-cfp-olive: #707C44;
+  --color-cfp-olive-dark: #4d5730;
+  --color-cfp-olive-pale: #EFF1E8;
+  --color-cfp-cream: #FAF7F0;
+  --color-cfp-yellow: #F4A222;
+  --color-cfp-red: #CA493A;
+}
+
 :root {
-  --color-primary: #707C44;
-  --color-secondary: #F4A222;
+  --color-primary: var(--color-cfp-olive);
+  --color-secondary: var(--color-cfp-yellow);
   --color-footer-bg: #2c3a36;
-  --color-section-bg-light: #FAF7F0;
+  --color-section-bg-light: var(--color-cfp-cream);
 }
