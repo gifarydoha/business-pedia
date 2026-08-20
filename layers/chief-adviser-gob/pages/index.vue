@@ -135,15 +135,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#f8f9fa] pt-8 pb-20">
+  <div class="min-h-screen bg-background pt-8 pb-20">
     <!-- Feed -->
     <main class="mx-auto w-full max-w-3xl px-4 sm:px-6">
       <!-- Search & Filter -->
-      <!-- <SharedGlobalFilterBar
+      <SharedGlobalFilterBar
         v-model:search="keyword"
         :contents="allContents"
         @filter="applyFilters"
-      /> -->
+      />
 
       <!-- Top spacing -->
       <div class="pt-6 sm:pt-10">
@@ -172,19 +172,19 @@ onUnmounted(() => {
           class="flex min-h-[50vh] flex-col items-center justify-center text-center"
         >
           <div
-            class="mb-5 flex size-16 items-center justify-center rounded-full bg-gray-100"
+            class="mb-5 flex size-16 items-center justify-center rounded-full bg-muted"
           >
             <UIcon
               name="i-heroicons-inbox"
-              class="size-8 text-gray-400"
+              class="size-8 text-muted-foreground/70"
             />
           </div>
 
-          <h2 class="text-lg font-semibold text-gray-900">
+          <h2 class="text-lg font-semibold text-foreground">
             No contents found
           </h2>
 
-          <p class="mt-1 text-sm text-gray-500">
+          <p class="mt-1 text-sm text-muted-foreground">
             There isn't anything to show here yet.
           </p>
         </div>
@@ -197,17 +197,17 @@ onUnmounted(() => {
           <article
             v-for="item in displayedContents"
             :key="item.id"
-            class="group rounded-md border-b border-gray-200/80 bg-white p-8 sm:py-9"
+            class="group rounded-md border-b border-border bg-card p-8 sm:py-9"
           >
             <NuxtLink
               :to="`/${item.alias}`"
-              class="focus-visible:ring-brand-primary block rounded-2xl transition outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
+              class="focus-visible:ring-ring block rounded-2xl transition outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
             >
               <!-- Post Header -->
               <div class="flex items-start gap-3">
                 <!-- Brand / Content Avatar -->
                 <div
-                  class="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-900 text-white shadow-sm sm:size-11"
+                  class="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary text-primary-foreground shadow-sm sm:size-11"
                 >
                   <span class="text-sm font-bold sm:text-base">
                     {{ item.title?.charAt(0)?.toUpperCase() || "C" }}
@@ -217,17 +217,17 @@ onUnmounted(() => {
                 <div class="min-w-0 flex-1">
                   <!-- Author + Date -->
                   <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                    <span class="font-semibold text-gray-950">
+                    <span class="font-semibold text-foreground">
                       Post
                     </span>
 
-                    <span class="text-gray-400">
+                    <span class="text-muted-foreground/70">
                       ·
                     </span>
 
                     <time
                       v-if="item.created"
-                      class="text-sm text-gray-500"
+                      class="text-sm text-muted-foreground"
                       :datetime="item.created"
                     >
                       {{
@@ -241,7 +241,7 @@ onUnmounted(() => {
                   </div>
 
                   <!-- Category -->
-                  <p class="mt-0.5 text-xs text-gray-400">
+                  <p class="mt-0.5 text-xs text-muted-foreground/70">
                     {{ item.category_title || "Help & Information" }}
                   </p>
                 </div>
@@ -249,7 +249,7 @@ onUnmounted(() => {
                 <!-- More Icon -->
                 <button
                   type="button"
-                  class="flex size-9 shrink-0 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                  class="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground/70 transition hover:bg-muted hover:text-foreground/85"
                   aria-label="More options"
                   @click.prevent
                 >
@@ -264,7 +264,7 @@ onUnmounted(() => {
               <div class="mt-4 pl-0 sm:pl-14">
                 <!-- Title -->
                 <h2
-                  class="group-hover:text-brand-primary font-lora text-xl leading-tight font-bold tracking-[-0.015em] text-gray-950 transition-colors sm:text-2xl sm:leading-tight"
+                  class="group-hover:text-primary font-lora text-xl leading-tight font-bold tracking-[-0.015em] text-foreground transition-colors sm:text-2xl sm:leading-tight"
                 >
                   {{ item.title }}
                 </h2>
@@ -272,7 +272,7 @@ onUnmounted(() => {
                 <!-- Subtitle -->
                 <p
                   v-if="item.sub_title"
-                  class="mt-2 text-[15px] leading-6 font-medium text-gray-700 sm:text-base"
+                  class="mt-2 text-[15px] leading-6 font-medium text-foreground/85 sm:text-base"
                 >
                   {{ item.sub_title }}
                 </p>
@@ -280,14 +280,14 @@ onUnmounted(() => {
                 <!-- Content Preview -->
                 <!-- <div
                   v-if="item.fulltext"
-                  class="mt-2 line-clamp-3 text-[15px] leading-6 text-gray-600 sm:text-base"
+                  class="mt-2 line-clamp-3 text-[15px] leading-6 text-muted-foreground sm:text-base"
                   v-html="item.fulltext"
                 /> -->
 
                 <!-- Image -->
                 <div
                   v-if="item.image_url"
-                  class="mt-5 overflow-hidden rounded-2xl border border-gray-200 bg-gray-100"
+                  class="mt-5 overflow-hidden rounded-2xl border border-border bg-muted"
                 >
                   <img
                     :src="item.image_url"
@@ -299,7 +299,7 @@ onUnmounted(() => {
 
                 <!-- Post Meta -->
                 <div
-                  class="mt-4 flex items-center justify-between text-gray-500"
+                  class="mt-4 flex items-center justify-between text-muted-foreground"
                 >
                   <div class="flex items-center gap-5">
                     <!-- View Count -->
@@ -319,7 +319,7 @@ onUnmounted(() => {
 
                     <!-- Read -->
                     <span
-                      class="group-hover:text-brand-primary flex items-center gap-1.5 text-sm transition-colors"
+                      class="group-hover:text-primary flex items-center gap-1.5 text-sm transition-colors"
                     >
                       <UIcon
                         name="i-heroicons-arrow-up-right"
@@ -338,7 +338,7 @@ onUnmounted(() => {
 
                   <!-- Share-like visual affordance -->
                   <span
-                    class="flex size-9 items-center justify-center rounded-full transition-colors group-hover:bg-gray-100"
+                    class="flex size-9 items-center justify-center rounded-full transition-colors group-hover:bg-muted"
                   >
                     <UIcon
                       name="i-heroicons-paper-airplane"
@@ -358,11 +358,11 @@ onUnmounted(() => {
             <!-- Loading -->
             <div
               v-if="isFetching"
-              class="flex items-center gap-3 text-sm text-gray-500"
+              class="flex items-center gap-3 text-sm text-muted-foreground"
             >
               <UIcon
                 name="i-heroicons-arrow-path"
-                class="text-brand-primary size-5 animate-spin"
+                class="text-primary size-5 animate-spin"
               />
 
               <span>
@@ -373,7 +373,7 @@ onUnmounted(() => {
             <!-- End -->
             <div
               v-else-if="!hasMore"
-              class="flex items-center gap-2 text-sm text-gray-400"
+              class="flex items-center gap-2 text-sm text-muted-foreground/70"
             >
               <span class="h-px w-8 bg-gray-200" />
 

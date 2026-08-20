@@ -34,7 +34,7 @@ const getHref = (item: { url?: string; link?: string }) => {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
+  <header class="sticky top-0 z-50 border-b border-border bg-card shadow-sm">
     <nav class="container mx-auto flex h-16 items-center justify-between px-4">
       <!-- Logo -->
       <NuxtLink
@@ -61,7 +61,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               {{ item.label }}
               <UIcon
                 name="i-heroicons-chevron-down"
-                class="group-hover:text-brand-primary size-4 text-gray-500 transition-colors"
+                class="group-hover:text-primary size-4 text-muted-foreground transition-colors"
               />
             </button>
             <ul
@@ -75,7 +75,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                 <NuxtLink
                   :to="getHref(child)"
                   :prefetch="false"
-                  class="hover:text-brand-primary block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                  class="hover:text-primary block px-4 py-2 text-sm text-foreground hover:bg-muted"
                 >
                   {{ child.label }}
                 </NuxtLink>
@@ -99,7 +99,7 @@ const getHref = (item: { url?: string; link?: string }) => {
         <template v-if="authStore.isLoggedIn">
           <NuxtLink
             to="/profile"
-            class="hover:text-brand-primary text-sm font-medium text-gray-700"
+            class="hover:text-primary text-sm font-medium text-foreground"
           >
             {{ authStore.user?.name }}
           </NuxtLink>
@@ -144,14 +144,14 @@ const getHref = (item: { url?: string; link?: string }) => {
     <div class="lg:hidden">
       <!-- Backdrop -->
       <div
-        class="fixed inset-0 z-40 bg-black/20 transition-opacity duration-300"
+        class="fixed inset-0 z-40 bg-foreground/20 transition-opacity duration-300"
         :class="isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'"
         @click="isMobileMenuOpen = false"
       />
 
       <!-- Menu Panel -->
       <div
-        class="fixed top-0 left-0 z-50 flex h-screen w-full max-w-75 flex-col bg-white shadow-xl transition-transform duration-300"
+        class="fixed top-0 left-0 z-50 flex h-screen w-full max-w-75 flex-col bg-card text-card-foreground shadow-xl transition-transform duration-300"
         :class="isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
       >
         <!-- Mobile Menu Header -->
@@ -169,7 +169,7 @@ const getHref = (item: { url?: string; link?: string }) => {
           </NuxtLink>
           <!-- close btn -->
           <button
-            class="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            class="p-2 text-muted-foreground hover:text-foreground focus:outline-none"
             aria-label="Close menu"
             type="button"
             @click="isMobileMenuOpen = false"
@@ -193,13 +193,13 @@ const getHref = (item: { url?: string; link?: string }) => {
             <!-- Item with children -->
             <template v-if="item.children?.length">
               <button
-                class="flex w-full items-center justify-between py-4 text-left font-medium text-gray-900 focus:outline-none"
+                class="flex w-full items-center justify-between py-4 text-left font-medium text-foreground focus:outline-none"
                 @click="toggleMobileDropdown(item.id)"
               >
                 {{ item.label }}
                 <UIcon
                   name="i-heroicons-chevron-down"
-                  class="size-5 text-gray-500 transition-transform duration-200"
+                  class="size-5 text-muted-foreground transition-transform duration-200"
                   :class="mobileDropdowns[item.id] ? 'rotate-180' : ''"
                 />
               </button>
@@ -212,7 +212,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                   :key="child.id"
                   :to="getHref(child)"
                   :prefetch="false"
-                  class="hover:text-brand-primary block py-1 text-sm text-gray-600 transition-colors"
+                  class="hover:text-primary block py-1 text-sm text-muted-foreground transition-colors"
                   @click="isMobileMenuOpen = false"
                 >
                   {{ child.label }}
@@ -225,7 +225,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               v-else
               :to="getHref(item)"
               :prefetch="false"
-              class="hover:text-brand-primary block py-4 font-medium text-gray-900"
+              class="hover:text-primary block py-4 font-medium text-foreground"
               @click="isMobileMenuOpen = false"
             >
               {{ item.label }}
@@ -239,11 +239,11 @@ const getHref = (item: { url?: string; link?: string }) => {
             :style="{ transitionDelay: isMobileMenuOpen ? `${100 + (mainMenu?.length || 0) * 50 + 50}ms` : '0ms' }"
           >
             <template v-if="authStore.isLoggedIn">
-              <div class="flex flex-col gap-2 rounded-lg bg-gray-50 p-4">
-                <span class="text-xs text-gray-500">Logged in as</span>
+              <div class="flex flex-col gap-2 rounded-lg bg-muted p-4">
+                <span class="text-xs text-muted-foreground">Logged in as</span>
                 <NuxtLink
                   to="/profile"
-                  class="truncate text-sm font-medium text-gray-900"
+                  class="truncate text-sm font-medium text-foreground"
                   @click="isMobileMenuOpen = false"
                 >
                   {{ authStore.user?.name }}

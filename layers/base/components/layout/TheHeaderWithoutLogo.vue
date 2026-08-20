@@ -25,7 +25,7 @@ const getHref = (item: { url?: string; link?: string }) => {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
+  <header class="sticky top-0 z-50 border-b border-border bg-card shadow-sm">
     <nav class="container mx-auto flex h-16 items-center justify-center px-4">
       <ul class="flex items-center gap-6">
         <li
@@ -39,7 +39,7 @@ const getHref = (item: { url?: string; link?: string }) => {
               {{ item.label }}
               <UIcon
                 name="i-heroicons-chevron-down"
-                class="group-hover:text-brand-primary size-4 text-gray-500 transition-colors"
+                class="group-hover:text-primary size-4 text-muted-foreground transition-colors"
               />
             </button>
             <ul
@@ -53,8 +53,8 @@ const getHref = (item: { url?: string; link?: string }) => {
                 <NuxtLink
                   :to="getHref(child)"
                   :prefetch="false"
-                  active-class="text-brand-primary font-semibold bg-gray-50"
-                  class="hover:text-brand-primary block px-4 py-2 text-center text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                  active-class="text-primary font-semibold bg-muted"
+                  class="hover:text-primary block px-4 py-2 text-center text-sm text-foreground transition-colors hover:bg-muted"
                 >
                   {{ child.label }}
                 </NuxtLink>
@@ -66,8 +66,8 @@ const getHref = (item: { url?: string; link?: string }) => {
             v-else
             :to="getHref(item)"
             :prefetch="false"
-            active-class="text-brand-primary font-semibold"
-            class="nav-link hover:text-brand-primary font-medium text-gray-700 transition-colors"
+            active-class="text-primary font-semibold"
+            class="nav-link hover:text-primary font-medium text-foreground transition-colors"
           >
             {{ item.label }}
           </NuxtLink>

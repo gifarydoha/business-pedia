@@ -13,7 +13,10 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@vee-validate/nuxt",
   ],
-  css: ["~~/layers/lms/assets/css/tokens.css"],
+  css: [
+    "~~/layers/lms/assets/css/tokens.css",
+    "~~/layers/lms/assets/css/theme.css",
+  ],
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com",

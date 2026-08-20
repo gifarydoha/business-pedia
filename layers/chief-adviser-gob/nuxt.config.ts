@@ -13,7 +13,10 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@vee-validate/nuxt",
   ],
-  css: ["~~/layers/chief-adviser-gob/assets/css/tokens.css"],
+  css: [
+    "~~/layers/chief-adviser-gob/assets/css/tokens.css",
+    "~~/layers/chief-adviser-gob/assets/css/theme.css",
+  ],
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofybit.com",

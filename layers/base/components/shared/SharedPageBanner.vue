@@ -21,7 +21,7 @@ const bgImage = computed(() => props.image ? buildImageUrl(props.image) : null);
       />
       <div
         v-else
-        class="size-full bg-black"
+        class="size-full bg-foreground/70"
       />
     </div>
 

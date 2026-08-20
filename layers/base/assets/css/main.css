@@ -9,8 +9,9 @@
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
 
-/* Ensure Tailwind v4 scans all source files during nuxt generate */
-@source "../../**/*.{vue,ts,js}";
+/* Shared utilities are generated from base source only; each client theme scans its own layer. */
+@source "../../components";
+@source "../../pages";
 
 /* Completely disable dark mode across the app by assigning the dark variant to an unused class */
 @custom-variant dark (&:where(.disable-dark-mode *));
@@ -55,15 +56,24 @@
   /* 10px */
   --text-x--line-height: calc(1 / 0.5);
 
-  /* primary colors */
-  --color-primary-orange: var(--color-primary-orange);
-  --color-primary-teal: var(--color-primary-teal);
-  --color-primary-sky: var(--color-primary-sky);
-  --color-primary-grey: var(--color-primary-grey);
-
-  /* Theme Tokens */
-  --color-section-bg-light: var(--color-section-bg-light);
-  --color-footer-bg: var(--color-footer-bg);
+  /* Child token files override the --brand-* source variables, never these
+     generated Tailwind utility names. */
+  --color-primary: var(--brand-primary);
+  --color-primary-foreground: var(--brand-primary-foreground);
+  --color-secondary: var(--brand-secondary);
+  --color-secondary-foreground: var(--brand-secondary-foreground);
+  --color-accent: var(--brand-accent);
+  --color-accent-foreground: var(--brand-accent-foreground);
+  --color-section-bg-light: var(--brand-surface);
+  --color-footer-bg: var(--brand-footer);
+  
+  /* Aliases for legacy brand classes */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-foreground: var(--brand-primary-foreground);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-foreground: var(--brand-secondary-foreground);
+  --color-brand-primary-light: var(--brand-primary-light);
+  --color-brand-primary-dark: var(--brand-primary-dark);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -85,14 +95,8 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -117,54 +121,7 @@
   color-scheme: light !important;
 }
 
-@layer utilities {
 
-  /* Brand color utility classes */
-  .text-brand-primary {
-    color: var(--color-primary);
-  }
-
-  .text-brand-secondary {
-    color: var(--color-secondary);
-  }
-
-  .bg-brand-primary {
-    background-color: var(--color-primary);
-  }
-
-  .bg-brand-secondary {
-    background-color: var(--color-secondary);
-  }
-
-  .bg-brand-primary-light {
-    background-color: var(--color-primary-light);
-  }
-
-  .border-brand-primary {
-    border-color: var(--color-primary);
-  }
-
-  .border-brand-secondary {
-    border-color: var(--color-secondary);
-  }
-
-  /* Brand buttons */
-  .btn-brand-primary {
-    background-color: var(--color-primary);
-    color: white;
-    transition: background-color 0.2s ease;
-  }
-
-  .btn-brand-primary:hover {
-    background-color: var(--color-primary-dark);
-  }
-
-  .btn-brand-secondary {
-    background-color: var(--color-secondary);
-    color: white;
-    transition: background-color 0.2s ease;
-  }
-}
 
 /* ─────────────────────────────────────────────────────────────
    Global Typography & Layout
@@ -212,7 +169,7 @@ html {
 .cms-content h1,
 .cms-content h2 {
   font-family: var(--font-serif);
-  color: var(--color-primary);
+  color: var(--brand-primary);
   font-weight: 700;
   line-height: 1.2;
   margin-top: 2em;
@@ -230,7 +187,7 @@ html {
 
 /* Links → brand color */
 .cms-content a {
-  color: var(--color-primary);
+  color: var(--brand-primary);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: opacity 0.15s;
@@ -245,7 +202,7 @@ html {
 
 /* Blockquote → left border in brand color */
 .cms-content blockquote {
-  border-left: 4px solid var(--color-primary);
+  border-left: 4px solid var(--brand-primary);
   margin-left: 0;
   padding-left: 1rem;
   color: var(--muted-foreground);
@@ -263,8 +220,8 @@ html {
 /* Tables → branded header row */
 .cms-content table { width: 100%; border-collapse: collapse; margin-block: 1.5em; }
 .cms-content th {
-  background: var(--color-primary);
-  color: white;
+  background: var(--brand-primary);
+  color: var(--brand-primary-foreground);
   padding: 0.625rem 1rem;
   text-align: left;
 }
@@ -291,20 +248,37 @@ html {
 
 @layer components {
 
+  /* Brand buttons */
+  .btn-brand-primary {
+    background-color: var(--brand-primary);
+    color: var(--brand-primary-foreground);
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-brand-primary:hover {
+    background-color: var(--brand-primary-dark);
+  }
+
+  .btn-brand-secondary {
+    background-color: var(--brand-secondary);
+    color: var(--brand-secondary-foreground);
+    transition: background-color 0.2s ease;
+  }
+
   /* ─────────────────────────────────────────────────────────────
    Navigation
    ───────────────────────────────────────────────────────────── */
   .nav-link {
     font-size: 0.9375rem;
     font-weight: 500;
-    color: #374151;
+    color: var(--muted-foreground);
     transition: color 0.15s ease;
     text-decoration: none;
   }
 
   .nav-link:hover,
   .nav-link.router-link-active {
-    color: var(--color-primary);
+    color: var(--brand-primary);
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -322,7 +296,7 @@ html {
 
   /* Hero CSS */
   .hero-section {
-    @apply relative min-h-150 w-full overflow-hidden bg-white lg:min-h-175;
+    @apply relative min-h-150 w-full overflow-hidden bg-background lg:min-h-175;
   }
 
   .hero-slide {
@@ -330,7 +304,7 @@ html {
   }
 
   .hero-cta {
-    @apply font-lora bg-fy-orange-300 inline-flex items-center justify-center rounded-full px-6 py-3 font-bold text-white transition-all duration-300 ease-out hover:opacity-90 hover:shadow-sm active:scale-95 lg:px-8 lg:py-4;
+    @apply font-lora bg-secondary text-secondary-foreground inline-flex items-center justify-center rounded-full px-6 py-3 font-bold transition-all duration-300 ease-out hover:opacity-90 hover:shadow-sm active:scale-95 lg:px-8 lg:py-4;
   }
 
   .hero-trust-row {
@@ -342,7 +316,7 @@ html {
   }
 
   .hero-floating-card {
-    @apply shadow-fy-teal-300/15 animate-in fade-in slide-in-from-bottom-4 absolute flex items-center gap-3 rounded-2xl bg-white p-4 shadow-xl duration-700;
+    @apply animate-in fade-in slide-in-from-bottom-4 absolute flex items-center gap-3 rounded-2xl bg-card p-4 text-card-foreground shadow-xl duration-700;
   }
 
 }

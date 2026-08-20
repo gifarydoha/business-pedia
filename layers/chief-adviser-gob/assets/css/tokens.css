@@ -1,6 +1,25 @@
+/* Chief Adviser — modern emerald + sky identity. Layer defaults always win. */
 :root {
-  --color-primary: 
-  --color-secondary: 
-  --color-footer-bg: #0b1a14;
-  --color-section-bg-light: #f2f9f6;
+  --brand-primary: #087f5b;
+  --brand-primary-foreground: #ffffff;
+  --brand-primary-light: #e0f5ed;
+  --brand-primary-dark: #056246;
+  --brand-secondary: #0b8fc5;
+  --brand-secondary-foreground: #ffffff;
+  --brand-accent: #dff3fb;
+  --brand-accent-foreground: #12435a;
+  --brand-surface: #effaf6;
+  --brand-footer: #063d30;
+  --background: #f6fbf9;
+  --foreground: #12312a;
+  --card: #ffffff;
+  --card-foreground: #12312a;
+  --popover: #ffffff;
+  --popover-foreground: #12312a;
+  --muted: #e7f2ee;
+  --muted-foreground: #587169;
+  --border: #cfe4dc;
+  --input: #cfe4dc;
+  --ring: var(--brand-secondary);
+  --radius: 0.75rem;
 }

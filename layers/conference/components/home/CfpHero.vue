@@ -20,7 +20,7 @@ const stats = [
 <template>
   <section
     id="about"
-    class="relative overflow-hidden bg-cfp-olive"
+    class="relative overflow-hidden bg-brand-primary"
   >
     <!-- Texture overlay -->
     <div
