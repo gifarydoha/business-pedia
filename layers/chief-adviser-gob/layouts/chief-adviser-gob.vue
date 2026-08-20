@@ -8,6 +8,6 @@
     <main class="grow">
       <slot />
     </main>
-    <LayoutTheFooter />
+    <LayoutTheFooterShort />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { Search, Settings2 } from "@lucide/vue";
 import type { PageContent } from "../../types/api";
 
@@ -28,16 +28,33 @@ const emit = defineEmits<{
 
 const isFocused = ref(false);
 
-// Sync search query with parent (index.vue)
-const searchQuery = computed({
-  get: () => props.search || "",
-  set: (val) => emit("update:search", val),
+const handleBlur = () => {
+  setTimeout(() => {
+    isFocused.value = false;
+  }, 200);
+};
+
+// Use local state for typing so we don't spam API requests
+const localSearch = ref(props.search || "");
+
+const triggerSearch = (text?: string) => {
+  if (text !== undefined) {
+    localSearch.value = text;
+  }
+  emit("update:search", localSearch.value);
+};
+
+// Automatically reset search if the user clears the input completely
+watch(localSearch, (newVal) => {
+  if (newVal === "") {
+    emit("update:search", "");
+  }
 });
 
 // 3. Search Suggestions Logic (Filter by alias and title)
 const searchSuggestions = computed(() => {
-  if (!searchQuery.value) return [];
-  const query = searchQuery.value.toLowerCase();
+  if (!localSearch.value) return [];
+  const query = localSearch.value.toLowerCase();
 
   return props.contents.filter((item) =>
     item.title?.toLowerCase().includes(query)
@@ -69,7 +86,7 @@ const applyFilters = () => {
 </script>
 
 <template>
-  <div class="sticky top-4 z-40 mx-auto flex w-full max-w-3xl items-center gap-2 rounded-full border border-border/40 bg-background/70 p-1.5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:shadow-md">
+  <div class="sticky top-20 z-40 mx-auto flex w-full max-w-3xl items-center gap-2 rounded-full border border-border/40 bg-background/70 p-1.5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:shadow-md">
     <!-- Left Side: Search Input with Suggestions Dropdown -->
     <div class="group relative flex-1">
       <div class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted-foreground transition-colors group-focus-within:text-primary">
@@ -77,12 +94,13 @@ const applyFilters = () => {
       </div>
 
       <Input
-        v-model="searchQuery"
+        v-model="localSearch"
         type="text"
         placeholder="Search anything..."
         class="h-11 w-full rounded-full border-none bg-transparent pr-4 pl-12 text-base shadow-none placeholder:text-muted-foreground/70 focus-visible:ring-0"
         @focus="isFocused = true"
-        @blur="setTimeout(() => isFocused = false, 200)"
+        @blur="handleBlur"
+        @keydown.enter="triggerSearch()"
       />
 
       <!-- Search Suggestions Dropdown (YouTube style) -->
@@ -90,18 +108,18 @@ const applyFilters = () => {
         v-if="isFocused && searchSuggestions.length > 0"
         class="absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-xl border border-border bg-background py-2 shadow-lg"
       >
-        <NuxtLink
+        <button
           v-for="item in searchSuggestions"
           :key="item.id"
-          class="flex cursor-pointer items-center gap-3 px-4 py-2 transition-colors hover:bg-muted"
-          :to="`/${item.alias}`"
+          class="flex w-full cursor-pointer items-center gap-3 px-4 py-2 text-left transition-colors hover:bg-muted"
+          @click="triggerSearch(item.title)"
         >
           <Search class="size-4 text-muted-foreground" />
           <div class="flex flex-col">
             <span class="text-sm font-medium">{{ item.title }}</span>
             <span class="text-xs text-muted-foreground">{{ item.category_title }}</span>
           </div>
-        </NuxtLink>
+        </button>
       </div>
     </div>
 

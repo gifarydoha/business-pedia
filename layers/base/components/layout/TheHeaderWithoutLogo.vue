@@ -53,7 +53,8 @@ const getHref = (item: { url?: string; link?: string }) => {
                 <NuxtLink
                   :to="getHref(child)"
                   :prefetch="false"
-                  class="hover:text-brand-primary block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-50"
+                  active-class="text-brand-primary font-semibold bg-gray-50"
+                  class="hover:text-brand-primary block px-4 py-2 text-center text-sm text-gray-700 transition-colors hover:bg-gray-50"
                 >
                   {{ child.label }}
                 </NuxtLink>
@@ -65,7 +66,8 @@ const getHref = (item: { url?: string; link?: string }) => {
             v-else
             :to="getHref(item)"
             :prefetch="false"
-            class="nav-link font-medium text-gray-700 transition-colors hover:text-brand-primary"
+            active-class="text-brand-primary font-semibold"
+            class="nav-link hover:text-brand-primary font-medium text-gray-700 transition-colors"
           >
             {{ item.label }}
           </NuxtLink>

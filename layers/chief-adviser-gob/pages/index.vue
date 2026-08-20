@@ -4,6 +4,10 @@ import { contentService } from "~~/layers/base/services/content.service";
 import type { PaginatedContentsResponse } from "~~/layers/chief-adviser-gob/types/paginatedContents";
 import type { PageContent } from "~~/layers/base/types/api";
 
+defineOptions({
+  name: "IndexPage",
+});
+
 definePageMeta({ layout: "chief-adviser-gob" });
 
 const page = ref(1);
@@ -40,7 +44,7 @@ interface FilterState {
 const activeFilters = ref<FilterState>({
   keyword: "",
   featured: false,
-  minViews: 0
+  minViews: 0,
 });
 
 const applyFilters = (filters: unknown) => {
@@ -131,17 +135,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#f8f9fa] pb-20">
+  <div class="min-h-screen bg-[#f8f9fa] pt-8 pb-20">
     <!-- Feed -->
     <main class="mx-auto w-full max-w-3xl px-4 sm:px-6">
+      <!-- Page Header -->
+      <header class="mb-6 text-center sm:mb-12">
+        <h1 class="font-lora text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+          Help & Information
+        </h1>
+        <p class="mt-4 font-poppins text-base leading-relaxed text-gray-500 sm:text-lg">
+          Explore our knowledge base, find answers to common questions, and access comprehensive guidelines and support resources.
+        </p>
+      </header>
+
       <!-- Search & Filter -->
-      <div class="pt-8">
-        <SharedGlobalFilterBar
-          v-model:search="keyword"
-          :contents="allContents"
-          @filter="applyFilters"
-        />
-      </div>
+      <SharedGlobalFilterBar
+        v-model:search="keyword"
+        :contents="allContents"
+        @filter="applyFilters"
+      />
 
       <!-- Top spacing -->
       <div class="pt-6 sm:pt-10">
@@ -276,11 +288,11 @@ onUnmounted(() => {
                 </p>
 
                 <!-- Content Preview -->
-                <div
+                <!-- <div
                   v-if="item.fulltext"
                   class="mt-2 line-clamp-3 text-[15px] leading-6 text-gray-600 sm:text-base"
                   v-html="item.fulltext"
-                />
+                /> -->
 
                 <!-- Image -->
                 <div
