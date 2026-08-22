@@ -21,7 +21,7 @@ watch(keyword, async (newVal) => {
   isFetching.value = true;
 
   try {
-    const res = await contentService.fetchContents<PaginatedContentsResponse>("help", 1, newVal);
+    const res = await contentService.fetchContents<PaginatedContentsResponse>("post", 1, newVal);
     allContents.value = res.contents || [];
     if (page.value >= (res.paging?.pages || 1)) {
       hasMore.value = false;
@@ -73,7 +73,7 @@ const displayedContents = computed(() => {
 // 1. Initial SSR fetch using useAsyncData
 const { data, error } = await useAsyncData<PaginatedContentsResponse>(
   "cagob-help-contents",
-  () => contentService.fetchContents<PaginatedContentsResponse>("help", 1, keyword.value),
+  () => contentService.fetchContents<PaginatedContentsResponse>("post", 1, keyword.value),
 );
 
 // We store our cumulative contents in a ref
