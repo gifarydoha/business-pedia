@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="mx-auto flex h-screen max-w-11xl flex-col overflow-hidden bg-white font-poppins">
+  <div class="mx-auto flex h-screen max-w-11xl flex-col overflow-hidden bg-brand-primary-light/40 font-poppins">
     <CfpSharedNav class="shrink-0" />
 
     <main class="relative mx-auto flex w-full max-w-7xl flex-1 overflow-hidden">

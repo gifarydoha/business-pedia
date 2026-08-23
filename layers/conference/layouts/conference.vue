@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <div class=" mx-auto flex min-h-screen max-w-11xl flex-col bg-white font-poppins">
+  <div class=" mx-auto flex min-h-screen max-w-11xl flex-col bg-brand-primary-light/40 font-poppins">
     <CfpSharedNav />
-    <main class="grow">
+    <main class="flex grow flex-col">
       <slot />
     </main>
     <CfpSharedFooter />

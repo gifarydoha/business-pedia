@@ -228,7 +228,7 @@ function getItems(state: "collapsed" | "expanded") {
     </USidebar>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-default px-4 text-slate-900 hover:bg-slate-100">
+      <div class="flex h-(--ui-header-height) shrink-0 items-center px-4 text-slate-900 hover:bg-slate-100">
         <UButton
           icon="i-lucide-panel-left"
           color="neutral"

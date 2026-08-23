@@ -124,8 +124,8 @@ const resetAndGo = () => {
 <template>
   <SharedAppComingSoon
     v-if="['client', 'reader'].includes(authStore.userRole || 'reader')"
-    title="Conference Registration"
-    description="will start soon"
+    title="Conference Registration will start soon"
+    description=""
   />
   <div
     v-else

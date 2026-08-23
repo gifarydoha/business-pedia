@@ -44,11 +44,11 @@ const user = computed<UserProfile>(() => ({
 </script>
 
 <template>
-  <div>
+  <div class="bg-brand-primary-light/40">
     <CfpSharedBreadcrumb :crumbs="[{ label: 'My Profile' }]" />
 
     <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
-      <div class="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 p-5">
         <h1 class="mb-6 font-lora text-2xl font-bold text-brand-primary md:text-3xl">
           My Profile
         </h1>

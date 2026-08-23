@@ -6,15 +6,15 @@ defineProps<{
 </script>
 
 <template>
-  <div class="bg-brand-surface relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center overflow-hidden px-6 py-24 text-center">
+  <div class="bg-brand-surface relative flex grow flex-col items-center justify-center overflow-hidden px-6 py-24 text-center">
     <!-- Animated background gradients -->
-    <div class="absolute -top-40 left-0 size-96 animate-pulse rounded-full bg-brand-primary/20 blur-[100px] filter" />
+    <div class="absolute -top-40 left-0 size-96 animate-pulse rounded-full bg-brand-primary opacity-20 blur-[100px] filter" />
     <div
-      class="absolute right-0 -bottom-40 size-96 animate-pulse rounded-full bg-brand-secondary/20 blur-[100px] filter"
+      class="absolute right-0 -bottom-40 size-96 animate-pulse rounded-full bg-brand-secondary opacity-20 blur-[100px] filter"
       style="animation-delay: 2s;"
     />
 
-    <div class="relative z-10 mx-auto max-w-2xl">
+    <div class="relative z-10 mx-auto max-w-3xl">
       <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-secondary/30 bg-white/50 px-4 py-1.5 text-sm font-medium text-brand-secondary shadow-sm backdrop-blur-md">
         <UIcon
           name="i-heroicons-sparkles"
@@ -23,7 +23,7 @@ defineProps<{
         Under Construction
       </div>
 
-      <h1 class="mb-6 font-lora text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
+      <h1 class="mb-6 font-lora text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
         {{ title }}
       </h1>
 

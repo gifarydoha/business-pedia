@@ -7,7 +7,7 @@
 <template>
   <div class="mx-auto flex min-h-screen max-w-11xl flex-col">
     <LayoutTheHeader />
-    <main class="grow">
+    <main class="flex grow flex-col">
       <slot />
     </main>
     <LayoutTheFooter />

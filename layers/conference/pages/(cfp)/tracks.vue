@@ -26,7 +26,7 @@ watch(error, (err) => {
 </script>
 
 <template>
-  <section class="bg-brand-primary-light py-20 md:py-28">
+  <section class="bg-brand-primary-light/40 py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-6">
       <div class="mb-12">
         <span class="font-poppins text-xs font-semibold tracking-widest text-brand-secondary uppercase">
