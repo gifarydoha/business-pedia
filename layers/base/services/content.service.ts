@@ -14,4 +14,16 @@ export const contentService = {
 
     )) as T;
   },
+
+  async fetchContent<T>(alias: string): Promise<T> {
+    const config = useRuntimeConfig();
+
+    return (await $fetch(
+      `${config.public.apiBase}/website/website_api/content/${alias}`, {
+        query: {
+          access_key: config.public.apiAccessKey,
+        },
+      },
+    )) as T;
+  },
 };
