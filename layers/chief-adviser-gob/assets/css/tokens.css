@@ -1,25 +1,25 @@
-/* Chief Adviser — modern emerald + sky identity. Layer defaults always win. */
+/* Chief Adviser — modern orange identity. Layer defaults always win. */
 :root {
-  --brand-primary: #087f5b;
+  --brand-primary: #F39E10;
   --brand-primary-foreground: #ffffff;
-  --brand-primary-light: #e0f5ed;
-  --brand-primary-dark: #056246;
-  --brand-secondary: #0b8fc5;
+  --brand-primary-light: #fef5e7;
+  --brand-primary-dark: #cc8205;
+  --brand-secondary: #2f3e46;
   --brand-secondary-foreground: #ffffff;
-  --brand-accent: #dff3fb;
-  --brand-accent-foreground: #12435a;
-  --brand-surface: #effaf6;
-  --brand-footer: #063d30;
-  --background: #f6fbf9;
-  --foreground: #12312a;
+  --brand-accent: #f2f6f7;
+  --brand-accent-foreground: #1b262c;
+  --brand-surface: #fdfaf5;
+  --brand-footer: #2b1f0d;
+  --background: #fdfdfc;
+  --foreground: #2d2416;
   --card: #ffffff;
-  --card-foreground: #12312a;
+  --card-foreground: #2d2416;
   --popover: #ffffff;
-  --popover-foreground: #12312a;
-  --muted: #e7f2ee;
-  --muted-foreground: #587169;
-  --border: #cfe4dc;
-  --input: #cfe4dc;
-  --ring: var(--brand-secondary);
+  --popover-foreground: #2d2416;
+  --muted: #f3eee7;
+  --muted-foreground: #766a5a;
+  --border: #e6dfd3;
+  --input: #e6dfd3;
+  --ring: var(--brand-primary);
   --radius: 0.75rem;
 }
