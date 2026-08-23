@@ -110,6 +110,11 @@ const loadMore = async () => {
   }
 };
 
+const expandedItems = ref<Record<string | number, boolean>>({});
+const toggleExpand = (id: string | number) => {
+  expandedItems.value[id] = !expandedItems.value[id];
+};
+
 // 3. Intersection Observer setup
 const observerTarget = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
@@ -199,7 +204,7 @@ onUnmounted(() => {
           <article
             v-for="item in displayedContents"
             :key="item.id"
-            class="group rounded-md border-b border-border bg-card p-8 sm:py-9"
+            class="group rounded-md border-b border-border bg-card p-8 sm:py-12"
           >
             <!-- :to="`/${item.alias}`" -->
             <div
@@ -274,12 +279,22 @@ onUnmounted(() => {
                 </h2>
 
                 <!-- fulltext -->
-                <p
+                <div
                   v-if="item.fulltext"
-                  class="mt-2 text-xs md:text-sm leading-6 font-normal text-foreground/95"
+                  class="mt-2 text-xs leading-6 font-normal text-foreground/95 md:text-sm"
                 >
-                  {{ item.fulltext }}
-                </p>
+                  <p :class="expandedItems[item.id] ? '' : 'line-clamp-3'">
+                    {{ item.fulltext }}
+                  </p>
+                  <button
+                    v-if="item.fulltext.length > 150"
+                    type="button"
+                    class="mt-1 cursor-pointer font-semibold text-foreground transition-colors hover:text-foreground hover:underline"
+                    @click.prevent="toggleExpand(item.id)"
+                  >
+                    {{ expandedItems[item.id] ? 'See less' : 'See more' }}
+                  </button>
+                </div>
 
                 <!-- Content Preview -->
                 <!-- <div
@@ -291,7 +306,7 @@ onUnmounted(() => {
                 <!-- Image -->
                 <div
                   v-if="item.image_url"
-                  class="mt-5 overflow-hidden rounded-2xl border border-border bg-muted"
+                  class="mt-5 overflow-hidden rounded-md border border-border bg-muted"
                 >
                   <img
                     :src="item.image_url"
@@ -303,7 +318,7 @@ onUnmounted(() => {
 
                 <!-- Post Meta -->
                 <div
-                  class="mt-4 flex items-center justify-between text-muted-foreground"
+                  class="mt-4 hidden items-center justify-between text-muted-foreground"
                 >
                   <div class="flex items-center gap-5">
                     <!-- View Count -->
