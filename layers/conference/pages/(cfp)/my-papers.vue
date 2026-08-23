@@ -141,7 +141,7 @@ const pdfPreviewUrl = ref<string | null>(null);
 </script>
 
 <template>
-  <div>
+  <div class="bg-brand-primary-light/40">
     <!-- Preview Modal -->
     <PaperPreviewModal
       v-if="preview"

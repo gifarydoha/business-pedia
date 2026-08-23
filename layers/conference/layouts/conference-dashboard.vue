@@ -6,12 +6,12 @@
     <CfpSharedNav class="shrink-0" />
 
     <main class="relative mx-auto flex w-full max-w-7xl flex-1 overflow-hidden">
-      <UiDashboardSidebar>
-        <div class="flex min-h-full flex-col">
+      <UiDashboardSidebar hide-default-toggler>
+        <section class="flex min-h-full grow flex-col">
           <div class="flex-1">
             <slot />
           </div>
-        </div>
+        </section>
       </UiDashboardSidebar>
     </main>
     <!-- <CfpSharedFooter /> -->
