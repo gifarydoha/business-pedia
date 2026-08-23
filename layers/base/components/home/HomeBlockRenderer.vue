@@ -21,13 +21,13 @@ const resolvedComponent = computed(() => {
     v-if="resolvedComponent"
     :id="`section-${block.alias}`"
     :class="[
-      'py-12 md:py-16',
+      'pb-2 md:pb-4',
       { 'w-full': block.is_full_section === '1' },
       { 'container mx-auto px-4': block.is_full_section === '0' },
     ]"
   >
     <!-- Common Section Header -->
-    <div
+    <!-- <div
       v-if="block.title"
       class="mb-10 text-center"
     >
@@ -40,7 +40,7 @@ const resolvedComponent = computed(() => {
       >
         {{ block.description }}
       </p>
-    </div>
+    </div> -->
 
     <!-- The specific widget component -->
     <component

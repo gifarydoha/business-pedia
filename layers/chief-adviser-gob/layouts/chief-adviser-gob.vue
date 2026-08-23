@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { watch, nextTick } from "vue";
+import { watch, nextTick, computed } from "vue";
 import { useRoute } from "vue-router";
-import coverImage from "../assets/images/cover_image.jpg";
+import { useSettingsStore } from "~~/layers/base/stores/settings";
 
 const route = useRoute();
+const settingsStore = useSettingsStore();
+const homeBlocks = computed(() => settingsStore.homePageBlocks);
 
 // Ensure the header shows for a tiny bit, then smoothly scroll to the main section on route change
 watch(
@@ -22,30 +24,14 @@ watch(
 
 <template>
   <div class="mx-auto flex min-h-screen max-w-11xl flex-col bg-card">
-    <!-- Page Header with Cover -->
-    <NuxtLink
-      to="/"
-      class="mb-8"
-    >
-      <!-- Cover Photo -->
-      <div class="relative mx-auto h-48 w-full max-w-7xl overflow-hidden bg-muted md:h-72 lg:h-100 xl:rounded-b-md">
-        <img
-          :src="coverImage"
-          alt="Chief Adviser of GOB Cover"
-          class="size-full object-cover object-center"
-        >
-      </div>
-
-      <!-- Title & Description -->
-      <div class="mx-auto max-w-4xl px-4 pt-8 text-center sm:px-6">
-        <h1 class="font-lora text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-          Chief Adviser Of GOB
-        </h1>
-        <p class="mx-auto mt-4 max-w-2xl font-poppins text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Official updates, directives, and insights from the Chief Adviser of the Government of Bangladesh.
-        </p>
-      </div>
-    </NuxtLink>
+    <!-- Dynamic Header Widgets -->
+    <div class="mb-8">
+      <HomeBlockRenderer
+        v-for="block in homeBlocks"
+        :key="block.id"
+        :block="block"
+      />
+    </div>
 
     <LayoutTheHeaderWithoutLogo />
     <main
