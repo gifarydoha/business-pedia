@@ -50,7 +50,7 @@ export default defineNuxtPlugin(() => {
       }
       link.href = faviconPath.startsWith("http")
         ? faviconPath
-        : `${config.public.apiBase}${faviconPath}`;
+        : `${config.public.apiBase.replace(/\/$/, "")}/${faviconPath.replace(/^\//, "")}`;
     }
   }
 
