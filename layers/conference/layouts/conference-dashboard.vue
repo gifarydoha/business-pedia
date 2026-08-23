@@ -6,9 +6,12 @@
     <CfpSharedNav class="shrink-0" />
 
     <main class="relative mx-auto flex w-full max-w-7xl flex-1 overflow-hidden">
-      <UiDashboardSidebar hide-default-toggler>
+      <UiDashboardSidebar
+        hide-default-toggler
+        content-bg-class="bg-transparent"
+      >
         <section class="flex min-h-full grow flex-col">
-          <div class="flex-1">
+          <div class="flex flex-1 flex-col">
             <slot />
           </div>
         </section>

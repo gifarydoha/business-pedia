@@ -9,9 +9,13 @@ import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const open = ref(true);
 
-defineProps<{
+withDefaults(defineProps<{
   hideDefaultToggler?: boolean;
-}>();
+  contentBgClass?: string;
+}>(), {
+  hideDefaultToggler: false,
+  contentBgClass: "bg-white",
+});
 
 provide("toggleSidebar", () => {
   open.value = !open.value;
@@ -249,7 +253,7 @@ function getItems(state: "collapsed" | "expanded") {
         />
       </div>
 
-      <div class="flex-1 overflow-auto bg-white">
+      <div :class="['flex flex-1 flex-col overflow-auto', contentBgClass]">
         <slot />
       </div>
     </div>
