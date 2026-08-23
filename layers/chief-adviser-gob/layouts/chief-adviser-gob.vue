@@ -1,16 +1,34 @@
 <script setup lang="ts">
+import { watch, nextTick } from "vue";
+import { useRoute } from "vue-router";
 import coverImage from "../assets/images/cover_image.jpg";
-// Layout used for the chief-adviser-gob layer.
+
+const route = useRoute();
+
+// Ensure the header shows for a tiny bit, then smoothly scroll to the main section on route change
+watch(
+  () => route.path,
+  async () => {
+    await nextTick();
+    setTimeout(() => {
+      const mainEl = document.getElementById("main");
+      if (mainEl) {
+        mainEl.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 400); // 400ms delay to let the user see the cover photo briefly
+  },
+);
 </script>
 
 <template>
-  <div class="mx-auto flex min-h-screen max-w-11xl flex-col">
+  <div class="mx-auto flex min-h-screen max-w-11xl flex-col bg-card">
     <!-- Page Header with Cover -->
-    <header class="mb-8">
+    <NuxtLink
+      to="/"
+      class="mb-8"
+    >
       <!-- Cover Photo -->
       <div class="relative mx-auto h-48 w-full max-w-7xl overflow-hidden bg-muted md:h-72 lg:h-100 xl:rounded-b-md">
-        <!-- Subtle overlay to ensure the image doesn't wash out completely -->
-        <!-- <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/5 to-black/20 mix-blend-multiply"></div> -->
         <img
           :src="coverImage"
           alt="Chief Adviser of GOB Cover"
@@ -27,10 +45,13 @@ import coverImage from "../assets/images/cover_image.jpg";
           Official updates, directives, and insights from the Chief Adviser of the Government of Bangladesh.
         </p>
       </div>
-    </header>
+    </NuxtLink>
 
     <LayoutTheHeaderWithoutLogo />
-    <main class="grow">
+    <main
+      id="main"
+      class="grow scroll-mt-20 bg-brand-primary/10"
+    >
       <slot />
     </main>
     <LayoutTheFooterShort />

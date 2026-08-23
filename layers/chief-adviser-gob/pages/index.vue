@@ -178,9 +178,7 @@ onUnmounted(() => {
           v-else-if="displayedContents.length === 0"
           class="flex min-h-[50vh] flex-col items-center justify-center text-center"
         >
-          <div
-            class="mb-5 flex size-16 items-center justify-center rounded-full bg-muted"
-          >
+          <div class="mb-5 flex size-16 items-center justify-center rounded-full bg-muted">
             <UIcon
               name="i-heroicons-inbox"
               class="size-8 text-muted-foreground/70"
@@ -235,12 +233,12 @@ onUnmounted(() => {
                     </span>
 
                     <time
-                      v-if="item.created"
+                      v-if="item.publish_date"
                       class="text-sm text-muted-foreground"
-                      :datetime="item.created"
+                      :datetime="item.publish_date"
                     >
                       {{
-                        new Date(item.created).toLocaleDateString("en-US", {
+                        new Date(item.publish_date).toLocaleDateString("en-US", {
                           month: "short",
                           day: "numeric",
                           year: "numeric",
@@ -305,7 +303,7 @@ onUnmounted(() => {
 
                 <!-- Image -->
                 <div
-                  v-if="item.image_url"
+                  v-if="item.image_url && item.is_default_image === false"
                   class="mt-5 overflow-hidden rounded-md border border-border bg-muted"
                 >
                   <img
@@ -317,9 +315,7 @@ onUnmounted(() => {
                 </div>
 
                 <!-- Post Meta -->
-                <div
-                  class="mt-4 hidden items-center justify-between text-muted-foreground"
-                >
+                <div class="mt-4 hidden items-center justify-between text-muted-foreground">
                   <div class="flex items-center gap-5">
                     <!-- View Count -->
                     <span
@@ -337,9 +333,7 @@ onUnmounted(() => {
                     </span>
 
                     <!-- Read -->
-                    <span
-                      class="flex items-center gap-1.5 text-sm transition-colors group-hover:text-primary"
-                    >
+                    <span class="flex items-center gap-1.5 text-sm transition-colors group-hover:text-primary">
                       <UIcon
                         name="i-heroicons-arrow-up-right"
                         class="size-[18px]"

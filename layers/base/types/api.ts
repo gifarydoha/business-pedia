@@ -44,6 +44,7 @@ export interface PageContent {
   parent_id: string;
   main_category_id: string;
   category_title: string;
+  is_default_image: boolean;
   page_setting: Record<string, unknown>;
   total_view?: string | number;
   name?: string; // Author name

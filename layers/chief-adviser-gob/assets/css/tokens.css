@@ -10,7 +10,7 @@
   --brand-accent-foreground: #1b262c;
   --brand-surface: #fdfaf5;
   --brand-footer: #2b1f0d;
-  --background: #fdfdfc;
+  --background: #fdf7ee; /* Subtle light tint of brand-primary */
   --foreground: #2d2416;
   --card: #ffffff;
   --card-foreground: #2d2416;
@@ -22,4 +22,8 @@
   --input: #e6dfd3;
   --ring: var(--brand-primary);
   --radius: 0.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
 }

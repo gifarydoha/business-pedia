@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "Images | Chief Adviser",
+  title: "Photos | Chief Adviser",
 });
 
 definePageMeta({ layout: "chief-adviser-gob" });
