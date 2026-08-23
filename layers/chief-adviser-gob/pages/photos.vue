@@ -7,8 +7,8 @@ definePageMeta({ layout: "chief-adviser-gob" });
 </script>
 
 <template>
-  <GobComingSoon
-    title="Image Gallery"
-    description="We are preparing a rich photo gallery of our latest events and milestones. We can't wait to share them with you."
+  <SharedAppComingSoon
+    title="Photo Gallery"
+    description="Our curated collection of official photographs is currently being organized. A comprehensive visual journey will be available here shortly."
   />
 </template>

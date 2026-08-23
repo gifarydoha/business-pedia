@@ -122,7 +122,15 @@ const resetAndGo = () => {
 </script>
 
 <template>
-  <div class="mx-auto max-w-3xl px-6 py-14">
+  <SharedAppComingSoon
+    v-if="['client', 'reader'].includes(authStore.userRole || 'reader')"
+    title="Conference Registration"
+    description="will start soon"
+  />
+  <div
+    v-else
+    class="mx-auto max-w-3xl px-6 py-14"
+  >
     <div
       v-if="status === 'pending'"
       class="py-16 text-center font-poppins text-gray-500"

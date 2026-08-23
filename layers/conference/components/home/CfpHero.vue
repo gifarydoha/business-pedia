@@ -9,12 +9,12 @@ defineProps<{
   description: string;
 }>();
 
-const stats = [
-  { val: "13th", label: "Annual Conference" },
-  { val: "6", label: "Conference Tracks" },
-  { val: "23+", label: "Paper Themes" },
-  { val: "4", label: "Peer-Reviewed Contacts" },
-];
+// const stats = [
+//   { val: "13th", label: "Annual Conference" },
+//   { val: "9", label: "Conference Tracks" },
+//   { val: "23+", label: "Paper Themes" },
+//   { val: "4", label: "Peer-Reviewed Contacts" },
+// ];
 </script>
 
 <template>
@@ -70,7 +70,7 @@ const stats = [
       </div>
 
       <!-- Stat strip -->
-      <div class="mt-16 grid grid-cols-2 gap-6 border-t border-white/20 pt-10 sm:grid-cols-4">
+      <!-- <div class="mt-16 grid grid-cols-2 gap-6 border-t border-white/20 pt-10 sm:grid-cols-4">
         <div
           v-for="s in stats"
           :key="s.label"
@@ -82,7 +82,7 @@ const stats = [
             {{ s.label }}
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>

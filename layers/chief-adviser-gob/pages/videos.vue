@@ -7,8 +7,8 @@ definePageMeta({ layout: "chief-adviser-gob" });
 </script>
 
 <template>
-  <GobComingSoon
+  <SharedAppComingSoon
     title="Video Gallery"
-    description="Our video gallery is currently being curated. Soon you will be able to watch our latest media and speeches here."
+    description="Official video coverage and documentary footage are currently being processed. The full video archive will be accessible here soon."
   />
 </template>
