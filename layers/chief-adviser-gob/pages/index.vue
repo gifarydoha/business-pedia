@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
+import profileImage from "../assets/images/profile-image.jpg";
 import { contentService } from "~~/layers/base/services/content.service";
 import type { PaginatedContentsResponse } from "~~/layers/chief-adviser-gob/types/paginatedContents";
 import type { PageContent } from "~~/layers/base/types/api";
@@ -200,19 +201,21 @@ onUnmounted(() => {
             :key="item.id"
             class="group rounded-md border-b border-border bg-card p-8 sm:py-9"
           >
-            <NuxtLink
-              :to="`/${item.alias}`"
+            <!-- :to="`/${item.alias}`" -->
+            <div
               class="block rounded-2xl transition outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4"
             >
               <!-- Post Header -->
               <div class="flex items-start gap-3">
                 <!-- Brand / Content Avatar -->
                 <div
-                  class="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary text-primary-foreground shadow-sm sm:size-11"
+                  class="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full shadow-sm sm:size-11"
                 >
-                  <span class="text-sm font-bold sm:text-base">
-                    {{ item.title?.charAt(0)?.toUpperCase() || "C" }}
-                  </span>
+                  <img
+                    :src="profileImage"
+                    alt="Profile"
+                    class="size-full object-cover"
+                  >
                 </div>
 
                 <div class="min-w-0 flex-1">
@@ -267,15 +270,15 @@ onUnmounted(() => {
                 <h2
                   class="font-lora text-xl leading-tight font-bold tracking-[-0.015em] text-foreground transition-colors group-hover:text-primary sm:text-2xl sm:leading-tight"
                 >
-                  {{ item.title }}
+                  <!-- {{ item.title }} -->
                 </h2>
 
-                <!-- Subtitle -->
+                <!-- fulltext -->
                 <p
-                  v-if="item.sub_title"
-                  class="mt-2 text-[15px] leading-6 font-medium text-foreground/85 sm:text-base"
+                  v-if="item.fulltext"
+                  class="mt-2 text-xs md:text-sm leading-6 font-normal text-foreground/95"
                 >
-                  {{ item.sub_title }}
+                  {{ item.fulltext }}
                 </p>
 
                 <!-- Content Preview -->
@@ -348,7 +351,7 @@ onUnmounted(() => {
                   </span>
                 </div>
               </div>
-            </NuxtLink>
+            </div>
           </article>
 
           <!-- Infinite Scroll -->

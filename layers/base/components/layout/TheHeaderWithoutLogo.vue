@@ -27,7 +27,7 @@ const getHref = (item: { url?: string; link?: string }) => {
 <template>
   <header class="sticky top-0 z-50 border-b border-border bg-card shadow-sm">
     <nav class="container mx-auto flex h-16 items-center justify-center px-4">
-      <ul class="flex items-center gap-6">
+      <ul class="flex flex-wrap items-center justify-center gap-8 sm:gap-12 md:gap-16">
         <li
           v-for="item in mainMenu"
           :key="item.id"
@@ -35,15 +35,15 @@ const getHref = (item: { url?: string; link?: string }) => {
         >
           <!-- Item with children = dropdown -->
           <template v-if="item.children?.length">
-            <button class="nav-link flex cursor-pointer items-center gap-1">
+            <button class="nav-link flex cursor-pointer items-center gap-1 text-base font-medium text-foreground transition-colors hover:text-primary sm:text-lg">
               {{ item.label }}
               <UIcon
                 name="i-heroicons-chevron-down"
-                class="size-4 text-muted-foreground transition-colors group-hover:text-primary"
+                class="size-5 text-muted-foreground transition-colors group-hover:text-primary"
               />
             </button>
             <ul
-              class="invisible absolute top-full left-1/2 z-50 mt-2 w-48 -translate-x-1/2 rounded-lg border border-gray-100
+              class="invisible absolute top-full left-1/2 z-50 mt-2 w-52 -translate-x-1/2 rounded-xl border border-gray-100
                        bg-white opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100"
             >
               <li
@@ -54,7 +54,7 @@ const getHref = (item: { url?: string; link?: string }) => {
                   :to="getHref(child)"
                   :prefetch="false"
                   active-class="text-primary font-semibold bg-muted"
-                  class="block px-4 py-2 text-center text-sm text-foreground transition-colors hover:bg-muted hover:text-primary"
+                  class="block px-4 py-3 text-center text-base text-foreground transition-colors hover:bg-muted hover:text-primary"
                 >
                   {{ child.label }}
                 </NuxtLink>
@@ -67,7 +67,7 @@ const getHref = (item: { url?: string; link?: string }) => {
             :to="getHref(item)"
             :prefetch="false"
             active-class="text-primary font-semibold"
-            class="nav-link font-medium text-foreground transition-colors hover:text-primary"
+            class="nav-link text-sm font-medium text-foreground transition-colors hover:text-primary sm:text-base"
           >
             {{ item.label }}
           </NuxtLink>
