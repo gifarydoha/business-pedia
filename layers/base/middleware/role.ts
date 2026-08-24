@@ -14,8 +14,8 @@ export default defineNuxtRouteMiddleware((to) => {
   const roleHierarchy: Record<UserRole, number> = {
     admin: 4,
     editor: 3,
-    author: 2,
-    reviewer: 1,
+    reviewer: 2,
+    author: 0,
     reader: 0,
     client: 0,
   };

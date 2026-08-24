@@ -3,6 +3,9 @@ import { watch, nextTick, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useSettingsStore } from "~~/layers/base/stores/settings";
 
+const colorMode = useColorMode();
+colorMode.preference = "light";
+
 const route = useRoute();
 const settingsStore = useSettingsStore();
 const homeBlocks = computed(() => settingsStore.homePageBlocks);

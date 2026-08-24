@@ -231,7 +231,7 @@ onUnmounted(() => {
                     <span class="text-muted-foreground/70">
                       ·
                     </span>
-                    {{ item.publish_date }}
+                    <!-- {{ item.publish_date }} -->
                     <time
                       v-if="item.publish_date"
                       class="text-sm text-muted-foreground"

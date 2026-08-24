@@ -9,6 +9,18 @@ import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const open = ref(true);
 
+withDefaults(defineProps<{
+  hideDefaultToggler?: boolean;
+  contentBgClass?: string;
+}>(), {
+  hideDefaultToggler: false,
+  contentBgClass: "bg-white",
+});
+
+provide("toggleSidebar", () => {
+  open.value = !open.value;
+});
+
 // const colorMode = useColorMode();
 
 // const teams = ref([
@@ -164,8 +176,8 @@ function getItems(state: "collapsed" | "expanded") {
       style="position: static !important; height: 100% !important; z-index: 10 !important;"
       :ui="{
         root: 'static! h-full! z-10!',
-        container: 'h-full static!',
-        inner: 'bg-white divide-transparent h-full!',
+        container: 'h-full static! border-none',
+        inner: 'bg-brand-primary-light divide-transparent h-full!',
         body: 'py-0',
       }"
     >
@@ -203,7 +215,7 @@ function getItems(state: "collapsed" | "expanded") {
           :items="getItems(state)"
           orientation="vertical"
           :ui="{
-            link: 'p-2 overflow-hidden transition-colors rounded-md text-slate-800 hover:text-slate-900 hover:bg-cfp-olive/10 data-[active]:bg-slate-100 data-[active]:text-slate-900 data-[active]:hover:text-slate-900',
+            link: 'p-2 overflow-hidden transition-colors rounded-md text-slate-800 hover:text-slate-900 data-[active]:bg-slate-100 data-[active]:text-slate-900 data-[active]:hover:text-slate-900',
           }"
         />
       </template>
@@ -228,7 +240,10 @@ function getItems(state: "collapsed" | "expanded") {
     </USidebar>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div class="flex h-(--ui-header-height) shrink-0 items-center border-b border-default px-4 text-slate-900 hover:bg-slate-100">
+      <div
+        v-if="!hideDefaultToggler"
+        class="flex h-(--ui-header-height) shrink-0 items-center px-4 text-slate-900 hover:bg-slate-100"
+      >
         <UButton
           icon="i-lucide-panel-left"
           color="neutral"
@@ -238,7 +253,7 @@ function getItems(state: "collapsed" | "expanded") {
         />
       </div>
 
-      <div class="flex-1 overflow-auto bg-white">
+      <div :class="['flex flex-1 flex-col overflow-auto', contentBgClass]">
         <slot />
       </div>
     </div>
