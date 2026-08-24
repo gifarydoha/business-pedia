@@ -10,7 +10,7 @@ import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
-useSeoMeta({ title: "My Conference Papers" });
+useSeoMeta({ title: "My Papers" });
 
 const { getConferencePapers } = useConferenceService();
 const authStore = useAuthStore();
@@ -156,10 +156,10 @@ const pdfPreviewUrl = ref<string | null>(null);
       @close="pdfPreviewUrl = null"
     />
 
-    <CfpSharedBreadcrumb :crumbs="[{ label: 'My Conference Papers' }]" />
+    <CfpSharedBreadcrumb :crumbs="[{ label: 'My Papers' }]" />
 
     <!-- Page header -->
-    <div class="px-6">
+    <!-- <div class="px-6">
       <div
         class="mx-auto mt-8 flex  w-full max-w-7xl flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5"
       >
@@ -182,7 +182,7 @@ const pdfPreviewUrl = ref<string | null>(null);
           </NuxtLink>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="mx-auto w-full max-w-7xl px-6 py-10 md:py-14">
       <!-- Filter tabs + summary -->
