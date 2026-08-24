@@ -8,5 +8,5 @@
   PassengerStartupFile server.js
   
   # The absolute path to the Node.js executable on Hostinger
-  PassengerNodejs /home/u113983801/.nvm/versions/node/v24.18.0/bin/node
+  PassengerNodejs /home/u113983801/.nvm/versions/node/v24.19.0/bin/node
 </IfModule>
