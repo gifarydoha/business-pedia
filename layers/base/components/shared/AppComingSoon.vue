@@ -15,13 +15,13 @@ defineProps<{
     />
 
     <div class="relative z-10 mx-auto max-w-3xl">
-      <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-secondary/30 bg-white/50 px-4 py-1.5 text-sm font-medium text-brand-secondary shadow-sm backdrop-blur-md">
+      <!-- <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-secondary/30 bg-white/50 px-4 py-1.5 text-sm font-medium text-brand-secondary shadow-sm backdrop-blur-md">
         <UIcon
           name="i-heroicons-sparkles"
           class="size-4 animate-pulse"
         />
         Under Construction
-      </div>
+      </div> -->
 
       <h1 class="mb-6 font-lora text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
         {{ title }}

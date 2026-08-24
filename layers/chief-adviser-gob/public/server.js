@@ -1,21 +1,44 @@
-const fs = require('fs');
+// server.js — Diagnostic version
+// This file will attempt to write a log BEFORE importing Nuxt,
+// so we can confirm whether Passenger is actually starting Node.js at all.
 
-// Catch all errors and exit gracefully to prevent a 508 crash loop
+import { appendFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const logFile = join(__dirname, 'startup.log');
+
+const log = (msg) => {
+  const line = `[${new Date().toISOString()}] ${msg}\n`;
+  try { appendFileSync(logFile, line); } catch (e) {}
+  console.error(line);
+};
+
+// --- Write startup info immediately ---
+log('=== SERVER.JS STARTED ===');
+log('Node.js version: ' + process.version);
+log('__dirname: ' + __dirname);
+log('process.cwd(): ' + process.cwd());
+log('process.env.PORT: ' + process.env.PORT);
+log('process.env.NODE_ENV: ' + process.env.NODE_ENV);
+
 process.on('uncaughtException', (err) => {
-  fs.appendFileSync(__dirname + '/stderr.log', 'Uncaught: ' + err.message + '\n' + err.stack + '\n');
-  process.exit(0); // Exit gracefully so Hostinger doesn't think we are crash-looping
-});
-process.on('unhandledRejection', (err) => {
-  fs.appendFileSync(__dirname + '/stderr.log', 'Unhandled: ' + (err ? err.message : '') + '\n' + (err ? err.stack : '') + '\n');
-  process.exit(0); 
+  log('CRASH uncaughtException: ' + err.message + '\n' + err.stack);
+  process.exit(1);
 });
 
-try {
-  import('./server/index.mjs').catch(err => {
-    fs.appendFileSync(__dirname + '/stderr.log', 'Import Error: ' + err.message + '\n' + err.stack + '\n');
-    process.exit(0);
-  });
-} catch (err) {
-  fs.appendFileSync(__dirname + '/stderr.log', 'Sync Error: ' + err.message + '\n' + err.stack + '\n');
-  process.exit(0);
-}
+process.on('unhandledRejection', (reason) => {
+  log('CRASH unhandledRejection: ' + (reason?.message ?? String(reason)) + '\n' + (reason?.stack ?? ''));
+  process.exit(1);
+});
+
+log('Attempting to import ./server/index.mjs ...');
+
+import('./server/index.mjs').then(() => {
+  log('SUCCESS: server/index.mjs loaded and running');
+}).catch((err) => {
+  log('FAILED to import server/index.mjs: ' + err.message + '\n' + err.stack);
+  process.exit(1);
+});
