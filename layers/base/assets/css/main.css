@@ -246,6 +246,83 @@ html {
 /* Divider */
 .cms-content hr { border: none; border-top: 1px solid var(--border); margin-block: 2em; }
 
+/* ─── FAQ Accordion (native <details>/<summary>, zero JS) ─────────
+   Append to your existing .cms-content stylesheet. Uses the same
+   CSS variables — auto-adapts per layer, no per-page CSS needed. */
+
+.cms-content .faq-list {
+  margin-block: 1.5em;
+}
+
+.cms-content .faq-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.cms-content .faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--foreground);
+  transition: background-color 0.15s ease;
+}
+
+/* Chrome/Safari render their own marker on <summary> unless hidden explicitly */
+.cms-content .faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.cms-content .faq-item summary:hover {
+  background: var(--muted);
+}
+
+.cms-content .faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--brand-primary);
+  transition: transform 0.2s ease;
+}
+
+.cms-content .faq-item[open] summary::after {
+  transform: rotate(45deg); /* "+" rotates into an "x" */
+}
+
+.cms-content .faq-item[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.cms-content .faq-answer {
+  padding: 1rem 1.25rem 1.25rem;
+  color: var(--muted-foreground);
+  animation: faqFadeIn 0.2s ease;
+}
+
+.cms-content .faq-answer p {
+  margin-bottom: 0.75em;
+}
+
+.cms-content .faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes faqFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @layer components {
 
   /* Brand buttons */

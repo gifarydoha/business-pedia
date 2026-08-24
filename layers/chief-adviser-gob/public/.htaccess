@@ -1,12 +1,12 @@
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
+<IfModule litespeed>
+  # The absolute path to your application on Hostinger
+  PassengerAppRoot /home/u113983801/domains/yunuscentre.org/public_html/hca
   
-  # If an existing asset or directory is requested, serve it
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
+  PassengerAppType node
   
-  # Otherwise, fallback to Nuxt's 200.html for Vue router to take over
-  RewriteRule . /200.html [L]
+  # The startup file Passenger will look for
+  PassengerStartupFile server.js
+  
+  # The absolute path to the Node.js executable on Hostinger
+  PassengerNodejs /home/u113983801/.nvm/versions/node/v24.18.0/bin/node
 </IfModule>
