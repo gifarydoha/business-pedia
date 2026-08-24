@@ -11,7 +11,6 @@ export const contentService = {
           keyword,
         },
       },
-
     )) as T;
   },
 
