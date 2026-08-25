@@ -11,6 +11,12 @@ export const useConferenceInitialStore = defineStore("conferenceInitial", () => 
   const conferenceId = computed(() => initialData.value?.conference?.id || "");
   const conferenceDetails = computed(() => initialData.value?.conference || null);
   const conferenceTracks = computed(() => initialData.value?.conference_tracks || []);
+  const conferenceCountries = computed(() => {
+    const rawCountries = initialData.value?.countries || {};
+    return Object.entries(rawCountries)
+      .filter(([id]) => id !== "")
+      .map(([id, name]) => ({ id: Number(id), name: String(name) }));
+  });
   const paperStatuses = computed(() => initialData.value?.paper_statuses || {});
   const finalDecisionList = computed(() => initialData.value?.final_decision_list || {});
 
@@ -35,6 +41,7 @@ export const useConferenceInitialStore = defineStore("conferenceInitial", () => 
     conferenceId,
     conferenceDetails,
     conferenceTracks,
+    conferenceCountries,
     paperStatuses,
     finalDecisionList,
     init,

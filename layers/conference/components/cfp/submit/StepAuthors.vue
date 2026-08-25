@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-import { COUNTRIES } from "~~/layers/conference/types/submission";
+import { useConferenceInitialStore } from "~~/layers/conference/stores/conferenceInitial.store";
 
 const { form, addAuthor, removeAuthor, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
+const conferenceStore = useConferenceInitialStore();
 
 const isAuthorsValid = computed(() => {
   if (form.value.authors.length === 0) return false;
@@ -85,7 +86,7 @@ const isAuthorsValid = computed(() => {
           Select Country
         </option>
         <option
-          v-for="c in COUNTRIES"
+          v-for="c in conferenceStore.conferenceCountries"
           :key="c.id"
           :value="c.id"
         >

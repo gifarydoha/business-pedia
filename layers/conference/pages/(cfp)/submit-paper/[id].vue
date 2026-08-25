@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useConferenceService } from "~~/layers/conference/services/conference.service";
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-// import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 import { useConferenceInitialStore } from "#layers/conference/stores/conferenceInitial.store";
@@ -138,7 +137,7 @@ const resetAndGo = () => {
   />
   <div
     v-else
-    class="mx-auto max-w-3xl px-6 py-14"
+    class="mx-auto w-full max-w-3xl px-6 py-14"
   >
     <div
       v-if="status === 'pending'"

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
+import { useConferenceInitialStore } from "~~/layers/conference/stores/conferenceInitial.store";
 
 const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
+const conferenceStore = useConferenceInitialStore();
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const { form, nextStep, submitPaper, isEditMode, skipSubmission } = useSubmissio
 
     <div class="mb-8 space-y-3">
       <label
-        v-for="track in CONFERENCE_TRACKS"
+        v-for="track in conferenceStore.conferenceTracks"
         :key="track.id"
         class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-colors"
         :class="form.track === track.id ? 'border-brand-primary bg-brand-primary-light' : 'border-brand-primary/20 hover:border-brand-primary/40'"

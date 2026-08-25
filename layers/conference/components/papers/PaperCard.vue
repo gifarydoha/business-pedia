@@ -178,7 +178,7 @@ const isPublishable = computed(() =>
           class="rounded-full border-brand-primary/25 font-poppins text-brand-primary hover:bg-brand-primary-light"
         >
           <Eye class="mr-1.5 size-4" />
-          View
+          Paper View
         </Button>
       </NuxtLink>
 
@@ -189,7 +189,7 @@ const isPublishable = computed(() =>
           class="rounded-full border-brand-primary/25 font-poppins text-brand-primary hover:bg-brand-primary-light"
         >
           <UserPlus class="mr-1.5 size-4" />
-          Reviewer
+          Add Reviewer
         </Button>
       </NuxtLink>
 
@@ -200,7 +200,7 @@ const isPublishable = computed(() =>
           class="hover:bg-brand-accent rounded-full border-brand-secondary/40 font-poppins text-brand-secondary-foreground"
         >
           <CheckCircle class="mr-1.5 size-4" />
-          Decision
+          Final Decision
         </Button>
       </NuxtLink>
 

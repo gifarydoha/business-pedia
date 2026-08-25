@@ -14,6 +14,7 @@ export interface ConferenceInitialResponse {
   conference_tracks: ConferenceTrack[];
   paper_statuses: Record<string, string>;
   final_decision_list: Record<string, string>;
+  countries: Record<string, string>;
   conference?: {
     id: string;
     conference_code: string;

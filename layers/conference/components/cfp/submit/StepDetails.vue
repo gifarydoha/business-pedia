@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
-import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
+import { useConferenceInitialStore } from "~~/layers/conference/stores/conferenceInitial.store";
 
 const { form, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
+const conferenceStore = useConferenceInitialStore();
 
-const getTrackName = (trackId: number | "") => {
+const getTrackName = (trackId: number | string | "") => {
   if (!trackId) return "";
-  const track = CONFERENCE_TRACKS.find((t) => t.id === trackId);
+  const track = conferenceStore.conferenceTracks.find((t) => String(t.id) === String(trackId));
   return track ? track.name : "";
 };
 </script>

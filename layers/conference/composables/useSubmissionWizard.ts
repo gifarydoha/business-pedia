@@ -1,6 +1,4 @@
 import type { SubmissionFormData, SubmissionAuthor } from "~~/layers/conference/types/submission";
-// import type { SubmissionFormData, SubmissionAuthor, PresentationTrack } from "~~/layers/conference/types/submission";
-// import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 import { useConferenceService } from "#layers/conference/services/conference.service";
 import { useConferenceInitialStore } from "../stores/conferenceInitial.store";
 
