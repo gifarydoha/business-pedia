@@ -19,6 +19,7 @@ const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConfe
 interface RawAuthor {
   first_name?: string;
   last_name?: string;
+  is_corresponding_author?: string | number | boolean;
 }
 
 interface RawPaper {
@@ -26,9 +27,14 @@ interface RawPaper {
   title: string;
   abstract: string;
   conference_track_name: string;
+  paper_code?: string;
+  keywords?: string;
+  is_has_permission_to_publish?: string | number | boolean;
   current_status?: string;
   final_decision?: string;
   created?: string;
+  updated?: string;
+  paper_file_name?: string;
   authors: RawAuthor[];
   [key: string]: unknown;
 }
@@ -46,13 +52,24 @@ const papers = computed<Paper[]>(() => {
     return {
       ...p,
       id: String(p.id),
+      paper_code: p.paper_code,
       title: p.title || "Untitled",
       abstract: p.abstract || "No abstract provided.",
       track: p.conference_track_name || "Uncategorized",
+      keywords: p.keywords,
+      is_has_permission_to_publish: p.is_has_permission_to_publish,
+      current_status: p.current_status,
+      created: p.created,
+      updated: p.updated,
+      final_decision: p.final_decision,
+      paper_file_name: p.paper_file_name,
       status,
       submittedDate: p.created || "Unknown Date",
       authors: Array.isArray(p.authors)
-        ? p.authors.map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ")
+        ? p.authors
+          .filter((a) => String(a.is_corresponding_author) === "1" || a.is_corresponding_author === true)
+          .map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim())
+          .join(", ") || p.authors.map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ")
         : "Unknown Authors",
     } as Paper;
   });
@@ -133,6 +150,7 @@ const pdfPreviewUrl = ref<string | null>(null);
           v-for="paper in filtered"
           :key="paper.id"
           :paper="paper"
+          view-type="my-papers"
           @preview="preview = paper"
           @preview-pdf="url => pdfPreviewUrl = url"
         />

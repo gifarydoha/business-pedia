@@ -22,7 +22,31 @@ export function useConferenceService() {
   }
 
   // get all papers of every user of a conference
+  async function getAllConferencePapers(
+    conferenceId: string | number = "10",
+    userUid: string | number,
+    filters?: { conference_track_id?: string | number; status?: string },
+  ) {
+    const query: Record<string, string> = {
+      access_key: "123456789",
+      access_role: "admin",
+      conference_id: String(conferenceId),
+      user_id: String(userUid),
+    };
 
+    if (filters?.conference_track_id) {
+      query.conference_track_id = String(filters.conference_track_id);
+    }
+    if (filters?.status) {
+      query.status = filters.status;
+    }
+
+    return $fetch("/conference/conference_api/conference_paper", {
+      baseURL: confBase,
+      method: "GET",
+      query,
+    });
+  }
   // get all papers of a user
   async function getConferencePapers(conferenceId: string | number = "10", userUid: string | number) {
     return $fetch("/conference/conference_api/conference_paper", {
@@ -70,6 +94,7 @@ export function useConferenceService() {
   }
 
   return {
+    getAllConferencePapers,
     submitConferencePaper,
     getConferencePapers,
     getConferencePaper,

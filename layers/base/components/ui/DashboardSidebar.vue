@@ -29,7 +29,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
   return [
     {
       title: "For Reviewers",
-      roles: ["admin", "editor", "reviewer", "client"],
+      roles: ["admin"],
       items: [
         { label: "Review Request", icon: "i-lucide-file-text", to: "/review-requests" },
         { label: "Instruction For Reviewer", icon: "i-lucide-info", to: "/reviewer-instructions" },
@@ -49,7 +49,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
     },
     {
       title: "Status (Only View)",
-      roles: ["admin", "editor", "reviewer", "author", "client"],
+      roles: ["admin"],
       items: [
         { label: "Submission Summary", icon: "i-lucide-bar-chart-2", to: "/status/submission-summary" },
         { label: "Paper Submission Status", icon: "i-lucide-check-circle", to: "/status/paper-submission-status" },
