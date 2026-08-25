@@ -93,7 +93,19 @@ export function useConferenceService() {
     });
   }
 
+  // get conference initial data
+  async function getConferenceInitial() {
+    return $fetch<any>("/conference/conference_api/conference_initial/current", {
+      baseURL: confBase,
+      method: "GET",
+      query: {
+        access_key: "123456789",
+      },
+    });
+  }
+
   return {
+    getConferenceInitial,
     getAllConferencePapers,
     submitConferencePaper,
     getConferencePapers,

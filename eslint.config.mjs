@@ -44,6 +44,7 @@ export default withNuxt(
           "cfp-.*",
           "cms-.*",
           "brand-.*",
+          ".*brand-.*",
         ],
       }],
     },

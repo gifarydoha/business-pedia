@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { Paper } from "~/layers/conference/types/paper";
-import { statusConfig } from "~/layers/conference/data/papers.mock";
+import { Button } from "~/layers/base/components/ui/button";
+import { FileText, Eye, Edit3, UserPlus, CheckCircle, UploadCloud, DownloadCloud } from "@lucide/vue";
 
 const props = withDefaults(defineProps<{
   paper: Paper;
@@ -30,164 +31,208 @@ const pdfUrl = computed(() =>
 
 const bgColorClass = computed(() => {
   const decision = (props.paper.final_decision || "").toLowerCase();
-  if (decision === "accepted") return "bg-green-50/60";
-  if (decision === "rejected") return "bg-red-50/60";
-  return "bg-white";
+  if (decision === "accept") return "bg-green-50 border-l-4 border-l-green-500 border-green-200";
+  if (decision === "reject") return "bg-red-50 border-l-4 border-l-red-500 border-red-200";
+  return "bg-brand-surface border-l-4 border-l-brand-primary border-brand-primary/15";
 });
+
+const isAccepted = computed(() => (props.paper.final_decision || "").toLowerCase() === "accept");
+const isRejected = computed(() => (props.paper.final_decision || "").toLowerCase() === "reject");
 </script>
 
 <template>
   <div
-    class="overflow-hidden rounded-2xl border border-brand-primary/15 shadow-lg transition-shadow hover:shadow-xl"
+    class="overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-md"
     :class="bgColorClass"
   >
-    <div class="p-6 md:p-7">
-      <div class="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
+    <div class="p-6 md:p-8">
+      <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
         <!-- Content (Left Side) -->
-        <div class="min-w-0 flex-1 space-y-1.5 font-poppins text-[13px] text-gray-700">
-          <h3 class="mb-2 font-lora text-[15px] leading-snug font-bold text-brand-primary">
-            <span v-if="paper.paper_code">{{ paper.paper_code }}:</span> {{ paper.title }}
+        <div class="min-w-0 flex-1 space-y-4 font-poppins text-sm text-brand-footer">
+          <!-- Title & Code -->
+          <h3 class="font-lora text-lg leading-tight font-semibold text-brand-footer">
+            <span
+              v-if="paper.paper_code"
+              class="mr-2 inline-flex items-center rounded-full bg-brand-primary-light px-2.5 py-0.5 text-xs font-semibold text-brand-primary-dark"
+            >{{ paper.paper_code }}</span>
+            {{ paper.title }}
           </h3>
 
-          <p>
-            <span class="font-bold text-gray-900">By:</span>
-            <span class="ml-1 text-brand-primary">{{ paper.authors }}</span>
-          </p>
+          <!-- Details Grid -->
+          <div class="grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-6">
+            <p class="sm:col-span-2">
+              <span class="font-semibold text-brand-footer">By:</span>
+              <span class="ml-1 text-brand-primary">{{ paper.authors }}</span>
+            </p>
 
-          <p>
-            <span class="font-bold text-gray-900">Track:</span> {{ paper.track }}
-          </p>
+            <p class="sm:col-span-2">
+              <span class="font-semibold text-brand-footer">Track:</span> {{ paper.track }}
+            </p>
 
-          <p v-if="paper.keywords">
-            <span class="font-bold text-gray-900">Keyword:</span> {{ paper.keywords }}
-          </p>
-
-          <p>
-            <span class="font-bold text-gray-900">Included in the conference proceedings?:</span>
-            <span
-              class="ml-1 font-bold"
-              :class="String(paper.is_has_permission_to_publish) === '1' || paper.is_has_permission_to_publish === true ? 'text-green-600' : 'text-red-600'"
+            <p
+              v-if="paper.keywords"
+              class="sm:col-span-2"
             >
-              {{ String(paper.is_has_permission_to_publish) === '1' || paper.is_has_permission_to_publish === true ? 'Yes' : 'No' }}
-            </span>
-          </p>
+              <span class="font-semibold text-brand-footer">Keyword:</span>
+              <span class="ml-1 text-brand-footer/80">{{ paper.keywords }}</span>
+            </p>
 
-          <p>
-            <span class="font-bold text-gray-900">Status:</span> {{ paper.current_status || paper.status }}
-          </p>
+            <p>
+              <span class="font-semibold text-brand-footer">Status:</span>
+              <span class="ml-1 inline-flex items-center rounded-full bg-brand-accent px-2.5 py-0.5 text-xs font-medium text-brand-accent-foreground">
+                {{ paper.current_status }}
+              </span>
+            </p>
 
-          <p>
-            <span class="font-bold text-gray-900">Created Date:</span> {{ paper.created || paper.submittedDate }}
-            <span class="ml-2 font-bold text-gray-900">Last Updated:</span> {{ paper.updated || paper.submittedDate }}
-          </p>
+            <p>
+              <span class="font-semibold text-brand-footer">Final Decision:</span>
+              <span
+                class="ml-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize font-lora"
+                :class="{
+                  'bg-green-100 text-green-700': isAccepted,
+                  'bg-red-100 text-red-700': isRejected,
+                  'bg-brand-accent text-brand-accent-foreground': !isAccepted && !isRejected,
+                }"
+              >
+                {{ paper.final_decision || 'Pending' }}
+              </span>
+            </p>
 
-          <p>
-            <span class="font-bold text-gray-900">Final Decision:</span>
-            <span
-              class="ml-1 font-bold capitalize"
-              :class="{
-                'text-green-700': (paper.final_decision || '').toLowerCase() === 'accepted',
-                'text-red-600': (paper.final_decision || '').toLowerCase() === 'rejected',
-                'text-gray-600': !(paper.final_decision || '').toLowerCase(),
-              }"
-            >
-              {{ paper.final_decision || 'Pending' }}
-            </span>
-          </p>
+            <p>
+              <span class="font-semibold text-brand-footer">Created Date:</span>
+              <span class="ml-1 text-brand-footer/80">{{ paper.created || paper.submittedDate }}</span>
+            </p>
 
+            <p>
+              <span class="font-semibold text-brand-footer">Last Updated:</span>
+              <span class="ml-1 text-brand-footer/80">{{ paper.updated || paper.submittedDate }}</span>
+            </p>
+
+            <p class="sm:col-span-2">
+              <span class="font-semibold text-brand-footer">Included in the conference proceedings?:</span>
+              <span
+                class="ml-1 font-semibold"
+                :class="String(paper.is_has_permission_to_publish) === '1' || paper.is_has_permission_to_publish === true ? 'text-brand-primary' : 'text-destructive'"
+              >
+                {{ String(paper.is_has_permission_to_publish) === '1' || paper.is_has_permission_to_publish === true ? 'Yes' : 'No' }}
+              </span>
+            </p>
+          </div>
+
+          <!-- Paper File -->
           <div
             v-if="paper.paper_file_name && pdfUrl"
-            class="mt-4 pt-2"
+            class="mt-6 border-t border-brand-primary/10 pt-4"
           >
-            <span class="mb-1 block font-bold text-gray-900">Paper (before review):</span>
+            <span class="mb-3 block font-semibold text-brand-footer">Paper (before review):</span>
             <a
               :href="pdfUrl"
               target="_blank"
-              class="inline-flex items-center gap-2 text-brand-primary hover:underline"
+              class="inline-flex items-center gap-3 rounded-lg border border-brand-primary/20 bg-brand-primary-light px-4 py-2.5 text-sm font-medium text-brand-primary-dark shadow-sm transition-all hover:bg-brand-primary/20 hover:text-brand-footer hover:shadow"
             >
-              <svg
-                class="size-6 text-red-500"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <path d="M10 12v6" />
-                <path d="M8 15h4" />
-                <path d="M16 12v6" />
-              </svg>
-              {{ paper.paper_file_name }}
+              <FileText class="size-5 text-destructive" />
+              <span class="max-w-xs truncate sm:max-w-md">{{ paper.paper_file_name }}</span>
             </a>
           </div>
         </div>
 
         <!-- Actions (Right Side) -->
-        <div class="flex shrink-0 flex-col gap-2 sm:w-64">
-          <div class="flex gap-2">
-            <NuxtLink
-              :to="`/submit-paper/${paper.id}?action=view`"
-              class="flex-1 rounded border border-gray-300 bg-white px-2 py-1.5 text-center text-sm font-bold text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+        <div class="grid w-full shrink-0 grid-cols-2 gap-2 sm:w-64">
+          <NuxtLink
+            :to="`/submit-paper/${paper.id}?action=view`"
+            class="col-span-1 block"
+          >
+            <Button
+              variant="outline"
+              size="sm"
+              class="w-full justify-start border-brand-primary text-brand-primary font-lora hover:bg-brand-primary hover:text-brand-primary-foreground"
             >
+              <Eye class="mr-2 size-4" />
               Paper View
-            </NuxtLink>
-            <NuxtLink
-              to="#"
-              class="flex-1 rounded border border-green-600 bg-green-500 px-2 py-1.5 text-center text-sm font-bold text-white shadow-sm transition-colors hover:bg-green-600"
-            >
-              Add Reviewer
-            </NuxtLink>
-          </div>
-
-          <div class="flex gap-2">
-            <NuxtLink
-              to="#"
-              class="flex-1 rounded border border-cyan-500 bg-cyan-400 px-2 py-1.5 text-center text-sm font-bold text-white shadow-sm transition-colors hover:bg-cyan-500"
-            >
-              Final Decision?
-            </NuxtLink>
-            <div
-              v-if="viewType === 'all-papers'"
-              class="flex-1"
-            />
-            <NuxtLink
-              v-if="viewType === 'my-papers'"
-              :to="`/submit-paper/${paper.id}?action=edit`"
-              class="flex-1 rounded border border-brand-secondary bg-brand-secondary px-2 py-1.5 text-center text-sm font-bold text-white shadow-sm transition-colors hover:bg-brand-secondary/90"
-            >
-              Edit
-            </NuxtLink>
-          </div>
+            </Button>
+          </NuxtLink>
 
           <NuxtLink
-            v-if="viewType === 'my-papers'"
             to="#"
-            class="rounded border border-blue-600 bg-blue-500 px-2 py-1.5 text-center text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-600"
+            class="col-span-1 block"
           >
-            Submit Final Paper
+            <Button
+              variant="default"
+              size="sm"
+              class="w-full justify-start bg-brand-primary text-brand-primary-foreground font-lora hover:bg-brand-primary-dark"
+            >
+              <UserPlus class="mr-2 size-4" />
+              Add Reviewer
+            </Button>
           </NuxtLink>
+
+          <NuxtLink
+            to="#"
+            class="col-span-1 block"
+          >
+            <Button
+              variant="default"
+              size="sm"
+              class="w-full justify-start bg-brand-secondary text-brand-secondary-foreground font-lora hover:bg-brand-secondary/80"
+            >
+              <CheckCircle class="mr-2 size-4" />
+              Final Decision?
+            </Button>
+          </NuxtLink>
+          
+          <template v-if="viewType === 'my-papers'">
+            <NuxtLink
+              :to="`/submit-paper/${paper.id}?action=edit`"
+              class="col-span-1 block"
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                class="w-full justify-start border-brand-primary text-brand-primary font-lora hover:bg-brand-primary-light"
+              >
+                <Edit3 class="mr-2 size-4" />
+                Edit
+              </Button>
+            </NuxtLink>
+
+            <NuxtLink
+              to="#"
+              class="col-span-2 block"
+            >
+              <Button
+                variant="default"
+                size="sm"
+                class="w-full justify-start bg-brand-primary-dark text-white font-lora hover:bg-brand-primary"
+              >
+                <UploadCloud class="mr-2 size-4" />
+                Submit Final Paper
+              </Button>
+            </NuxtLink>
+          </template>
+          
+          <!-- Spacer for all-papers layout -->
+          <div v-else class="col-span-1 hidden sm:block"></div>
+
+          <div class="col-span-2 my-1 h-px w-full bg-brand-primary/10" />
 
           <a
             v-if="pdfUrl"
             :href="pdfUrl"
             :download="paper.paper_file_name ?? 'paper.pdf'"
             target="_blank"
-            class="mt-2 rounded bg-brand-primary-dark px-2 py-1.5 text-center text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+            class="col-span-2 block"
           >
-            Download
+            <Button
+              variant="outline"
+              size="sm"
+              class="w-full justify-start font-lora border-border text-foreground hover:bg-muted"
+            >
+              <DownloadCloud class="mr-2 size-4" />
+              Download
+            </Button>
           </a>
         </div>
       </div>
     </div>
-
-    <!-- Status accent bar -->
-    <div
-      class="h-1 w-full"
-      :class="statusConfig[paper.status]?.dot || 'bg-gray-300'"
-    />
   </div>
 </template>

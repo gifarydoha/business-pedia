@@ -1,17 +1,36 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import type { Paper, PaperStatus } from "~/layers/conference/types/paper";
+import { ref, watchEffect } from "vue";
+import type { ConferenceInitialResponse, ConferenceTrack } from "~/layers/conference/types/conference";
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
 import { useConferenceService } from "~/layers/conference/services/conference.service";
+import { useConferencePapersList } from "~/layers/conference/composables/useConferencePapersList";
 
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
 useSeoMeta({ title: "All Papers" });
 
-const { getAllConferencePapers } = useConferenceService();
+
+const { getAllConferencePapers, getConferenceInitial } = useConferenceService();
 const authStore = useAuthStore();
 
 const selectedTrack = ref("");
 const selectedStatus = ref("");
+
+const conferenceTracks = ref<ConferenceTrack[]>([]);
+const paperStatuses = ref<Record<string, string>>({});
+
+const { data: initialData } = useAsyncData("conference-initial", () => getConferenceInitial());
+
+watchEffect(() => {
+  if (initialData.value) {
+    const data = initialData.value as ConferenceInitialResponse;
+    if (data.conference_tracks) {
+      conferenceTracks.value = data.conference_tracks;
+    }
+    if (data.paper_statuses) {
+      paperStatuses.value = data.paper_statuses;
+    }
+  }
+});
 
 const { data: rawPapers, status } = useLazyAsyncData(
   "all-papers",
@@ -25,77 +44,7 @@ const { data: rawPapers, status } = useLazyAsyncData(
   },
 );
 
-interface RawAuthor {
-  first_name?: string;
-  last_name?: string;
-  is_corresponding_author?: string | number | boolean;
-}
-
-interface RawPaper {
-  id: string;
-  title: string;
-  abstract: string;
-  conference_track_name: string;
-  paper_code?: string;
-  keywords?: string;
-  is_has_permission_to_publish?: string | number | boolean;
-  current_status?: string;
-  final_decision?: string;
-  created?: string;
-  updated?: string;
-  paper_file_name?: string;
-  authors: RawAuthor[];
-  [key: string]: unknown;
-}
-
-const papers = computed<Paper[]>(() => {
-  const response = rawPapers.value as { conference_papers?: RawPaper[] } | null;
-  if (!response?.conference_papers) return [];
-
-  return response.conference_papers.map((p) => {
-    let paperStatus: PaperStatus = "Draft";
-    if (p.final_decision === "accepted") paperStatus = "Accepted";
-    else if (p.final_decision === "rejected") paperStatus = "Rejected";
-    else if (p.current_status === "submitted" || p.current_status === "under_review") paperStatus = "Under Review";
-
-    return {
-      ...p,
-      id: String(p.id),
-      paper_code: p.paper_code,
-      title: p.title || "Untitled",
-      abstract: p.abstract || "No abstract provided.",
-      track: p.conference_track_name || "Uncategorized",
-      keywords: p.keywords,
-      is_has_permission_to_publish: p.is_has_permission_to_publish,
-      current_status: p.current_status,
-      created: p.created,
-      updated: p.updated,
-      final_decision: p.final_decision,
-      paper_file_name: p.paper_file_name,
-      status: paperStatus,
-      submittedDate: p.created || "Unknown Date",
-      authors: Array.isArray(p.authors)
-        ? p.authors
-          .filter((a) => String(a.is_corresponding_author) === "1" || a.is_corresponding_author === true)
-          .map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim())
-          .join(", ") || p.authors.map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ")
-        : "Unknown Authors",
-    } as Paper;
-  });
-});
-
-type FilterTab = "All" | PaperStatus;
-
-const preview = ref<Paper | null>(null);
-const activeFilter = ref<FilterTab>("All");
-
-const filtered = computed(() => {
-  return activeFilter.value === "All"
-    ? papers.value
-    : papers.value.filter((p) => p.status === activeFilter.value);
-});
-
-const pdfPreviewUrl = ref<string | null>(null);
+const { papers, preview, pdfPreviewUrl } = useConferencePapersList(rawPapers);
 </script>
 
 <template>
@@ -117,10 +66,13 @@ const pdfPreviewUrl = ref<string | null>(null);
             <option value="">
               All Tracks
             </option>
-            <option value="30">
-              Track 30
+            <option
+              v-for="track in conferenceTracks"
+              :key="track.id"
+              :value="track.id"
+            >
+              {{ track.name }}
             </option>
-            <!-- Add more track options here dynamically later if needed -->
           </select>
 
           <!-- Status Filter -->
@@ -128,20 +80,12 @@ const pdfPreviewUrl = ref<string | null>(null);
             v-model="selectedStatus"
             class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-brand-primary focus:ring-1 focus:ring-brand-primary focus:outline-none"
           >
-            <option value="">
-              All Statuses
-            </option>
-            <option value="no_decision">
-              No Decision
-            </option>
-            <option value="accepted">
-              Accepted
-            </option>
-            <option value="rejected">
-              Rejected
-            </option>
-            <option value="under_review">
-              Under Review
+            <option
+              v-for="(name, key) in paperStatuses"
+              :key="key"
+              :value="key"
+            >
+              {{ name }}
             </option>
           </select>
         </div>
@@ -160,7 +104,7 @@ const pdfPreviewUrl = ref<string | null>(null);
 
       <!-- Empty state -->
       <div
-        v-else-if="filtered.length === 0"
+        v-else-if="papers.length === 0"
         class="rounded-2xl border border-brand-primary/15 bg-white p-16 text-center shadow-lg"
       >
         <div class="mx-auto mb-5 flex size-16 items-center justify-center rounded-full bg-brand-primary-light">
@@ -188,11 +132,11 @@ const pdfPreviewUrl = ref<string | null>(null);
 
       <!-- Paper cards -->
       <div
-        v-if="filtered.length > 0 && status !== 'pending'"
+        v-if="papers.length > 0 && status !== 'pending'"
         class="space-y-5"
       >
         <PaperCard
-          v-for="paper in filtered"
+          v-for="paper in papers"
           :key="paper.id"
           :paper="paper"
           view-type="all-papers"

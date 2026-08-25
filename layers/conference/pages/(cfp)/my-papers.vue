@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import type { Paper, PaperStatus } from "~/layers/conference/types/paper";
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
 import { useConferenceService } from "~/layers/conference/services/conference.service";
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+import { useConferencePapersList } from "~/layers/conference/composables/useConferencePapersList";
 
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 
@@ -16,77 +15,7 @@ const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConfe
   server: false,
 });
 
-interface RawAuthor {
-  first_name?: string;
-  last_name?: string;
-  is_corresponding_author?: string | number | boolean;
-}
-
-interface RawPaper {
-  id: string;
-  title: string;
-  abstract: string;
-  conference_track_name: string;
-  paper_code?: string;
-  keywords?: string;
-  is_has_permission_to_publish?: string | number | boolean;
-  current_status?: string;
-  final_decision?: string;
-  created?: string;
-  updated?: string;
-  paper_file_name?: string;
-  authors: RawAuthor[];
-  [key: string]: unknown;
-}
-
-const papers = computed<Paper[]>(() => {
-  const response = rawPapers.value as { conference_papers?: RawPaper[] } | null;
-  if (!response?.conference_papers) return [];
-
-  return response.conference_papers.map((p) => {
-    let status: PaperStatus = "Draft";
-    if (p.final_decision === "accepted") status = "Accepted";
-    else if (p.final_decision === "rejected") status = "Rejected";
-    else if (p.current_status === "submitted" || p.current_status === "under_review") status = "Under Review";
-
-    return {
-      ...p,
-      id: String(p.id),
-      paper_code: p.paper_code,
-      title: p.title || "Untitled",
-      abstract: p.abstract || "No abstract provided.",
-      track: p.conference_track_name || "Uncategorized",
-      keywords: p.keywords,
-      is_has_permission_to_publish: p.is_has_permission_to_publish,
-      current_status: p.current_status,
-      created: p.created,
-      updated: p.updated,
-      final_decision: p.final_decision,
-      paper_file_name: p.paper_file_name,
-      status,
-      submittedDate: p.created || "Unknown Date",
-      authors: Array.isArray(p.authors)
-        ? p.authors
-          .filter((a) => String(a.is_corresponding_author) === "1" || a.is_corresponding_author === true)
-          .map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim())
-          .join(", ") || p.authors.map((a) => `${a.first_name || ""} ${a.last_name || ""}`.trim()).join(", ")
-        : "Unknown Authors",
-    } as Paper;
-  });
-});
-
-type FilterTab = "All" | PaperStatus;
-
-const preview = ref<Paper | null>(null);
-const activeFilter = ref<FilterTab>("All");
-
-const filtered = computed(() => {
-  return activeFilter.value === "All"
-    ? papers.value
-    : papers.value.filter((p) => p.status === activeFilter.value);
-});
-
-const pdfPreviewUrl = ref<string | null>(null);
+const { papers, preview, pdfPreviewUrl } = useConferencePapersList(rawPapers);
 </script>
 
 <template>
@@ -107,7 +36,7 @@ const pdfPreviewUrl = ref<string | null>(null);
 
       <!-- Empty state -->
       <div
-        v-else-if="filtered.length === 0"
+        v-else-if="papers.length === 0"
         class="rounded-2xl border border-brand-primary/15 bg-white p-16 text-center shadow-lg"
       >
         <div class="mx-auto mb-5 flex size-16 items-center justify-center rounded-full bg-brand-primary-light">
@@ -126,12 +55,10 @@ const pdfPreviewUrl = ref<string | null>(null);
           </svg>
         </div>
         <h3 class="mb-2 font-lora text-xl font-bold text-brand-primary">
-          {{ activeFilter === 'All' ? 'No papers submitted yet' : `No ${activeFilter} papers` }}
+          No papers submitted yet
         </h3>
         <p class="mx-auto mb-6 max-w-sm font-poppins text-sm text-gray-500">
-          {{ activeFilter === 'All'
-            ? 'You have not submitted any papers for this conference yet. Get started by clicking below.'
-            : `You don't have any papers with "${activeFilter}" status.` }}
+          You have not submitted any papers for this conference yet. Get started by clicking below.
         </p>
         <NuxtLink
           :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"
@@ -143,11 +70,11 @@ const pdfPreviewUrl = ref<string | null>(null);
 
       <!-- Paper cards -->
       <div
-        v-if="filtered.length > 0"
+        v-if="papers.length > 0"
         class="space-y-5"
       >
         <PaperCard
-          v-for="paper in filtered"
+          v-for="paper in papers"
           :key="paper.id"
           :paper="paper"
           view-type="my-papers"
