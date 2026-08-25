@@ -4,7 +4,7 @@ export const contentService = {
     const config = useRuntimeConfig();
 
     return (await $fetch(
-      `${config.public.apiBase}/website/website_api/contents/${contentType}`, {
+      `${config.public.apiBase}/website/website_api/contents/${contentType}` as string, {
         query: {
           access_key: config.public.apiAccessKey,
           page,
@@ -18,7 +18,7 @@ export const contentService = {
     const config = useRuntimeConfig();
 
     return (await $fetch(
-      `${config.public.apiBase}/website/website_api/content/${alias}`, {
+      `${config.public.apiBase}/website/website_api/content/${alias}` as string, {
         query: {
           access_key: config.public.apiAccessKey,
         },

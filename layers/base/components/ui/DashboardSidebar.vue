@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+import { useAuthStore } from "~~/layers/base/stores/auth";
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
+const authStore = useAuthStore();
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const open = ref(true);
 
@@ -17,25 +19,70 @@ provide("toggleSidebar", () => {
   open.value = !open.value;
 });
 
-function getItems(_state: "collapsed" | "expanded") {
+interface NavigationGroup {
+  title: string;
+  roles: string[];
+  items: NavigationMenuItem[];
+}
+
+const navGroups = computed<NavigationGroup[]>(() => {
   return [
     {
-      label: "My Papers",
-      icon: "i-lucide-files",
-      to: "/my-papers",
+      title: "For Reviewers",
+      roles: ["admin", "editor", "reviewer", "client"],
+      items: [
+        { label: "Review Request", icon: "i-lucide-file-text", to: "/review-requests" },
+        { label: "Instruction For Reviewer", icon: "i-lucide-info", to: "/reviewer-instructions" },
+      ],
     },
     {
-      label: hasSubmittedPaper.value ? "Edit Your Paper" : "Submit Paper",
-      icon: "i-lucide-file-plus",
-      to: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : "/submit-paper/draft",
+      title: "Email & Notification",
+      roles: [],
+      items: [
+        { label: "Committee: Email to Author", icon: "i-lucide-mail", to: "/email/committee-to-author" },
+        { label: "Committee: Email to all chair", icon: "i-lucide-mail", to: "/email/committee-to-chairs" },
+        { label: "Reviewer: Email to Chair", icon: "i-lucide-mail", to: "/email/reviewer-to-chair" },
+        { label: "Author: Email to Chair", icon: "i-lucide-mail", to: "/email/author-to-chair" },
+        { label: "Recent Notifications", icon: "i-lucide-bell", to: "/notifications/recent" },
+        { label: "All Notifications", icon: "i-lucide-bell-ring", to: "/notifications/all" },
+      ],
     },
     {
-      label: "Profile",
-      icon: "i-lucide-user",
-      to: "/profile",
+      title: "Status (Only View)",
+      roles: ["admin", "editor", "reviewer", "author", "client"],
+      items: [
+        { label: "Submission Summary", icon: "i-lucide-bar-chart-2", to: "/status/submission-summary" },
+        { label: "Paper Submission Status", icon: "i-lucide-check-circle", to: "/status/paper-submission-status" },
+      ],
     },
-  ] satisfies NavigationMenuItem[];
-}
+    {
+      title: "Conference Papers",
+      roles: ["admin", "editor", "reviewer", "client"],
+      items: [
+        { label: "All Papers", icon: "i-lucide-files", to: "/all-papers" },
+      ],
+    },
+    {
+      title: "For Authors",
+      roles: ["admin", "editor", "author", "client"],
+      items: [
+        // { label: "My Current Paper", icon: "i-lucide-file", to: "/my-papers/current" },
+        { label: "My All Papers", icon: "i-lucide-files", to: "/my-papers" },
+        // { label: "Previous Papers", icon: "i-lucide-archive", to: "/my-papers/previous" },
+        {
+          label: hasSubmittedPaper.value ? "Edit Your Paper" : "Submit Paper",
+          icon: "i-lucide-file-plus",
+          to: hasSubmittedPaper.value ? `/submit-paper/${submittedPaperId.value}` : "/submit-paper/draft",
+        },
+        {
+          label: "Profile",
+          icon: "i-lucide-user",
+          to: "/profile",
+        },
+      ],
+    },
+  ];
+});
 </script>
 
 <template>
@@ -50,18 +97,30 @@ function getItems(_state: "collapsed" | "expanded") {
         root: 'static! h-full! z-10!',
         container: 'h-full static! border-none',
         inner: 'bg-brand-primary-light divide-transparent h-full!',
-        body: 'py-0',
+        body: 'py-4 flex flex-col gap-6 overflow-y-auto',
       }"
     >
       <template #default="{ state }">
-        <UNavigationMenu
-          :key="state"
-          :items="getItems(state)"
-          orientation="vertical"
-          :ui="{
-            link: 'p-2 overflow-hidden transition-colors rounded-md text-slate-800 hover:text-slate-900 data-[active]:bg-slate-100 data-[active]:text-slate-900 data-[active]:hover:text-slate-900',
-          }"
-        />
+        <template
+          v-for="group in navGroups"
+          :key="group.title"
+        >
+          <div v-if="group.roles.includes(authStore.userRole || 'reader')">
+            <div
+              v-if="state === 'expanded'"
+              class="mb-2 rounded-md border border-teal-100/50 bg-teal-50/80 px-3 py-1.5 text-sm font-semibold text-teal-700"
+            >
+              {{ group.title }}
+            </div>
+            <UNavigationMenu
+              :items="group.items"
+              orientation="vertical"
+              :ui="{
+                link: 'p-2 overflow-hidden transition-colors rounded-md text-slate-800 hover:text-slate-900 data-[active]:bg-slate-100 data-[active]:text-slate-900 data-[active]:hover:text-slate-900',
+              }"
+            />
+          </div>
+        </template>
       </template>
     </USidebar>
 

@@ -21,6 +21,8 @@ export function useConferenceService() {
     });
   }
 
+  // get all papers of every user of a conference
+
   // get all papers of a user
   async function getConferencePapers(conferenceId: string | number = "10", userUid: string | number) {
     return $fetch("/conference/conference_api/conference_paper", {

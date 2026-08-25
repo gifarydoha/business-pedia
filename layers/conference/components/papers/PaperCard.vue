@@ -33,24 +33,6 @@ const pdfUrl = computed(() =>
       <div class="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
         <!-- Content -->
         <div class="min-w-0 flex-1">
-          <div class="mb-3 flex flex-wrap items-center gap-2">
-            <!-- Track badge -->
-            <!-- <span class="rounded-full bg-brand-secondary/20 px-3 py-1 font-poppins text-xs font-semibold text-brand-primary">
-              {{ paper.track }}
-            </span> -->
-            <!-- Status badge -->
-            <!-- <span
-              class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-poppins text-xs font-semibold"
-              :class="[statusConfig[paper.status].bg, statusConfig[paper.status].text]"
-            >
-              <span
-                class="size-1.5 shrink-0 rounded-full"
-                :class="statusConfig[paper.status].dot"
-              />
-              {{ paper.status }}
-            </span> -->
-          </div>
-
           <h3 class="mb-2 font-lora text-lg leading-snug font-bold text-brand-primary">
             {{ paper.title }}
           </h3>
@@ -63,22 +45,11 @@ const pdfUrl = computed(() =>
             <span>
               <span class="font-medium text-gray-500">Authors:</span> {{ paper.authors }}
             </span>
-            <!-- <span>·</span> -->
-            <!-- <span>Submitted {{ paper.submittedDate }}</span> -->
-            <!-- <span>·</span> -->
-            <!-- <span class="font-mono">{{ paper.id }}</span> -->
           </div>
         </div>
 
         <!-- Actions: 2x2 grid -->
         <div class="grid shrink-0 grid-cols-1 gap-2 sm:w-40">
-          <!-- Lowest importance: Preview (Modal) -->
-          <!-- <button
-            class="flex-1 rounded-lg border-2 border-brand-primary/30 px-3 py-2 text-center font-lora text-sm font-semibold text-brand-primary/70 transition-colors hover:bg-brand-primary/10 hover:text-brand-primary"
-            @click="$emit('preview', paper)"
-          >
-            Preview
-          </button> -->
           <NuxtLink
             :to="`/submit-paper/${paper.id}?action=view`"
             class="flex-1 rounded-lg bg-brand-secondary px-3 py-2 text-center font-lora text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
@@ -93,16 +64,6 @@ const pdfUrl = computed(() =>
           >
             Edit
           </NuxtLink>
-
-          <!-- Medium importance: Preview PDF -->
-          <!-- <button
-            v-if="pdfUrl"
-            class="flex-1 rounded-lg border-2 border-primary-teal px-3 py-2 text-center font-lora text-sm font-bold
-            text-primary-teal transition-colors hover:bg-primary-teal hover:text-white"
-            @click.prevent="$emit('preview-pdf', pdfUrl)"
-          >
-            Preview PDF
-          </button> -->
 
           <!-- High importance: Download -->
           <a
