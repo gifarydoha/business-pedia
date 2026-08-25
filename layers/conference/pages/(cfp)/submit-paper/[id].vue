@@ -4,6 +4,7 @@ import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmiss
 // import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+import { useConferenceInitialStore } from "#layers/conference/stores/conferenceInitial.store";
 
 definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "Edit Paper Submission" });
@@ -16,7 +17,7 @@ const { hasSubmittedPaper, submittedPaperId, isLoading: isPaperLoading } = useUs
 watch(
   [hasSubmittedPaper, isPaperLoading],
   ([hasPaper, loading]) => {
-    if (!loading && hasPaper && submittedPaperId.value && paperId !== submittedPaperId.value) {
+    if (!loading && hasPaper && submittedPaperId.value && paperId === "draft") {
       navigateTo(`/submit-paper/${submittedPaperId.value}`);
     }
   },
@@ -29,8 +30,13 @@ const { currentStep, form, submitted, reset } = useSubmissionWizard();
 submitted.value = false;
 const { getConferencePaper } = useConferenceService();
 const authStore = useAuthStore();
+const conferenceStore = useConferenceInitialStore();
 
-const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, authStore.user?.id || ""));
+const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, async () => {
+  await conferenceStore.init();
+  if (paperId === "draft") return null;
+  return getConferencePaper(paperId, authStore.user?.id || "");
+});
 
 // watch(error, (err) => {
 //   if (err) console.error("Failed to fetch paper:", err);
@@ -123,7 +129,7 @@ const resetAndGo = () => {
 
 <template>
   <SharedAppComingSoon
-    v-if="['client', 'reader'].includes(authStore.userRole || 'reader')"
+    v-if="['author', 'reader'].some(r => (authStore.userRoles.length ? authStore.userRoles : ['reader']).includes(r))"
     title="Conference Registration will start from 25th August, 2026"
     description=""
   />

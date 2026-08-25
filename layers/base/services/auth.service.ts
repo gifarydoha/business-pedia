@@ -14,7 +14,18 @@ import type {
   GoogleLoginPayload,
   QuickRegisterPayload,
 } from "~~/layers/base/types/auth";
-import type { User } from "~~/layers/base/types/user";
+import type { User, RoleItem } from "~~/layers/base/types/user";
+
+function processRole(rawRole: RoleItem[]): RoleItem[] {
+  if (!rawRole || rawRole.length === 0 || (rawRole.length === 1 && rawRole[0].role_alias === "default-user")) {
+    return [{
+      role_name: "Author",
+      role_alias: "author",
+      role_parent_name: "System User",
+    }];
+  }
+  return rawRole;
+}
 
 function mapCIResponse(res: CIAuthResponse): AuthResult {
   return {
@@ -23,7 +34,7 @@ function mapCIResponse(res: CIAuthResponse): AuthResult {
       name: res.data.user.name,
       email: res.data.user.email,
       phone: res.data.user.phone ?? "",
-      role: res.data.user.role,
+      role: processRole(res.data.user.role),
       avatar: res.data.user.avatar,
       emailVerified: res.data.user.email_verified,
       createdAt: res.data.user.created_at,
@@ -41,7 +52,7 @@ function mapCIUser(raw: CIAuthResponse["data"]["user"]): User {
     name: raw.name,
     email: raw.email,
     phone: raw.phone ?? "",
-    role: raw.role,
+    role: processRole(raw.role),
     avatar: raw.avatar,
     emailVerified: raw.email_verified,
     createdAt: raw.created_at,

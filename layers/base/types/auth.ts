@@ -1,6 +1,6 @@
-import type { User, UserRole } from "~~/layers/base/types/user";
+import type { User, RoleItem, RoleAlias } from "~~/layers/base/types/user";
 
-export type { User, UserRole };
+export type { User, RoleItem, RoleAlias };
 
 export interface AuthTokents {
   accessToken: string;
@@ -72,7 +72,7 @@ export interface CIAuthResponse {
       name: string;
       email: string;
       phone?: string;
-      role: UserRole;
+      role: RoleItem[];
       avatar?: string;
       email_verified: boolean;
       created_at: string;

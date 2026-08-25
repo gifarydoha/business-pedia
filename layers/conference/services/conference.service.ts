@@ -7,7 +7,7 @@ export function useConferenceService() {
 
   async function submitConferencePaper(formData: FormData, userId: string | number) {
     if (!formData.has("conference_id")) {
-      formData.append("conference_id", conferenceStore.conferenceId);
+      formData.append("conference_id", String(conferenceStore.conferenceId));
     }
     const isMyPaper = formData.get("is_my_paper")?.toString() || "1";
 
@@ -28,7 +28,7 @@ export function useConferenceService() {
   // get all papers of every user of a conference
   async function getAllConferencePapers(
     userUid: string | number,
-    filters?: { track_id?: string; status?: string }
+    filters?: { track_id?: string; status?: string },
   ) {
     return $fetch<any>("/conference/conference_api/conference_paper", {
       baseURL: confBase,
@@ -75,7 +75,7 @@ export function useConferenceService() {
   // Update a single paper
   async function updateConferencePaper(id: string | number, formData: FormData, userId: string | number) {
     if (!formData.has("conference_id")) {
-      formData.append("conference_id", conferenceStore.conferenceId);
+      formData.append("conference_id", String(conferenceStore.conferenceId));
     }
     const isMyPaper = formData.get("is_my_paper")?.toString() || "1";
 

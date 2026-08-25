@@ -83,14 +83,17 @@ const isPublishable = computed(() =>
           >
             {{ paper.paper_code }}
           </span>
-          <span class="rounded-full px-2.5 py-0.5 font-poppins text-xs font-medium" :class="decisionTone.badge">
+          <span
+            class="rounded-full px-2.5 py-0.5 font-poppins text-xs font-medium"
+            :class="decisionTone.badge"
+          >
             {{ paper.final_decision || 'Pending' }}
           </span>
-          <span class="rounded-full bg-brand-accent px-2.5 py-0.5 font-poppins text-xs font-medium text-brand-accent-foreground">
+          <span class="bg-brand-accent text-brand-accent-foreground rounded-full px-2.5 py-0.5 font-poppins text-xs font-medium">
             {{ paper.current_status }}
           </span>
         </div>
-        <h3 class="font-lora text-lg leading-snug font-semibold text-brand-footer">
+        <h3 class="text-brand-footer font-lora text-lg leading-snug font-semibold">
           {{ paper.title }}
         </h3>
       </div>
@@ -98,25 +101,41 @@ const isPublishable = computed(() =>
 
     <!-- Soft stat-chip metadata grid, mirrors dashboard-card feel -->
     <div class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-      <div class="rounded-2xl bg-brand-surface p-3.5">
+      <div class="bg-brand-surface rounded-2xl p-3.5">
         <Users class="mb-2 size-4 text-brand-primary/60" />
-        <p class="mb-0.5 truncate font-poppins text-xs text-muted-foreground">Authors</p>
-        <p class="truncate font-poppins text-sm font-semibold text-brand-footer">{{ paper.authors }}</p>
+        <p class="mb-0.5 truncate font-poppins text-xs text-muted-foreground">
+          Author
+        </p>
+        <p class="text-brand-footer truncate font-poppins text-sm font-semibold">
+          {{ paper.authors }}
+        </p>
       </div>
-      <div class="rounded-2xl bg-brand-surface p-3.5">
+      <div class="bg-brand-surface rounded-2xl p-3.5">
         <Tag class="mb-2 size-4 text-brand-primary/60" />
-        <p class="mb-0.5 font-poppins text-xs text-muted-foreground">Track</p>
-        <p class="truncate font-poppins text-sm font-semibold text-brand-footer">{{ paper.track }}</p>
+        <p class="mb-0.5 font-poppins text-xs text-muted-foreground">
+          Track
+        </p>
+        <p class="text-brand-footer truncate font-poppins text-sm font-semibold">
+          {{ paper.track }}
+        </p>
       </div>
-      <div class="rounded-2xl bg-brand-surface p-3.5">
+      <div class="bg-brand-surface rounded-2xl p-3.5">
         <Calendar class="mb-2 size-4 text-brand-primary/60" />
-        <p class="mb-0.5 font-poppins text-xs text-muted-foreground">Created</p>
-        <p class="truncate font-poppins text-sm font-semibold text-brand-footer">{{ paper.created || paper.submittedDate }}</p>
+        <p class="mb-0.5 font-poppins text-xs text-muted-foreground">
+          Created
+        </p>
+        <p class="text-brand-footer truncate font-poppins text-sm font-semibold">
+          {{ paper.created || paper.submittedDate }}
+        </p>
       </div>
-      <div class="rounded-2xl bg-brand-surface p-3.5">
+      <div class="bg-brand-surface rounded-2xl p-3.5">
         <Clock class="mb-2 size-4 text-brand-primary/60" />
-        <p class="mb-0.5 font-poppins text-xs text-muted-foreground">Updated</p>
-        <p class="truncate font-poppins text-sm font-semibold text-brand-footer">{{ paper.updated || paper.submittedDate }}</p>
+        <p class="mb-0.5 font-poppins text-xs text-muted-foreground">
+          Updated
+        </p>
+        <p class="text-brand-footer truncate font-poppins text-sm font-semibold">
+          {{ paper.updated || paper.submittedDate }}
+        </p>
       </div>
     </div>
 
@@ -126,11 +145,14 @@ const isPublishable = computed(() =>
         v-if="paper.keywords"
         class="font-poppins text-xs text-muted-foreground"
       >
-        <span class="font-medium text-brand-footer/70">Keywords:</span> {{ paper.keywords }}
+        <span class="text-brand-footer/70 font-medium">Keywords:</span> {{ paper.keywords }}
       </p>
       <p class="font-poppins text-xs text-muted-foreground">
-        <span class="font-medium text-brand-footer/70">In proceedings:</span>
-        <span class="ml-1 font-semibold" :class="isPublishable ? 'text-brand-primary' : 'text-destructive'">
+        <span class="text-brand-footer/70 font-medium">In proceedings:</span>
+        <span
+          class="ml-1 font-semibold"
+          :class="isPublishable ? 'text-brand-primary' : 'text-destructive'"
+        >
           {{ isPublishable ? 'Yes' : 'No' }}
         </span>
       </p>
@@ -141,7 +163,7 @@ const isPublishable = computed(() =>
       v-if="paper.paper_file_name && pdfUrl"
       :href="pdfUrl"
       target="_blank"
-      class="mb-6 inline-flex items-center gap-3 rounded-2xl bg-brand-surface px-4 py-3 font-poppins text-sm font-medium text-brand-footer transition-colors hover:bg-brand-primary-light"
+      class="bg-brand-surface text-brand-footer mb-6 inline-flex items-center gap-3 rounded-2xl px-4 py-3 font-poppins text-sm font-medium transition-colors hover:bg-brand-primary-light"
     >
       <BookOpen class="size-4 shrink-0 text-brand-primary" />
       <span class="max-w-xs truncate sm:max-w-md">{{ paper.paper_file_name }}</span>
@@ -175,7 +197,7 @@ const isPublishable = computed(() =>
         <Button
           variant="outline"
           size="sm"
-          class="rounded-full border-brand-secondary/40 font-poppins text-brand-secondary-foreground hover:bg-brand-accent"
+          class="hover:bg-brand-accent rounded-full border-brand-secondary/40 font-poppins text-brand-secondary-foreground"
         >
           <CheckCircle class="mr-1.5 size-4" />
           Decision

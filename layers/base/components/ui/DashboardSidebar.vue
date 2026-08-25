@@ -57,14 +57,14 @@ const navGroups = computed<NavigationGroup[]>(() => {
     },
     {
       title: "Conference Papers",
-      roles: ["admin", "editor", "reviewer", "client"],
+      roles: ["super-admin", "admin", "reviewer", "author"],
       items: [
         { label: "All Papers", icon: "i-lucide-files", to: "/all-papers" },
       ],
     },
     {
       title: "For Authors",
-      roles: ["admin", "editor", "author", "client"],
+      roles: ["super-admin", "admin", "author"],
       items: [
         // { label: "My Current Paper", icon: "i-lucide-file", to: "/my-papers/current" },
         { label: "My All Papers", icon: "i-lucide-files", to: "/my-papers" },
@@ -105,7 +105,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
           v-for="group in navGroups"
           :key="group.title"
         >
-          <div v-if="group.roles.includes(authStore.userRole || 'reader')">
+          <div v-if="group.roles.some(role => (authStore.userRoles.length ? authStore.userRoles : ['reader']).includes(role))">
             <div
               v-if="state === 'expanded'"
               class="mb-2 rounded-md border border-teal-100/50 bg-teal-50/80 px-3 py-1.5 text-sm font-semibold text-teal-700"

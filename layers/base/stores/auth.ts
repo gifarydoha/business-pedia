@@ -28,10 +28,10 @@ export const useAuthStore = defineStore("auth", {
     isAuthenticated: (state) => !!state.user,
     isEmailVerified: (state) => !!state.user?.emailVerified,
     // Role-based getters — required by middleware/role.ts
-    userRole: (state) => state.user?.role ?? null,
-    isAdmin: (state) => state.user?.role === "admin",
-    isEditor: (state) => ["admin", "editor"].includes(state.user?.role ?? ""),
-    isAuthor: (state) => ["admin", "editor", "author"].includes(state.user?.role ?? ""),
+    userRoles: (state) => state.user?.role?.map((r) => r.role_alias) ?? [],
+    userRoleNames: (state) => state.user?.role?.map((r) => r.role_name).join(", ") ?? "",
+    isAdmin: (state) => state.user?.role?.some((r) => ["super-admin", "admin"].includes(r.role_alias)) ?? false,
+    isAuthor: (state) => state.user?.role?.some((r) => ["super-admin", "admin", "author"].includes(r.role_alias)) ?? false,
     isLoggedIn: (state) => !!state.user,
   },
 

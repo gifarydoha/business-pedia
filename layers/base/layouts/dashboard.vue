@@ -48,7 +48,7 @@ const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
               {{ authStore.user?.name }}
             </div>
             <div class="text-xs text-gray-500 capitalize">
-              {{ authStore.userRole }}
+              {{ authStore.userRoleNames }}
             </div>
           </div>
         </div>
