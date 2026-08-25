@@ -2,7 +2,7 @@
 import { useSubmissionWizard } from "~~/layers/conference/composables/useSubmissionWizard";
 import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 
-const { form, nextStep, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
+const { form, prevStep, submitPaper, isEditMode, skipSubmission } = useSubmissionWizard();
 
 const getTrackName = (trackId: number | "") => {
   if (!trackId) return "";
@@ -93,7 +93,7 @@ const getTrackName = (trackId: number | "") => {
           type="button"
           :disabled="!form.title || !form.abstract || !form.keywords"
           class="rounded-full bg-brand-primary px-6 py-2.5 font-lora text-sm font-bold text-white disabled:opacity-40"
-          @click="nextStep"
+          @click="submitPaper"
         >
           Save and Continue &gt;&gt;
         </button>

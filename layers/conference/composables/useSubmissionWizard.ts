@@ -122,26 +122,54 @@ export const useSubmissionWizard = () => {
     formData.append("is_my_paper", "1");
 
     try {
-      let response: { code: number; message?: string };
+      let response: { code: number; message?: string; data?: unknown };
 
       if (isEditMode.value && paperId.value) {
-        response = await updateConferencePaper(paperId.value, formData, currentUserId) as { code: number; message?: string };
+        response = await updateConferencePaper(paperId.value, formData, currentUserId) as { code: number; message?: string; data?: unknown };
         // console.log(response);
       }
       else {
-        response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string };
+        response = await submitConferencePaper(formData, currentUserId) as { code: number; message?: string; data?: any };
       }
 
-      if (response.code === 200) {
+      if (response.code === 200 || response.code === 201) {
         toast.add({
           title: "Success",
           description: isEditMode.value ? "Paper successfully updated!" : "Paper successfully submitted!",
           color: "success",
         });
-        if (isEditMode.value && currentStep.value !== "upload") {
+
+        if (!isEditMode.value) {
+          // It was a POST request. Since POST doesn't return the ID, we must fetch the user's papers to get the new ID.
+          try {
+            const { getConferencePapers } = useConferenceService();
+            const papersRes = await getConferencePapers(currentUserId) as any;
+            let newId = null;
+
+            if (papersRes?.conference_papers && papersRes.conference_papers.length > 0) {
+              // Assume the first one or find the one that matches our submission.
+              // Using the first one as it is the most recently created or only one.
+              newId = papersRes.conference_papers[0].id;
+            }
+
+            if (newId) {
+              navigateTo(`/submit-paper/${newId}?step=authors`);
+            }
+            else {
+              navigateTo("/my-papers");
+            }
+          }
+          catch (e) {
+            console.error("Failed to fetch papers after POST", e);
+            navigateTo("/my-papers");
+          }
+        }
+        else if (currentStep.value !== "upload") {
+          // It was a PUT request on an intermediate step
           nextStep();
         }
         else {
+          // Final upload step submitted
           submit();
         }
       }

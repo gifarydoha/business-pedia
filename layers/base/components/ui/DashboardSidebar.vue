@@ -29,7 +29,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
   return [
     {
       title: "For Reviewers",
-      roles: ["admin"],
+      roles: ["none"],
       items: [
         { label: "Review Request", icon: "i-lucide-file-text", to: "/review-requests" },
         { label: "Instruction For Reviewer", icon: "i-lucide-info", to: "/reviewer-instructions" },
@@ -37,7 +37,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
     },
     {
       title: "Email & Notification",
-      roles: [],
+      roles: ["none"],
       items: [
         { label: "Committee: Email to Author", icon: "i-lucide-mail", to: "/email/committee-to-author" },
         { label: "Committee: Email to all chair", icon: "i-lucide-mail", to: "/email/committee-to-chairs" },
@@ -49,7 +49,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
     },
     {
       title: "Status (Only View)",
-      roles: ["admin"],
+      roles: ["none"],
       items: [
         { label: "Submission Summary", icon: "i-lucide-bar-chart-2", to: "/status/submission-summary" },
         { label: "Paper Submission Status", icon: "i-lucide-check-circle", to: "/status/paper-submission-status" },
@@ -57,14 +57,14 @@ const navGroups = computed<NavigationGroup[]>(() => {
     },
     {
       title: "Conference Papers",
-      roles: ["super-admin", "admin", "reviewer", "author"],
+      roles: ["super-admin", "committee-member"],
       items: [
         { label: "All Papers", icon: "i-lucide-files", to: "/all-papers" },
       ],
     },
     {
       title: "For Authors",
-      roles: ["super-admin", "admin", "author"],
+      roles: [],
       items: [
         // { label: "My Current Paper", icon: "i-lucide-file", to: "/my-papers/current" },
         { label: "My All Papers", icon: "i-lucide-files", to: "/my-papers" },
@@ -105,7 +105,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
           v-for="group in navGroups"
           :key="group.title"
         >
-          <div v-if="group.roles.some(role => (authStore.userRoles.length ? authStore.userRoles : ['reader']).includes(role))">
+          <div v-if="!group.roles.length || group.roles.some(role => (authStore.userRoles.length ? authStore.userRoles : ['reader']).includes(role))">
             <div
               v-if="state === 'expanded'"
               class="mb-2 rounded-md border border-teal-100/50 bg-teal-50/80 px-3 py-1.5 text-sm font-semibold text-teal-700"

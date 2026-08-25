@@ -10,14 +10,14 @@ definePageMeta({ layout: "conference", middleware: ["auth"] });
 useSeoMeta({ title: "Edit Paper Submission" });
 
 const route = useRoute();
-const paperId = route.params.id as string;
+const paperId = computed(() => route.params.id as string);
 
 const { hasSubmittedPaper, submittedPaperId, isLoading: isPaperLoading } = useUserPaper();
 
 watch(
   [hasSubmittedPaper, isPaperLoading],
   ([hasPaper, loading]) => {
-    if (!loading && hasPaper && submittedPaperId.value && paperId === "draft") {
+    if (!loading && hasPaper && submittedPaperId.value && paperId.value === "draft") {
       navigateTo(`/submit-paper/${submittedPaperId.value}`);
     }
   },
@@ -32,11 +32,11 @@ const { getConferencePaper } = useConferenceService();
 const authStore = useAuthStore();
 const conferenceStore = useConferenceInitialStore();
 
-const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, async () => {
+const { data: paperData, status } = await useAsyncData(`paper-${paperId.value}`, async () => {
   await conferenceStore.init();
-  if (paperId === "draft") return null;
-  return getConferencePaper(paperId, authStore.user?.id || "");
-});
+  if (paperId.value === "draft") return null;
+  return getConferencePaper(paperId.value, authStore.user?.id || "");
+}, { watch: [paperId] });
 
 // watch(error, (err) => {
 //   if (err) console.error("Failed to fetch paper:", err);
@@ -108,6 +108,9 @@ watch(paperData, (newVal) => {
     if (route.query.action === "view") {
       currentStep.value = "preview";
     }
+    else if (route.query.step) {
+      currentStep.value = route.query.step as any;
+    }
     else {
       currentStep.value = "track";
     }
@@ -129,7 +132,7 @@ const resetAndGo = () => {
 
 <template>
   <SharedAppComingSoon
-    v-if="['author', 'reader'].some(r => (authStore.userRoles.length ? authStore.userRoles : ['reader']).includes(r))"
+    v-if="['reader'].some(r => (authStore.userRoles.length ? authStore.userRoles : ['reader']).includes(r))"
     title="Conference Registration will start from 25th August, 2026"
     description=""
   />
