@@ -1,10 +1,14 @@
+import { useConferenceInitialStore } from "~/layers/conference/stores/conferenceInitial.store";
+
 export function useConferenceService() {
   const config = useRuntimeConfig();
   const confBase = String(config.public.apiBase);
+  const conferenceStore = useConferenceInitialStore();
 
   async function submitConferencePaper(formData: FormData, userId: string | number) {
-    // We pass conference_id, is_my_paper, and access_key as query parameters
-    const conferenceId = formData.get("conference_id")?.toString() || "10";
+    if (!formData.has("conference_id")) {
+      formData.append("conference_id", conferenceStore.conferenceId);
+    }
     const isMyPaper = formData.get("is_my_paper")?.toString() || "1";
 
     // add paper
@@ -14,7 +18,7 @@ export function useConferenceService() {
       query: {
         access_key: "123456789",
         user_id: String(userId),
-        conference_id: conferenceId,
+        conference_id: conferenceStore.conferenceId,
         is_my_paper: isMyPaper,
       },
       body: formData,
@@ -23,53 +27,46 @@ export function useConferenceService() {
 
   // get all papers of every user of a conference
   async function getAllConferencePapers(
-    conferenceId: string | number = "10",
     userUid: string | number,
-    filters?: { conference_track_id?: string | number; status?: string },
+    filters?: { track_id?: string; status?: string }
   ) {
-    const query: Record<string, string> = {
-      access_key: "123456789",
-      access_role: "admin",
-      conference_id: String(conferenceId),
-      user_id: String(userUid),
-    };
-
-    if (filters?.conference_track_id) {
-      query.conference_track_id = String(filters.conference_track_id);
-    }
-    if (filters?.status) {
-      query.status = filters.status;
-    }
-
-    return $fetch("/conference/conference_api/conference_paper", {
+    return $fetch<any>("/conference/conference_api/conference_paper", {
       baseURL: confBase,
       method: "GET",
-      query,
+      query: {
+        access_key: "123456789",
+        conference_id: conferenceStore.conferenceId,
+        user_id: String(userUid),
+        access_role: "admin",
+        ...(filters?.track_id ? { conference_track_id: filters.track_id } : {}),
+        ...(filters?.status ? { status: filters.status } : {}),
+      },
     });
   }
-  // get all papers of a user
-  async function getConferencePapers(conferenceId: string | number = "10", userUid: string | number) {
-    return $fetch("/conference/conference_api/conference_paper", {
+
+  // Get papers for current user
+  async function getConferencePapers(userUid: string | number) {
+    return $fetch<any>("/conference/conference_api/conference_paper", {
       baseURL: confBase,
       method: "GET",
       query: {
         access_key: "123456789",
         is_my_paper: "1",
-        conference_id: conferenceId,
+        conference_id: conferenceStore.conferenceId,
         user_id: String(userUid),
       },
     });
   }
 
-  // get a single paper
-  async function getConferencePaper(id: string | number, conferenceId: string | number = "10", userUid: string | number) {
-    return $fetch(`/conference/conference_api/conference_paper/${id}`, {
+  // Get single paper
+  async function getConferencePaper(id: string | number, userUid: string | number) {
+    return $fetch<any>(`/conference/conference_api/conference_paper/${id}`, {
       baseURL: confBase,
       method: "GET",
       query: {
         access_key: "123456789",
         is_my_paper: "1",
-        conference_id: conferenceId,
+        conference_id: conferenceStore.conferenceId,
         user_id: String(userUid),
       },
     });
@@ -77,7 +74,9 @@ export function useConferenceService() {
 
   // Update a single paper
   async function updateConferencePaper(id: string | number, formData: FormData, userId: string | number) {
-    const conferenceId = formData.get("conference_id")?.toString() || "10";
+    if (!formData.has("conference_id")) {
+      formData.append("conference_id", conferenceStore.conferenceId);
+    }
     const isMyPaper = formData.get("is_my_paper")?.toString() || "1";
 
     return $fetch(`/conference/conference_api/conference_paper/${id}`, {
@@ -86,26 +85,14 @@ export function useConferenceService() {
       query: {
         access_key: "123456789",
         user_id: String(userId),
-        conference_id: conferenceId,
+        conference_id: conferenceStore.conferenceId,
         is_my_paper: isMyPaper,
       },
       body: formData,
     });
   }
 
-  // get conference initial data
-  async function getConferenceInitial() {
-    return $fetch<any>("/conference/conference_api/conference_initial/current", {
-      baseURL: confBase,
-      method: "GET",
-      query: {
-        access_key: "123456789",
-      },
-    });
-  }
-
   return {
-    getConferenceInitial,
     getAllConferencePapers,
     submitConferencePaper,
     getConferencePapers,

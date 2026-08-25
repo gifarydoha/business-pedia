@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { useConferenceInitialStore } from "~/layers/conference/stores/conferenceInitial.store";
+
 const colorMode = useColorMode();
 colorMode.preference = "light";
+
+const conferenceStore = useConferenceInitialStore();
+await useAsyncData("conference-initial-layout", () => conferenceStore.init());
 </script>
 
 <template>

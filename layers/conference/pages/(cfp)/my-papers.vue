@@ -11,7 +11,7 @@ useSeoMeta({ title: "My Papers" });
 
 const { getConferencePapers } = useConferenceService();
 const authStore = useAuthStore();
-const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers("10", authStore.user?.id || ""), {
+const { data: rawPapers, status } = useLazyAsyncData("my-papers", () => getConferencePapers(authStore.user?.id || ""), {
   server: false,
 });
 

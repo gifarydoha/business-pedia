@@ -8,7 +8,7 @@ export const useUserPaper = () => {
     "user-paper-status",
     () => {
       if (!authStore.user?.id) return Promise.resolve(null);
-      return getConferencePapers("10", authStore.user.id);
+      return getConferencePapers(authStore.user.id);
     },
     {
       server: false,

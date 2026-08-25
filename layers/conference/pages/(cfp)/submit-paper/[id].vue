@@ -30,7 +30,7 @@ submitted.value = false;
 const { getConferencePaper } = useConferenceService();
 const authStore = useAuthStore();
 
-const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, "10", authStore.user?.id || ""));
+const { data: paperData, status } = await useAsyncData(`paper-${paperId}`, () => getConferencePaper(paperId, authStore.user?.id || ""));
 
 // watch(error, (err) => {
 //   if (err) console.error("Failed to fetch paper:", err);

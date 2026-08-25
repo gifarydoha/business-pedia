@@ -2,6 +2,7 @@ import type { SubmissionFormData, SubmissionAuthor } from "~~/layers/conference/
 // import type { SubmissionFormData, SubmissionAuthor, PresentationTrack } from "~~/layers/conference/types/submission";
 // import { CONFERENCE_TRACKS } from "~~/layers/conference/types/submission";
 import { useConferenceService } from "#layers/conference/services/conference.service";
+import { useConferenceInitialStore } from "../stores/conferenceInitial.store";
 
 const STEPS = ["track", "details", "authors", "upload", "preview"] as const;
 export type WizardStep = typeof STEPS[number];
@@ -116,7 +117,8 @@ export const useSubmissionWizard = () => {
       formData.append("paper_file_name", form.value.paperFile);
     }
 
-    formData.append("conference_id", "10");
+    const conferenceStore = useConferenceInitialStore();
+    formData.append("conference_id", conferenceStore.conferenceId);
     formData.append("is_my_paper", "1");
 
     try {

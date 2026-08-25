@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
-import type { ConferenceInitialResponse, ConferenceTrack } from "~/layers/conference/types/conference";
+import { ref } from "vue";
+import { useConferenceInitialStore } from "~/layers/conference/stores/conferenceInitial.store";
 import PaperCard from "~/layers/conference/components/papers/PaperCard.vue";
 import { useConferenceService } from "~/layers/conference/services/conference.service";
 import { useConferencePapersList } from "~/layers/conference/composables/useConferencePapersList";
@@ -8,34 +8,17 @@ import { useConferencePapersList } from "~/layers/conference/composables/useConf
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
 useSeoMeta({ title: "All Papers" });
 
-
-const { getAllConferencePapers, getConferenceInitial } = useConferenceService();
+const { getAllConferencePapers } = useConferenceService();
 const authStore = useAuthStore();
+const conferenceStore = useConferenceInitialStore();
 
 const selectedTrack = ref("");
 const selectedStatus = ref("");
 
-const conferenceTracks = ref<ConferenceTrack[]>([]);
-const paperStatuses = ref<Record<string, string>>({});
-
-const { data: initialData } = useAsyncData("conference-initial", () => getConferenceInitial());
-
-watchEffect(() => {
-  if (initialData.value) {
-    const data = initialData.value as ConferenceInitialResponse;
-    if (data.conference_tracks) {
-      conferenceTracks.value = data.conference_tracks;
-    }
-    if (data.paper_statuses) {
-      paperStatuses.value = data.paper_statuses;
-    }
-  }
-});
-
 const { data: rawPapers, status } = useLazyAsyncData(
   "all-papers",
-  () => getAllConferencePapers("10", authStore.user?.id || "", {
-    conference_track_id: selectedTrack.value || undefined,
+  () => getAllConferencePapers(authStore.user?.id || "", {
+    track_id: selectedTrack.value || undefined,
     status: selectedStatus.value || undefined,
   }),
   {
@@ -67,7 +50,7 @@ const { papers, preview, pdfPreviewUrl } = useConferencePapersList(rawPapers);
               All Tracks
             </option>
             <option
-              v-for="track in conferenceTracks"
+              v-for="track in conferenceStore.conferenceTracks"
               :key="track.id"
               :value="track.id"
             >
@@ -81,7 +64,7 @@ const { papers, preview, pdfPreviewUrl } = useConferencePapersList(rawPapers);
             class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-brand-primary focus:ring-1 focus:ring-brand-primary focus:outline-none"
           >
             <option
-              v-for="(name, key) in paperStatuses"
+              v-for="(name, key) in conferenceStore.paperStatuses"
               :key="key"
               :value="key"
             >
