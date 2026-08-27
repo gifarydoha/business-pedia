@@ -10,7 +10,7 @@ const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();
 const route = useRoute();
 const { serverError, clearErrors } = useAuthForm();
-const { hasSubmittedPaper, refresh: refreshUserPaper } = useUserPaper();
+const { refresh: refreshUserPaper } = useUserPaper();
 
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: zodSchema(QuickRegisterSchema),
@@ -43,7 +43,8 @@ const onSubmit = handleSubmit(async (values) => {
     // console.log(values, roleToSubmit.value);
 
     await authStore.quickRegister({ ...values, role: roleToSubmit.value });
-    await navigateTo("/submit-paper/draft");
+    const redirectTo = (route.query.redirect as string) || "/my-papers";
+    await navigateTo(redirectTo);
   }
   catch {
     serverError.value = authStore.error || "Registration failed";
@@ -55,7 +56,16 @@ async function handleGoogleCredential(idToken: string) {
   try {
     await authStore.loginWithGoogle({ idToken });
     await refreshUserPaper();
-    const redirectTo = (route.query.redirect as string) || (hasSubmittedPaper.value ? "/profile" : "/submit-paper/draft");
+
+    let redirectTo = route.query.redirect as string;
+    if (!redirectTo) {
+      if (!authStore.user?.phone) {
+        redirectTo = "/profile/edit";
+      }
+      else {
+        redirectTo = "/my-papers";
+      }
+    }
     await navigateTo(redirectTo);
   }
   catch {
@@ -108,6 +118,7 @@ onMounted(() => {
         v-bind="contactNumberAttrs"
         label="Contact number"
         type="tel"
+        required
         :readonly="isDecoded"
         :error="errors.contact_number"
       />

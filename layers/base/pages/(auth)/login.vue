@@ -21,7 +21,7 @@ const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();
 const route = useRoute();
 const { serverError, clearErrors } = useAuthForm();
-const { hasSubmittedPaper, refresh: refreshUserPaper } = useUserPaper();
+const { refresh: refreshUserPaper } = useUserPaper();
 
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: zodSchema(LoginSchema),
@@ -37,7 +37,7 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     await authStore.login(values);
     await refreshUserPaper();
-    const redirectTo = (route.query.redirect as string) || (hasSubmittedPaper.value ? "/profile" : "/submit-paper/draft");
+    const redirectTo = (route.query.redirect as string) || "/my-papers";
     await navigateTo(redirectTo);
   }
   catch {
@@ -50,7 +50,16 @@ async function handleGoogleCredential(idToken: string) {
   try {
     await authStore.loginWithGoogle({ idToken });
     await refreshUserPaper();
-    const redirectTo = (route.query.redirect as string) || (hasSubmittedPaper.value ? "/profile" : "/submit-paper/draft");
+
+    let redirectTo = route.query.redirect as string;
+    if (!redirectTo) {
+      if (!authStore.user?.phone) {
+        redirectTo = "/profile/edit";
+      }
+      else {
+        redirectTo = "/my-papers";
+      }
+    }
     await navigateTo(redirectTo);
   }
   catch {
