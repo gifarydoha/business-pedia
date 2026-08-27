@@ -8,6 +8,7 @@ useSeoMeta({ title: "My Profile" });
 
 const authStore = useAuthStore();
 const authUser = computed(() => authStore.user);
+const config = useRuntimeConfig();
 
 // Helper: derive initials from name ("doha15" → "D", "Amara Osei" → "AO")
 function getInitials(name: string | undefined): string {
@@ -22,33 +23,36 @@ function getInitials(name: string | undefined): string {
 }
 
 // Helper: format ISO date → "August 2026"
-function formatJoined(iso: string | undefined): string {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric" });
-}
+// function formatJoined(iso: string | undefined): string {
+//   if (!iso) return "—";
+//   return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+// }
+
+const { data: apiUser } = await useAsyncData("profile", async () => {
+  if (!authUser.value?.id) return null;
+  const res = await $fetch<any>(`/ciaur/secure_api/user/${authUser.value.id}`, {
+    baseURL: config.public.apiBase as string,
+    method: "GET",
+  });
+  return res?.user || null;
+});
 
 const user = computed<UserProfile>(() => ({
-  // ── Live from API ──────────────────────────────────────────────
-  name: authUser.value?.name ?? "—",
-  email: authUser.value?.email ?? "—",
+  name: apiUser.value?.name || authUser.value?.name || "—",
+  email: apiUser.value?.email || authUser.value?.email || "—",
   userId: authUser.value?.id ? `USR-${authUser.value.id}` : "—",
-  avatarInitials: getInitials(authUser.value?.name),
-  joined: formatJoined(authUser.value?.createdAt),
-  // ── Static defaults (not returned by API) ─────────────────────
-  affiliation: "—",
-  country: "—",
-  bio: "No bio provided.",
-  papers: 0,
-  track: "—",
+  contact_number: apiUser.value?.contact_number || "—",
+  designation: apiUser.value?.designation || "—",
+  avatarInitials: getInitials(apiUser.value?.name || authUser.value?.name),
 }));
 </script>
 
 <template>
-  <div class="bg-brand-primary-light/40">
+  <div class="min-h-screen bg-brand-primary-light/40">
     <CfpSharedBreadcrumb :crumbs="[{ label: 'My Profile' }]" />
 
     <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
-      <div class="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 p-5">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
         <h1 class="mb-6 font-lora text-2xl font-bold text-brand-primary md:text-3xl">
           My Profile
         </h1>

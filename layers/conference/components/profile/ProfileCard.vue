@@ -1,40 +1,19 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import type { UserProfile } from "../../types/profile";
 
-defineProps<UserProfile>();
+const props = defineProps<UserProfile>();
 
-// const fields = computed(() => [
-//   { label: "Affiliation", value: props.affiliation },
-//   { label: "Country", value: props.country },
-//   { label: "Primary Track", value: props.track },
-//   { label: "Member Since", value: props.joined },
-// ]);
+const fields = computed(() => [
+  { label: "Designation", value: props.designation },
+  { label: "Contact Number", value: props.contact_number },
+]);
 </script>
 
 <template>
   <div>
-    <!-- Stats row -->
-    <!-- <div class="mb-5 grid grid-cols-3 gap-3">
-      <div
-        v-for="s in [
-          { val: papers, label: 'Papers Submitted' },
-          { val: '2', label: 'Under Review' },
-          { val: '1', label: 'Accepted' },
-        ]"
-        :key="s.label"
-        class="rounded-2xl border border-gray-100 bg-white p-4 text-center"
-      >
-        <div class="mb-0.5 font-lora text-2xl font-bold text-brand-primary">
-          {{ s.val }}
-        </div>
-        <div class="font-poppins text-xs text-gray-400">
-          {{ s.label }}
-        </div>
-      </div>
-    </div> -->
-
-    <!-- Main profile card — light, no header band -->
-    <div class=" rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+    <!-- Main profile card -->
+    <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
       <!-- Avatar + identity -->
       <div class="mb-6 flex items-start justify-between gap-4">
         <div class="flex items-center gap-4">
@@ -55,7 +34,7 @@ defineProps<UserProfile>();
 
         <NuxtLink
           to="/profile/edit"
-          class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-brand-primary/25 px-4 py-1.5 font-poppins text-sm font-medium text-brand-primary transition-colors hover:bg-brand-primary/5"
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-brand-secondary bg-brand-secondary px-4 py-1.5 font-poppins text-sm font-medium text-brand-secondary-foreground transition-colors hover:bg-brand-secondary"
         >
           <svg
             class="size-3.5"
@@ -74,26 +53,17 @@ defineProps<UserProfile>();
         </NuxtLink>
       </div>
 
-      <!-- <span class="mb-6 inline-block rounded-full bg-gray-50 px-3 py-1 font-poppins text-xs text-gray-400">
-        ID: {{ userId }}
-      </span> -->
-
-      <!-- Bio -->
-      <!-- <p class="mb-6 font-poppins text-sm leading-relaxed text-gray-600">
-        {{ bio }}
-      </p> -->
-
       <!-- Field rows -->
-      <!-- <div class="divide-y divide-gray-100 border-t border-gray-100">
+      <div class="divide-y divide-gray-100 border-t border-gray-100">
         <div
           v-for="f in fields"
           :key="f.label"
           class="flex items-center justify-between gap-6 py-3"
         >
           <span class="font-poppins text-sm text-gray-400">{{ f.label }}</span>
-          <span class="font-poppins text-sm font-medium text-gray-700">{{ f.value }}</span>
+          <span class="font-poppins text-sm font-medium text-gray-700">{{ f.value || '—' }}</span>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
