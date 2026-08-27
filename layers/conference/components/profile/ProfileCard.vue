@@ -53,7 +53,7 @@ defineProps<UserProfile>();
           </div>
         </div>
 
-        <!-- <NuxtLink
+        <NuxtLink
           to="/profile/edit"
           class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-brand-primary/25 px-4 py-1.5 font-poppins text-sm font-medium text-brand-primary transition-colors hover:bg-brand-primary/5"
         >
@@ -71,7 +71,7 @@ defineProps<UserProfile>();
             />
           </svg>
           Edit
-        </NuxtLink> -->
+        </NuxtLink>
       </div>
 
       <!-- <span class="mb-6 inline-block rounded-full bg-gray-50 px-3 py-1 font-poppins text-xs text-gray-400">

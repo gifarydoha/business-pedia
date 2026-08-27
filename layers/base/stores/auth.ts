@@ -167,7 +167,7 @@ export const useAuthStore = defineStore("auth", {
         return result;
       }
       catch (err: unknown) {
-        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Quick registration failed.";
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Registration failed.";
         throw err;
       }
       finally { this.loading = false; }

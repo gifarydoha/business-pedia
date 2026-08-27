@@ -5,6 +5,7 @@ defineOptions({ inheritAttrs: false });
 defineProps<{
   label: string;
   error?: string;
+  required?: boolean;
 }>();
 const modelValue = defineModel<string>();
 const show = ref(false);
@@ -12,7 +13,12 @@ const show = ref(false);
 
 <template>
   <div>
-    <label class="mb-1 block font-poppins text-sm font-medium text-fy-sage-900">{{ label }}</label>
+    <label class="mb-1 block font-poppins text-sm font-medium text-fy-sage-900">
+      {{ label }}<span
+        v-if="required"
+        class="ml-1 text-xs text-red-500"
+      >*</span>
+    </label>
     <div class="relative">
       <input
         v-bind="$attrs"

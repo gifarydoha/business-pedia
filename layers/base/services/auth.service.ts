@@ -17,7 +17,7 @@ import type {
 import type { User, RoleItem } from "~~/layers/base/types/user";
 
 function processRole(rawRole: RoleItem[]): RoleItem[] {
-  if (!rawRole || rawRole.length === 0 || (rawRole.length === 1 && rawRole[0].role_alias === "default-user")) {
+  if (!rawRole || rawRole.length === 0 || (rawRole.length === 1 && rawRole[0]?.role_alias === "default-user")) {
     return [{
       role_name: "Author",
       role_alias: "author",
@@ -147,8 +147,7 @@ export function useAuthService() {
       body: new URLSearchParams({
         name: payload.name,
         email: payload.email,
-        contact_number: payload.contact_number,
-        username: payload.username,
+        contact_number: payload.contact_number || "",
         password: payload.password,
         confirm_password: payload.confirm_password,
       }),

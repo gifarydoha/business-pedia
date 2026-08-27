@@ -43,8 +43,7 @@ export const QuickRegisterSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters"),
     email: z.email("Enter a valid email address"),
-    contact_number: z.string().min(2, "Enter a valid mobile number"),
-    username: z.string().min(3, "Username must be at least 3 characters"),
+    contact_number: z.string().optional(),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirm_password: z.string(),
   })

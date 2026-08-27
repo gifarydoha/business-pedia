@@ -4,13 +4,19 @@ defineProps<{
   label: string;
   type?: string;
   error?: string;
+  required?: boolean;
 }>();
 const modelValue = defineModel<string>();
 </script>
 
 <template>
   <div>
-    <label class="mb-1 block font-poppins text-sm font-medium text-fy-sage-900">{{ label }}</label>
+    <label class="mb-1 block font-poppins text-sm font-medium text-fy-sage-900">
+      {{ label }}<span
+        v-if="required"
+        class="ml-1 text-xs text-red-500"
+      >*</span>
+    </label>
     <input
       v-bind="$attrs"
       v-model="modelValue"

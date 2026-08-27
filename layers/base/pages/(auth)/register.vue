@@ -2,6 +2,7 @@
 import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
 import { QuickRegisterSchema } from "~~/layers/base/schemas/auth.schemas";
+import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
 definePageMeta({ layout: "conference", middleware: "guest", path: "/register" });
 
@@ -9,6 +10,7 @@ const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();
 const route = useRoute();
 const { serverError, clearErrors } = useAuthForm();
+const { hasSubmittedPaper, refresh: refreshUserPaper } = useUserPaper();
 
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: zodSchema(QuickRegisterSchema),
@@ -16,7 +18,6 @@ const { handleSubmit, errors, defineField } = useForm({
 const [name, nameAttrs] = defineField("name");
 const [email, emailAttrs] = defineField("email");
 const [contactNumber, contactNumberAttrs] = defineField("contact_number");
-const [username, usernameAttrs] = defineField("username");
 const [password, passwordAttrs] = defineField("password");
 const [confirmPassword, confirmPasswordAttrs] = defineField("confirm_password");
 
@@ -37,7 +38,8 @@ async function handleGoogleCredential(idToken: string) {
   clearErrors();
   try {
     await authStore.loginWithGoogle({ idToken });
-    const redirectTo = (route.query.redirect as string) || ("/profile");
+    await refreshUserPaper();
+    const redirectTo = (route.query.redirect as string) || (hasSubmittedPaper.value ? "/profile" : "/submit-paper/draft");
     await navigateTo(redirectTo);
   }
   catch {
@@ -53,8 +55,8 @@ onMounted(() => {
 
 <template>
   <AuthCard
-    heading="Quick Account Setup"
-    subtitle="Get started instantly — no verification required"
+    heading="Create your account"
+    subtitle="Create an account, to start your journey!"
   >
     <div
       ref="googleBtnRef"
@@ -70,6 +72,7 @@ onMounted(() => {
         v-model="name"
         v-bind="nameAttrs"
         label="Full name"
+        required
         :error="errors.name"
       />
 
@@ -78,6 +81,7 @@ onMounted(() => {
         v-bind="emailAttrs"
         label="Email"
         type="email"
+        required
         :error="errors.email"
       />
 
@@ -89,17 +93,11 @@ onMounted(() => {
         :error="errors.contact_number"
       />
 
-      <AuthFormField
-        v-model="username"
-        v-bind="usernameAttrs"
-        label="Username"
-        :error="errors.username"
-      />
-
       <AuthPasswordField
         v-model="password"
         v-bind="passwordAttrs"
         label="Password"
+        required
         :error="errors.password"
       />
 
@@ -107,6 +105,7 @@ onMounted(() => {
         v-model="confirmPassword"
         v-bind="confirmPasswordAttrs"
         label="Confirm password"
+        required
         :error="errors.confirm_password"
       />
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from "vue";
+import { ref } from "vue";
+// import { ref, useTemplateRef } from "vue";
 // import type { ProfileFormState, CustomField } from "~/layers/conference/types/profile";
 import type { ProfileFormState } from "~/layers/conference/types/profile";
 import { defaultProfileFormState, countries } from "~/layers/conference/data/profile.mock";
@@ -10,11 +11,11 @@ const form = ref<ProfileFormState>({ ...defaultProfileFormState });
 
 // let customFieldCounter = 1;
 
-const avatarInitials = ref("AO");
-const avatarHover = ref(false);
+// const avatarInitials = ref("AO");
+// const avatarHover = ref(false);
 const saving = ref(false);
 const saved = ref(false);
-const fileRef = useTemplateRef<HTMLInputElement>("fileInput");
+// const fileRef = useTemplateRef<HTMLInputElement>("fileInput");
 
 const handleChange = () => {
   if (saved.value) saved.value = false;
@@ -49,12 +50,12 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-brand-
   >
     <div class="mx-auto max-w-4xl space-y-8 px-4 py-12 md:px-0 md:pt-0 md:pb-16">
       <!-- Avatar card -->
-      <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+      <!-- <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
         <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
           Profile Photo
         </h2>
         <div class="flex items-center gap-6">
-          <!-- Avatar with hover overlay -->
+
           <button
             type="button"
             class="relative size-20 shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
@@ -70,7 +71,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-brand-
                 {{ avatarInitials }}
               </span>
             </div>
-            <!-- Upload overlay -->
+
             <div
               class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-full bg-brand-primary/70 transition-opacity"
               :class="avatarHover ? 'opacity-100' : 'opacity-0'"
@@ -122,7 +123,7 @@ const disabledClass = "w-full cursor-not-allowed rounded-xl border border-brand-
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Core fields card -->
       <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">

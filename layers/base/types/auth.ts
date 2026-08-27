@@ -54,8 +54,7 @@ export interface GoogleLoginPayload {
 export interface QuickRegisterPayload {
   name: string;
   email: string;
-  contact_number: string;
-  username: string;
+  contact_number?: string;
   password: string;
   confirm_password: string;
 }
