@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { UserProfile } from "../../types/profile";
 
-const props = defineProps<UserProfile>();
+defineProps<UserProfile>();
 
-const fields = computed(() => [
-  { label: "Affiliation", value: props.affiliation },
-  { label: "Country", value: props.country },
-  { label: "Primary Track", value: props.track },
-  { label: "Member Since", value: props.joined },
-]);
+// const fields = computed(() => [
+//   { label: "Affiliation", value: props.affiliation },
+//   { label: "Country", value: props.country },
+//   { label: "Primary Track", value: props.track },
+//   { label: "Member Since", value: props.joined },
+// ]);
 </script>
 
 <template>
@@ -79,12 +79,12 @@ const fields = computed(() => [
       </span> -->
 
       <!-- Bio -->
-      <p class="mb-6 font-poppins text-sm leading-relaxed text-gray-600">
+      <!-- <p class="mb-6 font-poppins text-sm leading-relaxed text-gray-600">
         {{ bio }}
-      </p>
+      </p> -->
 
       <!-- Field rows -->
-      <div class="divide-y divide-gray-100 border-t border-gray-100">
+      <!-- <div class="divide-y divide-gray-100 border-t border-gray-100">
         <div
           v-for="f in fields"
           :key="f.label"
@@ -93,7 +93,7 @@ const fields = computed(() => [
           <span class="font-poppins text-sm text-gray-400">{{ f.label }}</span>
           <span class="font-poppins text-sm font-medium text-gray-700">{{ f.value }}</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

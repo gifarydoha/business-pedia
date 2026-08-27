@@ -3,7 +3,7 @@ import { z } from "zod";
 export const RegisterSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters"),
-    phone: z.string().regex(/^(?:\+8801|8801|01)[0-9]{9}$/, "Enter a valid Bangladeshi mobile number"),
+    phone: z.string().min(2, "Enter a valid mobile number"),
     email: z.email("Enter a valid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     passwordConfirmation: z.string(),
@@ -43,7 +43,7 @@ export const QuickRegisterSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters"),
     email: z.email("Enter a valid email address"),
-    contact_number: z.string().regex(/^(?:\+8801|8801|01)[0-9]{9}$/, "Enter a valid Bangladeshi mobile number"),
+    contact_number: z.string().min(2, "Enter a valid mobile number"),
     username: z.string().min(3, "Username must be at least 3 characters"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirm_password: z.string(),

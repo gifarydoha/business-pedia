@@ -180,6 +180,12 @@ function parseMember(li: HTMLElement): CommitteeMember {
   };
 }
 
+function parseHonoraryChairs(root: HTMLElement): CommitteeMember[] {
+  const section = root.querySelector("[data-section=\"honorary-chairs\"]");
+  if (!section) return [];
+  return section.querySelectorAll("li").map(parseMember);
+}
+
 function parseCoChairs(root: HTMLElement): CommitteeMember[] {
   const section = root.querySelector("[data-section=\"co-chairs\"]");
   if (!section) return [];
@@ -199,17 +205,18 @@ function parseCommitteeGroups(root: HTMLElement): CommitteeGroup[] {
 export function parseCommitteeContent(rawHtml: string): CommitteeContent {
   if (!rawHtml) {
     console.warn("[cfpParser] parseCommitteeContent received empty HTML.");
-    return { coChairs: [], groups: [] };
+    return { honoraryChairs: [], coChairs: [], groups: [] };
   }
   try {
     const root = sanitizeAndParse(rawHtml);
     return {
+      honoraryChairs: parseHonoraryChairs(root),
       coChairs: parseCoChairs(root),
       groups: parseCommitteeGroups(root),
     };
   }
   catch (e) {
     console.error("[cfpParser] parseCommitteeContent failed:", e);
-    return { coChairs: [], groups: [] };
+    return { honoraryChairs: [], coChairs: [], groups: [] };
   }
 }

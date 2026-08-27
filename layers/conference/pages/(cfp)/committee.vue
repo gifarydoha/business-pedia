@@ -24,6 +24,7 @@ watch(error, (err) => {
   }
 });
 
+const honoraryChairs = computed(() => committeeData.value?.honoraryChairs ?? []);
 const coChairs = computed(() => committeeData.value?.coChairs ?? []);
 const groups = computed(() => committeeData.value?.groups ?? []);
 </script>
@@ -52,7 +53,20 @@ const groups = computed(() => committeeData.value?.groups ?? []);
       </div>
 
       <template v-else>
-        <!-- Co-Chairs -->
+        <!-- Honorary Chairs -->
+        <div class="mb-16">
+          <h2 class="mb-6 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
+            Honorary Chairs
+          </h2>
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <CommitteeMemberCard
+              v-for="m in honoraryChairs"
+              :key="m.name"
+              :member="m"
+            />
+          </div>
+        </div>
+
         <div class="mb-16">
           <h2 class="mb-6 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
             Co-Chairs

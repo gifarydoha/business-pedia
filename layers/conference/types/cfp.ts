@@ -43,6 +43,7 @@ export interface CommitteeGroup {
 
 /** Full parsed content for the /committee page. */
 export interface CommitteeContent {
+  honoraryChairs: CommitteeMember[];
   coChairs: CommitteeMember[];
   groups: CommitteeGroup[];
 }

@@ -7,6 +7,7 @@ const props = defineProps<{
   committeeData: CommitteeContent;
 }>();
 
+const honoraryChairs = computed(() => props.committeeData?.honoraryChairs ?? []);
 const coChairs = computed(() => props.committeeData.coChairs ?? []);
 const groups = computed(() => props.committeeData.groups ?? []);
 </script>
@@ -21,6 +22,20 @@ const groups = computed(() => props.committeeData.groups ?? []);
         <h2 class="mt-2 mb-4 font-lora text-3xl font-bold text-brand-primary md:text-4xl">
           Scientific Committee
         </h2>
+      </div>
+
+      <!-- Honorary Chairs -->
+      <div class="mb-16">
+        <h2 class="mb-6 border-b border-brand-primary/15 pb-2 font-lora text-2xl font-bold text-brand-primary">
+          Honorary Chairs
+        </h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <CommitteeMemberCard
+            v-for="m in honoraryChairs"
+            :key="m.name"
+            :member="m"
+          />
+        </div>
       </div>
 
       <!-- Co-Chairs -->
