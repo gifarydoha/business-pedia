@@ -3,9 +3,11 @@ import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
 import { QuickRegisterSchema } from "~~/layers/base/schemas/auth.schemas";
 
-definePageMeta({ layout: "conference", middleware: "guest", path: "/quick-register" });
+definePageMeta({ layout: "conference", middleware: "guest", path: "/register" });
 
 const authStore = useAuthStore();
+const { renderButton } = useGoogleAuth();
+const route = useRoute();
 const { serverError, clearErrors } = useAuthForm();
 
 const { handleSubmit, errors, defineField } = useForm({
@@ -18,6 +20,8 @@ const [username, usernameAttrs] = defineField("username");
 const [password, passwordAttrs] = defineField("password");
 const [confirmPassword, confirmPasswordAttrs] = defineField("confirm_password");
 
+const googleBtnRef = ref<HTMLElement | null>(null);
+
 const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
@@ -25,8 +29,25 @@ const onSubmit = handleSubmit(async (values) => {
     await navigateTo("/submit-paper/draft");
   }
   catch {
-    serverError.value = authStore.error || "Quick registration failed";
+    serverError.value = authStore.error || "Registration failed";
   }
+});
+
+async function handleGoogleCredential(idToken: string) {
+  clearErrors();
+  try {
+    await authStore.loginWithGoogle({ idToken });
+    const redirectTo = (route.query.redirect as string) || ("/profile");
+    await navigateTo(redirectTo);
+  }
+  catch {
+    serverError.value = authStore.error || "Google sign-in failed";
+  }
+}
+
+onMounted(() => {
+  if (googleBtnRef.value)
+    renderButton(googleBtnRef.value, handleGoogleCredential);
 });
 </script>
 
@@ -35,6 +56,12 @@ const onSubmit = handleSubmit(async (values) => {
     heading="Quick Account Setup"
     subtitle="Get started instantly — no verification required"
   >
+    <div
+      ref="googleBtnRef"
+      class="mb-4 w-full"
+    />
+
+    <AuthDivider />
     <form
       class="space-y-4"
       @submit="onSubmit"
