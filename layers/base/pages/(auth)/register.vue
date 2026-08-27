@@ -21,12 +21,28 @@ const [contactNumber, contactNumberAttrs] = defineField("contact_number");
 const [password, passwordAttrs] = defineField("password");
 const [confirmPassword, confirmPasswordAttrs] = defineField("confirm_password");
 
+const roleToSubmit = ref("");
+const isDecoded = ref(false);
+
+if (route.query.rk) {
+  const { data } = await useAsyncData("decodeRk", () => authStore.decodeRk(route.query.rk as string));
+  if (data.value && data.value.request) {
+    isDecoded.value = true;
+    name.value = data.value.request.name;
+    email.value = data.value.request.email;
+    contactNumber.value = data.value.request.contact_number;
+    roleToSubmit.value = data.value.request.role;
+  }
+}
+
 const googleBtnRef = ref<HTMLElement | null>(null);
 
 const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
-    await authStore.quickRegister(values);
+    // console.log(values, roleToSubmit.value);
+
+    await authStore.quickRegister({ ...values, role: roleToSubmit.value });
     await navigateTo("/submit-paper/draft");
   }
   catch {
@@ -73,6 +89,7 @@ onMounted(() => {
         v-bind="nameAttrs"
         label="Full name"
         required
+        :readonly="isDecoded"
         :error="errors.name"
       />
 
@@ -82,6 +99,7 @@ onMounted(() => {
         label="Email"
         type="email"
         required
+        :readonly="isDecoded"
         :error="errors.email"
       />
 
@@ -90,6 +108,7 @@ onMounted(() => {
         v-bind="contactNumberAttrs"
         label="Contact number"
         type="tel"
+        :readonly="isDecoded"
         :error="errors.contact_number"
       />
 

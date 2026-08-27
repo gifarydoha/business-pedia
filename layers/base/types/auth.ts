@@ -55,8 +55,20 @@ export interface QuickRegisterPayload {
   name: string;
   email: string;
   contact_number?: string;
+  role?: string;
   password: string;
   confirm_password: string;
+}
+
+export interface DecodeRkResponse {
+  status: string;
+  code: number;
+  request: {
+    role: string;
+    name: string;
+    email: string;
+    contact_number: string;
+  };
 }
 
 // ─── Raw CodeIgniter response shapes ───────────────────────────────────────────

@@ -13,6 +13,7 @@ import type {
   ResetPasswordPayload,
   GoogleLoginPayload,
   QuickRegisterPayload,
+  DecodeRkResponse,
 } from "~~/layers/base/types/auth";
 import type { User, RoleItem } from "~~/layers/base/types/user";
 
@@ -140,6 +141,17 @@ export function useAuthService() {
     return mapCIResponse(res);
   }
 
+  async function decodeRk(rk: string): Promise<DecodeRkResponse> {
+    const formData = new FormData();
+    formData.append("rk", rk);
+
+    return $fetch<DecodeRkResponse>("/ciaur/secure_api/decode", {
+      baseURL: base,
+      method: "POST",
+      body: formData,
+    });
+  }
+
   async function quickRegister(payload: QuickRegisterPayload): Promise<AuthResult> {
     const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/quick_account", {
       baseURL: base,
@@ -148,6 +160,7 @@ export function useAuthService() {
         name: payload.name,
         email: payload.email,
         contact_number: payload.contact_number || "",
+        role: payload.role || "",
         password: payload.password,
         confirm_password: payload.confirm_password,
       }),
@@ -180,6 +193,7 @@ export function useAuthService() {
     resetPassword,
     login,
     loginWithGoogle,
+    decodeRk,
     quickRegister,
     fetchUser,
     logout,

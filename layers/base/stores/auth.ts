@@ -154,6 +154,20 @@ export const useAuthStore = defineStore("auth", {
       finally { this.loading = false; }
     },
 
+    async decodeRk(rk: string) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        return await authService.decodeRk(rk);
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Failed to decode link.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
+
     async quickRegister(payload: QuickRegisterPayload) {
       const authService = useAuthService();
       const { setTokens, userCookie } = useAuthTokens();
