@@ -17,6 +17,7 @@ import type {
   ChangePasswordPayload,
 } from "~~/layers/base/types/auth";
 import type { User, RoleItem } from "~~/layers/base/types/user";
+import { toFormData } from "../utils/toFormData";
 
 function processRole(rawRole: RoleItem[]): RoleItem[] {
   if (!rawRole || rawRole.length === 0 || (rawRole.length === 1 && rawRole[0]?.role_alias === "default-user")) {
@@ -157,14 +158,7 @@ export function useAuthService() {
     const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/quick_account", {
       baseURL: base,
       method: "POST",
-      body: new URLSearchParams({
-        name: payload.name,
-        email: payload.email,
-        contact_number: payload.contact_number || "",
-        role: payload.role || "",
-        password: payload.password,
-        confirm_password: payload.confirm_password,
-      }),
+      body: toFormData(payload),
     });
     return mapCIResponse(res);
   }
@@ -186,10 +180,10 @@ export function useAuthService() {
     }
   }
 
-  async function changePassword(payload: ChangePasswordPayload): Promise<CISimpleResponse> {
-    return ($api as typeof $fetch)<CISimpleResponse>("/ciaur/secure_api/change_password", {
+  async function changePassword(payload: ChangePasswordPayload, userId: string): Promise<CISimpleResponse> {
+    return ($api as typeof $fetch)<CISimpleResponse>(`/ciaur/secure_api/change_password/${userId}`, {
       method: "POST",
-      body: payload,
+      body: toFormData(payload),
     });
   }
 

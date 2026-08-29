@@ -236,7 +236,8 @@ export const useAuthStore = defineStore("auth", {
       this.loading = true;
       this.error = null;
       try {
-        return await authService.changePassword(payload);
+        if (!this.user?.id) throw new Error("User ID is missing.");
+        return await authService.changePassword(payload, this.user.id);
       }
       catch (err: unknown) {
         this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not change password.";

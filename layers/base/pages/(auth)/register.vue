@@ -40,9 +40,16 @@ const googleBtnRef = ref<HTMLElement | null>(null);
 const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
-    // console.log(values, roleToSubmit.value);
+    const formattedName = values.name.toLowerCase().replace(/\s+/g, "_");
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const username = `${formattedName}_${year}${month}${day}${hours}${minutes}`;
 
-    await authStore.quickRegister({ ...values, role: roleToSubmit.value });
+    await authStore.quickRegister({ ...values, role: roleToSubmit.value, username });
     const redirectTo = (route.query.redirect as string) || "/my-papers";
     await navigateTo(redirectTo);
   }
