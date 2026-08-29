@@ -1,0 +1,12 @@
+{
+  "name": "@autofy/base",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "dependencies": {
+    "pinia": "^4.0.2"
+  },
+  "devDependencies": {
+    "nuxt": "^4.5.0"
+  }
+}

@@ -1,0 +1,408 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@import "./tokens.css";
+
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+/* Shared utilities are generated from base source only; each client theme scans its own layer. */
+@source "../../components";
+@source "../../pages";
+
+/* Completely disable dark mode across the app by assigning the dark variant to an unused class */
+@custom-variant dark (&:where(.disable-dark-mode *));
+
+/* Theme CSS */
+
+@theme inline {
+  --breakpoint-xxs: 20rem;
+  /* 320px */
+  --breakpoint-xs: 23.4375rem;
+  /* 375px */
+  --breakpoint-xm: 26.25rem;
+  /* 420px */
+  --breakpoint-pc: 90rem;
+  /* 1440px */
+  --breakpoint-3xl: 105rem;
+  /* 1680px */
+  --breakpoint-4xl: 120rem;
+  /* 1920px */
+
+  --font-poppins: "Poppins", sans-serif;
+  --font-lora: "Lora", serif;
+
+  /* Setting fonts */
+  --font-sans: var(--font-poppins);
+  --font-serif: var(--font-lora);
+
+  /* spacing */
+  --spacing-8xl: 90rem;
+  /* 1440px */
+  --spacing-9xl: 96rem;
+  /* 1536px */
+  --spacing-10xl: 105rem;
+  /* 1680px */
+  --spacing-11xl: 120rem;
+  /* 1920px */
+
+  --text-xxs: 0.5rem;
+  /* 8px */
+  --text-xxs--line-height: calc(1 / 0.5);
+  --text-x: 0.625rem;
+  /* 10px */
+  --text-x--line-height: calc(1 / 0.5);
+
+  /* Child token files override the --brand-* source variables, never these
+     generated Tailwind utility names. */
+  --color-primary: var(--brand-primary);
+  --color-primary-foreground: var(--brand-primary-foreground);
+  --color-secondary: var(--brand-secondary);
+  --color-secondary-foreground: var(--brand-secondary-foreground);
+  --color-accent: var(--brand-accent);
+  --color-accent-foreground: var(--brand-accent-foreground);
+  --color-section-bg-light: var(--brand-surface);
+  --color-footer-bg: var(--brand-footer);
+  
+  /* Aliases for legacy brand classes */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-foreground: var(--brand-primary-foreground);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-foreground: var(--brand-secondary-foreground);
+  --color-brand-primary-light: var(--brand-primary-light);
+  --color-brand-primary-dark: var(--brand-primary-dark);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --font-heading: var(--font-serif);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Dynamic Brand Colors
+   Default values here are overridden at runtime by theme.client.ts
+   using colors from the API (sid_site.layout_primary_color, etc.)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light !important;
+}
+
+
+
+/* ─────────────────────────────────────────────────────────────
+   Global Typography & Layout
+   ───────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
+
+  .main-layout {
+    max-width: var(--spacing-11xl);
+    margin-inline: auto;
+  }
+}
+
+/* ─── CMS Content / WYSIWYG HTML Normalization ───────────────────
+   Replaces <SharedParsedPageContent> across all layers.
+
+   Usage: <div class="cms-content" v-html="normalizedHtml" />
+
+   ALL styles use CSS variables → auto-adapts to every layer's
+   theme. Conference gets olive headings, LMS gets teal headings,
+   future clients get their color — zero code change needed.
+   ──────────────────────────────────────────────────────────────── */
+.cms-content {
+  font-family: var(--font-sans);
+  line-height: 1.75;
+  color: inherit;
+}
+
+/* Headings use serif font + brand primary color */
+.cms-content h1,
+.cms-content h2 {
+  font-family: var(--font-serif);
+  color: var(--brand-primary);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+.cms-content h3,
+.cms-content h4,
+.cms-content h5,
+.cms-content h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Links → brand color */
+.cms-content a {
+  color: var(--brand-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
+}
+.cms-content a:hover { opacity: 0.75; }
+
+/* Paragraphs & Lists */
+.cms-content p { margin-bottom: 1.25em; }
+.cms-content ul { list-style: disc; padding-left: 1.5em; margin-bottom: 1.25em; }
+.cms-content ol { list-style: decimal; padding-left: 1.5em; margin-bottom: 1.25em; }
+.cms-content li { margin-bottom: 0.375em; }
+
+/* Blockquote → left border in brand color */
+.cms-content blockquote {
+  border-left: 4px solid var(--brand-primary);
+  margin-left: 0;
+  padding-left: 1rem;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* Images → responsive + layer's radius */
+.cms-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin-block: 1.5em;
+}
+
+/* Tables → branded header row */
+.cms-content table { width: 100%; border-collapse: collapse; margin-block: 1.5em; }
+.cms-content th {
+  background: var(--brand-primary);
+  color: var(--brand-primary-foreground);
+  padding: 0.625rem 1rem;
+  text-align: left;
+}
+.cms-content td { padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); }
+.cms-content tr:nth-child(even) td { background: var(--muted); }
+
+/* Inline code + code blocks */
+.cms-content code {
+  background: var(--muted);
+  border-radius: calc(var(--radius) * 0.5);
+  padding: 0.2em 0.4em;
+  font-size: 0.875em;
+}
+.cms-content pre {
+  background: var(--muted);
+  border-radius: var(--radius);
+  padding: 1.25em;
+  overflow-x: auto;
+  margin-block: 1.5em;
+}
+
+/* Divider */
+.cms-content hr { border: none; border-top: 1px solid var(--border); margin-block: 2em; }
+
+/* ─── FAQ Accordion (native <details>/<summary>, zero JS) ─────────
+   Append to your existing .cms-content stylesheet. Uses the same
+   CSS variables — auto-adapts per layer, no per-page CSS needed. */
+
+.cms-content .faq-list {
+  margin-block: 1.5em;
+}
+
+.cms-content .faq-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.cms-content .faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--foreground);
+  transition: background-color 0.15s ease;
+}
+
+/* Chrome/Safari render their own marker on <summary> unless hidden explicitly */
+.cms-content .faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.cms-content .faq-item summary:hover {
+  background: var(--muted);
+}
+
+.cms-content .faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--brand-primary);
+  transition: transform 0.2s ease;
+}
+
+.cms-content .faq-item[open] summary::after {
+  transform: rotate(45deg); /* "+" rotates into an "x" */
+}
+
+.cms-content .faq-item[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.cms-content .faq-answer {
+  padding: 1rem 1.25rem 1.25rem;
+  color: var(--muted-foreground);
+  animation: faqFadeIn 0.2s ease;
+}
+
+.cms-content .faq-answer p {
+  margin-bottom: 0.75em;
+}
+
+.cms-content .faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes faqFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@layer components {
+
+  /* Brand buttons */
+  .btn-brand-primary {
+    background-color: var(--brand-primary);
+    color: var(--brand-primary-foreground);
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-brand-primary:hover {
+    background-color: var(--brand-primary-dark);
+  }
+
+  .btn-brand-secondary {
+    background-color: var(--brand-secondary);
+    color: var(--brand-secondary-foreground);
+    transition: background-color 0.2s ease;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+   Navigation
+   ───────────────────────────────────────────────────────────── */
+  .nav-link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    transition: color 0.15s ease;
+    text-decoration: none;
+  }
+
+  .nav-link:hover,
+  .nav-link.router-link-active {
+    color: var(--brand-primary);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+   Page transitions
+   ───────────────────────────────────────────────────────────── */
+  .page-enter-active,
+  .page-leave-active {
+    transition: opacity 0.2s ease;
+  }
+
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 0;
+  }
+
+  /* Hero CSS */
+  .hero-section {
+    @apply relative min-h-150 w-full overflow-hidden bg-background lg:min-h-175;
+  }
+
+  .hero-slide {
+    @apply absolute inset-0 flex h-full w-full items-center transition-opacity duration-700 ease-in-out;
+  }
+
+  .hero-cta {
+    @apply font-lora bg-secondary text-secondary-foreground inline-flex items-center justify-center rounded-full px-6 py-3 font-bold transition-all duration-300 ease-out hover:opacity-90 hover:shadow-sm active:scale-95 lg:px-8 lg:py-4;
+  }
+
+  .hero-trust-row {
+    @apply mt-8 flex flex-wrap items-center gap-4;
+  }
+
+  .hero-dot {
+    @apply h-2 w-2 cursor-pointer rounded-full transition-all duration-300 ease-out;
+  }
+
+  .hero-floating-card {
+    @apply animate-in fade-in slide-in-from-bottom-4 absolute flex items-center gap-3 rounded-2xl bg-card p-4 text-card-foreground shadow-xl duration-700;
+  }
+
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

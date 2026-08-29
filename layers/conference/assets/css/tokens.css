@@ -1,0 +1,26 @@
+/* Conference client identity. */
+:root {
+  --brand-primary: #707c44;
+  --brand-primary-foreground: #ffffff;
+  --brand-primary-light: #eff1e8;
+  --brand-primary-dark: #4d5730;
+  --brand-secondary: #f4a222;
+  --brand-secondary-foreground: #2c2516;
+  --brand-accent: #fff5dc;
+  --brand-accent-foreground: #5f4813;
+  --brand-surface: #faf7f0;
+  --brand-footer: #2c3a36;
+  --background: #fdfbf6;
+  --foreground: #26352d;
+  --card: #ffffff;
+  --card-foreground: #26352d;
+  --popover: #ffffff;
+  --popover-foreground: #26352d;
+  --muted: #eff1e8;
+  --muted-foreground: #65705e;
+  --border: #dbe0d0;
+  --input: #dbe0d0;
+  --ring: var(--brand-primary);
+  --destructive: #ca493a;
+  --destructive-foreground: #ffffff;
+}

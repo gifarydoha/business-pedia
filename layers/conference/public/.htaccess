@@ -1,0 +1,12 @@
+<IfModule litespeed>
+  # Absolute path to this layer's folder on Hostinger
+  PassengerAppRoot /home/u113983801/domains/yunuscentre.org/public_html/sbac
+
+  PassengerAppType node
+
+  # Entry point filename
+  PassengerStartupFile server.js
+
+  # Absolute path to Node.js binary
+  PassengerNodejs /home/u113983801/.nvm/versions/node/v24.19.0/bin/node
+</IfModule>

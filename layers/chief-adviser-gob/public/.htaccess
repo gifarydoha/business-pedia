@@ -1,0 +1,12 @@
+<IfModule litespeed>
+  # The absolute path to your application on Hostinger
+  PassengerAppRoot /home/u113983801/domains/yunuscentre.org/public_html/hca
+  
+  PassengerAppType node
+  
+  # The startup file Passenger will look for
+  PassengerStartupFile server.js
+  
+  # The absolute path to the Node.js executable on Hostinger
+  PassengerNodejs /home/u113983801/.nvm/versions/node/v24.19.0/bin/node
+</IfModule>

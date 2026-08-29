@@ -1,0 +1,24 @@
+/* LMS client identity. */
+:root {
+  --brand-primary: #12b793;
+  --brand-primary-foreground: #ffffff;
+  --brand-primary-light: #e0f8f1;
+  --brand-primary-dark: #08765f;
+  --brand-secondary: #f4701b;
+  --brand-secondary-foreground: #ffffff;
+  --brand-accent: #fff0e7;
+  --brand-accent-foreground: #74350c;
+  --brand-surface: #f0f7f5;
+  --brand-footer: #040706;
+  --background: #f7fbfa;
+  --foreground: #183a31;
+  --card: #ffffff;
+  --card-foreground: #183a31;
+  --popover: #ffffff;
+  --popover-foreground: #183a31;
+  --muted: #e7f2ee;
+  --muted-foreground: #5b716a;
+  --border: #d4e5df;
+  --input: #d4e5df;
+  --ring: var(--brand-primary);
+}

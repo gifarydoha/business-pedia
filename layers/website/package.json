@@ -1,0 +1,8 @@
+{
+  "name": "@autofy/website",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "dependencies": { "@autofy/base": "*" },
+  "devDependencies": { "nuxt": "^4.5.0" }
+}
