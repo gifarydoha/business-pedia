@@ -47,6 +47,12 @@ export interface ResetPasswordPayload {
   passwordConfirmation: string;
 }
 
+export interface ChangePasswordPayload {
+  previous_password: string;
+  password: string;
+  password_confirmation: string;
+}
+
 export interface GoogleLoginPayload {
   idToken: string;
 }

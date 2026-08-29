@@ -12,6 +12,7 @@ import type {
   ForgotPasswordPayload,
   ResetPasswordPayload,
   QuickRegisterPayload,
+  ChangePasswordPayload,
 } from "~~/layers/base/types/auth";
 import { useAuthService } from "~~/layers/base/services/auth.service";
 
@@ -228,6 +229,20 @@ export const useAuthStore = defineStore("auth", {
       this.user = null;
       this.initialized = false;
       await navigateTo("/login");
+    },
+
+    async changePassword(payload: ChangePasswordPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        return await authService.changePassword(payload);
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not change password.";
+        throw err;
+      }
+      finally { this.loading = false; }
     },
   },
 });

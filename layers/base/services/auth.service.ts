@@ -14,6 +14,7 @@ import type {
   GoogleLoginPayload,
   QuickRegisterPayload,
   DecodeRkResponse,
+  ChangePasswordPayload,
 } from "~~/layers/base/types/auth";
 import type { User, RoleItem } from "~~/layers/base/types/user";
 
@@ -185,6 +186,13 @@ export function useAuthService() {
     }
   }
 
+  async function changePassword(payload: ChangePasswordPayload): Promise<CISimpleResponse> {
+    return ($api as typeof $fetch)<CISimpleResponse>("/ciaur/secure_api/change_password", {
+      method: "POST",
+      body: payload,
+    });
+  }
+
   return {
     register,
     verifyOtp,
@@ -197,5 +205,6 @@ export function useAuthService() {
     quickRegister,
     fetchUser,
     logout,
+    changePassword,
   };
 }
