@@ -1,44 +1,31 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
-import { ChangePasswordSchema } from "~~/layers/base/schemas/auth.schemas";
+import { SetPasswordSchema } from "~~/layers/base/schemas/auth.schemas";
 
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
-
-// const config = useRuntimeConfig();
-
-// if (import.meta.client) {
-//   if (config.public.appName === "SBAC Conference") {
-//     setPageLayout("conference");
-//   }
-//   else {
-//     setPageLayout("default");
-//   }
-// }
 
 const authStore = useAuthStore();
 const { serverError, successMessage, clearErrors } = useAuthForm();
 
 const { handleSubmit, errors, defineField } = useForm({
-  validationSchema: zodSchema(ChangePasswordSchema),
+  validationSchema: zodSchema(SetPasswordSchema),
 });
 
-const [previousPassword, previousPasswordAttrs] = defineField("previous_password");
 const [password, passwordAttrs] = defineField("password");
 const [passwordConfirmation, passwordConfirmationAttrs] = defineField("password_confirmation");
 
 const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
-    await authStore.changePassword({
-      previous_password: values.previous_password,
+    await authStore.setPassword({
       password: values.password,
       password_confirmation: values.password_confirmation,
     });
-    successMessage.value = "Password changed successfully. Redirecting to Profile…";
+    successMessage.value = "Password set successfully. Redirecting to Profile…";
     setTimeout(() => navigateTo("/profile"), 1500);
   }
   catch {
-    serverError.value = authStore.error || "Could not change password";
+    serverError.value = authStore.error || "Could not set password";
   }
 });
 </script>
@@ -49,7 +36,7 @@ const onSubmit = handleSubmit(async (values) => {
     <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
       <div class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
         <h1 class="mb-6 font-lora text-2xl font-bold text-brand-primary md:text-3xl">
-          Change Password
+          Set Password
         </h1>
       </div>
 
@@ -61,17 +48,10 @@ const onSubmit = handleSubmit(async (values) => {
         <div class="mx-auto max-w-4xl space-y-8 px-4 py-4 md:px-0 md:pt-0 md:pb-8">
           <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
             <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
-              Password Details
+              Set New Password
             </h2>
 
             <div class="grid grid-cols-1 gap-6">
-              <AuthPasswordField
-                v-model="previousPassword"
-                v-bind="previousPasswordAttrs"
-                label="Previous Password"
-                :error="errors.previous_password"
-              />
-
               <AuthPasswordField
                 v-model="password"
                 v-bind="passwordAttrs"
@@ -101,7 +81,7 @@ const onSubmit = handleSubmit(async (values) => {
               class="flex-1 rounded-full bg-brand-primary px-8 py-3 font-lora text-sm font-bold text-white transition-all md:flex-none"
               :class="[authStore.loading ? 'cursor-wait opacity-70' : 'hover:opacity-90']"
             >
-              {{ authStore.loading ? 'Updating…' : 'Change Password' }}
+              {{ authStore.loading ? 'Setting…' : 'Set Password' }}
             </button>
             <button
               type="button"

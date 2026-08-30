@@ -4,6 +4,9 @@ import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
 useSeoMeta({ title: "Edit Profile" });
+
+const authStore = useAuthStore();
+const authUser = computed(() => authStore.user);
 </script>
 
 <template>
@@ -24,10 +27,18 @@ useSeoMeta({ title: "Edit Profile" });
 
         <div class="flex flex-wrap items-center gap-5">
           <NuxtLink
-            to="/my-papers"
-            class="font-poppins text-sm font-medium text-gray-500 underline underline-offset-2 transition-colors hover:text-brand-primary"
+            v-if="authUser?.isDefaultPassword"
+            to="/set-password"
+            class="rounded-full bg-brand-primary px-6 py-2.5 font-lora text-sm font-medium text-brand-primary-foreground underline-offset-2 transition-colors"
           >
-            My Papers
+            Set Password
+          </NuxtLink>
+          <NuxtLink
+            v-else
+            to="/change-password"
+            class="rounded-full bg-brand-primary px-6 py-2.5 font-lora text-sm font-medium text-brand-primary-foreground underline-offset-2 transition-colors"
+          >
+            Change Password
           </NuxtLink>
           <NuxtLink
             :to="hasSubmittedPaper ? `/submit-paper/${submittedPaperId}` : '/submit-paper/draft'"

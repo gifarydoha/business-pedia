@@ -53,6 +53,11 @@ export interface ChangePasswordPayload {
   password_confirmation: string;
 }
 
+export interface SetPasswordPayload {
+  password: string;
+  password_confirmation: string;
+}
+
 export interface GoogleLoginPayload {
   idToken: string;
 }

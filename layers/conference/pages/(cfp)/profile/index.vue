@@ -58,8 +58,16 @@ const user = computed<UserProfile>(() => ({
 
         <div class="flex flex-wrap items-center gap-5">
           <NuxtLink
+            v-if="authUser?.isDefaultPassword"
+            to="/set-password"
+            class="rounded-full bg-brand-primary px-6 py-2.5 font-lora text-sm font-medium text-brand-primary-foreground underline-offset-2 transition-colors"
+          >
+            Set Password
+          </NuxtLink>
+          <NuxtLink
+            v-else
             to="/change-password"
-            class="rounded-full  bg-brand-primary px-6 py-2.5 font-lora text-sm font-medium text-brand-primary-foreground underline-offset-2 transition-colors"
+            class="rounded-full bg-brand-primary px-6 py-2.5 font-lora text-sm font-medium text-brand-primary-foreground underline-offset-2 transition-colors"
           >
             Change Password
           </NuxtLink>

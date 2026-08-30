@@ -138,7 +138,7 @@ const navGroups = computed<NavigationGroup[]>(() => {
         />
       </div>
 
-      <div :class="['flex flex-1 flex-col overflow-auto', contentBgClass]">
+      <div :class="['flex flex-1 [scrollbar-width:none] flex-col overflow-auto [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden', contentBgClass]">
         <slot />
       </div>
     </div>

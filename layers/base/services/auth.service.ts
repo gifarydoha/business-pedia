@@ -15,6 +15,7 @@ import type {
   QuickRegisterPayload,
   DecodeRkResponse,
   ChangePasswordPayload,
+  SetPasswordPayload,
 } from "~~/layers/base/types/auth";
 import type { User, RoleItem } from "~~/layers/base/types/user";
 import { toFormData } from "../utils/toFormData";
@@ -189,6 +190,13 @@ export function useAuthService() {
     });
   }
 
+  async function setPassword(payload: SetPasswordPayload, userId: string): Promise<CISimpleResponse> {
+    return ($api as typeof $fetch)<CISimpleResponse>(`/ciaur/secure_api/set_password/${userId}`, {
+      method: "POST",
+      body: toFormData(payload),
+    });
+  }
+
   return {
     register,
     verifyOtp,
@@ -202,5 +210,6 @@ export function useAuthService() {
     fetchUser,
     logout,
     changePassword,
+    setPassword,
   };
 }

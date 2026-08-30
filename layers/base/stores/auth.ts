@@ -13,6 +13,7 @@ import type {
   ResetPasswordPayload,
   QuickRegisterPayload,
   ChangePasswordPayload,
+  SetPasswordPayload,
 } from "~~/layers/base/types/auth";
 import { useAuthService } from "~~/layers/base/services/auth.service";
 
@@ -241,6 +242,28 @@ export const useAuthStore = defineStore("auth", {
       }
       catch (err: unknown) {
         this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not change password.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
+
+    async setPassword(payload: SetPasswordPayload) {
+      const authService = useAuthService();
+      const { userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
+      try {
+        if (!this.user?.id) throw new Error("User ID is missing.");
+        const res = await authService.setPassword(payload, this.user.id);
+
+        // Update local user state immediately
+        this.user.isDefaultPassword = false;
+        userCookie.value = JSON.stringify(this.user);
+
+        return res;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not set password.";
         throw err;
       }
       finally { this.loading = false; }
