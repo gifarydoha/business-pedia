@@ -14,6 +14,7 @@ export interface User {
   role: RoleItem[];
   avatar?: string;
   emailVerified: boolean;
+  isDefaultPassword: boolean;
   createdAt: string;
 }
 

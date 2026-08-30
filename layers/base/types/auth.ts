@@ -93,6 +93,7 @@ export interface CIAuthResponse {
       role: RoleItem[];
       avatar?: string;
       email_verified: boolean;
+      is_default_password: number;
       created_at: string;
     };
     access_token: string;

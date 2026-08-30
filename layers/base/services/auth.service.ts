@@ -40,6 +40,7 @@ function mapCIResponse(res: CIAuthResponse): AuthResult {
       role: processRole(res.data.user.role),
       avatar: res.data.user.avatar,
       emailVerified: res.data.user.email_verified,
+      isDefaultPassword: !!res.data.user.is_default_password,
       createdAt: res.data.user.created_at,
     },
     tokens: {
@@ -58,6 +59,7 @@ function mapCIUser(raw: CIAuthResponse["data"]["user"]): User {
     role: processRole(raw.role),
     avatar: raw.avatar,
     emailVerified: raw.email_verified,
+    isDefaultPassword: !!raw.is_default_password,
     createdAt: raw.created_at,
   };
 }
