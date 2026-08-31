@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     public: {
       apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY,
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? env.apiBase,
-      appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy-Frontend",
+      appName: process.env.NUXT_PUBLIC_APP_NAME,
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
     },
   },
