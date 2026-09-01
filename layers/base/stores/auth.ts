@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { navigateTo } from "#imports";
-import { useAuthTokens } from "~~/layers/base/composables/useAuthTokens";
-import type { User } from "~~/layers/base/types/user";
+import { useAuthTokens } from "~/composables/useAuthTokens";
+import type { User } from "~/types/user";
 import type {
   CISimpleResponse,
   LoginPayload,
@@ -14,8 +14,8 @@ import type {
   QuickRegisterPayload,
   ChangePasswordPayload,
   SetPasswordPayload,
-} from "~~/layers/base/types/auth";
-import { useAuthService } from "~~/layers/base/services/auth.service";
+} from "~/types/auth";
+import { useAuthService } from "~/services/auth.service";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({

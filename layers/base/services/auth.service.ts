@@ -16,8 +16,8 @@ import type {
   DecodeRkResponse,
   ChangePasswordPayload,
   SetPasswordPayload,
-} from "~~/layers/base/types/auth";
-import type { User, RoleItem } from "~~/layers/base/types/user";
+} from "~/types/auth";
+import type { User, RoleItem } from "~/types/user";
 import { toFormData } from "../utils/toFormData";
 
 function processRole(rawRole: RoleItem[]): RoleItem[] {

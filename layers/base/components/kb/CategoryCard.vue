@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { KbCategory } from "~~/layers/base/types/kb";
+import type { KbCategory } from "~/types/kb";
 
 defineProps<{
   category: KbCategory;

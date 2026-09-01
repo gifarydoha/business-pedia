@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
-import { SetPasswordSchema } from "~~/layers/base/schemas/auth.schemas";
+import { SetPasswordSchema } from "~/schemas/auth.schemas";
 
 definePageMeta({ layout: false, middleware: ["auth"] });
 

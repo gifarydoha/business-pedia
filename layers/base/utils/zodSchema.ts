@@ -7,7 +7,7 @@
  *
  * Usage (identical to toTypedSchema from @vee-validate/zod):
  *   import { zodSchema } from '~/utils/zodSchema'
- *   import { LoginSchema } from '~~/layers/base/schemas/auth.schemas'
+ *   import { LoginSchema } from '~/schemas/auth.schemas'
  *
  *   const { handleSubmit } = useForm({ validationSchema: zodSchema(LoginSchema) })
  */

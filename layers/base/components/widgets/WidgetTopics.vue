@@ -1,6 +1,6 @@
 <!-- app/components/widgets/WidgetTopics.vue -->
 <script setup lang="ts">
-import type { HomePageBlock, WidgetItem } from "~~/layers/base/types/api";
+import type { HomePageBlock, WidgetItem } from "~/types/api";
 
 defineProps<{
   block: HomePageBlock;

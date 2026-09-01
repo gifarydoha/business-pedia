@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
-import { useAuthStore } from "~~/layers/base/stores/auth";
+import { useAuthStore } from "~/stores/auth";
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
 const authStore = useAuthStore();

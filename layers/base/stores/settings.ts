@@ -3,8 +3,8 @@
 // Fetches from /api/settings (our Nuxt server proxy) once at app boot,
 // then provides typed getters to all components.
 
-import type { AppSettings } from "~~/layers/base/types/settings";
-import type { SettingsApiResponse } from "~~/layers/base/types/api";
+import type { AppSettings } from "~/types/settings";
+import type { SettingsApiResponse } from "~/types/api";
 
 export const useSettingsStore = defineStore("settings", () => {
   // ─── State ───────────────────────────────────────────────────────────────

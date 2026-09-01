@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
-import { ForgotPasswordSchema } from "~~/layers/base/schemas/auth.schemas";
+import { ForgotPasswordSchema } from "~/schemas/auth.schemas";
 
 definePageMeta({ layout: false, middleware: "guest", path: "/forgot-password" });
 

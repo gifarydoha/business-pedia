@@ -1,5 +1,5 @@
 // app/middleware/role.ts
-import type { RoleAlias } from "~~/layers/base/types/user";
+import type { RoleAlias } from "~/types/user";
 
 export default defineNuxtRouteMiddleware((to) => {
   const authStore = useAuthStore();

@@ -1,4 +1,4 @@
-import type { User, RoleItem, RoleAlias } from "~~/layers/base/types/user";
+import type { User, RoleItem, RoleAlias } from "~/types/user";
 
 export type { User, RoleItem, RoleAlias };
 

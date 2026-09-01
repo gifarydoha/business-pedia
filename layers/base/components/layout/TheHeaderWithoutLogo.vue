@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { WidgetItem } from "~~/layers/base/types/api";
+import type { WidgetItem } from "~/types/api";
 
 const settingsStore = useSettingsStore();
 
