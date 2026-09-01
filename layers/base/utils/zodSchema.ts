@@ -6,8 +6,8 @@
  * interface directly, so we can use Zod v4 without the bridge package.
  *
  * Usage (identical to toTypedSchema from @vee-validate/zod):
- *   import { zodSchema } from '~/utils/zodSchema'
- *   import { LoginSchema } from '~/schemas/auth.schemas'
+ *   import { zodSchema } from '#layers/base/utils/zodSchema'
+ *   import { LoginSchema } from '#layers/base/schemas/auth.schemas'
  *
  *   const { handleSubmit } = useForm({ validationSchema: zodSchema(LoginSchema) })
  */

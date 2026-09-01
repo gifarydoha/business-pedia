@@ -22,7 +22,7 @@ export default defineNuxtConfig({
       extensions: [".vue"],
     },
   ],
-  css: ["~/assets/css/main.css"],
+  css: ["~~/layers/base/assets/css/main.css"],
   runtimeConfig: {
     public: {
       apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY,

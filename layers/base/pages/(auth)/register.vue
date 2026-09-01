@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
-import { QuickRegisterSchema } from "~/schemas/auth.schemas";
+import { QuickRegisterSchema } from "#layers/base/schemas/auth.schemas";
 // useUserPaper is auto-imported: conference layer uses the real implementation,
 // other layers fall back to the base stub (layers/base/composables/useUserPaper.ts).
 

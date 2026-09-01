@@ -1,5 +1,5 @@
 import { $fetch } from "ofetch";
-import type { KbListResponse, KbDetailResponse, KbCategory, KbListItem } from "~/types/kb";
+import type { KbListResponse, KbDetailResponse, KbCategory, KbListItem } from "#layers/base/types/kb";
 
 export const useKnowledgebase = () => {
   const config = useRuntimeConfig();

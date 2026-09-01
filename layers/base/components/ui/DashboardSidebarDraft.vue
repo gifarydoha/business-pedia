@@ -2,7 +2,7 @@
 // import { ref, computed } from "vue";
 // import type { DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
 import type { NavigationMenuItem } from "@nuxt/ui";
-// import { useAuthStore } from "~/stores/auth";
+// import { useAuthStore } from "#layers/base/stores/auth";
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
 
 // const authStore = useAuthStore();

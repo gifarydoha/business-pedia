@@ -16,7 +16,7 @@ const FALLBACK_MAIN_MENU = [
   { id: "fallback-4", label: "Images", url: "/images" },
 ] as WidgetItem[];
 
-const mainMenu = settingsStore.mainMenu?.length ? settingsStore.mainMenu : FALLBACK_MAIN_MENU;
+const mainMenu: WidgetItem[] = settingsStore.mainMenu?.length ? settingsStore.mainMenu as WidgetItem[] : FALLBACK_MAIN_MENU;
 
 // Find the menu item matching this route
 // We check if url or link matches the slug, e.g., '/about' matches 'about'
