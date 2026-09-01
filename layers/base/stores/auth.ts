@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { navigateTo } from "#imports";
 import { useAuthTokens } from "#layers/base/composables/useAuthTokens";
 import type { User } from "#layers/base/types/user";
 import type {
