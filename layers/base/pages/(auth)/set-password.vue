@@ -48,7 +48,7 @@ const onSubmit = handleSubmit(async (values) => {
           novalidate
           @submit="onSubmit"
         >
-          <div class="mx-auto max-w-4xl space-y-8 px-4 py-4 md:px-0 md:pt-0 md:pb-8">
+          <div class="mx-auto max-w-4xl space-y-8 p-4 md:px-0 md:pt-0 md:pb-8">
             <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
               <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
                 Set New Password

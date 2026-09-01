@@ -35,7 +35,7 @@ const handleError = () => clearError({ redirect: "/" });
       >
         <!-- Error badge -->
         <span
-          class="text-destructive-foreground rounded-full bg-destructive px-4 py-1.5 text-xs font-semibold tracking-widest uppercase"
+          class="rounded-full bg-destructive px-4 py-1.5 text-xs font-semibold tracking-widest text-destructive uppercase"
         >
           404 Error
         </span>
