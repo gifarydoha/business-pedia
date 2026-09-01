@@ -59,7 +59,7 @@ export function useGoogleAuth() {
   ) {
     await loadScript();
     window.google.accounts.id.initialize({
-      client_id: config.public.googleClientId,
+      client_id: (config.public.googleClientId as string) || "",
       callback: (response) => onCredential(response.credential),
     });
     window.google.accounts.id.renderButton(el, {
