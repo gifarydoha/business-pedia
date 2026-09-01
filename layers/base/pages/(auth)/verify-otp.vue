@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { OtpSchema } from "~~/layers/base/schemas/auth.schemas";
 
+definePageMeta({ layout: false, middleware: "guest", path: "/verify-otp" });
+
+const layoutName = useModuleLayout();
+
 const authStore = useAuthStore();
 const route = useRoute();
 const { serverError, successMessage, clearErrors } = useAuthForm();
@@ -84,53 +88,55 @@ const headingText = computed(() =>
 </script>
 
 <template>
-  <AuthCard
-    :heading="headingText"
-    centered
-  >
-    <p class="mb-6 font-lora text-sm text-slate-500">
-      We sent a 6-digit code to
-      <span class="font-medium text-fy-sage-900">{{ email }}</span>
-    </p>
-
-    <form
-      class="space-y-4 text-left"
-      @submit="onSubmit"
+  <NuxtLayout :name="layoutName">
+    <AuthCard
+      :heading="headingText"
+      centered
     >
-      <AuthFormField
-        v-model="otp"
-        v-bind="otpAttrs"
-        label="6-digit code"
-        type="text"
-        maxlength="6"
-        autocomplete="one-time-code"
-        :error="errors.otp"
-        class="text-center tracking-widest"
-      />
+      <p class="mb-6 font-lora text-sm text-slate-500">
+        We sent a 6-digit code to
+        <span class="font-medium text-fy-sage-900">{{ email }}</span>
+      </p>
 
-      <AuthFeedback
-        :error="serverError"
-        :success="successMessage"
-      />
-
-      <AuthSubmitButton
-        :loading="authStore.loading"
-        label="Verify code"
-        loading-label="Verifying…"
-      />
-    </form>
-
-    <p class="mt-6 font-lora text-sm text-slate-500">
-      Didn't receive it?
-      <button
-        :disabled="resendCooldown > 0"
-        class="font-medium text-fy-sky-500 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
-        @click="resend"
+      <form
+        class="space-y-4 text-left"
+        @submit="onSubmit"
       >
-        {{
-          resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Resend code"
-        }}
-      </button>
-    </p>
-  </AuthCard>
+        <AuthFormField
+          v-model="otp"
+          v-bind="otpAttrs"
+          label="6-digit code"
+          type="text"
+          maxlength="6"
+          autocomplete="one-time-code"
+          :error="errors.otp"
+          class="text-center tracking-widest"
+        />
+
+        <AuthFeedback
+          :error="serverError"
+          :success="successMessage"
+        />
+
+        <AuthSubmitButton
+          :loading="authStore.loading"
+          label="Verify code"
+          loading-label="Verifying…"
+        />
+      </form>
+
+      <p class="mt-6 font-lora text-sm text-slate-500">
+        Didn't receive it?
+        <button
+          :disabled="resendCooldown > 0"
+          class="font-medium text-fy-sky-500 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+          @click="resend"
+        >
+          {{
+            resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Resend code"
+          }}
+        </button>
+      </p>
+    </AuthCard>
+  </NuxtLayout>
 </template>

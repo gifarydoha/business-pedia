@@ -2,7 +2,9 @@
 import { useForm } from "vee-validate";
 import { ChangePasswordSchema } from "~~/layers/base/schemas/auth.schemas";
 
-definePageMeta({ layout: "conference-dashboard", middleware: ["auth"] });
+definePageMeta({ layout: false, middleware: ["auth"] });
+
+const layoutName = useModuleDashboardLayout();
 
 // const config = useRuntimeConfig();
 
@@ -44,75 +46,77 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div>
-    <!-- Page header -->
-    <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
-      <div class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
-        <h1 class="mb-6 font-lora text-2xl font-bold text-brand-primary md:text-3xl">
-          Change Password
-        </h1>
-      </div>
+  <NuxtLayout :name="layoutName">
+    <div>
+      <!-- Page header -->
+      <div class="mx-auto max-w-3xl px-6 py-10 md:py-12">
+        <div class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5">
+          <h1 class="mb-6 font-lora text-2xl font-bold text-brand-primary md:text-3xl">
+            Change Password
+          </h1>
+        </div>
 
-      <!-- Form matching ProfileEditForm -->
-      <form
-        novalidate
-        @submit="onSubmit"
-      >
-        <div class="mx-auto max-w-4xl space-y-8 px-4 py-4 md:px-0 md:pt-0 md:pb-8">
-          <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
-            <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
-              Password Details
-            </h2>
+        <!-- Form matching ProfileEditForm -->
+        <form
+          novalidate
+          @submit="onSubmit"
+        >
+          <div class="mx-auto max-w-4xl space-y-8 px-4 py-4 md:px-0 md:pt-0 md:pb-8">
+            <div class="rounded-2xl border border-brand-primary/15 bg-white p-6 shadow-lg md:p-8">
+              <h2 class="mb-6 border-b border-brand-primary/10 pb-3 font-lora text-lg font-bold text-brand-primary">
+                Password Details
+              </h2>
 
-            <div class="grid grid-cols-1 gap-6">
-              <AuthPasswordField
-                v-model="previousPassword"
-                v-bind="previousPasswordAttrs"
-                label="Previous Password"
-                :error="errors.previous_password"
-              />
+              <div class="grid grid-cols-1 gap-6">
+                <AuthPasswordField
+                  v-model="previousPassword"
+                  v-bind="previousPasswordAttrs"
+                  label="Previous Password"
+                  :error="errors.previous_password"
+                />
 
-              <AuthPasswordField
-                v-model="password"
-                v-bind="passwordAttrs"
-                label="New Password"
-                :error="errors.password"
-              />
+                <AuthPasswordField
+                  v-model="password"
+                  v-bind="passwordAttrs"
+                  label="New Password"
+                  :error="errors.password"
+                />
 
-              <AuthPasswordField
-                v-model="passwordConfirmation"
-                v-bind="passwordConfirmationAttrs"
-                label="Confirm New Password"
-                :error="errors.password_confirmation"
-              />
+                <AuthPasswordField
+                  v-model="passwordConfirmation"
+                  v-bind="passwordConfirmationAttrs"
+                  label="Confirm New Password"
+                  :error="errors.password_confirmation"
+                />
 
-              <AuthFeedback
-                :error="serverError"
-                :success="successMessage"
-              />
+                <AuthFeedback
+                  :error="serverError"
+                  :success="successMessage"
+                />
+              </div>
+            </div>
+
+            <!-- Bottom Actions mimicking ProfileEditForm -->
+            <div class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-brand-primary/10 bg-section-bg-light/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none">
+              <button
+                type="submit"
+                :disabled="authStore.loading"
+                class="flex-1 rounded-full bg-brand-primary px-8 py-3 font-lora text-sm font-bold text-white transition-all md:flex-none"
+                :class="[authStore.loading ? 'cursor-wait opacity-70' : 'hover:opacity-90']"
+              >
+                {{ authStore.loading ? 'Updating…' : 'Change Password' }}
+              </button>
+              <button
+                type="button"
+                class="flex-1 cursor-pointer rounded-full border-2 border-brand-primary px-8 py-3 text-center font-lora text-sm font-bold text-brand-primary transition-colors hover:bg-brand-primary/5 md:flex-none"
+                @click="$router.back()"
+              >
+                Cancel
+              </button>
             </div>
           </div>
-
-          <!-- Bottom Actions mimicking ProfileEditForm -->
-          <div class="sticky bottom-0 z-20 -mx-6 flex flex-wrap gap-3 border-t border-brand-primary/10 bg-section-bg-light/95 px-6 py-4 backdrop-blur-sm md:static md:mx-0 md:border-none md:bg-transparent md:p-0 md:backdrop-blur-none">
-            <button
-              type="submit"
-              :disabled="authStore.loading"
-              class="flex-1 rounded-full bg-brand-primary px-8 py-3 font-lora text-sm font-bold text-white transition-all md:flex-none"
-              :class="[authStore.loading ? 'cursor-wait opacity-70' : 'hover:opacity-90']"
-            >
-              {{ authStore.loading ? 'Updating…' : 'Change Password' }}
-            </button>
-            <button
-              type="button"
-              class="flex-1 cursor-pointer rounded-full border-2 border-brand-primary px-8 py-3 text-center font-lora text-sm font-bold text-brand-primary transition-colors hover:bg-brand-primary/5 md:flex-none"
-              @click="$router.back()"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>

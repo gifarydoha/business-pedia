@@ -3,6 +3,10 @@ import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
 import { ResetPasswordSchema } from "~~/layers/base/schemas/auth.schemas";
 
+definePageMeta({ layout: false, middleware: "guest", path: "/reset-password" });
+
+const layoutName = useModuleLayout();
+
 const authStore = useAuthStore();
 const route = useRoute();
 const { serverError, successMessage, clearErrors } = useAuthForm();
@@ -37,35 +41,37 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <AuthCard heading="Set a new password">
-    <form
-      class="space-y-4"
-      @submit="onSubmit"
-    >
-      <AuthPasswordField
-        v-model="password"
-        v-bind="passwordAttrs"
-        label="New password"
-        :error="errors.password"
-      />
+  <NuxtLayout :name="layoutName">
+    <AuthCard heading="Set a new password">
+      <form
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <AuthPasswordField
+          v-model="password"
+          v-bind="passwordAttrs"
+          label="New password"
+          :error="errors.password"
+        />
 
-      <AuthPasswordField
-        v-model="passwordConfirmation"
-        v-bind="passwordConfirmationAttrs"
-        label="Confirm new password"
-        :error="errors.passwordConfirmation"
-      />
+        <AuthPasswordField
+          v-model="passwordConfirmation"
+          v-bind="passwordConfirmationAttrs"
+          label="Confirm new password"
+          :error="errors.passwordConfirmation"
+        />
 
-      <AuthFeedback
-        :error="serverError"
-        :success="successMessage"
-      />
+        <AuthFeedback
+          :error="serverError"
+          :success="successMessage"
+        />
 
-      <AuthSubmitButton
-        :loading="authStore.loading"
-        label="Reset password"
-        loading-label="Resetting…"
-      />
-    </form>
-  </AuthCard>
+        <AuthSubmitButton
+          :loading="authStore.loading"
+          label="Reset password"
+          loading-label="Resetting…"
+        />
+      </form>
+    </AuthCard>
+  </NuxtLayout>
 </template>

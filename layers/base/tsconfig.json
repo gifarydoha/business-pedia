@@ -1,3 +1,6 @@
 {
-    "extends": "../../tsconfig.json"
+    // Base layer is never built standalone for production — but we generate local types 
+    // using `npx nuxt prepare` so the IDE gets full auto-import coverage (useModuleLayout,
+    // useModuleDashboardLayout, useUserPaper, stores, etc.) independently.
+    "extends": "./.nuxt/tsconfig.json"
 }

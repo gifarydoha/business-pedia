@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://autofymind.com",
       appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Autofy Mind",
+      moduleName: "lms",
     },
   },
   srcDir: ".",

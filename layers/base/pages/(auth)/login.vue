@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import { LoginSchema } from "~~/layers/base/schemas/auth.schemas";
-import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+// useUserPaper is auto-imported: conference layer uses the real implementation,
+// other layers fall back to the base stub (layers/base/composables/useUserPaper.ts).
 // zodSchema auto-imported from utils/zodSchema.ts
 
-definePageMeta({ layout: "conference", middleware: "guest", path: "/login" });
+definePageMeta({ layout: false, middleware: "guest", path: "/login" });
+
+const layoutName = useModuleLayout();
 
 // const config = useRuntimeConfig();
 
@@ -74,62 +77,64 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthCard
-    heading="Welcome back"
-    subtitle="Login to continue your journey"
-  >
-    <div
-      ref="googleBtnRef"
-      class="mb-4 w-full"
-    />
-
-    <AuthDivider />
-
-    <form
-      class="space-y-4"
-      @submit="onSubmit"
+  <NuxtLayout :name="layoutName">
+    <AuthCard
+      heading="Welcome back"
+      subtitle="Login to continue your journey"
     >
-      <AuthFormField
-        v-model="email"
-        v-bind="emailAttrs"
-        label="Email"
-        type="email"
-        :error="errors.email"
+      <div
+        ref="googleBtnRef"
+        class="mb-4 w-full"
       />
 
-      <AuthPasswordField
-        v-model="password"
-        v-bind="passwordAttrs"
-        label="Password"
-        :error="errors.password"
-      />
+      <AuthDivider />
 
-      <div class="flex justify-end">
-        <NuxtLink
-          to="/forgot-password"
-          class="font-poppins text-sm text-fy-sky-500 hover:underline"
-        >
-          Forgot password?
-        </NuxtLink>
-      </div>
-
-      <AuthFeedback :error="serverError" />
-
-      <AuthSubmitButton
-        :loading="authStore.loading"
-        label="Log in"
-        loading-label="Logging in…"
-      />
-    </form>
-
-    <p class="mt-6 text-center font-lora text-sm text-slate-500">
-      Don't have an account?
-      <NuxtLink
-        to="/register"
-        class="font-medium text-fy-teal-300 hover:underline"
+      <form
+        class="space-y-4"
+        @submit="onSubmit"
       >
-        Sign up
-      </NuxtLink>
-    </p>
-  </AuthCard>
+        <AuthFormField
+          v-model="email"
+          v-bind="emailAttrs"
+          label="Email"
+          type="email"
+          :error="errors.email"
+        />
+
+        <AuthPasswordField
+          v-model="password"
+          v-bind="passwordAttrs"
+          label="Password"
+          :error="errors.password"
+        />
+
+        <div class="flex justify-end">
+          <NuxtLink
+            to="/forgot-password"
+            class="font-poppins text-sm text-fy-sky-500 hover:underline"
+          >
+            Forgot password?
+          </NuxtLink>
+        </div>
+
+        <AuthFeedback :error="serverError" />
+
+        <AuthSubmitButton
+          :loading="authStore.loading"
+          label="Log in"
+          loading-label="Logging in…"
+        />
+      </form>
+
+      <p class="mt-6 text-center font-lora text-sm text-slate-500">
+        Don't have an account?
+        <NuxtLink
+          to="/register"
+          class="font-medium text-fy-teal-300 hover:underline"
+        >
+          Sign up
+        </NuxtLink>
+      </p>
+    </AuthCard>
+  </NuxtLayout>
 </template>

@@ -3,6 +3,10 @@ import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
 import { ForgotPasswordSchema } from "~~/layers/base/schemas/auth.schemas";
 
+definePageMeta({ layout: false, middleware: "guest", path: "/forgot-password" });
+
+const layoutName = useModuleLayout();
+
 const authStore = useAuthStore();
 const { serverError, clearErrors } = useAuthForm();
 
@@ -26,38 +30,40 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <AuthCard
-    heading="Reset your password"
-    subtitle="We'll email you a reset code"
-  >
-    <form
-      class="space-y-4"
-      @submit="onSubmit"
+  <NuxtLayout :name="layoutName">
+    <AuthCard
+      heading="Reset your password"
+      subtitle="We'll email you a reset code"
     >
-      <AuthFormField
-        v-model="email"
-        v-bind="emailAttrs"
-        label="Email"
-        type="email"
-        :error="errors.email"
-      />
-
-      <AuthFeedback :error="serverError" />
-
-      <AuthSubmitButton
-        :loading="authStore.loading"
-        label="Send reset code"
-        loading-label="Sending…"
-      />
-    </form>
-
-    <p class="mt-6 text-center font-lora text-sm text-slate-500">
-      <NuxtLink
-        to="/login"
-        class="font-medium text-fy-sky-500 hover:underline"
+      <form
+        class="space-y-4"
+        @submit="onSubmit"
       >
-        Back to Login
-      </NuxtLink>
-    </p>
-  </AuthCard>
+        <AuthFormField
+          v-model="email"
+          v-bind="emailAttrs"
+          label="Email"
+          type="email"
+          :error="errors.email"
+        />
+
+        <AuthFeedback :error="serverError" />
+
+        <AuthSubmitButton
+          :loading="authStore.loading"
+          label="Send reset code"
+          loading-label="Sending…"
+        />
+      </form>
+
+      <p class="mt-6 text-center font-lora text-sm text-slate-500">
+        <NuxtLink
+          to="/login"
+          class="font-medium text-fy-sky-500 hover:underline"
+        >
+          Back to Login
+        </NuxtLink>
+      </p>
+    </AuthCard>
+  </NuxtLayout>
 </template>

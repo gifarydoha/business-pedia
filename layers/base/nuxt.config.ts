@@ -29,6 +29,9 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? env.apiBase,
       appName: process.env.NUXT_PUBLIC_APP_NAME,
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
+      // Each layer overrides this with its own identity string (e.g. 'conference', 'lms').
+      // Used by useModuleLayout() and useModuleDashboardLayout() to resolve layouts at runtime.
+      moduleName: process.env.NUXT_PUBLIC_MODULE_NAME ?? "",
     },
   },
   dir: {

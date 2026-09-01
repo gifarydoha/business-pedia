@@ -22,6 +22,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       appName: process.env.NUXT_PUBLIC_APP_NAME ?? "Chief Adviser of GOB",
       apiAccessKey: process.env.NUXT_PUBLIC_API_ACCESS_KEY,
+      moduleName: "chief-adviser-gob",
     },
   },
   srcDir: ".",
