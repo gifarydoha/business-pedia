@@ -1,8 +1,8 @@
 <!-- app/components/home/HomeBlockRenderer.vue -->
 <script setup lang="ts">
-import type { HomePageBlock } from "~~/layers/base/types/api";
+import type { HomePageBlock } from "#layers/base/types/api";
 
-import { useWidgetRegistry } from "~~/layers/base/composables/useWidgetRegistry";
+import { useWidgetRegistry } from "#layers/base/composables/useWidgetRegistry";
 
 const props = defineProps<{
   block: HomePageBlock;

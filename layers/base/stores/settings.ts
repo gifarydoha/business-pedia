@@ -3,9 +3,8 @@
 // Fetches from /api/settings (our Nuxt server proxy) once at app boot,
 // then provides typed getters to all components.
 
-import type { AppSettings } from "~~/layers/base/types/settings";
-import type { SettingsApiResponse } from "~~/layers/base/types/api";
-import { CFP_MOCK } from "~~/layers/conference/data/cfp.mock";
+import type { AppSettings } from "#layers/base/types/settings";
+import type { SettingsApiResponse } from "#layers/base/types/api";
 
 export const useSettingsStore = defineStore("settings", () => {
   // ─── State ───────────────────────────────────────────────────────────────
@@ -24,7 +23,7 @@ export const useSettingsStore = defineStore("settings", () => {
   //   () => settings.value?.secondaryColor ?? "#F7700B",
   // );
   const mainMenu = computed(
-    () => settings.value?.widgets.menu?.main_menu ?? [],
+    () => (settings.value?.widgets.menu?.main_menu as any[]) ?? [],
   );
   const aboutContent = computed(() => settings.value?.aboutContent ?? "");
   const socialMedia = computed(() => settings.value?.socialMedia ?? {});
@@ -37,7 +36,7 @@ export const useSettingsStore = defineStore("settings", () => {
   /** All slider items across all slider blocks, ordered by sort_order */
   const sliderItems = computed(() => {
     const sliderMap = settings.value?.widgets.slider ?? {};
-    return Object.values(sliderMap)
+    return (Object.values(sliderMap) as any[])
       .filter((s) => s.status === "3")
       .sort((a, b) => Number(a.sort_order) - Number(b.sort_order))
       .flatMap((s) => s.items);
@@ -46,7 +45,7 @@ export const useSettingsStore = defineStore("settings", () => {
   /** Home page block sections, active only, ordered by sort_order */
   const homePageBlocks = computed(() => {
     const blockMap = settings.value?.widgets.home_page_block ?? {};
-    return Object.values(blockMap)
+    return (Object.values(blockMap) as any[])
       .filter((b) => b.status === "1")
       .sort((a, b) => Number(a.sort_order) - Number(b.sort_order));
   });
@@ -54,15 +53,15 @@ export const useSettingsStore = defineStore("settings", () => {
   const homeSeoMeta = computed(() => settings.value?.homeSeoMeta ?? null);
 
   // ─── CFP Getters ─────────────────────────────────────────────────────────
-  const cfp = computed(() => settings.value?.cfpSettings ?? CFP_MOCK);
+  const cfp = computed(() => settings.value?.cfpSettings ?? ({} as any));
 
   const cfpHero = computed(() => cfp.value);
-  const cfpDates = computed(() => cfp.value.dates);
-  const cfpTracks = computed(() => cfp.value.tracks);
-  const cfpThemes = computed(() => cfp.value.themes);
-  const cfpPrinciples = computed(() => cfp.value.principles);
-  const cfpContacts = computed(() => cfp.value.contacts);
-  const cfpNextSteps = computed(() => cfp.value.nextSteps ?? []);
+  const cfpDates = computed(() => cfp.value?.dates ?? []);
+  const cfpTracks = computed(() => cfp.value?.tracks ?? []);
+  const cfpThemes = computed(() => cfp.value?.themes ?? []);
+  const cfpPrinciples = computed(() => cfp.value?.principles ?? []);
+  const cfpContacts = computed(() => cfp.value?.contacts ?? []);
+  const cfpNextSteps = computed(() => cfp.value?.nextSteps ?? []);
 
   // ─── Actions ─────────────────────────────────────────────────────────────
   async function loadSettings() {
@@ -72,7 +71,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
     try {
       const config = useRuntimeConfig();
-      const raw = (await $fetch(
+      const raw = await $fetch<SettingsApiResponse>(
         `${config.public.apiBase}/website/website_api/settings` as string,
         {
           query: {
@@ -80,7 +79,7 @@ export const useSettingsStore = defineStore("settings", () => {
           },
           timeout: 8000,
         },
-      )) as SettingsApiResponse;
+      );
 
       const orgInfo = raw?.sid_site?.app_setting?.organization_information ?? null;
       // primaryColor: raw?.sid_site?.layout_primary_color ?? "#266B88",

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
-import { QuickRegisterSchema } from "~~/layers/base/schemas/auth.schemas";
-import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+import { QuickRegisterSchema } from "#layers/base/schemas/auth.schemas";
+// useUserPaper is auto-imported: conference layer uses the real implementation,
+// other layers fall back to the base stub (layers/base/composables/useUserPaper.ts).
 
-definePageMeta({ layout: "conference", middleware: "guest", path: "/register" });
+definePageMeta({ layout: false, middleware: "guest", path: "/register" });
+
+const layoutName = useModuleLayout();
 
 const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();
@@ -40,9 +43,16 @@ const googleBtnRef = ref<HTMLElement | null>(null);
 const onSubmit = handleSubmit(async (values) => {
   clearErrors();
   try {
-    // console.log(values, roleToSubmit.value);
+    const formattedName = values.name.toLowerCase().replace(/\s+/g, "_");
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const username = `${formattedName}_${year}${month}${day}${hours}${minutes}`;
 
-    await authStore.quickRegister({ ...values, role: roleToSubmit.value });
+    await authStore.quickRegister({ ...values, role: roleToSubmit.value, username });
     const redirectTo = (route.query.redirect as string) || "/my-papers";
     await navigateTo(redirectTo);
   }
@@ -80,82 +90,84 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthCard
-    heading="Create your account"
-    subtitle="Create an account, to start your journey!"
-  >
-    <div
-      ref="googleBtnRef"
-      class="mb-4 w-full"
-    />
-
-    <AuthDivider />
-    <form
-      class="space-y-4"
-      @submit="onSubmit"
+  <NuxtLayout :name="layoutName">
+    <AuthCard
+      heading="Create your account"
+      subtitle="Create an account, to start your journey!"
     >
-      <AuthFormField
-        v-model="name"
-        v-bind="nameAttrs"
-        label="Full name"
-        required
-        :readonly="isDecoded"
-        :error="errors.name"
+      <div
+        ref="googleBtnRef"
+        class="mb-4 w-full"
       />
 
-      <AuthFormField
-        v-model="email"
-        v-bind="emailAttrs"
-        label="Email"
-        type="email"
-        required
-        :readonly="isDecoded"
-        :error="errors.email"
-      />
-
-      <AuthFormField
-        v-model="contactNumber"
-        v-bind="contactNumberAttrs"
-        label="Contact number"
-        type="tel"
-        required
-        :readonly="isDecoded"
-        :error="errors.contact_number"
-      />
-
-      <AuthPasswordField
-        v-model="password"
-        v-bind="passwordAttrs"
-        label="Password"
-        required
-        :error="errors.password"
-      />
-
-      <AuthPasswordField
-        v-model="confirmPassword"
-        v-bind="confirmPasswordAttrs"
-        label="Confirm password"
-        required
-        :error="errors.confirm_password"
-      />
-
-      <AuthFeedback :error="serverError" />
-
-      <AuthSubmitButton
-        :loading="authStore.loading"
-        label="Create account"
-        loading-label="Creating account…"
-      />
-    </form>
-
-    <p class="mt-6 text-center font-lora text-sm text-slate-500">
-      Already have an account?
-      <NuxtLink
-        to="/login"
-        class="font-medium text-fy-teal-300 hover:underline"
+      <AuthDivider />
+      <form
+        class="space-y-4"
+        @submit="onSubmit"
       >
-        Login
-      </NuxtLink>
-    </p>
-  </AuthCard>
+        <AuthFormField
+          v-model="name"
+          v-bind="nameAttrs"
+          label="Full name"
+          required
+          :readonly="isDecoded"
+          :error="errors.name"
+        />
+
+        <AuthFormField
+          v-model="email"
+          v-bind="emailAttrs"
+          label="Email"
+          type="email"
+          required
+          :readonly="isDecoded"
+          :error="errors.email"
+        />
+
+        <AuthFormField
+          v-model="contactNumber"
+          v-bind="contactNumberAttrs"
+          label="Contact number"
+          type="tel"
+          required
+          :readonly="isDecoded"
+          :error="errors.contact_number"
+        />
+
+        <AuthPasswordField
+          v-model="password"
+          v-bind="passwordAttrs"
+          label="Password"
+          required
+          :error="errors.password"
+        />
+
+        <AuthPasswordField
+          v-model="confirmPassword"
+          v-bind="confirmPasswordAttrs"
+          label="Confirm password"
+          required
+          :error="errors.confirm_password"
+        />
+
+        <AuthFeedback :error="serverError" />
+
+        <AuthSubmitButton
+          :loading="authStore.loading"
+          label="Create account"
+          loading-label="Creating account…"
+        />
+      </form>
+
+      <p class="mt-6 text-center font-lora text-sm text-slate-500">
+        Already have an account?
+        <NuxtLink
+          to="/login"
+          class="font-medium text-fy-teal-300 hover:underline"
+        >
+          Login
+        </NuxtLink>
+      </p>
+    </AuthCard>
+  </NuxtLayout>
 </template>

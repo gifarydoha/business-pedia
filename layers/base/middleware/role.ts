@@ -1,5 +1,5 @@
 // app/middleware/role.ts
-import type { RoleAlias } from "~~/layers/base/types/user";
+import type { RoleAlias } from "#layers/base/types/user";
 
 export default defineNuxtRouteMiddleware((to) => {
   const authStore = useAuthStore();
@@ -22,8 +22,8 @@ export default defineNuxtRouteMiddleware((to) => {
   };
 
   const userRoles = authStore.userRoles.length > 0 ? authStore.userRoles : ["reader"];
-  const userLevel = Math.max(...userRoles.map(r => roleHierarchy[r as RoleAlias] ?? 0));
-  const requiredLevel = roleHierarchy[requiredRole];
+  const userLevel = Math.max(...userRoles.map((r) => roleHierarchy[r as RoleAlias] ?? 0));
+  const requiredLevel = roleHierarchy[requiredRole] ?? 0;
 
   if (userLevel < requiredLevel) {
     throw createError({ status: 403, message: "Forbidden: insufficient permissions" });

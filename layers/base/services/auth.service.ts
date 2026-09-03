@@ -14,8 +14,11 @@ import type {
   GoogleLoginPayload,
   QuickRegisterPayload,
   DecodeRkResponse,
-} from "~~/layers/base/types/auth";
-import type { User, RoleItem } from "~~/layers/base/types/user";
+  ChangePasswordPayload,
+  SetPasswordPayload,
+} from "#layers/base/types/auth";
+import type { User, RoleItem } from "#layers/base/types/user";
+import { toFormData } from "../utils/toFormData";
 
 function processRole(rawRole: RoleItem[]): RoleItem[] {
   if (!rawRole || rawRole.length === 0 || (rawRole.length === 1 && rawRole[0]?.role_alias === "default-user")) {
@@ -38,6 +41,7 @@ function mapCIResponse(res: CIAuthResponse): AuthResult {
       role: processRole(res.data.user.role),
       avatar: res.data.user.avatar,
       emailVerified: res.data.user.email_verified,
+      isDefaultPassword: !!res.data.user.is_default_password,
       createdAt: res.data.user.created_at,
     },
     tokens: {
@@ -56,6 +60,7 @@ function mapCIUser(raw: CIAuthResponse["data"]["user"]): User {
     role: processRole(raw.role),
     avatar: raw.avatar,
     emailVerified: raw.email_verified,
+    isDefaultPassword: !!raw.is_default_password,
     createdAt: raw.created_at,
   };
 }
@@ -156,14 +161,7 @@ export function useAuthService() {
     const res = await $fetch<CIAuthResponse>("/ciaur/secure_api/quick_account", {
       baseURL: base,
       method: "POST",
-      body: new URLSearchParams({
-        name: payload.name,
-        email: payload.email,
-        contact_number: payload.contact_number || "",
-        role: payload.role || "",
-        password: payload.password,
-        confirm_password: payload.confirm_password,
-      }),
+      body: toFormData(payload),
     });
     return mapCIResponse(res);
   }
@@ -185,6 +183,20 @@ export function useAuthService() {
     }
   }
 
+  async function changePassword(payload: ChangePasswordPayload, userId: string): Promise<CISimpleResponse> {
+    return ($api as typeof $fetch)<CISimpleResponse>(`/ciaur/secure_api/change_password/${userId}`, {
+      method: "POST",
+      body: toFormData(payload),
+    });
+  }
+
+  async function setPassword(payload: SetPasswordPayload, userId: string): Promise<CISimpleResponse> {
+    return ($api as typeof $fetch)<CISimpleResponse>(`/ciaur/secure_api/set_password/${userId}`, {
+      method: "POST",
+      body: toFormData(payload),
+    });
+  }
+
   return {
     register,
     verifyOtp,
@@ -197,5 +209,7 @@ export function useAuthService() {
     quickRegister,
     fetchUser,
     logout,
+    changePassword,
+    setPassword,
   };
 }

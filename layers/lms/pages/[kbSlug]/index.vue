@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import KbSidebar from "~~/layers/base/components/kb/KbSidebar.vue";
 import { useKnowledgebase } from "~~/layers/base/composables/useKnowledgebase";
+import type { KbListItem } from "~~/layers/base/types/kb";
 
 const route = useRoute();
 const categorySlug = route.params.kbSlug as string;
@@ -19,7 +20,7 @@ if (error.value || !category.value) {
 }
 
 const categoryArticles = computed(() => {
-  return articles.value.filter((item) => {
+  return articles.value.filter((item: KbListItem) => {
     if (!item.category_name) return false;
     const slug = item.category_name
       .toLowerCase()

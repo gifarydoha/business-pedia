@@ -1,6 +1,6 @@
 <!-- app/components/widgets/WidgetQuestions.vue -->
 <script setup lang="ts">
-import type { HomePageBlock, WidgetItem } from "~~/layers/base/types/api";
+import type { HomePageBlock, WidgetItem } from "#layers/base/types/api";
 
 const props = defineProps<{
   block: HomePageBlock;

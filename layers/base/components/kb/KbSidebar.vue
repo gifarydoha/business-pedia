@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { KbCategory, KbListItem } from "~~/layers/base/types/kb";
+import type { KbCategory, KbListItem } from "#layers/base/types/kb";
 import TagCloud from "./TagCloud.vue";
 
 const props = defineProps<{

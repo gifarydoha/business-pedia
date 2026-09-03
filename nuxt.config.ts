@@ -124,6 +124,10 @@ export default defineNuxtConfig({
     domains: ["autofymind.com"],
   },
 
+  shadcn: {
+    componentDir: "./layers/base/components/ui",
+  },
+
   // Sitemap
   sitemap: {
     enabled: process.env.NODE_ENV !== "development",

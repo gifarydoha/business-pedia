@@ -13,7 +13,7 @@ await useAsyncData("conference-initial-layout", () => conferenceStore.init());
     <CfpSharedNav class="shrink-0" />
 
     <main class="relative mx-auto flex w-full max-w-7xl flex-1 overflow-hidden">
-      <UiDashboardSidebar
+      <SharedDashboardSidebar
         hide-default-toggler
         content-bg-class="bg-transparent"
       >
@@ -22,7 +22,7 @@ await useAsyncData("conference-initial-layout", () => conferenceStore.init());
             <slot />
           </div>
         </section>
-      </UiDashboardSidebar>
+      </SharedDashboardSidebar>
     </main>
     <!-- <CfpSharedFooter /> -->
   </div>

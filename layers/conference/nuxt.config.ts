@@ -19,8 +19,9 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? "https://sbacbackend.autofybusiness.com",
-      appName: process.env.NUXT_PUBLIC_APP_NAME ?? "SBAC Conference",
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      appName: process.env.NUXT_PUBLIC_APP_NAME,
+      moduleName: "conference",
     },
   },
   srcDir: ".",

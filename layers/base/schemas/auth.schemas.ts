@@ -52,6 +52,27 @@ export const QuickRegisterSchema = z
     path: ["confirm_password"],
   });
 
+export const ChangePasswordSchema = z
+  .object({
+    previous_password: z.string().min(1, "Previous password is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Passwords do not match",
+    path: ["password_confirmation"],
+  });
+
+export const SetPasswordSchema = z
+  .object({
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Passwords do not match",
+    path: ["password_confirmation"],
+  });
+
 // Inferred types — use instead of writing separate payload interfaces
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
@@ -59,3 +80,5 @@ export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>;
 export type OtpInput = z.infer<typeof OtpSchema>;
 export type ResetPasswordInput = z.infer<typeof ResetPasswordSchema>;
 export type QuickRegisterInput = z.infer<typeof QuickRegisterSchema>;
+export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>;
+export type SetPasswordInput = z.infer<typeof SetPasswordSchema>;

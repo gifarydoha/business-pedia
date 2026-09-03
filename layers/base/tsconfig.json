@@ -1,3 +1,16 @@
 {
-    "extends": "../../tsconfig.json"
+    // Base layer is never built standalone for production — but we generate local types
+    // using `npx nuxt prepare` so the IDE gets full auto-import coverage (useModuleLayout,
+    // useModuleDashboardLayout, useUserPaper, stores, etc.) independently.
+    //
+    // "#layers/base/*" is the canonical cross-context alias for this layer.
+    // The root project's .nuxt/tsconfig.app.json maps it to "layers/base/*".
+    // Here we map it to "./*" (i.e. the layer itself) so standalone type-check also works.
+    "extends": "./.nuxt/tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "#layers/base": ["."],
+            "#layers/base/*": ["./*"]
+        }
+    }
 }

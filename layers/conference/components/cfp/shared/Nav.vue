@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { useCfpService } from "../../../services/cfp.service";
 import { parseCfpContent } from "../../../utils/cfpParser";
 import { useUserPaper } from "~~/layers/conference/composables/useUserPaper";
+import type { WidgetItem } from "#layers/base/types/api";
 
 const { hasSubmittedPaper, submittedPaperId } = useUserPaper();
 const open = ref(false);
@@ -47,8 +48,8 @@ const userInitials = computed(() => {
   return name
     .trim()
     .split(/\s+/)
-    .filter((w) => w.length > 0)
-    .map((w) => w[0]!.toUpperCase())
+    .filter((w: string) => w.length > 0)
+    .map((w: string) => w[0]!.toUpperCase())
     .join("")
     .slice(0, 2);
 });
@@ -70,7 +71,7 @@ const navLinks = computed(() => {
     // console.log(settingsStore.mainMenu.map((item) => ({
     //   href: getHref(item),
     // })));
-    return settingsStore.mainMenu.map((item) => ({
+    return settingsStore.mainMenu.map((item: WidgetItem) => ({
       label: item.label,
       href: getHref(item),
     }));

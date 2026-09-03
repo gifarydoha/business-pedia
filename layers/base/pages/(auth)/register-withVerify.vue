@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 // zodSchema auto-imported from utils/zodSchema.ts
-import { RegisterSchema } from "~~/layers/base/schemas/auth.schemas";
+import { RegisterSchema } from "#layers/base/schemas/auth.schemas";
 
-definePageMeta({ middleware: "guest", path: "/register-withVerify" });
+definePageMeta({ layout: false, middleware: "guest", path: "/register-withVerify" });
+
+const layoutName = useModuleLayout();
 
 const authStore = useAuthStore();
 const { renderButton } = useGoogleAuth();
@@ -55,75 +57,77 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthCard
-    heading="Create your account"
-    subtitle="New to Autofy Solutions? Create an account!"
-  >
-    <div
-      ref="googleBtnRef"
-      class="mb-4 w-full"
-    />
-
-    <AuthDivider />
-
-    <form
-      class="space-y-4"
-      @submit="onSubmit"
+  <NuxtLayout :name="layoutName">
+    <AuthCard
+      heading="Create your account"
+      subtitle="New to Autofy Solutions? Create an account!"
     >
-      <AuthFormField
-        v-model="name"
-        v-bind="nameAttrs"
-        label="Full name"
-        :error="errors.name"
+      <div
+        ref="googleBtnRef"
+        class="mb-4 w-full"
       />
 
-      <AuthFormField
-        v-model="phone"
-        v-bind="phoneAttrs"
-        label="Phone number"
-        type="tel"
-        :error="errors.phone"
-      />
+      <AuthDivider />
 
-      <AuthFormField
-        v-model="email"
-        v-bind="emailAttrs"
-        label="Email"
-        type="email"
-        :error="errors.email"
-      />
-
-      <AuthPasswordField
-        v-model="password"
-        v-bind="passwordAttrs"
-        label="Password"
-        :error="errors.password"
-      />
-
-      <AuthPasswordField
-        v-model="passwordConfirmation"
-        v-bind="passwordConfirmationAttrs"
-        label="Confirm password"
-        :error="errors.passwordConfirmation"
-      />
-
-      <AuthFeedback :error="serverError" />
-
-      <AuthSubmitButton
-        :loading="authStore.loading"
-        label="Create account"
-        loading-label="Creating account…"
-      />
-    </form>
-
-    <p class="mt-6 text-center font-lora text-sm text-slate-500">
-      Already have an account?
-      <NuxtLink
-        to="/login"
-        class="font-medium text-fy-teal-300 hover:underline"
+      <form
+        class="space-y-4"
+        @submit="onSubmit"
       >
-        Login
-      </NuxtLink>
-    </p>
-  </AuthCard>
+        <AuthFormField
+          v-model="name"
+          v-bind="nameAttrs"
+          label="Full name"
+          :error="errors.name"
+        />
+
+        <AuthFormField
+          v-model="phone"
+          v-bind="phoneAttrs"
+          label="Phone number"
+          type="tel"
+          :error="errors.phone"
+        />
+
+        <AuthFormField
+          v-model="email"
+          v-bind="emailAttrs"
+          label="Email"
+          type="email"
+          :error="errors.email"
+        />
+
+        <AuthPasswordField
+          v-model="password"
+          v-bind="passwordAttrs"
+          label="Password"
+          :error="errors.password"
+        />
+
+        <AuthPasswordField
+          v-model="passwordConfirmation"
+          v-bind="passwordConfirmationAttrs"
+          label="Confirm password"
+          :error="errors.passwordConfirmation"
+        />
+
+        <AuthFeedback :error="serverError" />
+
+        <AuthSubmitButton
+          :loading="authStore.loading"
+          label="Create account"
+          loading-label="Creating account…"
+        />
+      </form>
+
+      <p class="mt-6 text-center font-lora text-sm text-slate-500">
+        Already have an account?
+        <NuxtLink
+          to="/login"
+          class="font-medium text-fy-teal-300 hover:underline"
+        >
+          Login
+        </NuxtLink>
+      </p>
+    </AuthCard>
+  </NuxtLayout>
 </template>

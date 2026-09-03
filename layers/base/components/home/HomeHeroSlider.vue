@@ -1,6 +1,6 @@
 <!-- app/components/home/HomeHeroSlider.vue -->
 <script setup lang="ts">
-import type { WidgetItem } from "~~/layers/base/types/api";
+import type { WidgetItem } from "#layers/base/types/api";
 
 const props = defineProps<{
   slides: WidgetItem[];

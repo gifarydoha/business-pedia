@@ -8,7 +8,7 @@ import {
   DrawerPortal,
   useForwardPropsEmits,
 } from "reka-ui";
-import { cn } from "~~/layers/base/lib/utils";
+import { cn } from "#layers/base/lib/utils";
 import DrawerOverlay from "./DrawerOverlay.vue";
 
 defineOptions({

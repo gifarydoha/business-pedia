@@ -3,7 +3,7 @@ import type { DrawerDescriptionProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
 import { reactiveOmit } from "@vueuse/core";
 import { DrawerDescription } from "reka-ui";
-import { cn } from "~~/layers/base/lib/utils";
+import { cn } from "#layers/base/lib/utils";
 
 const props = defineProps<DrawerDescriptionProps & { class?: HTMLAttributes["class"] }>();
 

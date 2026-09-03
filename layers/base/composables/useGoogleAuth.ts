@@ -27,7 +27,20 @@ export function useGoogleAuth() {
         scriptLoaded.value = true;
         return resolve();
       }
+      // Prevent double-injection if the tag already exists but hasn't loaded yet
+      const existing = document.getElementById(
+        "google-gsi-script",
+      ) as HTMLScriptElement | null;
+      if (existing) {
+        existing.addEventListener("load", () => {
+          scriptLoaded.value = true;
+          resolve();
+        });
+        existing.addEventListener("error", reject);
+        return;
+      }
       const script = document.createElement("script");
+      script.id = "google-gsi-script";
       script.src = "https://accounts.google.com/gsi/client";
       script.async = true;
       script.defer = true;
@@ -46,7 +59,7 @@ export function useGoogleAuth() {
   ) {
     await loadScript();
     window.google.accounts.id.initialize({
-      client_id: config.public.googleClientId,
+      client_id: (config.public.googleClientId as string) || "",
       callback: (response) => onCredential(response.credential),
     });
     window.google.accounts.id.renderButton(el, {

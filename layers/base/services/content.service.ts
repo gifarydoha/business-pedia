@@ -3,7 +3,7 @@ export const contentService = {
   async fetchContents<T>(contentType: string, page: number = 1, keyword: string = ""): Promise<T> {
     const config = useRuntimeConfig();
 
-    return (await $fetch(
+    return (await $fetch<any>(
       `${config.public.apiBase}/website/website_api/contents/${contentType}` as string, {
         query: {
           access_key: config.public.apiAccessKey,
@@ -17,7 +17,7 @@ export const contentService = {
   async fetchContent<T>(alias: string): Promise<T> {
     const config = useRuntimeConfig();
 
-    return (await $fetch(
+    return (await $fetch<any>(
       `${config.public.apiBase}/website/website_api/content/${alias}` as string, {
         query: {
           access_key: config.public.apiAccessKey,

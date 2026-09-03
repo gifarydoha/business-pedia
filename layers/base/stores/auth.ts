@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { navigateTo } from "#imports";
-import { useAuthTokens } from "~~/layers/base/composables/useAuthTokens";
-import type { User } from "~~/layers/base/types/user";
+import { useAuthTokens } from "#layers/base/composables/useAuthTokens";
+import type { User } from "#layers/base/types/user";
 import type {
   CISimpleResponse,
   LoginPayload,
@@ -12,8 +11,10 @@ import type {
   ForgotPasswordPayload,
   ResetPasswordPayload,
   QuickRegisterPayload,
-} from "~~/layers/base/types/auth";
-import { useAuthService } from "~~/layers/base/services/auth.service";
+  ChangePasswordPayload,
+  SetPasswordPayload,
+} from "#layers/base/types/auth";
+import { useAuthService } from "#layers/base/services/auth.service";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -228,6 +229,43 @@ export const useAuthStore = defineStore("auth", {
       this.user = null;
       this.initialized = false;
       await navigateTo("/login");
+    },
+
+    async changePassword(payload: ChangePasswordPayload) {
+      const authService = useAuthService();
+      this.loading = true;
+      this.error = null;
+      try {
+        if (!this.user?.id) throw new Error("User ID is missing.");
+        return await authService.changePassword(payload, this.user.id);
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not change password.";
+        throw err;
+      }
+      finally { this.loading = false; }
+    },
+
+    async setPassword(payload: SetPasswordPayload) {
+      const authService = useAuthService();
+      const { userCookie } = useAuthTokens();
+      this.loading = true;
+      this.error = null;
+      try {
+        if (!this.user?.id) throw new Error("User ID is missing.");
+        const res = await authService.setPassword(payload, this.user.id);
+
+        // Update local user state immediately
+        this.user.isDefaultPassword = false;
+        userCookie.value = JSON.stringify(this.user);
+
+        return res;
+      }
+      catch (err: unknown) {
+        this.error = (err as { data?: CISimpleResponse })?.data?.message ?? "Could not set password.";
+        throw err;
+      }
+      finally { this.loading = false; }
     },
   },
 });

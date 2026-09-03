@@ -1,4 +1,4 @@
-import type { User, RoleItem, RoleAlias } from "~~/layers/base/types/user";
+import type { User, RoleItem, RoleAlias } from "#layers/base/types/user";
 
 export type { User, RoleItem, RoleAlias };
 
@@ -47,12 +47,24 @@ export interface ResetPasswordPayload {
   passwordConfirmation: string;
 }
 
+export interface ChangePasswordPayload {
+  previous_password: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export interface SetPasswordPayload {
+  password: string;
+  password_confirmation: string;
+}
+
 export interface GoogleLoginPayload {
   idToken: string;
 }
 
 export interface QuickRegisterPayload {
   name: string;
+  username: string;
   email: string;
   contact_number: string;
   role?: string;
@@ -86,6 +98,7 @@ export interface CIAuthResponse {
       role: RoleItem[];
       avatar?: string;
       email_verified: boolean;
+      is_default_password: number;
       created_at: string;
     };
     access_token: string;
